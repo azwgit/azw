@@ -8,19 +8,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.allen.library.RxHttpUtils;
-import com.allen.library.config.OkHttpConfig;
-import com.allen.library.interfaces.BuildHeadersListener;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.LogUtils;
 import com.zhy.autolayout.AutoLayoutActivity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 
 
 /**
@@ -39,7 +32,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
     public ImageView ivBack;
     public TextView tvNotice;
     public RelativeLayout rlTitle;
-    //测试
+    //测88888试
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
