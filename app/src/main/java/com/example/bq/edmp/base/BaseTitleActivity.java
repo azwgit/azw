@@ -67,12 +67,12 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
     protected abstract void otherViewClick(View view);
 
     private void test() {
-        String b="aabb";
+        String b="aa1111bb";
     }
 
     //代 码
     private void bq() {
-        String str = "的555555555发";
+        String str = "的66666发";
     }
 
     /**
