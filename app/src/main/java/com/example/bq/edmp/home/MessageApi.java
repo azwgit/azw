@@ -10,10 +10,12 @@ import retrofit2.http.POST;
 
 public interface MessageApi {
 
+    //密码登录接口
     @FormUrlEncoded
     @POST("login")
-    Observable<LoginBean> login(@Field("password") String password,
-                                @Field("username") String username,
-                                @Field("sign") String sign);
+    Observable<LoginBean> login(
+            @Field("password") String password,
+            @Field("username") String username,
+            @Field("sign") String sign);
 
 }

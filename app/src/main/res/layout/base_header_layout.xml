@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/return_img"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="@dimen/dp_16"
         android:src="@drawable/back" />
 
     <TextView
@@ -20,11 +20,11 @@
         android:alpha="0.9"
         android:text="待办事项"
         android:textColor="#17171A"
-        android:textSize="18sp" />
+        android:textSize="@dimen/sp_18" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dp_1"
         android:layout_alignParentBottom="true"
         android:alpha="0.05"
         android:background="#000000" />

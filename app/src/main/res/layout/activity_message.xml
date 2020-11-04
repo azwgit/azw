@@ -24,40 +24,40 @@
             <RelativeLayout
                 android:id="@+id/head_rl"
                 android:layout_width="match_parent"
-                android:layout_height="65dp">
+                android:layout_height="@dimen/dp_65">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="头像"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:src="@drawable/forward" />
 
                 <ImageView
                     android:id="@+id/head_img"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="@dimen/dp_48"
+                    android:layout_height="@dimen/dp_48"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="48dp"
+                    android:layout_marginRight="@dimen/dp_48"
                     android:background="@drawable/mine_head_shape"
                     android:src="@drawable/ic_launcher" />
 
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_alignParentBottom="true"
                     android:alpha="0.05"
                     android:background="#000000" />
@@ -65,17 +65,17 @@
             <!--姓名-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="49dp">
+                android:layout_height="@dimen/dp_49">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="姓名"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
 
                 <TextView
@@ -84,15 +84,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:alpha="0.9"
                     android:text="爱种--"
                     android:textColor="#17171A"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_14" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_alignParentBottom="true"
                     android:alpha="0.05"
                     android:background="#000000" />
@@ -101,17 +101,17 @@
             <!--部门-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="49dp">
+                android:layout_height="@dimen/dp_49">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="部门"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
 
                 <TextView
@@ -120,15 +120,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:alpha="0.9"
                     android:text="营销部"
                     android:textColor="#17171A"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_14" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_alignParentBottom="true"
                     android:alpha="0.05"
                     android:background="#000000" />
@@ -137,17 +137,17 @@
             <!--职位-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="@dimen/dp_48">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="职位"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
 
                 <TextView
@@ -156,17 +156,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:alpha="0.9"
                     android:text="营销经理"
                     android:textColor="#17171A"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_14" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dp_10"
                 android:layout_alignParentBottom="true"
                 android:background="#F2F5F6" />
 
@@ -174,24 +174,24 @@
             <RelativeLayout
                 android:id="@+id/phone_rl"
                 android:layout_width="match_parent"
-                android:layout_height="49dp">
+                android:layout_height="@dimen/dp_49">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="手机号"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:src="@drawable/forward" />
 
                 <TextView
@@ -200,16 +200,16 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="44dp"
+                    android:layout_marginRight="@dimen/dp_44"
                     android:alpha="0.9"
                     android:text="13195123126"
                     android:textColor="#17171A"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_14" />
 
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_alignParentBottom="true"
                     android:alpha="0.05"
                     android:background="#000000" />
@@ -218,24 +218,24 @@
             <RelativeLayout
                 android:id="@+id/special_rl"
                 android:layout_width="match_parent"
-                android:layout_height="49dp">
+                android:layout_height="@dimen/dp_49">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="座机"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:src="@drawable/forward" />
 
                 <TextView
@@ -244,16 +244,16 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="44dp"
+                    android:layout_marginRight="@dimen/dp_44"
                     android:alpha="0.9"
                     android:text="032-55569397"
                     android:textColor="#17171A"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_14" />
 
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/dp_1"
                     android:layout_alignParentBottom="true"
                     android:alpha="0.05"
                     android:background="#000000" />
@@ -262,24 +262,24 @@
             <RelativeLayout
                 android:id="@+id/mail_rl"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="@dimen/dp_48">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="@dimen/dp_16"
                     android:alpha="0.5"
                     android:text="邮箱"
                     android:textColor="#17171A"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:src="@drawable/forward" />
 
                 <TextView
@@ -288,38 +288,38 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="44dp"
+                    android:layout_marginRight="@dimen/dp_44"
                     android:alpha="0.9"
                     android:text="o.gkm@yysd.md"
                     android:textColor="#17171A"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/sp_14" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="@dimen/dp_10"
                 android:layout_alignParentBottom="true"
                 android:background="#F2F5F6" />
 
             <!--签名-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="132dp"
-                android:layout_marginBottom="100dp">
+                android:layout_height="@dimen/dp_132"
+                android:layout_marginBottom="@dimen/dp_100">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginRight="@dimen/dp_16"
                     android:src="@drawable/forward" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="48dp"
+                    android:layout_marginRight="@dimen/dp_48"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -327,16 +327,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginLeft="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_16"
                         android:text="签名"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/sp_16" />
 
                     <ImageView
                         android:id="@+id/signature_img"
-                        android:layout_width="104dp"
-                        android:layout_height="64dp"
-                        android:layout_marginLeft="16dp"
+                        android:layout_width="@dimen/dp_104"
+                        android:layout_height="@dimen/dp_64"
+                        android:layout_marginLeft="@dimen/dp_16"
                         android:scaleType="centerCrop"
                         android:src="@drawable/mask_group" />
 

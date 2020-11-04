@@ -64,6 +64,7 @@
         <activity android:name=".activity.mine_activity.Message_Activity" />
         <activity android:name=".activity.mine_activity.Amend_Activity" />
         <activity android:name=".activity.login.Gestures_login_Activity" />
+        <activity android:name=".activity.word.SubmitActivity"></activity>
     </application>
 
 </manifest>

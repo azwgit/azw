@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/head_img"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/dp_50"
         android:scaleType="centerCrop"
         android:src="@drawable/mask_group" />
 
@@ -22,19 +22,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/head_img"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:text="欢迎回来"
         android:textColor="#000000"
-        android:textSize="24sp" />
+        android:textSize="@dimen/sp_24" />
 
     <com.wangnan.library.GestureLockView
         android:id="@+id/glv"
-        android:layout_width="296dp"
-        android:layout_height="312dp"
+        android:layout_width="@dimen/dp_296"
+        android:layout_height="@dimen/dp_300"
         android:layout_below="@id/tv"
         android:layout_centerInParent="true"
         app:error_color="#C0C0C0"
-        app:line_thickness="2dp"
+        app:line_thickness="@dimen/dp_2"
         app:normal_color="#F91515"
         app:press_color="#F91515" />
 
@@ -44,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/glv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="@dimen/dp_14"
         android:alpha="0.7"
         android:text="更多"
         android:textColor="@color/text_black"
-        android:textSize="16sp" />
+        android:textSize="@dimen/sp_16" />
 
 </RelativeLayout>
