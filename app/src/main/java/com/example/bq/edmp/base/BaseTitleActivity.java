@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by GaoSheng on 2016/9/13.
  */
 
-public abstract class BaseTitleActivity extends AutoLayoutActivity implements  View.OnClickListener {
+public abstract class BaseTitleActivity extends AutoLayoutActivity implements View.OnClickListener {
     protected View view;
 
 
@@ -33,6 +33,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
     //查看 一下
     public TextView tvNotice;
     public RelativeLayout rlTitle;
+
     //测8试
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,14 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
     protected abstract int getLayoutId();
 
     protected abstract void otherViewClick(View view);
-    private  void test(){
 
+    private void test() {
+
+    }
+
+    //代 码
+    private void bq() {
+        String str = "1454544";
     }
 
     /**
@@ -83,6 +90,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
         view = View.inflate(this, getLayoutId(), null);
         return view;
     }
+
     private void startView() {
         rlTitle = findViewById(R.id.rl_title);
         ivBack = findViewById(R.id.txt_back);
@@ -91,6 +99,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
         ivOperate = findViewById(R.id.img_operate);
         ivBack.setOnClickListener(listener);
     }
+
     //全局回退鍵
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -104,6 +113,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
             }
         }
     };
+
     /**
      * 点击的事件的统一的处理
      *
