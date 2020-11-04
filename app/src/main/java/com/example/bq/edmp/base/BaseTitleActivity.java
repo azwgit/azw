@@ -30,9 +30,10 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
     public TextView txtTabTitle;
     public ImageView ivOperate;
     public ImageView ivBack;
+    //查看 一下
     public TextView tvNotice;
     public RelativeLayout rlTitle;
-    //测8888888888试
+    //测8试
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,9 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
     protected abstract int getLayoutId();
 
     protected abstract void otherViewClick(View view);
+    private  void test(){
+
+    }
 
     /**
      * 标题
