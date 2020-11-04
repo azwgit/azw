@@ -72,7 +72,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
 
     //代 码
     private void bq() {
-        String str = "14西了";
+        String str = "14西了 我再提了";
     }
 
     /**
