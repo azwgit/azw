@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bq.edmp.activity.head_activity.Backlog_ShiXiang_Activity">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/base_header_layout" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/layout_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/head"
+        android:background="#FFFFFF"
+        app:tabIndicatorColor="#F91515"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/text_gray"
+        app:tabTextColor="#FF333333" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layout_tab"
+        android:alpha="0.05"
+        android:background="#000000" />
+
+</RelativeLayout>

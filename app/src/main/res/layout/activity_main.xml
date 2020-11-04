@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bq.edmp.activity.MainActivity">
+
+    <com.example.bq.edmp.utils.NoSrcollViewPage
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:alpha="0.2"
+            android:background="#17171A" />
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
+
+            <!--首页-->
+            <RadioButton
+                android:id="@+id/home_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/home_drawable_selector"
+                android:gravity="center"
+                android:text="首页"
+                android:textColor="@drawable/selector_main_buttom_text_color"
+                android:textSize="10sp" />
+
+
+            <!--通讯录-->
+            <RadioButton
+                android:id="@+id/addressbook_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/addressbook_drawable_selector"
+                android:gravity="center"
+                android:text="通讯录"
+                android:textColor="@drawable/selector_main_buttom_text_color"
+                android:textSize="11sp" />
+
+            <!--工作-->
+            <RadioButton
+                android:id="@+id/work_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/work_drawable_selector"
+                android:gravity="center"
+                android:text="工作"
+                android:textColor="@drawable/selector_main_buttom_text_color"
+                android:textSize="11sp" />
+
+
+            <!--社区-->
+            <RadioButton
+                android:id="@+id/conmmunity_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/conmmunity_drawable_selector"
+                android:gravity="center"
+                android:text="社区"
+                android:textColor="@drawable/selector_main_buttom_text_color"
+                android:textSize="11sp" />
+
+            <RadioButton
+                android:id="@+id/mine_rb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/mine_drawable_selector"
+                android:gravity="center"
+                android:text="我的"
+                android:textColor="@drawable/selector_main_buttom_text_color"
+                android:textSize="11sp" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</RelativeLayout>

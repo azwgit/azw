@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="234dp"
+    android:background="@drawable/gestures_db_shape"
+    android:orientation="vertical">
+    <!--密码登录-->
+    <TextView
+        android:id="@+id/passwordlogin_tv"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:text="密码登录"
+        android:textColor="@color/text_black"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.05"
+        android:background="#000000" />
+    <!--短信验证码登录-->
+    <TextView
+        android:id="@+id/authcodelogin_tv"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:text="短信验证码登录"
+        android:textColor="@color/text_black"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.05"
+        android:background="#000000" />
+
+    <!--刷脸登录-->
+    <TextView
+        android:id="@+id/sllogin_tv"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:text="刷脸登录"
+        android:textColor="@color/text_black"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F2F5F6" />
+    <!--取消-->
+    <TextView
+        android:id="@+id/cancel_tv"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/text_black"
+        android:textSize="18sp" />
+</LinearLayout>

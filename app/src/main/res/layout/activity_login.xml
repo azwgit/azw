@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.bq.edmp.activity.login.LoginActivity">
+
+    <ImageView
+        android:id="@+id/login_logo"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="130px"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_logo"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="74px"
+        android:orientation="horizontal">
+
+        <!-- 验证码登录 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/code_tv"
+                android:layout_width="94dp"
+                android:layout_height="23dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="验证码登录"
+                android:textColor="#17171A"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/code_v"
+                android:layout_width="94dp"
+                android:layout_height="4dp"
+                android:layout_below="@id/code_tv"
+                android:layout_marginTop="9dp"
+                android:background="#F91515" />
+
+        </RelativeLayout>
+        <!-- 密码登录 -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="33px">
+
+            <TextView
+                android:id="@+id/password_tv"
+                android:layout_width="94dp"
+                android:layout_height="23dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:alpha="0.5"
+                android:gravity="center"
+                android:text="密码登录"
+                android:textColor="#17171A"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/password_v"
+                android:layout_width="94dp"
+                android:layout_height="4dp"
+                android:layout_below="@id/password_tv"
+                android:layout_marginTop="9dp"
+                android:background="#F91515" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/phone_ll"
+        android:layout_width="311dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/ll"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
+        <!-- +86 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="+86"
+            android:textColor="#17171A"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="#999999" />
+
+        <EditText
+            android:id="@+id/phone_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:hint="请输入手机号"
+            android:maxLength="15"
+            android:padding="5dp"
+            android:text="12346963651"
+            android:textColor="#17171A"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/phone_v"
+        android:layout_width="311dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/phone_ll"
+        android:layout_marginLeft="32dp"
+        android:alpha="0.05"
+        android:background="#000000" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phone_v">
+
+        <LinearLayout
+            android:id="@+id/auth_ll"
+            android:layout_width="311dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/authcode_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_weight="3"
+                android:background="@null"
+                android:hint="请输入验证码"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:textColor="#17171A"
+                android:textSize="14sp" />
+
+            <!-- 获取验证码 -->
+            <TextView
+                android:id="@+id/gain_authcode_tv"
+                android:layout_width="0dp"
+                android:layout_height="18dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:text="获取验证码"
+                android:textColor="#F91515"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/password_ll"
+            android:layout_width="311dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <EditText
+                android:text="1234"
+                android:id="@+id/password_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:textColor="#17171A"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="311dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/rl"
+        android:layout_marginLeft="32dp"
+        android:alpha="0.05"
+        android:background="#000000" />
+
+    <ImageView
+        android:id="@+id/login_btn_img"
+        android:layout_width="311dp"
+        android:layout_height="44dp"
+        android:layout_below="@id/line_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/loginbtn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:alpha="0.5"
+        android:text="北京爱种网络科技有限公司技术支持"
+        android:textColor="#17171A"
+        android:textSize="12sp" />
+
+</RelativeLayout>

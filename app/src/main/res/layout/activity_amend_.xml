@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F5F6"
+    android:orientation="vertical"
+    tools:context="com.example.bq.edmp.activity.mine_activity.Amend_Activity">
+
+    <include layout="@layout/base_header_layout" />
+
+    <!--旧手机号-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:alpha="0.5"
+            android:text="手机号"
+            android:textColor="#17171A"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/jiuphone_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="96dp"
+            android:layout_marginRight="16dp"
+            android:alpha="0.5"
+            android:text="13541857952"
+            android:textColor="#17171A"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.05"
+            android:background="#000000" />
+
+    </RelativeLayout>
+    <!--密码-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:alpha="0.5"
+            android:text="密码"
+            android:textColor="#17171A"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/password_et"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="96dp"
+            android:layout_marginRight="16dp"
+            android:alpha="0.9"
+            android:background="@null"
+            android:hint="请输入密码"
+            android:text=""
+            android:textColor="#17171A"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.05"
+            android:background="#000000" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="#F2F5F6" />
+    <!--新手机号-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:alpha="0.5"
+            android:text="手机号"
+            android:textColor="#17171A"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/phone_et"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="96dp"
+            android:layout_marginRight="16dp"
+            android:alpha="0.9"
+            android:background="@null"
+            android:hint="请输入新手机号"
+            android:text=""
+            android:textColor="#17171A"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.05"
+            android:background="#000000" />
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/affirm_img"
+        android:layout_width="311dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="106dp"
+        android:src="@drawable/affirm" />
+
+
+</LinearLayout>

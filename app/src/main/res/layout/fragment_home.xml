@@ -1,0 +1,323 @@
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.example.bq.edmp.fragment.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F1F1F1">
+
+        <ImageView
+            android:id="@+id/top_img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/mask_group"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="93dp"
+            android:text="皖垦移动OA"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="343dp"
+            android:layout_height="96dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/home_tow"
+            android:orientation="horizontal">
+
+            <!--今日日程-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/r_c_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="3"
+                    android:textColor="#F91515"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="今日日程"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <!--待办事项-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/s_x_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="3"
+                    android:textColor="#F91515"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="待办事项"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <!--消息通知-->
+            <LinearLayout
+                android:id="@+id/ly_message"
+                android:layout_width="0dp"
+                android:layout_height="96dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/t_z_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="3"
+                    android:textColor="#F91515"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/t_z_tv"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="消息通知"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cy"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/ll"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="17dp"
+            android:text="常用功能"
+            android:textColor="#17171A"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/gl"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_below="@id/cy"
+            android:orientation="horizontal">
+
+            <!--审批管理-->
+            <LinearLayout
+                android:id="@+id/sp_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/spgl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="审批管理"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <!--订单管理-->
+            <LinearLayout
+                android:id="@+id/dd_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ddgl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="订单管理"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <!--日常管理-->
+            <LinearLayout
+                android:id="@+id/rc_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/rcgl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="日常管理"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+            <!--营销管理-->
+            <LinearLayout
+                android:id="@+id/yx_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/yxfx" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:alpha="0.9"
+                    android:text="营销管理"
+                    android:textColor="#17171A"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/gsdd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/gl">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:text="公司动态"
+                android:textColor="#17171A"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/gd_img"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/small" />
+
+            <TextView
+                android:id="@+id/gd_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/gd_img"
+                android:alpha="0.7"
+                android:text="更多"
+                android:textColor="#17171A"
+                android:textSize="14sp" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_ll"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_below="@id/gsdd"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/layout_tab"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                app:tabIndicatorColor="#F91515"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/text_gray"
+                app:tabTextColor="#FF333333" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:alpha="0.08"
+                android:background="#000000" />
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="330dp"
+            android:layout_below="@id/tab_ll"
+            android:background="#fff" />
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>
