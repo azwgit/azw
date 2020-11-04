@@ -32,7 +32,7 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements  V
     public ImageView ivBack;
     public TextView tvNotice;
     public RelativeLayout rlTitle;
-    //测88888试
+    //测8888888888试
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
