@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.home.activity.MessageNotificationActivity;
+import com.example.bq.edmp.home.activity.MessageNotificationListActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
         mLyMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageNotificationActivity.start(getActivity());
+                MessageNotificationListActivity.start(getActivity());
             }
         });
         return inflate;

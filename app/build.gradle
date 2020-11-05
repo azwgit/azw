@@ -53,4 +53,10 @@ dependencies {
     //RecyclerAdapter框架
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     compile 'com.github.lygttpod:RxHttpUtils:2.3.3'
+
+    //Android智能下拉刷新框架
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+
+    //没有使用特殊Header，可以不加这行
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
 }
