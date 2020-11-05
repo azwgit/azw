@@ -1,5 +1,6 @@
 package com.example.bq.edmp.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.login.LoginActivity;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.fragment.MineFragment;
 import com.example.bq.edmp.fragment.ConmmunityFragment;
@@ -50,7 +52,11 @@ public class MainActivity extends BaseActivity {
     private ConmmunityFragment conmmunityFragment;
     private MineFragment mineFragment;
     long preTime;
-
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;

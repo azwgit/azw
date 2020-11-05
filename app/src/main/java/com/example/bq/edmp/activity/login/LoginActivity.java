@@ -1,10 +1,11 @@
 package com.example.bq.edmp.activity.login;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -12,8 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allen.library.RxHttpUtils;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.MainActivity;
 import com.example.bq.edmp.base.BaseActivity;
+import com.example.bq.edmp.bean.LoginBean;
+import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.StringUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 
@@ -52,6 +60,11 @@ public class LoginActivity extends BaseActivity {
 
     private CountDownTimer timer;
 
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void initData() {
@@ -208,9 +221,24 @@ public class LoginActivity extends BaseActivity {
 
     //获取验证码
     private void getAuthCodeMethod(String phone) {
+        String sign = MD5Util.encode("username=" + phone);
+        RxHttpUtils.createApi(LoginApi.class)
+                .sendSms(phone, sign)
+                .compose(Transformer.<LoginBean>switchSchedulers())
+                .subscribe(new CommonObserver<LoginBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
 
+                    @Override
+                    protected void onSuccess(LoginBean loginBean) {
+
+                    }
+                });
     }
 
+    //獲取驗證碼
     private void StartTimer() {
         /** 倒计时60秒，一次1秒 */
         // TODO Auto-generated method stub
@@ -233,12 +261,50 @@ public class LoginActivity extends BaseActivity {
     private void loginMethod(String phone, String password) {
         ToastUtil.setToast("登录！");
         if (type == 1) {
-
+            passwordLogin(phone, password);
         } else {
-
+            smsLogin(phone, password);
         }
     }
 
+    //短信验证码登录
+    private void smsLogin(String phone, String code) {
+        String sign = MD5Util.encode("username=" + phone + "&smscode=" + code);
+        RxHttpUtils.createApi(LoginApi.class)
+                .smsLogin(phone, code, sign)
+                .compose(Transformer.<LoginBean>switchSchedulers())
+                .subscribe(new CommonObserver<LoginBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(LoginBean loginBean) {
+                        SpUtils.put("UserInfo", loginBean.getData());
+                        ToastUtil.setToast("登录成功");
+                    }
+                });
+    }
+    //密碼登录
+    private void passwordLogin(String phone, String code) {
+        String sign = MD5Util.encode("password=" + code + "&username=" + phone);
+        RxHttpUtils.createApi(LoginApi.class)
+                .login(code, phone, sign)
+                .compose(Transformer.<LoginBean>switchSchedulers())
+                .subscribe(new CommonObserver<LoginBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(LoginBean loginBean) {
+                        SpUtils.put("UserInfo", loginBean.getData());
+                        MainActivity.start(getApplicationContext());
+                    }
+                });
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
