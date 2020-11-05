@@ -35,7 +35,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.activity.MessageNotificationActivity"></activity>
+        <activity android:name=".home.activity.MessageNotificationListActivity"></activity>
         <activity android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

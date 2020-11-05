@@ -12,6 +12,7 @@
         android:id="@+id/img_icon"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_48"
+        android:adjustViewBounds="true"
         android:background="@color/black" />
 
     <TextView

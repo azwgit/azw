@@ -4,11 +4,22 @@ package com.example.bq.edmp;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
 import com.allen.library.interfaces.BuildHeadersListener;
+import com.example.bq.edmp.url.MoreBaseUrlInterceptor;
 import com.example.bq.edmp.utils.SpUtils;
+import com.scwang.smartrefresh.header.CircleHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.weavey.loading.lib.LoadingLayout;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 
@@ -40,7 +51,30 @@ public class ProApplication extends Application {
 
         AutoLayoutConifg.getInstance().useDeviceSize();
     }
-
+    //static 代码段可以防止内存泄露
+    static {
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                //全局设置主题颜色
+                layout.setPrimaryColorsId(R.color.bg_color, R.color.theme_color);
+//                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);//指定为经典Header，默认是 贝塞尔雷达Header
+                return new CircleHeader(context);
+            }
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+            @NonNull
+            @Override
+            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+                //指定为经典Footer，默认是 BallPulseFooter
+                return new ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate);
+//                return new ClassicsFooter();
+            }
+        });
+    }
     private void initLodingLayout() {
         LoadingLayout.getConfig()
                 .setErrorText("出错啦~请稍后重试！")
@@ -145,14 +179,14 @@ public class ProApplication extends Application {
 
     private void setOkHttpconfig() {
         OkHttpClient okHttpClient = new OkHttpConfig
-                .Builder(this)
+                .Builder(this).setAddInterceptor(new MoreBaseUrlInterceptor())
                 //全局的请求头信息
                 .setHeaders(new BuildHeadersListener() {
                     @Override
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("access-token", token);
+                        hashMap.put("Access-Token",token);
                         return hashMap;
                     }
                 })
@@ -179,7 +213,7 @@ public class ProApplication extends Application {
                 //.setCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 //.setConverterFactory(ScalarsConverterFactory.create(),GsonConverterFactory.create(GsonAdapter.buildGson()))
                 //配置全局baseUrl
-                .setBaseUrl("http://192.168.0.188:8080/")
+                .setBaseUrl("http://192.168.0.188:8081/")
                 //开启全局配置
                 .setOkClient(okHttpClient);
 
