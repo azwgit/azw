@@ -1,5 +1,6 @@
 package com.example.bq.edmp.home;
 
+import com.example.bq.edmp.bean.AddressBean;
 import com.example.bq.edmp.bean.Address_DepartmentBean;
 import com.example.bq.edmp.bean.Address_StaffBean;
 import com.example.bq.edmp.bean.LoginBean;
@@ -27,5 +28,9 @@ public interface MessageApi {
     //通讯录员工列表2
     @POST("employee/addressbook")
     Observable<Address_StaffBean> addressbook_staff();
+
+    //通讯录员工列表2
+    @POST("employee/addressbooks")
+    Observable<AddressBean> addressbook();
 
 }
