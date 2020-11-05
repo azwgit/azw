@@ -15,11 +15,11 @@ import android.widget.Toast;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.login.LoginActivity;
 import com.example.bq.edmp.base.BaseActivity;
-import com.example.bq.edmp.fragment.MineFragment;
+import com.example.bq.edmp.fragment.AddressBookFragment;
 import com.example.bq.edmp.fragment.ConmmunityFragment;
 import com.example.bq.edmp.fragment.HomeFragment;
+import com.example.bq.edmp.fragment.MineFragment;
 import com.example.bq.edmp.fragment.WorkFragment;
-import com.example.bq.edmp.fragment.AddressBookFragment;
 import com.example.bq.edmp.utils.NoSrcollViewPage;
 
 import java.util.ArrayList;
@@ -197,6 +197,28 @@ public class MainActivity extends BaseActivity {
         private List<Fragment> list;
 
         public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> list) {
+            super(fm);
+            this.list = list;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            return list.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+    }
+
+    public class MyFragmentPagerAdapter2 extends FragmentPagerAdapter {
+
+        private List<Fragment> list2;
+        private List<Fragment> list;
+
+        public MyFragmentPagerAdapter2(FragmentManager fm, List<Fragment> list) {
             super(fm);
             this.list = list;
         }
