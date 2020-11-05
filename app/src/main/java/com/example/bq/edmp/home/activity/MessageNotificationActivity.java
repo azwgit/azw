@@ -4,26 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-
 import com.allen.library.RxHttpUtils;
-import com.allen.library.base.BaseObserver;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
-import com.allen.library.observer.DataObserver;
-import com.example.bq.edmp.home.MessageApi;
-import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.LoginBean;
+import com.example.bq.edmp.home.MessageApi;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static com.allen.library.utils.ToastUtils.showToast;
 
 public class MessageNotificationActivity extends BaseTitleActivity {
 
@@ -39,6 +32,7 @@ public class MessageNotificationActivity extends BaseTitleActivity {
         String password = "1234";
         String username = "12346963651";
         String sign = MD5Util.encode("password=" + password + "&username=" + username);
+
         map.put("username", username);
         map.put("password", password);
         map.put("sign", sign);

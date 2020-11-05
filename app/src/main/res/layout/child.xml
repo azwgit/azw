@@ -10,7 +10,7 @@
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_2"
         android:layout_toRightOf="@id/img"
-        android:text="454544544"
+        android:text="暂无"
         android:textColor="#130c0e"
         android:textSize="@dimen/sp_15" />
 

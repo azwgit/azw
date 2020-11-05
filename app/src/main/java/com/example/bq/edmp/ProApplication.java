@@ -150,9 +150,9 @@ public class ProApplication extends Application {
                 .setHeaders(new BuildHeadersListener() {
                     @Override
                     public Map<String, String> buildHeaders() {
-                        String token = (String) SpUtils.get("UserInfo", null);
+                        String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token", null == token ? "" : token);
+                        hashMap.put("Access-Token", "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMjM0Njk2MzY1MSIsInN1YiI6IjE2LOadjuWbmywxLDYiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDQ1NTUzMjgsImV4cCI6MTYwNDY0MTcyOH0.0Jprwoo0q0AQv_jK2tqXsCnoIeYo3kfQROZBP_GtNhc");
                         return hashMap;
                     }
                 })
@@ -179,7 +179,7 @@ public class ProApplication extends Application {
                 //.setCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 //.setConverterFactory(ScalarsConverterFactory.create(),GsonConverterFactory.create(GsonAdapter.buildGson()))
                 //配置全局baseUrl
-                .setBaseUrl("http://192.168.0.188:8081/")
+                .setBaseUrl("http://192.168.0.188:8080/")
                 //开启全局配置
                 .setOkClient(okHttpClient);
 
