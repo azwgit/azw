@@ -295,6 +295,7 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new CommonObserver<LoginBean>() {
                     @Override
                     protected void onError(String errorMsg) {
+
                         ToastUtil.setToast(errorMsg);
                     }
 
