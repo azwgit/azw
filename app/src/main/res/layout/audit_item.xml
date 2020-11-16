@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/vw"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_d0d0d0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vw"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginTop="@dimen/dp_6">
+
+            <TextView
+                android:id="@+id/fl_tv"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:background="@drawable/audit_shape"
+                android:gravity="center"
+                android:text="帐"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/sp_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_toRightOf="@id/fl_tv"
+                android:text="报账审批"
+                android:textColor="#FEA91D"
+                android:textSize="@dimen/sp_16" />
+
+
+            <TextView
+                android:id="@+id/zt_tv"
+                android:layout_width="@dimen/dp_57"
+                android:layout_height="@dimen/dp_21"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="@drawable/audit_dt_shape"
+                android:gravity="center"
+                android:text="待提交"
+                android:textColor="#FEA91D"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_277"
+            android:layout_height="@dimen/dp_32">
+
+            <TextView
+                android:id="@+id/name_lx_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.9"
+                android:text="陈一一提交的报账申请"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <!--申请类型-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.5"
+                android:text="申请类型："
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/sqlx_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.9"
+                android:text="支出报账"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+        <!--报销总额-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.5"
+                android:text="报销总额："
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/bxze_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.9"
+                android:text="¥850.00"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+        <!--申请时间-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.5"
+                android:text="申请时间："
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/sqsj_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.9"
+                android:text="2020-10-22  09:45"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+        <!--审批时间-->
+        <LinearLayout
+            android:id="@+id/spsj_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.5"
+                android:text="审批时间："
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/spsj_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.9"
+                android:text="2020-10-22  10:43"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/zt_img"
+        android:layout_width="@dimen/dp_64"
+        android:layout_height="@dimen/dp_64"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+<!--    android:src="@drawable/yitongyi"-->
+
+</RelativeLayout>

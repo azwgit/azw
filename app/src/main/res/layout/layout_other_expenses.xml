@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/apply_pay_account_layout_style">
+
+        <TextView
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="wrap_content"
+            android:text="项目描述"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:enabled="false"
+            android:id="@+id/tv_type"
+            style="@style/textcolor_70_style"
+            android:layout_marginTop="0dp"
+            android:text="市内车费" />
+    </LinearLayout>
+    <View style="@style/apply_pay_account_line_style"/>
+
+    <LinearLayout style="@style/apply_pay_account_layout_style">
+
+        <TextView
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="wrap_content"
+            android:text="项目花费"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥"
+            android:layout_marginRight="@dimen/dp_8"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+
+        <EditText
+            android:inputType="number"
+            android:id="@+id/et_money"
+            style="@style/apply_pay_account_edit_style"
+            />
+    </LinearLayout>
+    <View style="@style/apply_pay_account_line_style"/>
+    <LinearLayout style="@style/apply_layout_pd16_style">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_pic_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上传单据"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/colorf9" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pic_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/btn_sure"
+        style="@style/btn_circle_style"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_34"
+        android:text="确认" />
+</LinearLayout>

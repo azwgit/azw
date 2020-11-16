@@ -35,6 +35,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         mUnbinder = ButterKnife.bind(this, rootView);
         mBundle = savedInstanceState;
         initView();
+        initListener();
+        initData();
         //可见，但是并没有加载过
         if (isFragmentVisible && !isFirst) {
             onFragmentVisibleChange(true);
@@ -49,6 +51,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     //初始化view
     protected abstract void initView();
+
+    protected abstract void initListener();
+
+    protected abstract void initData();
 
 
     protected abstract void otherViewClick(View view);

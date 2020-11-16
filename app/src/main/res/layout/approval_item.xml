@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <ImageView
+        android:id="@+id/img_head"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/colorf9"/>
+    <TextView
+        android:id="@+id/tv_nick"
+        android:layout_toLeftOf="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_head"
+        android:textColor="@color/text_black_gray"
+        android:text="昵称"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:textSize="@dimen/sp_14"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/sp_12"
+        android:text="2020-10-25 10:12"
+        android:textColor="@color/text_black_gray"/>
+    <TextView
+        android:id="@+id/tv_first"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_alignBottom="@+id/img_head"
+        android:text="我发起的"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/black"
+        android:layout_toRightOf="@+id/img_head"/>
+    <View
+        android:id="@+id/line"
+        android:layout_width="1px"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/colorf9"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_below="@+id/img_head"/>
+</RelativeLayout>

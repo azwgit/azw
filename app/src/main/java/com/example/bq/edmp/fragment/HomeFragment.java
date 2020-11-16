@@ -1,6 +1,7 @@
 package com.example.bq.edmp.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.home.activity.MessageNotificationListActivity;
+import com.example.bq.edmp.home.activity.UploadImageActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +33,9 @@ public class HomeFragment extends Fragment {
         mLyMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageNotificationListActivity.start(getActivity());
+                Intent intent=new Intent(getActivity(),UploadImageActivity.class);
+                startActivity(intent);
+                //MessageNotificationListActivity.start(getActivity());
             }
         });
         return inflate;

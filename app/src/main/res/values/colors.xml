@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="text_black">#17171A</color>
+    <color name="text_black_gray">#8017171A</color>
     <color name="text_gray">#808080</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -12,5 +13,17 @@
     <color name="transparent">#00000000</color>
     <color name="bg_color">#f6f6f6</color>
     <color name="theme_color">#6fc056</color>
+    <color name="colorf9">#F91515</color>
+    <color name="color_bg">#E5E5E5</color>
+    <color name="colorf6">#f6f6f6</color>
+    <color name="appThemeColor">#5BB3CA</color>
+    <color name="color_1a">#1A76FF</color>
+    <color name="color_e0">#E0E0E0</color>
+    <color name="color_fe">#FEA91D</color>
+    <color name="color_b3">#B317171A</color>
+    <color name="color_ff">#FFEDED</color>
+    <color name="colorF1">#EEF0F1</color>
+    <color name="color33">#333333</color>
+    <color name="colorPrimarys">#FF0B90F5</color>
 
 </resources>

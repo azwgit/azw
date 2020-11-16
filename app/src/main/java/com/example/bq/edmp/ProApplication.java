@@ -186,7 +186,7 @@ public class ProApplication extends Application {
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token",token);
+                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMjM0Njk2MzY1MSIsInN1YiI6IjE2LOadjuWbmywxLDYiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDU0ODk1NDMsImV4cCI6MTYwNTU3NTk0M30.wAhYtYJoaEFrHXaU_vf4DM2OvANrXzSUxGOvuOIsUmU");
                         return hashMap;
                     }
                 })

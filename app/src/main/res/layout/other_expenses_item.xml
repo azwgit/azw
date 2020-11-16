@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ly_layer"
+        style="@style/apply_pay_account_layout_style">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="市内车费"
+            android:textColor="@color/color_b3"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:gravity="right"
+            android:text="¥0.00  >"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
+
+        <TextView
+            android:id="@+id/tv_list_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="相关单据(0)"
+            android:textColor="@color/color_b3"
+            android:textSize="@dimen/sp_14" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pic_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        style="@style/apply_pay_account_line_style" />
+</LinearLayout>

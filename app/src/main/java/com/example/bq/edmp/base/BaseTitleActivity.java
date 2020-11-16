@@ -56,14 +56,10 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
     }
 
 
-    protected abstract void initData();
-
-    protected abstract void initListener();
-
-    protected abstract void initView();
-
     protected abstract int getLayoutId();
-
+    protected abstract void initView();
+    protected abstract void initData();
+    protected abstract void initListener();
     protected abstract void otherViewClick(View view);
 
     /**

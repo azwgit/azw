@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/apply_pay_account_layout_style"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:text="*"
+            android:textColor="@color/colorf9" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="项目描述"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+
+        <EditText
+            android:id="@+id/et_pro_desc"
+            style="@style/apply_pay_account_edit_style"/>
+    </LinearLayout>
+
+    <View style="@style/apply_pay_account_line_style" />
+
+    <LinearLayout style="@style/apply_pay_account_layout_style">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:text="*"
+            android:textColor="@color/colorf9" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="项目花费"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+
+        <EditText
+            android:inputType="number"
+            android:id="@+id/et_pro_money"
+            style="@style/apply_pay_account_edit_style" />
+    </LinearLayout>
+
+    <View style="@style/apply_pay_account_line_style" />
+
+    <RelativeLayout style="@style/apply_pay_account_layout_style">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:text="*"
+            android:textColor="@color/colorf9" />
+
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="上传单据"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="24dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorf9" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tick_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/dp_16"/>
+
+
+    <TextView
+        android:id="@+id/btn_sure"
+        style="@style/btn_circle_style"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_34"
+        android:text="确认" />
+</LinearLayout>

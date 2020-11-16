@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ly_bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/apply_pay_account_layout_style"
+                android:layout_marginTop="@dimen/dp_10">
+
+                <TextView
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="wrap_content"
+                    android:text="报账人"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.7"
+                    android:text="账单"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <View style="@style/apply_pay_account_line_style" />
+
+            <LinearLayout style="@style/apply_pay_account_layout_style">
+
+                <TextView
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="wrap_content"
+                    android:text="所在部门"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_dept"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:text="技术部"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <View style="@style/apply_pay_account_line_style" />
+
+
+            <LinearLayout style="@style/apply_pay_account_layout_style" android:id="@+id/ly_time">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="*"
+                    android:textColor="@color/colorf9" />
+
+                <TextView
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:text="报销日期"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:alpha="0.7"
+                    android:text="2020-10-26"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/apply_pay_account_layout_style"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="*"
+                    android:textColor="@color/colorf9" />
+
+                <TextView
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="wrap_content"
+                    android:text="出差事由"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <EditText
+                    android:id="@+id/tv_reason"
+                    style="@style/apply_pay_account_edit_style" />
+
+            </LinearLayout>
+
+            <View style="@style/apply_pay_account_line_style" />
+            <LinearLayout
+                style="@style/apply_pay_account_layout_style">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="*"
+                    android:textColor="@color/colorf9" />
+
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:text="预借旅费"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <EditText
+                    android:id="@+id/tv_money"
+                    android:inputType="number"
+                    style="@style/apply_pay_account_edit_style" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/white"
+                android:paddingTop="@dimen/dp_16" />
+
+            <LinearLayout
+                android:id="@+id/btn_add_info"
+                style="@style/apply_pay_account_layout_style"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_marginRight="@dimen/dp_11"
+                    android:background="@drawable/btn_red_shape_bg"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加日程信息"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/apply_pay_account_layout_style"
+                android:layout_marginTop="@dimen/dp_10">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="其他费用"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/other_recyclerview"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical|right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_35"
+                    android:text="报销总额"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_all_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:text="¥0.00"
+                    android:textColor="@color/colorf9"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/apply_pay_account_layout_style"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:text="报销说明"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <EditText
+                    android:id="@+id/ed_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:background="@null"
+                    android:hint="请填写需要补充的报销说明（非必填）"
+                    android:minHeight="@dimen/dp_44"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/dp_34"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btn_save"
+                    style="@style/btn_circle_style"
+                    android:layout_weight="1"
+
+                    android:text="保存" />
+
+                <TextView
+                    android:id="@+id/btn_save_submit"
+                    style="@style/btn_circle_style"
+                    android:layout_weight="1"
+                    android:text="保存并提交" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

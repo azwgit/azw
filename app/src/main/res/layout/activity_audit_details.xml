@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--
+
+                        <RelativeLayout
+                            style="@style/apply_layout_pd16_style"
+                            android:layout_marginTop="@dimen/dp_10">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="陈一一提出的差旅报账申请"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <TextView
+                                android:id="@+id/tv_company"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_title"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:alpha="0.7"
+                                android:text="安徽皖垦种业股份有限公司"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/tv_dept"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tv_company"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:alpha="0.7"
+                                android:text="部门"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_14" />
+
+                            <ImageView
+                                android:id="@+id/img_status"
+                                android:layout_width="@dimen/dp_60"
+                                android:layout_height="@dimen/dp_60"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:background="@color/red" />
+
+
+                            <TextView
+                                android:id="@+id/dtj_tv"
+                                android:layout_width="@dimen/dp_57"
+                                android:layout_height="@dimen/dp_21"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/dp_16"
+                                android:background="@drawable/audit_dt_shape"
+                                android:gravity="center"
+                                android:text="待提交"
+                                android:textColor="#FEA91D"
+                                android:textSize="@dimen/sp_12"
+                                android:visibility="visible" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            style="@style/apply_layout_pd16_style"
+                            android:layout_marginTop="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="审批编号"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <TextView
+                                android:id="@+id/tv_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_18"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:alpha="0.7"
+                                android:text="202020202020202020"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <View style="@style/apply_pay_account_line_style" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:text="审核状态"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <TextView
+                                android:id="@+id/tv_stauts"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:alpha="0.7"
+                                android:text="等待我处理"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/apply_layout_pd16_style"
+                            android:layout_marginTop="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="出差事由"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <TextView
+                                android:id="@+id/tv_evection"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_18"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:alpha="0.7"
+                                android:text="山东生产厂商洽谈合作"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <View style="@style/apply_pay_account_line_style" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:text="预借旅费"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+
+                            <TextView
+                                android:id="@+id/tv_fee"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:alpha="0.7"
+                                android:text="¥500.00"
+                                android:textColor="@color/text_black"
+                                android:textSize="@dimen/sp_17" />
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            -->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_56"
+                    android:alpha="0.9"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:text="其他费用"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

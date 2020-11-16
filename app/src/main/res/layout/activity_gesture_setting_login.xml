@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/base_header_layout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/glv"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_50"
+        android:text="设置手势密码"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/sp_20" />
+
+    <com.wangnan.library.GestureLockView
+        android:id="@+id/glv"
+        android:layout_width="@dimen/dp_296"
+        android:layout_height="@dimen/dp_300"
+        android:layout_below="@id/tv"
+        android:layout_gravity="center_horizontal"
+        app:error_color="#C0C0C0"
+        app:line_thickness="@dimen/dp_2"
+        app:normal_color="#F91515"
+        app:press_color="#F91515" />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/glv"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_30"
+        android:text=""
+        android:textColor="@color/color_66000000"
+        android:textSize="@dimen/sp_16"
+        android:visibility="gone" />
+
+
+</LinearLayout>

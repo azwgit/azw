@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_d0d0d0"
+    android:orientation="vertical"
+    tools:context="com.example.bq.edmp.word.activity.AuditActivity">
+
+
+    <include layout="@layout/base_header_layout" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_88"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!--待审批的-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/dsp_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/audit_dspd"
+                android:gravity="center_horizontal"
+                android:text="待审批的"
+                android:textColor="@drawable/audit_selector" />
+        </LinearLayout>
+
+        <!--我审批的-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/wsp_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/audit_wspd"
+                android:gravity="center_horizontal"
+                android:text="我审批的"
+                android:textColor="@drawable/audit_selector" />
+        </LinearLayout>
+
+        <!--我发起的-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/wfq_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:button="@null"
+                android:checked="false"
+                android:drawableTop="@drawable/audit_wfqd"
+                android:gravity="center_horizontal"
+                android:text="我发起的"
+                android:textColor="@drawable/audit_selector" />
+        </LinearLayout>
+
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/xr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+        <TextView
+            android:id="@+id/wsj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_30"
+            android:text="暂无数据"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16" />
+
+
+    </RelativeLayout>
+</LinearLayout>

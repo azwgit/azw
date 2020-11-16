@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.MainActivity;
 import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.wangnan.library.GestureLockView;
@@ -25,6 +26,8 @@ import com.wangnan.library.listener.OnGestureLockListener;
 public class Gestures_login_Activity extends AppCompatActivity {
 
     private GestureLockView glv;
+    private int type = 0;
+    private Dialog mCameraDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +38,13 @@ public class Gestures_login_Activity extends AppCompatActivity {
     }
 
     private void initView() {
+
         glv = findViewById(R.id.glv);
         TextView gd_tv = findViewById(R.id.gd_tv);
         gd_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                findContentViews2(view);
+                findContentViews2();
             }
         });
 
@@ -57,32 +61,29 @@ public class Gestures_login_Activity extends AppCompatActivity {
 
             @Override
             public void onComplete(String result) {
+                Vibrator vibrator = (Vibrator) Gestures_login_Activity.this.getSystemService(Gestures_login_Activity.VIBRATOR_SERVICE);
                 if (TextUtils.isEmpty(result)) {
                     return;
                 }
                 if (result.length() >= 4) {
-                    String shou = (String) SpUtils.get("shou", "");
-                    if (shou.equals("")) {
-                        SpUtils.put("shou", result);
-                        glv.showErrorStatus(600);
-                        ToastUtil.setToast("设置密码成功");
+                    String SHOUSHILOGIN = (String) SpUtils.get("SHOUSHILOGIN", "");
+                    if (SHOUSHILOGIN.equals(result)) {
+                        startActivity(new Intent(Gestures_login_Activity.this, MainActivity.class));
                     } else {
-                        if (shou.equals(result)) {
-                            ToastUtil.setToast("解锁成功");
-                            glv.showErrorStatus(600);
-                            Vibrator vibrator = (Vibrator)Gestures_login_Activity.this.getSystemService(Gestures_login_Activity.VIBRATOR_SERVICE);
-                            vibrator.vibrate(100);
-                        } else {
+                        if (type < 3) {
                             ToastUtil.setToast("密码不正确");
                             glv.showErrorStatus(600);
-                            Vibrator vibrator = (Vibrator)Gestures_login_Activity.this.getSystemService(Gestures_login_Activity.VIBRATOR_SERVICE);
                             vibrator.vibrate(100);
+                            type++;
+                        } else {
+                            glv.showErrorStatus(600);
+                            vibrator.vibrate(100);
+                            findContentViews2();
                         }
                     }
                 } else {
                     ToastUtil.setToast("最少选四个");
                     glv.showErrorStatus(600);
-                    Vibrator vibrator = (Vibrator)Gestures_login_Activity.this.getSystemService(Gestures_login_Activity.VIBRATOR_SERVICE);
                     vibrator.vibrate(100);
                 }
 
@@ -91,12 +92,12 @@ public class Gestures_login_Activity extends AppCompatActivity {
     }
 
     /*
-   * 底部跳框
-   * */
-    private void findContentViews2(View view) {
-        final Dialog mCameraDialog = new Dialog(view.getContext(), R.style.my_dialog);
+     * 底部跳框
+     * */
+    private void findContentViews2() {
+        mCameraDialog = new Dialog(Gestures_login_Activity.this, R.style.my_dialog);
 
-        View root = LayoutInflater.from(view.getContext()).inflate(R.layout.gestures_dialog, null);
+        View root = LayoutInflater.from(Gestures_login_Activity.this).inflate(R.layout.gestures_dialog, null);
 
         mCameraDialog.setContentView(root);
         mCameraDialog.setCanceledOnTouchOutside(false);
@@ -120,6 +121,7 @@ public class Gestures_login_Activity extends AppCompatActivity {
         TextView authcodelogin_tv = root.findViewById(R.id.authcodelogin_tv);
         TextView sllogin_tv = root.findViewById(R.id.sllogin_tv);
         TextView cancel_tv = root.findViewById(R.id.cancel_tv);
+
 
         //密码登录
         passwordlogin_tv.setOnClickListener(new View.OnClickListener() {
@@ -157,5 +159,4 @@ public class Gestures_login_Activity extends AppCompatActivity {
         });
 
     }
-
 }

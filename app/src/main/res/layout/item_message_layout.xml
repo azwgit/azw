@@ -1,43 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_76"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/dp_20"
-    android:paddingTop="@dimen/dp_15"
-    android:paddingRight="@dimen/dp_15">
-
-
-    <com.example.bq.edmp.utils.CircleImage
-        android:id="@+id/img_icon"
-        android:layout_width="@dimen/dp_48"
-        android:layout_height="@dimen/dp_48"
-        android:adjustViewBounds="true"
-        android:background="@color/black" />
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/img_icon"
-        android:text="审批通知"/>
-    <TextView
-        android:layout_above="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/img_icon"
-        android:layout_below="@+id/tv_title"
-        android:text="审批通知"/>
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="审批通知"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_time"
-        android:text="审批sdfsdf通知"/>
+        android:padding="@dimen/dp_10">
+        <ImageView
+            android:id="@+id/img_icon"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:background="#FC2828"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_toLeftOf="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_icon"
+            android:text="系统消息"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textColor="#333"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="10月19日"
+            android:textColor="#333"/>
 
+        <TextView
+            android:layout_toLeftOf="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/img_icon"
+            android:layout_alignBottom="@+id/img_icon"
+            android:text="公司通知：关于xxx的变更"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:textColor="#333" />
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:text="2"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textColor="#fff"
+            android:background="#FC2828"
+            android:layout_alignBottom="@+id/img_icon" />
+    </RelativeLayout>
 </RelativeLayout>

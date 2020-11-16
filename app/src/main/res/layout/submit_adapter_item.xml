@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_179"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="#FFF2F5F6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_124">
+
+        <ImageView
+            android:id="@+id/state_img"
+            android:layout_width="@dimen/dp_64"
+            android:layout_height="@dimen/dp_64"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:src="@drawable/property_1daitijiao" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/state_img"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/spdh_tv"
+                android:layout_width="@dimen/dp_263"
+                android:layout_height="@dimen/dp_32"
+                android:layout_marginTop="@dimen/dp_8"
+                android:alpha="0.5"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_16"
+                android:text="审批单号：cl202010201455"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/price_tv"
+                android:layout_width="@dimen/dp_263"
+                android:layout_height="@dimen/dp_44"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_16"
+                android:text="¥132.00"
+                android:textColor="#F91515"
+                android:textSize="@dimen/sp_20" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/bm_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:alpha="0.7"
+                    android:drawableLeft="@drawable/universal"
+                    android:gravity="center_vertical"
+                    android:text="研发部"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_36"
+                    android:alpha="0.7"
+                    android:drawableLeft="@drawable/icon_universals"
+                    android:gravity="center_vertical"
+                    android:text="陈一一"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:alpha="0.05"
+        android:background="@color/black" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44">
+
+        <TextView
+            android:id="@+id/bz_distinction_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:alpha="0.9"
+            android:gravity="center_vertical"
+            android:text="支出报账"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:alpha="0.5"
+            android:gravity="center_vertical"
+            android:text="2020-10-19 01:58"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
+
+</LinearLayout>
