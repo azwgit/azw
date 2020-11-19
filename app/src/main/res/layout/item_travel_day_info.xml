@@ -3,9 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:layout_marginTop="@dimen/dp_10"
     android:orientation="vertical">
-
+    <View
+        android:id="@+id/view_line"
+        android:visibility="gone"
+        android:background="@color/bg_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"/>
+<LinearLayout
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_10"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -179,5 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16" />
     </LinearLayout>
+
+</LinearLayout>
 
 </LinearLayout>

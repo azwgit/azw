@@ -83,16 +83,20 @@
         <activity android:name=".activity.apply.travel.activity.UpdateOtherExpensesAct"/>
         <activity android:name=".activity.apply.travel.activity.UpdataAddTravelDayInfoAct"/>
         <activity android:name=".activity.apply.travel.activity.UpdateTravelOtherExpensesAct"/>
+        <activity android:name=".activity.apply.activity.EditPayInfoDetailAct"/>
+
         <activity android:name=".activity.apply.travel.activity.UpdataDetailAddTravelDayInfoAct"/>
         <activity android:name=".activity.apply.activity.CopyPayInfoDetailAct"/>
         <activity android:name=".activity.apply.PayInfoDetailAct"/>
         <activity android:name=".activity.apply.travel.activity.ApplyTravelAccountAct">
         </activity>
         <activity android:name=".activity.apply.travel.activity.TravelDetailAct"/>
+        <activity android:name=".activity.apply.travel.activity.EditTravelDetailAct"/>
         <activity android:name=".activity.apply.travel.activity.CopyTravelDetailAct"/>
         <activity android:name=".activity.apply.travel.ApplyTravelAccountSecondAct"/>
         <activity android:name=".activity.apply.travel.AddTravelDayInfoAct"/>
         <activity android:name=".activity.apply.travel.OtherExpensesAct"/>
+
 
     </application>
 

@@ -91,6 +91,16 @@ public class PayReimbursementDetailsInfo implements Serializable {
         private double disparity;
         private String empName;
         private String deptName;
+        private String companyName;
+
+        public String getCompanyName() {
+            return companyName;
+        }
+
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
+        }
+
         private List<ReimburserItemsBean> reimburserItems;
         private List<?> reimburserTravelingItems;
 

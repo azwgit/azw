@@ -27,6 +27,8 @@ import com.example.bq.edmp.activity.apply.bean.SelectReimbursementDetailsBean;
 import com.example.bq.edmp.activity.apply.bean.UpdateRembursemenBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
@@ -148,7 +150,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
         mAdapter.setOnDelterImg(new DeleteGridImageAdapter.DeleteImg() {
             @Override
             public void deleteImgList(int postion) {
-                deleteImag(detailsBean.getData().getReimburserItemBills().get(postion).getId()+"",postion,"1",payInfoBean.getId());
+                deleteImag(detailsBean.getData().getReimburserItemBills().get(postion).getId()+"",postion,"",payInfoBean.getId());
             }
         });
         // 清空图片缓存，包括裁剪、压缩后的图片 注意:必须要在上传完成后调用 必须要获取权限
@@ -201,7 +203,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
         newSelectList.clear();
         for (int i = 0; i < dataBean.getReimburserItemBills().size(); i++) {
             LocalMedia localMedia = new LocalMedia();
-            localMedia.setPath(dataBean.getReimburserItemBills().get(i).getUri());
+            localMedia.setPath(BaseApi.base_img_url +dataBean.getReimburserItemBills().get(i).getUri());
             newSelectList.add(localMedia);
         }
         //保證每次添加按钮
@@ -220,15 +222,16 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
             return;
         }
         String mProMoney = mEtProMoney.getText().toString().trim();
-        if ("".equals(mProMoney)) {
-            ToastUtil.setToast("请填写项目花费");
-            return;
+        if(Double.parseDouble(mProMoney)>0){
+            if(newSelectList.size()<=0){
+                ToastUtil.setToast("请上传单据");
+                return;
+            }else{
+                updateReimbursement(mProMoney, payInfoBean.getIdx(), proDesc, payInfoBean.getId());
+            }
+        }else{
+            updateReimbursement(mProMoney, payInfoBean.getIdx(), proDesc, payInfoBean.getId());
         }
-        if (newSelectList.size() <= 0) {
-            ToastUtil.setToast("请上传单据");
-            return;
-        }
-        updateReimbursement(mProMoney, payInfoBean.getIdx(), proDesc, payInfoBean.getId());
     }
 
     //修改开支项
@@ -240,7 +243,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<UpdateRembursemenBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -305,7 +308,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -396,7 +399,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<SelectReimbursementDetailsBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -422,7 +425,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
                     @Override
                     protected void onSuccess(BaseABean baseABean) {

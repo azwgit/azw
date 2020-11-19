@@ -116,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp_3"
                 android:text="*"
+                android:visibility="invisible"
                 android:textColor="@color/colorf9" />
 
             <TextView

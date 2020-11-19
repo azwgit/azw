@@ -51,12 +51,12 @@ import butterknife.BindView;
 /**
  * 申请支出报账详情
  */
-public class CopyPayInfoDetailAct extends BaseTitleActivity {
+public class EditPayInfoDetailAct extends BaseTitleActivity {
 
-    public static void newIntent(Context context, String id) {
+    public static Intent newIntent(Context context, String id) {
         Intent intent = new Intent(context, EditPayInfoDetailAct.class);
         intent.putExtra("id", id);
-        context.startActivity(intent);
+        return intent;
     }
     @BindView(R.id.btn_revoke)
     TextView mBtnRevoke;
@@ -134,7 +134,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
         mAdapter.setOnPicLisenter(new DetailsPayInfoAdp.OnPicLisenter() {
             @Override
             public void onPicClick(int themeId, int position, List<LocalMedia> selectList) {
-                PictureSelector.create(CopyPayInfoDetailAct.this).themeStyle(themeId).openExternalPreview(position, selectList);
+                PictureSelector.create(EditPayInfoDetailAct.this).themeStyle(themeId).openExternalPreview(position, selectList);
             }
         });
         //删除
@@ -144,7 +144,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 deleteApplyPay(bean.getId().getIdx() + "", dataBean.getData().getId() + "", position);
             }
         });
-        //编辑
+//编辑
         mAdapter.setOnItemEditLisenter(new DetailsPayInfoAdp.OnItemEditLisenter() {
             @Override
             public void onItemEditClick(int pos, PayReimbursementDetailsInfo.DataBean.ReimburserItemsBean bean) {
@@ -306,7 +306,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 checkSaveRembursemeng();
                 break;
             case R.id.btn_submit:
-                checkRembursementInfo();
+                    checkRembursementInfo();
                 break;
             case R.id.btn_revoke:
                 //else 走撤销功能
@@ -343,7 +343,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<PayReimbursementDetailsInfo>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -374,7 +374,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -401,7 +401,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<PayReimbursementDetailsInfo>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -458,7 +458,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -481,7 +481,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -505,7 +505,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<RevokeApplyBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -528,7 +528,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override

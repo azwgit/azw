@@ -25,10 +25,12 @@ import com.example.bq.edmp.activity.apply.ReimbursementApi;
 import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.travel.ApplyTravelAccountSecondAct;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
+import com.example.bq.edmp.activity.login.LoginActivity;
 import com.example.bq.edmp.activity.login.LoginApi;
 import com.example.bq.edmp.activity.login.UserInfoBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.LoginBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
@@ -134,9 +136,8 @@ public class ApplyPayAccountAct extends BaseTitleActivity {
             return;
         }
         String mMoeny = mEtMoney.getText().toString().trim();
-        if ("".equals(mMoeny)) {
-            ToastUtil.setToast("请输入预借旅费金额");
-            return;
+        if("".equals(mMoeny) || "0".equals(mMoeny)){
+            mMoeny="0.00";
         }
         if (mReason.length() > 16) {
             ToastUtil.setToast("报销事由最多可填写16个字");
@@ -191,7 +192,7 @@ public class ApplyPayAccountAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
                     }
 
                     @Override
@@ -215,7 +216,7 @@ public class ApplyPayAccountAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<UserInfoBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
                     }
 
                     @Override

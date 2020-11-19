@@ -33,6 +33,8 @@ import com.example.bq.edmp.activity.apply.bean.UpdateRembursemenBean;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
@@ -384,12 +386,16 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
         }
         String carMoney = mEtCarMoney.getText().toString().trim();
         if ("".equals(carMoney)) {
-            ToastUtil.setToast("请填写填写交通费用");
+            ToastUtil.setToast("请填写交通费信息");
             return;
         }
         String tvDays = mEtDay.getText().toString().trim();
         if ("".equals(tvDays)) {
             ToastUtil.setToast("请填写出差天数");
+            return;
+        }
+        if (Integer.parseInt(tvDays)<0.5) {
+            ToastUtil.setToast("出差天数必须大于0.5天");
             return;
         }
         String subsidyMoney = mEtSubsidyMoney.getText().toString().trim();
@@ -408,7 +414,7 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -455,7 +461,7 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<TravelDetailsBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -520,7 +526,7 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
         newSelectList.clear();
         for (int i = 0; i < dataBean.getReimburserItemBills().size(); i++) {
             LocalMedia localMedia = new LocalMedia();
-            localMedia.setPath(dataBean.getReimburserItemBills().get(i).getUri());
+            localMedia.setPath(BaseApi.base_img_url +dataBean.getReimburserItemBills().get(i).getUri());
             newSelectList.add(localMedia);
         }
         //保證每次添加按钮
@@ -540,7 +546,7 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -586,7 +592,7 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override

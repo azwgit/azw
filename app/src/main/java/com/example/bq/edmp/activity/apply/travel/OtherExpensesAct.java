@@ -23,6 +23,7 @@ import com.example.bq.edmp.activity.apply.LocalNewMedia;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
@@ -179,11 +180,16 @@ public class OtherExpensesAct extends BaseTitleActivity {
             ToastUtil.setToast("请填写项目花费");
             return;
         }
-        if(selectList.size()<=0){
-            ToastUtil.setToast("请上传单据");
-            return;
+        if(Double.parseDouble(mProMoney)>0){
+            if(selectList.size()<=0){
+                ToastUtil.setToast("请上传单据");
+                return;
+            }else{
+                initData(proDesc,mProMoney,id);
+            }
+        }else{
+            initData(proDesc,mProMoney,id);
         }
-        initData(proDesc,mProMoney,id);
     }
     private void initData(String proDesc,String proMoney,String reimburserId) {
         Map<String, Object> paramsMap=new HashMap<>();
@@ -202,7 +208,6 @@ public class OtherExpensesAct extends BaseTitleActivity {
     }
 
     private void uploadImgAndPar(String uploadUrl,String fileName, Map<String, Object> paramsMap,  List<String> uploadPaths) {
-
         RxHttpUtils.uploadImagesAndParams(uploadUrl, fileName, paramsMap, uploadPaths)
                 .compose(Transformer.<ResponseBody>switchSchedulers(loading_dialog))
                 .subscribe(new CommonObserver<ResponseBody>() {
@@ -215,7 +220,7 @@ public class OtherExpensesAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -344,5 +349,11 @@ public class OtherExpensesAct extends BaseTitleActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

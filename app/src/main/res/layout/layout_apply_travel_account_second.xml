@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:orientation="vertical">
+    android:background="@color/bg_color">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -121,6 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="3dp"
                     android:text="*"
+                    android:visibility="invisible"
                     android:textColor="@color/colorf9" />
 
                 <TextView
@@ -138,12 +138,11 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@color/white"
-                android:paddingTop="@dimen/dp_16" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/btn_add_info"
@@ -186,7 +185,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:overScrollMode="never"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
@@ -231,6 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:alpha="0.7"
+                    android:maxLength="200"
                     android:background="@null"
                     android:hint="请填写需要补充的报销说明（非必填）"
                     android:minHeight="@dimen/dp_44"
@@ -238,27 +237,28 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ly_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="@dimen/dp_34"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/btn_save"
-                    style="@style/btn_circle_style"
-                    android:layout_weight="1"
-
-                    android:text="保存" />
-
-                <TextView
-                    android:id="@+id/btn_save_submit"
-                    style="@style/btn_circle_style"
-                    android:layout_weight="1"
-                    android:text="保存并提交" />
-            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ly_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_34"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_save"
+            style="@style/btn_circle_style"
+            android:layout_weight="1"
+
+            android:text="保存" />
+
+        <TextView
+            android:id="@+id/btn_save_submit"
+            style="@style/btn_circle_style"
+            android:layout_weight="1"
+            android:text="保存并提交" />
+    </LinearLayout>
+</RelativeLayout>

@@ -20,6 +20,7 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
@@ -217,7 +218,7 @@ public class AddPayInfoAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override

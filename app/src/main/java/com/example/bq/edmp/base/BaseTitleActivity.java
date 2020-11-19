@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.allen.library.RxHttpUtils;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.LogUtils;
@@ -140,6 +141,8 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        RxHttpUtils.cancelAll();
+
     }
 
     public void fund() {

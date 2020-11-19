@@ -26,6 +26,7 @@ import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.GridItemDecoration;
@@ -240,10 +241,10 @@ public class ApplyPayAccountSecondAct extends BaseTitleActivity {
             return;
         }
         String mContent = mEdContent.getText().toString().trim();
-        if ("".equals(mContent)) {
-            ToastUtil.setToast("请输入报销说明");
-            return;
-        }
+//        if ("".equals(mContent)) {
+//            ToastUtil.setToast("请输入报销说明");
+//            return;
+//        }
         submitRembursement(mMoeny, time, applyPayBean.getData().getId() + "", mContent, mReason, "1");
     }
 
@@ -256,7 +257,7 @@ public class ApplyPayAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -289,10 +290,10 @@ public class ApplyPayAccountSecondAct extends BaseTitleActivity {
             return;
         }
         String mContent = mEdContent.getText().toString().trim();
-        if ("".equals(mContent)) {
-            ToastUtil.setToast("请输入报销说明");
-            return;
-        }
+//        if ("".equals(mContent)) {
+//            ToastUtil.setToast("请输入报销说明");
+//            return;
+//        }
         saveAndComitRembursement(mMoeny, time, applyPayBean.getData().getId() + "", mContent, mReason, "1");
     }
 
@@ -305,7 +306,7 @@ public class ApplyPayAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -329,7 +330,7 @@ public class ApplyPayAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -353,13 +354,18 @@ public class ApplyPayAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<TravelDetailsInfo>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
                     protected void onSuccess(TravelDetailsInfo bean) {
                         if (bean.getCode() == 200) {
                             mTvAllMoney.setText(bean.getData().getAmount()+"");
+                            if(bean.getData().getReimburserItems().size()<=0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else{
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }

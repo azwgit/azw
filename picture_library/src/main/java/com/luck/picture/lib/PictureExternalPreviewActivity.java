@@ -243,11 +243,11 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
 
                                     @Override
                                     public void onNext(Boolean aBoolean) {
-                                        if (aBoolean) {
-                                            showDownLoadDialog(path);
-                                        } else {
-                                            ToastManage.s(mContext, getString(R.string.picture_jurisdiction));
-                                        }
+//                                        if (aBoolean) {
+//                                            showDownLoadDialog(path);
+//                                        } else {
+//                                            ToastManage.s(mContext, getString(R.string.picture_jurisdiction));
+//                                        }
                                     }
 
                                     @Override

@@ -1,4 +1,4 @@
-package com.example.bq.edmp.activity.apply.activity;
+package com.example.bq.edmp.activity.apply.travel.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
@@ -21,15 +20,20 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.apply.AddPayInfoAct;
 import com.example.bq.edmp.activity.apply.ApprovalAdp;
+import com.example.bq.edmp.activity.apply.LocalNewMedia;
+import com.example.bq.edmp.activity.apply.PayInfoAdp;
 import com.example.bq.edmp.activity.apply.ReimbursementApi;
-import com.example.bq.edmp.activity.apply.adapter.DetailsPayInfoAdp;
 import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.activity.apply.bean.IntetnCode;
 import com.example.bq.edmp.activity.apply.bean.PayReimbursementDetailsInfo;
 import com.example.bq.edmp.activity.apply.bean.RevokeApplyBean;
+import com.example.bq.edmp.activity.apply.travel.AddTravelDayInfoAct;
+import com.example.bq.edmp.activity.apply.travel.OtherExpensesAct;
+import com.example.bq.edmp.activity.apply.travel.OtherExpensesAdp;
+import com.example.bq.edmp.activity.apply.travel.adapter.TravelDetailDayInfoAdp;
+import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.utils.ActivityUtils;
@@ -51,13 +55,14 @@ import butterknife.BindView;
 /**
  * 申请支出报账详情
  */
-public class CopyPayInfoDetailAct extends BaseTitleActivity {
+public class EditTravelDetailAct extends BaseTitleActivity {
 
-    public static void newIntent(Context context, String id) {
-        Intent intent = new Intent(context, EditPayInfoDetailAct.class);
+    public static Intent newIntent(Context context, String id) {
+        Intent intent = new Intent(context, EditTravelDetailAct.class);
         intent.putExtra("id", id);
-        context.startActivity(intent);
+        return intent;
     }
+
     @BindView(R.id.btn_revoke)
     TextView mBtnRevoke;
     @BindView(R.id.btn_add_info)
@@ -74,6 +79,8 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
     TextView mBtnSubmit;
     @BindView(R.id.info_recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.other_recyclerview)
+    RecyclerView mOtherRecyclerview;
     @BindView(R.id.approval_recyclerview)
     RecyclerView mApprovalRecyclerView;
     @BindView(R.id.ly_approval)
@@ -100,23 +107,59 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
     LinearLayout mLyTwo;//报销总额TWO
     @BindView(R.id.tv_all_money_one)
     TextView mTvAllMoneyOne;//报销总额
-    private TimePickerView StartTime;//时间选择器
-    private DetailsPayInfoAdp mAdapter;
-    private ApprovalAdp mApprovalAdapter;
-    private PayReimbursementDetailsInfo dataBean = new PayReimbursementDetailsInfo();
+    @BindView(R.id.ly_remark)
+    LinearLayout mLyRemark;//报销说明父布局
+    private TravelDetailDayInfoAdp mAdapter;//日程信息适配器
+    private OtherExpensesAdp mOtherAdapter;//其他费用适配器
+    private ApprovalAdp mApprovalAdapter;//审批流适配器
+    private final int CITY_CAR_MONEY_CODE = 1;
+    private TravelDetailsInfo dataBean = new TravelDetailsInfo();
+    private PayInfoBean item1 = null;
+    private PayInfoBean item2 = null;
+    private PayInfoBean item3 = null;
+    private PayInfoBean item4 = null;
+    private PayInfoBean item5 = null;
+    private List<PayInfoBean> mList;
     private ILoadingView loading_dialog;
+    private String id="";
+    private TimePickerView StartTime;//时间选择器
     private UsualDialogger dialog = null;
     @Override
     protected void initData() {
-        String id = getIntent().getStringExtra("id");
+         id = getIntent().getStringExtra("id");
         if ("".equals(id)) {
             ToastUtil.setToast("系统异常");
             finish();
         }
         setStartTime();
+        initOtherData();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mAdapter = new DetailsPayInfoAdp(null, 0);
+        mAdapter = new TravelDetailDayInfoAdp(null, 0);
         mRecyclerView.setAdapter(mAdapter);
+        //添加其他费用
+        mOtherAdapter.setOnClickLisenter(new OtherExpensesAdp.OnClickLisenter() {
+            @Override
+            public void onClick(int position, PayInfoBean bean) {
+                if (dataBean.getData().getStatus() == 1) {
+                    if ("".equals(bean.getIdx())|| null==bean.getIdx()) {
+                        //添加其他费用
+                        startActivityForResult(OtherExpensesAct.newIntent(EditTravelDetailAct.this, bean.getDesc(), position, dataBean.getData().getId() + ""), CITY_CAR_MONEY_CODE);
+                    } else {
+                        //修改其他费用
+                        IntetnCode intetnCode = new IntetnCode();
+                        intetnCode.setId(dataBean.getData().getId());
+                        intetnCode.setIdx(Integer.parseInt(bean.getIdx()));
+                        startActivityForResult(UpdateTravelOtherExpensesAct.newIntent(getApplicationContext(), intetnCode), 1);
+                    }
+                }
+            }
+        });
+        mOtherAdapter.setOnPicLisenter(new PayInfoAdp.OnPicLisenter() {
+            @Override
+            public void onPicClick(int themeId, int position, List<LocalMedia> selectList) {
+                PictureSelector.create(EditTravelDetailAct.this).themeStyle(themeId).openExternalPreview(position, selectList);
+            }
+        });
         getRembursementDetails(id);
         List<PayInfoBean> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -131,27 +174,27 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
 
 
         //点击查看大图
-        mAdapter.setOnPicLisenter(new DetailsPayInfoAdp.OnPicLisenter() {
+        mAdapter.setOnPicLisenter(new TravelDetailDayInfoAdp.OnPicLisenter() {
             @Override
             public void onPicClick(int themeId, int position, List<LocalMedia> selectList) {
-                PictureSelector.create(CopyPayInfoDetailAct.this).themeStyle(themeId).openExternalPreview(position, selectList);
+                PictureSelector.create(EditTravelDetailAct.this).themeStyle(themeId).openExternalPreview(position, selectList);
             }
         });
         //删除
-        mAdapter.setOnItemDelListener(new DetailsPayInfoAdp.OnItemDelListener() {
+        mAdapter.setOnItemDelListener(new TravelDetailDayInfoAdp.OnItemDelListener() {
             @Override
-            public void onItemDelClick(int position, PayReimbursementDetailsInfo.DataBean.ReimburserItemsBean bean) {
+            public void onItemDelClick(int position, TravelDetailsInfo.DataBean.ReimburserTravelingItemsBean bean) {
                 deleteApplyPay(bean.getId().getIdx() + "", dataBean.getData().getId() + "", position);
             }
         });
-        //编辑
-        mAdapter.setOnItemEditLisenter(new DetailsPayInfoAdp.OnItemEditLisenter() {
+//编辑
+        mAdapter.setOnItemEditLisenter(new TravelDetailDayInfoAdp.OnItemEditLisenter() {
             @Override
-            public void onItemEditClick(int pos, PayReimbursementDetailsInfo.DataBean.ReimburserItemsBean bean) {
+            public void onItemEditClick(int pos, TravelDetailsInfo.DataBean.ReimburserTravelingItemsBean bean) {
                 IntetnCode intetnCode = new IntetnCode();
                 intetnCode.setId(dataBean.getData().getId());
                 intetnCode.setIdx(bean.getId().getIdx());
-                startActivityForResult(UpdateDetailsPayInfoAct.newIntent(getApplicationContext(), intetnCode), 1);
+                startActivityForResult(UpdataDetailAddTravelDayInfoAct.newIntent(getApplicationContext(), intetnCode), 1);
 //                mAdapter.notifyItemChanged(pos);//更新当前这一条数据
 //                startActivityForResult(AddPayInfoAct.newIntent(ApplyPayAccountSecondAct.this),CHOOSE_DAY_INFO_CODE);
             }
@@ -159,16 +202,15 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
         mBtnRevoke.setOnClickListener(this);
         mBtnDel.setOnClickListener(this);
         mBtnSubmit.setOnClickListener(this);
-        mLyAddInfo.setOnClickListener(this);
-        mTvStauts.setOnClickListener(this);
-
     }
 
-    private void setPayDetails(PayReimbursementDetailsInfo.DataBean bean) {
+    private void setPayDetails(TravelDetailsInfo.DataBean bean) {
         if (bean.getStatus() == 1) {
             mLyApproval.setVisibility(View.GONE);
             mLyNumber.setVisibility(View.GONE);
             mLyAddInfo.setVisibility(View.VISIBLE);
+            mAdapter.setShowicon(1);
+            mOtherAdapter.setShowicon(1);
             mLyOne.setVisibility(View.VISIBLE);
             mLyTwo.setVisibility(View.GONE);
         } else {
@@ -233,7 +275,6 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 reason = "已撤销";
                 mTvState.setText("已撤销");
                 break;
-
         }
         mTvTitle.setText(bean.getEmpName() + "提出的" + (bean.getTypes() == 1 ? "开支报销申请" : "差旅报销"));
         mTvCompany.setText(bean.getCompanyName());
@@ -252,8 +293,128 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
         }
         mTvAllMoney.setText("￥" + bean.getAmount());
         mTvAllMoneyOne.setText("￥" + bean.getAmount());
-        mAdapter.setNewData(bean.getReimburserItems());
-        mAdapter.setShowicon(bean.getStatus());
+        mAdapter.setNewData(bean.getReimburserTravelingItems());
+        initOtherDatas(bean);
+//        mAdapter.setShowicon(bean.getStatus());
+    }
+
+    //初始化其他费用list
+    private void initOtherData() {
+        mList = new ArrayList<>();
+        item1 = new PayInfoBean();
+        item1.setDesc("市内车费");
+        item1.setMoney("0.00");
+        item1.setImg_list(new ArrayList<LocalNewMedia>());
+        item1.setPicList(new ArrayList<LocalMedia>());
+        mList.add(item1);
+        item2 = new PayInfoBean();
+        item2.setDesc("住宿费");
+        item2.setMoney("0.00");
+        item2.setImg_list(new ArrayList<LocalNewMedia>());
+        item2.setPicList(new ArrayList<LocalMedia>());
+        mList.add(item2);
+        item3 = new PayInfoBean();
+        item3.setDesc("邮电费");
+        item3.setMoney("0.00");
+        item3.setImg_list(new ArrayList<LocalNewMedia>());
+        item3.setPicList(new ArrayList<LocalMedia>());
+        mList.add(item3);
+        item4 = new PayInfoBean();
+        item4.setDesc("办公用品费");
+        item4.setMoney("0.00");
+        item4.setImg_list(new ArrayList<LocalNewMedia>());
+        item4.setPicList(new ArrayList<LocalMedia>());
+        mList.add(item4);
+        item5 = new PayInfoBean();
+        item5.setDesc("其他");
+        item5.setMoney("0.00");
+        item5.setImg_list(new ArrayList<LocalNewMedia>());
+        item5.setPicList(new ArrayList<LocalMedia>());
+        mList.add(item5);
+        mOtherRecyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mOtherAdapter = new OtherExpensesAdp(mList, 0);
+        mOtherRecyclerview.setAdapter(mOtherAdapter);
+        mOtherRecyclerview.setNestedScrollingEnabled(false);
+    }
+
+    //初始化其他费用list
+    private void initOtherDatas(TravelDetailsInfo.DataBean bean) {
+        for (int i = 0; i < bean.getReimburserItems().size(); i++) {
+            if ("市内车费".equals(bean.getReimburserItems().get(i).getName())) {
+                TravelDetailsInfo.DataBean.ReimburserItemsBean bean1 = bean.getReimburserItems().get(i);
+                mList.get(0).setIdx(bean1.getId().getIdx() + "");
+                mList.get(0).setDesc(bean1.getName());
+                mList.get(0).setMoney(bean1.getAmount() + "");
+                List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
+                for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
+                    LocalNewMedia localNewMedia = new LocalNewMedia();
+                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    list.add(localNewMedia);
+                }
+                mList.get(0).setImg_list(list);
+            }
+        }
+        for (int i = 0; i < bean.getReimburserItems().size(); i++) {
+            if ("住宿费".equals(bean.getReimburserItems().get(i).getName())) {
+                TravelDetailsInfo.DataBean.ReimburserItemsBean bean1 = bean.getReimburserItems().get(i);
+                mList.get(1).setIdx(bean1.getId().getIdx() + "");
+                mList.get(1).setDesc(bean1.getName());
+                mList.get(1).setMoney(bean1.getAmount() + "");
+                List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
+                for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
+                    LocalNewMedia localNewMedia = new LocalNewMedia();
+                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    list.add(localNewMedia);
+                }
+                mList.get(1).setImg_list(list);
+            }
+        }
+        for (int i = 0; i < bean.getReimburserItems().size(); i++) {
+            if ("邮电费".equals(bean.getReimburserItems().get(i).getName())) {
+                TravelDetailsInfo.DataBean.ReimburserItemsBean bean1 = bean.getReimburserItems().get(i);
+                mList.get(2).setIdx(bean1.getId().getIdx() + "");
+                mList.get(2).setDesc(bean1.getName());
+                mList.get(2).setMoney(bean1.getAmount() + "");
+                List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
+                for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
+                    LocalNewMedia localNewMedia = new LocalNewMedia();
+                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    list.add(localNewMedia);
+                }
+                mList.get(2).setImg_list(list);
+            }
+        }
+        for (int i = 0; i < bean.getReimburserItems().size(); i++) {
+            if ("办公用品费".equals(bean.getReimburserItems().get(i).getName())) {
+                TravelDetailsInfo.DataBean.ReimburserItemsBean bean1 = bean.getReimburserItems().get(i);
+                mList.get(3).setIdx(bean1.getId().getIdx() + "");
+                mList.get(3).setDesc(bean1.getName());
+                mList.get(3).setMoney(bean1.getAmount() + "");
+                List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
+                for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
+                    LocalNewMedia localNewMedia = new LocalNewMedia();
+                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    list.add(localNewMedia);
+                }
+                mList.get(3).setImg_list(list);
+            }
+        }
+        for (int i = 0; i < bean.getReimburserItems().size(); i++) {
+            if ("其他".equals(bean.getReimburserItems().get(i).getName())) {
+                TravelDetailsInfo.DataBean.ReimburserItemsBean bean1 = bean.getReimburserItems().get(i);
+                mList.get(4).setIdx(bean1.getId().getIdx() + "");
+                mList.get(4).setDesc(bean1.getName());
+                mList.get(4).setMoney(bean1.getAmount() + "");
+                List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
+                for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
+                    LocalNewMedia localNewMedia = new LocalNewMedia();
+                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    list.add(localNewMedia);
+                }
+                mList.get(4).setImg_list(list);
+            }
+        }
+        mOtherAdapter.notifyDataSetChanged();
     }
     //刪除提示dialog
     public void showUsualDialog() {
@@ -277,10 +438,11 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .build()
                 .shown();
     }
-
     @Override
     protected void initListener() {
         mBtnDel.setOnClickListener(this);
+        mLyAddInfo.setOnClickListener(this);
+        mTvStauts.setOnClickListener(this);
         ivOperate.setOnClickListener(this);
     }
 
@@ -288,7 +450,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
     protected void initView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         //TODO 根据审核状态显示title
-        txtTabTitle.setText("开支报账修改");
+        txtTabTitle.setText("差旅报账修改");
         ivOperate.setVisibility(View.VISIBLE);
         loading_dialog = new LoadingDialog(this);
 //        txtTabTitle.setText("详情");
@@ -296,7 +458,7 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.layout_edit_pay_info_detail;
+        return R.layout.layout_edit_travel_detail;
     }
 
     @Override
@@ -313,235 +475,22 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 if ("撤销".equals(mBtnRevoke.getText().toString().trim())) {
                     revokeApply(dataBean.getData().getId() + "");
                 } else {
-                    coypRemburesement(dataBean.getData().getId()+"");
+                    coypRemburesement(dataBean.getData().getId() + "");
                 }
                 break;
-            case  R.id.btn_add_info:
-                //功能为主  后期全部干掉
-                PayInfoBean payInfoBean=new PayInfoBean();
-                payInfoBean=new PayInfoBean();
+            case R.id.btn_add_info:
+                PayInfoBean payInfoBean = new PayInfoBean();
                 payInfoBean.setClickType(1);
                 payInfoBean.setId(dataBean.getData().getId() + "");
-                startActivityForResult(AddPayInfoAct.newIntent(this, payInfoBean), 1);
-                break;
-            case R.id.tv_stauts:
-                StartTime.show();
+                startActivityForResult(AddTravelDayInfoAct.newIntent(this, payInfoBean), 2);
                 break;
             case R.id.img_operate:
                 showUsualDialog();
                 break;
-
+            case R.id.tv_stauts:
+                StartTime.show();
+                break;
         }
-    }
-
-    //費用报销详情
-    private void getRembursementDetails(String id) {
-        String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .getPayReimbursementDetails(id, sign)
-                .compose(Transformer.<PayReimbursementDetailsInfo>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<PayReimbursementDetailsInfo>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(PayReimbursementDetailsInfo bean) {
-                        if (bean.getCode() == 200) {
-                            if(bean.getData().getReimburserItems().size()<=0){
-                                mRecyclerView.setVisibility(View.GONE);
-                            }else{
-                                mRecyclerView.setVisibility(View.VISIBLE);
-                            }
-                            dataBean = bean;
-                            //查询支出报账详情
-                            setPayDetails(bean.getData());
-                        } else {
-                            ToastUtil.setToast(bean.getMsg());
-                        }
-                    }
-                });
-    }
-
-    //删除开支选项
-    private void deleteApplyPay(String idx, String reimburserId, int position) {
-        final int pos = position;
-        String sign = MD5Util.encode("idx=" + idx + "&reimburserId=" + reimburserId);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .deleteApplyPay(idx, reimburserId, sign)
-                .compose(Transformer.<ApplyPayBean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<ApplyPayBean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(ApplyPayBean applyPayBean) {
-                        if (applyPayBean.getCode() == 200) {
-                            mAdapter.remove(pos);
-                            mAdapter.notifyItemRemoved(pos);
-                            if(dataBean.getData().getReimburserItems().size()<=0){
-                                mRecyclerView.setVisibility(View.GONE);
-                            }
-                        } else {
-                            ToastUtil.setToast("请添加开支项");
-                        }
-                    }
-                });
-    }
-
-    //删除当前报账
-    private void deleteApply(String id) {
-        String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .deleteApply(id, sign)
-                .compose(Transformer.<PayReimbursementDetailsInfo>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<PayReimbursementDetailsInfo>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(PayReimbursementDetailsInfo bean) {
-                        if (bean.getCode() == 200) {
-                            if (dialog != null) {
-                                dialog.dismiss();
-                            }
-                            ToastUtil.setToast("删除报账成功");
-                            finish();
-                        } else {
-                            ToastUtil.setToast(bean.getMsg());
-                        }
-                    }
-                });
-    }
-
-    //驗證提交信息
-    private void checkRembursementInfo() {
-        String mReason = mTvReason.getText().toString().trim();
-        if ("".equals(mReason)) {
-            ToastUtil.setToast("请输入出差事由");
-            return;
-        }
-        String mMoeny = mTvMoney.getText().toString().trim();
-        if ("".equals(mMoeny)) {
-            ToastUtil.setToast("请输入预借旅费金额");
-            return;
-        }
-        String mContent = mTvRemark.getText().toString().trim();
-        submitRembursement(mMoeny, mTvStauts.getText().toString().trim(), dataBean.getData().getId() + "", mContent, mReason, dataBean.getData().getTypes() + "");
-    }
-    private void checkSaveRembursemeng(){
-        String mReason = mTvReason.getText().toString().trim();
-        if ("".equals(mReason)) {
-            ToastUtil.setToast("请输入出差事由");
-            return;
-        }
-        String mMoeny = mTvMoney.getText().toString().trim();
-//        if ("".equals(mMoeny)) {
-//            ToastUtil.setToast("请输入预借旅费金额");
-//            return;
-//        }
-        String dates=mTvStauts.getText().toString().trim();
-        String mContent = mTvRemark.getText().toString().trim();
-        saveRembursement(mMoeny,dates , dataBean.getData().getId() + "", mContent, mReason, dataBean.getData().getTypes() + "");
-    }
-    //保存申请支出报账
-    private void saveRembursement(String mEtMoney, String mTvDate, String id, String remark, String mEtReason, String types) {
-        String sign = MD5Util.encode("advanceLoan=" + mEtMoney + "&dates=" + mTvDate + "&id=" + id + "&remark=" + remark + "&tdReason=" + mEtReason + "&types=" + types);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .upDataReimburser(mEtMoney, mTvDate, id, remark, mEtReason, types, sign)
-                .compose(Transformer.<ApplyPayBean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<ApplyPayBean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(ApplyPayBean applyPayBean) {
-                        if (applyPayBean.getCode() == 200) {
-                            //关闭当前页面到列表页面
-                            finish();
-                        } else {
-                            ToastUtil.setToast(applyPayBean.getMsg());
-                        }
-                    }
-                });
-    }
-    //保存并提交申请支出报账
-    private void submitRembursement(String mEtMoney, String mTvDate, String id, String remark, String mEtReason, String types) {
-        String sign = MD5Util.encode("advanceLoan=" + mEtMoney + "&dates=" + mTvDate + "&id=" + id + "&remark=" + remark + "&tdReason=" + mEtReason + "&types=" + types);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .saveAndComintReimburser(mEtMoney, mTvDate, id, remark, mEtReason, types, sign)
-                .compose(Transformer.<ApplyPayBean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<ApplyPayBean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(ApplyPayBean applyPayBean) {
-                        if (applyPayBean.getCode() == 200) {
-                            //关闭当前页面到列表页面
-                            finish();
-                        } else {
-                            ToastUtil.setToast(applyPayBean.getMsg());
-                        }
-                    }
-                });
-    }
-
-    //撤销当前申请
-    private void revokeApply(String id) {
-        String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .revokeApply(id, sign)
-                .compose(Transformer.<RevokeApplyBean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<RevokeApplyBean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(RevokeApplyBean bean) {
-                        if (bean.getCode() == 200) {
-                            ToastUtil.setToast("撤销成功");
-                            finish();
-                        } else {
-                            ToastUtil.setToast(bean.getMsg());
-                        }
-                    }
-                });
-    }
-    //复制当前申请
-    private void coypRemburesement(String id) {
-        String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(ReimbursementApi.class)
-                .copyReimburser(id, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<BaseABean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ActivityUtils.getMsg(errorMsg,getApplicationContext());
-                    }
-
-                    @Override
-                    protected void onSuccess(BaseABean bean) {
-                        if (bean.getCode() == 200) {
-                            ToastUtil.setToast("复制成功");
-                            CopyPayInfoDetailAct.newIntent(getApplicationContext(),bean.getData()+"");
-                            finish();
-                        } else {
-                            ToastUtil.setToast(bean.getMsg());
-                        }
-                    }
-                });
     }
     //报销日期
     private void setStartTime() {
@@ -579,6 +528,220 @@ public class CopyPayInfoDetailAct extends BaseTitleActivity {
                 .setLabel("年", "月", "日", "", "", "")
                 .build();
     }
+    //費用报销详情
+    private void getRembursementDetails(String id) {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .getTravelDetails(id, sign)
+                .compose(Transformer.<TravelDetailsInfo>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<TravelDetailsInfo>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(TravelDetailsInfo bean) {
+                        if (bean.getCode() == 200) {
+                            dataBean = bean;
+                            if(bean.getData().getReimburserTravelingItems().size()<=0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else{
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                            }
+                            //查询差旅报账详情
+                            setPayDetails(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //删除开支选项
+    private void deleteApplyPay(String idx, String reimburserId, int position) {
+        final int pos = position;
+        String sign = MD5Util.encode("idx=" + idx + "&reimburserId=" + reimburserId);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .deleteTraveling(idx, reimburserId, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean baseABean) {
+                        if (baseABean.getCode() == 200) {
+                            mAdapter.remove(pos);
+                            mAdapter.notifyItemRemoved(pos);
+                            if(dataBean.getData().getReimburserTravelingItems().size()<=0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            ToastUtil.setToast("请添加开支项");
+                        }
+                    }
+                });
+    }
+
+    //删除当前报账
+    private void deleteApply(String id) {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .deleteApply(id, sign)
+                .compose(Transformer.<PayReimbursementDetailsInfo>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<PayReimbursementDetailsInfo>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(PayReimbursementDetailsInfo bean) {
+                        if (bean.getCode() == 200) {
+                            if (dialog != null) {
+                                dialog.dismiss();
+                            }
+                            ToastUtil.setToast("删除报账成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //驗證提交信息
+    private void checkRembursementInfo() {
+        String mReason = mTvReason.getText().toString().trim();
+        if ("".equals(mReason)) {
+            ToastUtil.setToast("请输入出差事由");
+            return;
+        }
+        String mMoeny = mTvMoney.getText().toString().trim();
+        if ("".equals(mMoeny)) {
+            ToastUtil.setToast("请输入预借旅费金额");
+            return;
+        }
+        String mContent = mTvRemark.getText().toString().trim();
+//        if ("".equals(mContent)) {
+//            ToastUtil.setToast("请输入报销说明");
+//            return;
+//        }
+        submitRembursement(mMoeny, mTvStauts.getText().toString().trim(), dataBean.getData().getId() + "", mContent, mReason, dataBean.getData().getTypes() + "");
+    }
+    private void checkSaveRembursemeng(){
+        String mReason = mTvReason.getText().toString().trim();
+        if ("".equals(mReason)) {
+            ToastUtil.setToast("请输入出差事由");
+            return;
+        }
+        String mMoeny = mTvMoney.getText().toString().trim();
+//        if ("".equals(mMoeny)) {
+//            ToastUtil.setToast("请输入预借旅费金额");
+//            return;
+//        }
+        String dates=mTvStauts.getText().toString().trim();
+        String mContent = mTvRemark.getText().toString().trim();
+        saveRembursement(mMoeny,dates , dataBean.getData().getId() + "", mContent, mReason, dataBean.getData().getTypes() + "");
+    }
+    //保存申请支出报账
+    private void saveRembursement(String mEtMoney, String mTvDate, String id, String remark, String mEtReason, String types) {
+        String sign = MD5Util.encode("advanceLoan=" + mEtMoney + "&dates=" + mTvDate + "&id=" + id + "&remark=" + remark + "&tdReason=" + mEtReason + "&types=" + types);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .upDataReimburser(mEtMoney, mTvDate, id, remark, mEtReason, types, sign)
+                .compose(Transformer.<ApplyPayBean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<ApplyPayBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(ApplyPayBean applyPayBean) {
+                        if (applyPayBean.getCode() == 200) {
+                            //关闭当前页面到列表页面
+                            finish();
+                        } else {
+                            ToastUtil.setToast(applyPayBean.getMsg());
+                        }
+                    }
+                });
+    }
+    //保存并提交差旅报账
+    private void submitRembursement(String mEtMoney, String mTvDate, String id, String remark, String mEtReason, String types) {
+        String sign = MD5Util.encode("advanceLoan=" + mEtMoney + "&dates=" + mTvDate + "&id=" + id + "&remark=" + remark + "&tdReason=" + mEtReason + "&types=" + types);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .saveAndComintReimburser(mEtMoney, mTvDate, id, remark, mEtReason, types, sign)
+                .compose(Transformer.<ApplyPayBean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<ApplyPayBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(ApplyPayBean applyPayBean) {
+                        if (applyPayBean.getCode() == 200) {
+                            //关闭当前页面到列表页面
+                            finish();
+                        } else {
+                            ToastUtil.setToast(applyPayBean.getMsg());
+                        }
+                    }
+                });
+    }
+    //撤销当前申请
+    private void revokeApply(String id) {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .revokeApply(id, sign)
+                .compose(Transformer.<RevokeApplyBean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<RevokeApplyBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(RevokeApplyBean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("撤销成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //复制当前申请
+    private void coypRemburesement(String id) {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(ReimbursementApi.class)
+                .copyReimburser(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("复制成功");
+                            CopyTravelDetailAct.newIntent(getApplicationContext(), bean.getData() + "");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

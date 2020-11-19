@@ -6,9 +6,10 @@
     android:orientation="vertical">
 
     <android.support.v4.widget.NestedScrollView
+        android:layout_above="@+id/ly_bottom"
+        android:id="@+id/sc_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ly_bottom"
         android:fillViewport="true">
 
         <LinearLayout
@@ -52,13 +53,12 @@
                     android:textSize="@dimen/sp_14" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/img_status"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone" />
-
+                    android:layout_centerVertical="true" />
                 <TextView
                     android:id="@+id/dtj_tv"
                     android:layout_width="@dimen/dp_57"
@@ -73,55 +73,51 @@
                     android:visibility="visible" />
             </RelativeLayout>
 
+
+        <LinearLayout
+            style="@style/apply_layout_pd16_style"
+            android:layout_marginTop="@dimen/dp_10">
             <LinearLayout
-                style="@style/apply_layout_pd16_style"
+                android:id="@+id/ly_number"
+                style="@style/apply_layout_style">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="审核编号"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_17" />
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:alpha="0.7"
+                    android:text="234789237498234"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_17" />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/apply_layout_style"
                 android:layout_marginTop="@dimen/dp_10">
 
-                <LinearLayout
-                    android:id="@+id/ly_number"
-                    style="@style/apply_layout_style">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="报销日期"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_17" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="审核编号"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_17" />
-
-                    <TextView
-                        android:id="@+id/tv_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
-                        android:text="234789237498234"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_17" />
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/apply_layout_style"
-                    android:layout_marginTop="@dimen/dp_10">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="审核状态"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_17" />
-
-                    <TextView
-                        android:id="@+id/tv_stauts"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
-                        android:text="销售部"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_17" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_stauts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:alpha="0.7"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_17" />
             </LinearLayout>
-
+        </LinearLayout>
             <LinearLayout
                 style="@style/apply_layout_pd16_style"
                 android:layout_marginTop="@dimen/dp_10">
@@ -129,21 +125,20 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="报销事由"
+                    android:text="出差事由"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/sp_17" />
 
                 <EditText
                     android:id="@+id/tv_reason"
-                    style="@style/apply_pay_account_edit_style"
-                    android:layout_marginTop="@dimen/dp_10" />
+                    android:layout_marginTop="@dimen/dp_10"
+                    style="@style/apply_pay_account_edit_style" />
             </LinearLayout>
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
+                android:layout_height="wrap_content">
                 <View style="@style/apply_pay_account_line_style" />
             </LinearLayout>
 
@@ -152,17 +147,16 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="预借款"
+                    android:text="预借旅费"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/sp_17" />
 
                 <EditText
                     android:id="@+id/tv_money"
-                    style="@style/apply_pay_account_edit_style"
+                    android:inputType="number"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:inputType="number" />
+                    style="@style/apply_pay_account_edit_style"/>
             </LinearLayout>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/info_recyclerview"
                 android:layout_width="match_parent"
@@ -171,14 +165,12 @@
                 android:background="@color/white"
                 android:overScrollMode="never"
                 android:visibility="visible" />
-
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/btn_add_info"
                 style="@style/apply_pay_account_layout_style"
                 android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:visibility="gone">
-
+                android:gravity="center">
                 <TextView
                     android:layout_width="@dimen/dp_18"
                     android:layout_height="@dimen/dp_18"
@@ -187,7 +179,6 @@
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/white" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -195,7 +186,24 @@
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
+            <LinearLayout
+                style="@style/apply_layout_pd16_style"
+                android:layout_marginTop="@dimen/dp_10">
 
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="其他费用"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/other_recyclerview"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
             <LinearLayout
                 android:id="@+id/ly_one"
                 android:layout_width="match_parent"
@@ -219,12 +227,11 @@
                     android:textColor="@color/colorf9"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
-
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ly_two"
                 style="@style/apply_layout_pd16_style"
-                android:layout_marginTop="@dimen/dp_10"
-                android:visibility="gone">
+                android:layout_marginTop="@dimen/dp_10">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -243,40 +250,7 @@
                     android:textColor="@color/colorf9"
                     android:textSize="@dimen/sp_17" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:id="@+id/ly_disparity"
-                android:visibility="gone"
-                android:orientation="vertical">
-                <View style="@style/apply_pay_account_line_style" />
-                <LinearLayout
-                    style="@style/apply_layout_pd16_style">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="应退/补金额"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_17" />
-
-                    <TextView
-                        android:id="@+id/tv_disparity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
-                        android:text="￥55"
-                        android:textColor="@color/colorf9"
-                        android:textSize="@dimen/sp_17" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ly_remark"
-                style="@style/apply_layout_pd16_style">
+            <LinearLayout style="@style/apply_layout_pd16_style" android:id="@+id/ly_remark">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -288,10 +262,11 @@
 
                 <EditText
                     android:id="@+id/tv_remark"
-                    style="@style/apply_pay_account_edit_style"
                     android:layout_marginTop="@dimen/dp_10"
+                    style="@style/apply_pay_account_edit_style"
+                    android:maxLength="200"
                     android:minHeight="@dimen/dp_44"
-                    android:text="因赶上下大雨，路上给大家买了一次性雨衣，一共6件，共计消费120元，无发票可证明，望批准报销。" />
+                    android:hint="请填写需要补充的报销说明（非必填）" />
             </LinearLayout>
 
             <LinearLayout
@@ -314,13 +289,15 @@
                     android:overScrollMode="never"
                     android:padding="@dimen/dp_16" />
             </LinearLayout>
+
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
     <LinearLayout
         android:id="@+id/ly_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/bg_color"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/dp_34"
         android:orientation="horizontal">
@@ -329,15 +306,13 @@
             android:id="@+id/btn_del"
             style="@style/btn_circle_style"
             android:layout_weight="1"
-            android:background="@drawable/btn_gray_shape_bg"
-            android:text="删除"
-            android:textColor="@color/text_black_gray" />
+            android:text="保存" />
 
         <TextView
             android:id="@+id/btn_submit"
             style="@style/btn_circle_style"
             android:layout_weight="1"
-            android:text="提交" />
+            android:text="保存并提交" />
 
         <TextView
             android:id="@+id/btn_revoke"

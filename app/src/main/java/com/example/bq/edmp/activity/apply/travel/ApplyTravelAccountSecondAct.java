@@ -30,6 +30,7 @@ import com.example.bq.edmp.activity.apply.travel.activity.UpdateOtherExpensesAct
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
@@ -127,7 +128,7 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
             @Override
             public void onClick(int position, PayInfoBean bean) {
                 mTempBean = bean;
-                if(bean.getImg_list().size()<=0){
+                if(null==bean.getIdx()||"".equals(bean.getIdx())){
                     //添加其他费用
                     startActivityForResult(OtherExpensesAct.newIntent(ApplyTravelAccountSecondAct.this, bean.getDesc(),position,applyPayBean.getData().getId()+""), CITY_CAR_MONEY_CODE);
                 }else{
@@ -252,10 +253,10 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
             return;
         }
         String mContent = mEdContent.getText().toString().trim();
-        if ("".equals(mContent)) {
-            ToastUtil.setToast("请输入报销说明");
-            return;
-        }
+//        if ("".equals(mContent)) {
+//            ToastUtil.setToast("请输入报销说明");
+//            return;
+//        }
         if(mReason.length()>16){
             ToastUtil.setToast("报销事由最多只能添加16个字");
             return;
@@ -271,7 +272,7 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -307,10 +308,10 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
             return;
         }
         String mContent = mEdContent.getText().toString().trim();
-        if ("".equals(mContent)) {
-            ToastUtil.setToast("请输入报销说明");
-            return;
-        }
+//        if ("".equals(mContent)) {
+//            ToastUtil.setToast("请输入报销说明");
+//            return;
+//        }
         saveAndComitRembursement(mMoeny, time, applyPayBean.getData().getId() + "", mContent, mReason, "2");
     }
     //保存并提交申请支出报账
@@ -322,7 +323,7 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -331,7 +332,7 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
                             //关闭当前页面到列表页面
                             finish();
                         } else {
-                            ToastUtil.setToast("请添加开支项");
+                            ToastUtil.setToast(applyPayBean.getMsg());
                         }
                     }
                 });
@@ -346,7 +347,7 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
                     @Override
                     protected void onSuccess(BaseABean baseABean) {
@@ -369,13 +370,18 @@ public class ApplyTravelAccountSecondAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<TravelDetailsInfo>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
                     protected void onSuccess(TravelDetailsInfo bean) {
                         if (bean.getCode() == 200) {
                             mTvAllMoney.setText(bean.getData().getAmount()+"");
+                            if(bean.getData().getReimburserTravelingItems().size()<=0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else{
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }

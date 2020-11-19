@@ -34,6 +34,12 @@ public class PayInfoAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHolder> {
         helper.setText(R.id.tv_pic_count, "相关单据（"+item.getImg_list().size()+"）");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);
+        View mView = helper.getView(R.id.view_line);
+        if(pos==0){
+            mView.setVisibility(View.GONE);
+        }else{
+            mView.setVisibility(View.VISIBLE);
+        }
         RecyclerView mPicRecycler = helper.getView(R.id.pic_recyclerview);
         List<LocalMedia> list = new ArrayList<>();
         for(int i=0;i<item.getImg_list().size();i++){

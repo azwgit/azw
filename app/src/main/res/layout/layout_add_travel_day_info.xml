@@ -178,7 +178,6 @@
 
             <EditText
                 android:inputType="number"
-                android:text="0"
                 android:id="@+id/tv_car_money"
                 style="@style/apply_pay_account_edit_style"
                 android:layout_marginTop="@dimen/dp_18"

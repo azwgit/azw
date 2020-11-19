@@ -13,6 +13,7 @@ import com.example.bq.edmp.activity.apply.PreviewImageAdapter;
 import com.example.bq.edmp.activity.apply.bean.PayReimbursementDetailsInfo;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -51,6 +52,12 @@ public class TravelDetailDayInfoAdp extends BaseQuickAdapter<TravelDetailsInfo.D
         helper.setText(R.id.tv_pic_count,"相关单据（"+item.getReimburserItemBills().size()+"）");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);
+        View mView= helper.getView(R.id.view_line);
+        if(pos==0){
+            mView.setVisibility(View.GONE);
+        }else{
+            mView.setVisibility(View.VISIBLE);
+        }
         if(showicon==1){
             mBtnDel.setVisibility(View.VISIBLE);
             mBtnEdit.setVisibility(View.VISIBLE);
@@ -62,7 +69,7 @@ public class TravelDetailDayInfoAdp extends BaseQuickAdapter<TravelDetailsInfo.D
         List<LocalMedia> list = new ArrayList<>();
         for(int i=0;i<item.getReimburserItemBills().size();i++){
             LocalMedia localnewMedia=new LocalMedia();
-            localnewMedia.setPath(item.getReimburserItemBills().get(i).getUri());
+            localnewMedia.setPath(BaseApi.base_img_url +item.getReimburserItemBills().get(i).getUri());
             list.add(localnewMedia);
             item.setPicList(list);
         }

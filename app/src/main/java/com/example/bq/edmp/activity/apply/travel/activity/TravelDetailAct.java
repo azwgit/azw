@@ -36,6 +36,7 @@ import com.example.bq.edmp.activity.apply.travel.adapter.TravelDetailDayInfoAdp;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
@@ -96,6 +97,18 @@ public class TravelDetailAct extends BaseTitleActivity {
     EditText mTvMoney;//预借款
     @BindView(R.id.tv_all_money)
     TextView mTvAllMoney;//报销总额
+    @BindView(R.id.ly_one)
+    LinearLayout mLyOne;//报销总额ONE
+    @BindView(R.id.ly_two)
+    LinearLayout mLyTwo;//报销总额TWO
+    @BindView(R.id.tv_all_money_one)
+    TextView mTvAllMoneyOne;//报销总额
+    @BindView(R.id.ly_remark)
+    LinearLayout mLyRemark;//报销说明父布局
+    @BindView(R.id.ly_disparity)
+    LinearLayout mLyDisparity;//应退补金额父布局
+    @BindView(R.id.tv_disparity)
+    TextView mTvDisparity;//应退补金额
     private TravelDetailDayInfoAdp mAdapter;//日程信息适配器
     private OtherExpensesAdp mOtherAdapter;//其他费用适配器
     private ApprovalAdp mApprovalAdapter;//审批流适配器
@@ -108,10 +121,10 @@ public class TravelDetailAct extends BaseTitleActivity {
     private PayInfoBean item5 = null;
     private List<PayInfoBean> mList;
     private ILoadingView loading_dialog;
-
+    private String id="";
     @Override
     protected void initData() {
-        String id = getIntent().getStringExtra("id");
+         id = getIntent().getStringExtra("id");
         if ("".equals(id)) {
             ToastUtil.setToast("系统异常");
             finish();
@@ -125,7 +138,7 @@ public class TravelDetailAct extends BaseTitleActivity {
             @Override
             public void onClick(int position, PayInfoBean bean) {
                 if (dataBean.getData().getStatus() == 1) {
-                    if (bean.getImg_list().size() <= 0) {
+                    if ("".equals(bean.getIdx())|| null==bean.getIdx()) {
                         //添加其他费用
                         startActivityForResult(OtherExpensesAct.newIntent(TravelDetailAct.this, bean.getDesc(), position, dataBean.getData().getId() + ""), CITY_CAR_MONEY_CODE);
                     } else {
@@ -192,10 +205,14 @@ public class TravelDetailAct extends BaseTitleActivity {
         if (bean.getStatus() == 1) {
             mLyApproval.setVisibility(View.GONE);
             mLyNumber.setVisibility(View.GONE);
-//            mLyAddInfo.setVisibility(View.VISIBLE);
+            mLyAddInfo.setVisibility(View.VISIBLE);
             mAdapter.setShowicon(1);
             mOtherAdapter.setShowicon(1);
+            mLyOne.setVisibility(View.VISIBLE);
+            mLyTwo.setVisibility(View.GONE);
         } else {
+            mLyOne.setVisibility(View.GONE);
+            mLyTwo.setVisibility(View.VISIBLE);
             mTvReason.setEnabled(false);
             mTvRemark.setEnabled(false);
             mTvMoney.setEnabled(false);
@@ -232,6 +249,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 mTvState.setVisibility(View.GONE);
                 mImgStatus.setVisibility(View.VISIBLE);
                 mImgStatus.setImageDrawable(getResources().getDrawable(R.drawable.property_1yiwancheng));
+                mLyDisparity.setVisibility(View.VISIBLE);
                 break;
             case -1:
                 reason = "已删除";
@@ -241,6 +259,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 //审批拒绝状态下
                 reason = "审批拒绝";
                 mBtnSubmit.setText("复制申请单");
+                mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_yellow_shape_bg));
                 mTvState.setVisibility(View.GONE);
                 mImgStatus.setVisibility(View.VISIBLE);
                 mImgStatus.setImageDrawable(getResources().getDrawable(R.drawable.property_1yijujue));
@@ -256,13 +275,19 @@ public class TravelDetailAct extends BaseTitleActivity {
                 break;
         }
         mTvTitle.setText(bean.getEmpName() + "提出的" + (bean.getTypes() == 1 ? "开支报销申请" : "差旅报销"));
-        mTvCompany.setText(bean.getDeptName());
+        mTvCompany.setText(bean.getCompanyName());
         mTvDept.setText(bean.getDeptName());
         mTvMoney.setText(bean.getAdvanceLoan() + "");
         mTvStauts.setText(reason);
         mTvReason.setText(bean.getTdReason());
         mTvAllMoney.setText("￥" + bean.getAmount());
-        mTvRemark.setText(bean.getRemark());
+        mTvAllMoneyOne.setText("￥" + bean.getAmount());
+        mTvDisparity.setText("￥" +bean.getDisparity());
+        if("".equals(bean.getRemark())||null==bean.getRemark()){
+            mLyRemark.setVisibility(View.GONE);
+        }else{
+            mTvRemark.setText(bean.getRemark());
+        }
         mAdapter.setNewData(bean.getReimburserTravelingItems());
         initOtherDatas(bean);
 //        mAdapter.setShowicon(bean.getStatus());
@@ -447,7 +472,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<TravelDetailsInfo>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -473,19 +498,22 @@ public class TravelDetailAct extends BaseTitleActivity {
         final int pos = position;
         String sign = MD5Util.encode("idx=" + idx + "&reimburserId=" + reimburserId);
         RxHttpUtils.createApi(ReimbursementApi.class)
-                .deleteApplyPay(idx, reimburserId, sign)
-                .compose(Transformer.<ApplyPayBean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<ApplyPayBean>() {
+                .deleteTraveling(idx, reimburserId, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
-                    protected void onSuccess(ApplyPayBean applyPayBean) {
-                        if (applyPayBean.getCode() == 200) {
+                    protected void onSuccess(BaseABean baseABean) {
+                        if (baseABean.getCode() == 200) {
                             mAdapter.remove(pos);
                             mAdapter.notifyItemRemoved(pos);
+                            if(dataBean.getData().getReimburserTravelingItems().size()<=0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }
                         } else {
                             ToastUtil.setToast("请添加开支项");
                         }
@@ -502,7 +530,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<PayReimbursementDetailsInfo>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -546,7 +574,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<ApplyPayBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -570,7 +598,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<RevokeApplyBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override
@@ -594,7 +622,7 @@ public class TravelDetailAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override

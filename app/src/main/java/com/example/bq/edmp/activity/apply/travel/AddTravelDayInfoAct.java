@@ -29,6 +29,7 @@ import com.example.bq.edmp.activity.apply.activity.UpdatePayInfoAct;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
@@ -99,7 +100,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
     @BindView(R.id.pic_recyclerview)
     RecyclerView mRecyclerView;
 
-    private String transport;//交通工具
+    private String transport="";//交通工具
     private GridImageAdapter mAdapter;
     private int maxSelectNum = 9;
     private List<LocalMedia> selectList = new ArrayList<>();
@@ -222,7 +223,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
         StartTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
-                mTvStartTime.setText(DataUtils.getTime(date, "yyyy-MM-dd"));
+                mTvStartTime.setText(DataUtils.getTime(date, "yyyy-MM-dd HH:mm"));
             }
         })
                 .setCancelText("取消")
@@ -236,8 +237,8 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                 .setTextColorCenter(Color.BLACK)
                 .setDate(startDate)
                 .setRangDate(startDate, selectedDate)
-                .setType(new boolean[]{true, true, true, false, false, false})
-                .setLabel("年", "月", "日", "", "", "")
+                .setType(new boolean[]{true, true, true, true, true, false})
+                .setLabel("年", "月", "日", "时", "分", "")
                 .build();
     }
 
@@ -259,7 +260,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
         EndtTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
-                mTvEndTime.setText(DataUtils.getTime(date, "yyyy-MM-dd"));
+                mTvEndTime.setText(DataUtils.getTime(date, "yyyy-MM-dd HH:mm"));
             }
         })
                 .setCancelText("取消")
@@ -273,8 +274,8 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                 .setTextColorCenter(Color.BLACK)
                 .setDate(startDate)
                 .setRangDate(startDate, selectedDate)
-                .setType(new boolean[]{true, true, true, false, false, false})
-                .setLabel("年", "月", "日", "", "", "")
+                .setType(new boolean[]{true, true, true, true, true, false})
+                .setLabel("年", "月", "日", "时", "分", "")
                 .build();
     }
 
@@ -375,13 +376,17 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
             return;
         }
         String carMoney = mEtCarMoney.getText().toString().trim();
-        if ("0".equals(carMoney)) {
-            ToastUtil.setToast("请填写填写交通费用");
+        if ("".equals(carMoney)) {
+            ToastUtil.setToast("请填写交通费信息");
             return;
         }
         String tvDays = mEtDay.getText().toString().trim();
         if ("".equals(tvDays)) {
             ToastUtil.setToast("请填写出差天数");
+            return;
+        }
+        if (Integer.parseInt(tvDays)<0.5) {
+            ToastUtil.setToast("出差天数必须大于0.5天");
             return;
         }
         String subsidyMoney = mEtSubsidyMoney.getText().toString().trim();
@@ -434,7 +439,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                        ToastUtil.setToast(errorMsg);
+                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
                     }
 
                     @Override

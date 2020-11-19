@@ -186,7 +186,7 @@ public class ProApplication extends Application {
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMjM0Njk2MzY1MSIsInN1YiI6IjE2LOadjuWbmywxLDYiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDU0ODk1NDMsImV4cCI6MTYwNTU3NTk0M30.wAhYtYJoaEFrHXaU_vf4DM2OvANrXzSUxGOvuOIsUmU");
+                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMjM0NTYxNCIsInN1YiI6IjE2LOadjuWbmywxLDYiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDU3NDgzMTYsImV4cCI6MTYwNTgzNDcxNn0.fz-TIyBEA27MHc8RDsbm4RZCKUfD43mdP9riWb6fc9M");
                         return hashMap;
                     }
                 })
@@ -197,11 +197,11 @@ public class ProApplication extends Application {
                 .setHasNetCacheTime(10)//默认有网络时候缓存60秒
                 .setNoNetCacheTime(3600)//默认有网络时候缓存3600秒
                 //全局超时配置
-                .setReadTimeout(10)
+                .setReadTimeout(60)
                 //全局超时配置
-                .setWriteTimeout(10)
+                .setWriteTimeout(60)
                 //全局超时配置
-                .setConnectTimeout(10)
+                .setConnectTimeout(60)
                 //全局是否打开请求log日志
                 .setDebug(true)
                 .build();

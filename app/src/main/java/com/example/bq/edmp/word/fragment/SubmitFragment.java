@@ -13,6 +13,8 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.PayInfoDetailAct;
+import com.example.bq.edmp.activity.apply.activity.EditPayInfoDetailAct;
+import com.example.bq.edmp.activity.apply.travel.activity.EditTravelDetailAct;
 import com.example.bq.edmp.activity.apply.travel.activity.TravelDetailAct;
 import com.example.bq.edmp.base.BaseFragment;
 import com.example.bq.edmp.utils.LogUtils;
@@ -119,9 +121,18 @@ public class SubmitFragment extends BaseFragment {
                                     SubmitListBean.RowsBean newRowsBean=rowsBean;
                                     //1开始报账详情 2差旅报账详情
                                     if(newRowsBean.getTypes()==1){
-                                        startActivity(PayInfoDetailAct.newIntent(getActivity(),rowsBean.getId()+""));
+                                        if(newRowsBean.getStatus()==1){
+                                            startActivity(EditPayInfoDetailAct.newIntent(getActivity(),rowsBean.getId()+""));
+                                        }else{
+                                            startActivity(PayInfoDetailAct.newIntent(getActivity(),rowsBean.getId()+""));
+                                        }
                                     }else{
-                                        startActivity(TravelDetailAct.newIntent(getActivity(),rowsBean.getId()+""));
+                                        if(newRowsBean.getStatus()==1){
+                                            startActivity(EditTravelDetailAct.newIntent(getActivity(),rowsBean.getId()+""));
+                                        }else{
+                                            startActivity(TravelDetailAct.newIntent(getActivity(),rowsBean.getId()+""));
+                                        }
+
                                     }
 
                                 }
