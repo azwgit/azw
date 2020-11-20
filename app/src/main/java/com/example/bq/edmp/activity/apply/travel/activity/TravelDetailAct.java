@@ -39,6 +39,7 @@ import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -277,12 +278,12 @@ public class TravelDetailAct extends BaseTitleActivity {
         mTvTitle.setText(bean.getEmpName() + "提出的" + (bean.getTypes() == 1 ? "开支报销申请" : "差旅报销"));
         mTvCompany.setText(bean.getCompanyName());
         mTvDept.setText(bean.getDeptName());
-        mTvMoney.setText(bean.getAdvanceLoan() + "");
+        mTvMoney.setText(MoneyUtils.formatMoney(bean.getAdvanceLoan()));
         mTvStauts.setText(reason);
         mTvReason.setText(bean.getTdReason());
-        mTvAllMoney.setText("￥" + bean.getAmount());
-        mTvAllMoneyOne.setText("￥" + bean.getAmount());
-        mTvDisparity.setText("￥" +bean.getDisparity());
+        mTvAllMoney.setText("￥" +MoneyUtils.formatMoney(bean.getAmount()));
+        mTvAllMoneyOne.setText("￥" + MoneyUtils.formatMoney(bean.getAmount()));
+        mTvDisparity.setText("￥" +MoneyUtils.formatMoney(bean.getDisparity()));
         if("".equals(bean.getRemark())||null==bean.getRemark()){
             mLyRemark.setVisibility(View.GONE);
         }else{

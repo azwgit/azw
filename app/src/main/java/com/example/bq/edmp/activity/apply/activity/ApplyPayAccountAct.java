@@ -3,9 +3,11 @@ package com.example.bq.edmp.activity.apply.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -85,22 +87,57 @@ public class ApplyPayAccountAct extends BaseTitleActivity {
         mLyTime.setOnClickListener(this);
         mEtMoney.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         //设置字符过滤
-        mEtMoney.setFilters(new InputFilter[]{new InputFilter() {
+        mEtMoney.addTextChangedListener(new TextWatcher() {
             @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.equals(".") && dest.toString().length() == 0) {
-                    return "0.";
-                }
-                if (dest.toString().contains(".")) {
-                    int index = dest.toString().indexOf(".");
-                    int length = dest.toString().substring(index).length();
-                    if (length == 3) {
-                        return "";
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+
+                //删除“.”后面超过2位后的数据
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        mEtMoney.setText(s);
+                        mEtMoney.setSelection(s.length()); //光标移到最后
                     }
                 }
-                return null;
+                //如果"."在起始位置,则起始位置自动补0
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    mEtMoney.setText(s);
+                    mEtMoney.setSelection(2);
+                }
+
+                //如果起始位置为0,且第二位跟的不是".",则无法后续输入
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        mEtMoney.setText(s.subSequence(0, 1));
+                        mEtMoney.setSelection(1);
+                        return;
+                    }
+                }
+                //包含. 查看. 前面是否有值
+                if(s.toString().trim().contains(".")){
+                String  a=s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if(a.length()<=0){
+                        s = "0" + s;
+                        mEtMoney.setText(s);
+                        mEtMoney.setSelection(2);
+                    }
+                }
             }
-        }});
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+        });
     }
 
     @Override
@@ -127,7 +164,7 @@ public class ApplyPayAccountAct extends BaseTitleActivity {
     private void checkRembursementInfo() {
         String time = mTvDate.getText().toString().trim();
         if ("".equals(time)) {
-            ToastUtil.setToast("请选择日期");
+            ToastUtil.setToast("请选择报销日期");
             return;
         }
         String mReason = mEtReason.getText().toString().trim();

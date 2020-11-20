@@ -14,6 +14,7 @@ import com.example.bq.edmp.activity.apply.bean.PayReimbursementDetailsInfo;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class DetailsPayInfoAdp extends BaseQuickAdapter<PayReimbursementDetailsI
         final int pos = helper.getLayoutPosition();
         helper.setText(R.id.tv_id, "项目（" + pos + "）");
         helper.setText(R.id.tv_desc, item.getName());
-        helper.setText(R.id.tv_pro_money, item.getAmount()+"");
+        helper.setText(R.id.tv_pro_money, MoneyUtils.formatMoney(item.getAmount()));
         helper.setText(R.id.tv_pic_count, "相关单据（"+item.getReimburserItemBills().size()+"）");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);

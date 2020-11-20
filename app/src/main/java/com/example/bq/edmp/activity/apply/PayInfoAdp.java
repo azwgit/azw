@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 
@@ -30,7 +31,7 @@ public class PayInfoAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHolder> {
         final int pos = helper.getLayoutPosition();
         helper.setText(R.id.tv_id, "项目（" + pos + "）");
         helper.setText(R.id.tv_desc, item.getDesc());
-        helper.setText(R.id.tv_pro_money, item.getMoney());
+        helper.setText(R.id.tv_pro_money, MoneyUtils.formatMoney(Double.parseDouble(item.getMoney())));
         helper.setText(R.id.tv_pic_count, "相关单据（"+item.getImg_list().size()+"）");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);

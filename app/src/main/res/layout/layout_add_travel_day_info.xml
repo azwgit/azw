@@ -95,6 +95,7 @@
                 android:id="@+id/tv_start_city"
                 style="@style/apply_pay_account_edit_style"
                 android:layout_marginTop="@dimen/dp_18"
+                android:maxLength="6"
                 android:hint="请填写出发城市" />
         </LinearLayout>
 
@@ -125,6 +126,7 @@
                 android:id="@+id/tv_end_city"
                 style="@style/apply_pay_account_edit_style"
                 android:layout_marginTop="@dimen/dp_18"
+                android:maxLength="6"
                 android:hint="请填写到达城市" />
         </LinearLayout>
 

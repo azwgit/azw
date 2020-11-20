@@ -13,6 +13,7 @@ import com.example.bq.edmp.activity.apply.PayInfoAdp;
 import com.example.bq.edmp.activity.apply.PreviewImageAdapter;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
@@ -34,10 +35,10 @@ public class TravelDayInfoAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHold
         helper.setText(R.id.tv_end_date,item.getArriveTime());
         helper.setText(R.id.tv_end_address,item.getArriveRegion());
         helper.setText(R.id.tv_car,item.getTransport());
-        helper.setText(R.id.tv_car_money,item.getTransportFee());
-        helper.setText(R.id.tv_subsidy,item.getDays()+"天 * ¥"+item.getSubsidy());
+        helper.setText(R.id.tv_car_money,MoneyUtils.formatMoney(Double.parseDouble(item.getTransportFee())));
+        helper.setText(R.id.tv_subsidy,item.getDays()+"天 * ¥"+ MoneyUtils.formatMoney(Double.parseDouble(item.getSubsidy())));
         double money=Double.parseDouble(item.getDays())*Double.parseDouble(item.getSubsidy());
-        helper.setText(R.id.tv_subsidy_money,money+"");
+        helper.setText(R.id.tv_subsidy_money,MoneyUtils.formatMoney(money));
         helper.setText(R.id.tv_pic_count,"相关单据（"+item.getImg_list().size()+"）");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);

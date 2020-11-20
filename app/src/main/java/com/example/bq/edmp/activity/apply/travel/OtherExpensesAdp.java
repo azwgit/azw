@@ -13,6 +13,7 @@ import com.example.bq.edmp.activity.apply.PayInfoAdp;
 import com.example.bq.edmp.activity.apply.PreviewImageAdapter;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class OtherExpensesAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHold
     protected void convert(BaseViewHolder helper, final PayInfoBean item) {
         final int pos = helper.getLayoutPosition();
         helper.setText(R.id.tv_title, item.getDesc());
-        String money = item.getMoney() == null ? "0.00" : item.getMoney();
+        String money = item.getMoney() == null ? "0.00" : MoneyUtils.formatMoney(Double.parseDouble(item.getMoney())) ;
         if(showicon==1){
             helper.setText(R.id.tv_money, "¥" + money + "    >");
         }else{
