@@ -1,27 +1,14 @@
 package com.example.bq.edmp.home.activity;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.allen.library.RxHttpUtils;
-import com.allen.library.factory.ApiFactory;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
-import com.allen.library.upload.UploadFileApi;
-import com.allen.library.upload.UploadHelper;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.MainActivity;
-import com.example.bq.edmp.bean.AddressBean;
-import com.example.bq.edmp.bean.LoginBean;
-import com.example.bq.edmp.home.MessageApi;
 import com.example.bq.edmp.utils.MD5Util;
-import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoActivity;
@@ -32,15 +19,11 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;

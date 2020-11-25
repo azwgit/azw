@@ -17,6 +17,7 @@
         android:textSize="@dimen/sp_20" />
 
     <RelativeLayout
+        android:id="@+id/sousuo_rl"
         android:layout_width="@dimen/dp_350"
         android:layout_height="@dimen/dp_36"
         android:layout_gravity="center_horizontal"
@@ -32,13 +33,14 @@
             android:layout_marginLeft="@dimen/dp_16"
             android:src="@drawable/search" />
 
-        <EditText
+        <TextView
             android:id="@+id/sousuo_et"
-            android:layout_width="@dimen/dp_250"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/img"
             android:background="@null"
+            android:gravity="center_vertical"
             android:hint="搜索"
             android:textSize="@dimen/sp_16" />
 
@@ -58,6 +60,7 @@
             android:src="@drawable/logo_addressbook" />
 
         <TextView
+            android:id="@+id/head_office_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -73,14 +76,21 @@
         android:layout_height="@dimen/dp_10"
         android:background="#F2F5F6" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/department_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"></android.support.v7.widget.RecyclerView>
 
-    <ExpandableListView
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ffffff"
-        android:cacheColorHint="#00000000"
-        android:divider="@null"
-        android:listSelector="#00000000"></ExpandableListView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_5"
+        android:background="#F2F5F6" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/staff_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

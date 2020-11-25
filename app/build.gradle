@@ -8,6 +8,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +42,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit-converters:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.android.support:design:27.1.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+//    compile 'com.github.bumptech.glide:glide:3.7.0'
 
 
 
@@ -76,4 +78,11 @@ dependencies {
     compile 'com.kaopiz:kprogresshud:1.0.2'
 
     implementation 'q.rorbin:badgeview:1.1.0'
+//    implementation project(':calendarview')
+    implementation 'pub.devrel:easypermissions:1.0.1'
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.7'
+
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.youth.banner:banner:1.4.9'
 }

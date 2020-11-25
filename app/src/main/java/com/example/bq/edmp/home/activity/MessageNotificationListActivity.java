@@ -1,16 +1,26 @@
 package com.example.bq.edmp.home.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.bq.edmp.activity.TestScanActivity;
 import com.example.bq.edmp.activity.login.LoginApi;
 import com.example.bq.edmp.home.adapter.MessageListAdapter;
 import com.example.bq.edmp.home.bean.MessageBean;
@@ -25,6 +35,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +44,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,12 +55,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static java.lang.String.valueOf;
 
-public class MessageNotificationListActivity extends BaseTitleActivity implements OnRefreshListener, OnLoadmoreListener {
+public class MessageNotificationListActivity extends BaseTitleActivity implements OnRefreshListener, OnLoadmoreListener , EasyPermissions.PermissionCallbacks{
     @BindView(R.id.recyclerView)
     RecyclerView recyclerview;
+    @BindView(R.id.img_ma)
+    ImageView mImgMa;
+    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     public static void start(Context context) {
         Intent intent = new Intent(context, MessageNotificationListActivity.class);
@@ -67,28 +86,41 @@ public class MessageNotificationListActivity extends BaseTitleActivity implement
         recyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         MessageListAdapter messageListAdapter = new MessageListAdapter(list);
         recyclerview.setAdapter(messageListAdapter);
-
-        String password = "1234";
-        String username = "12346963651";
-        String sign = MD5Util.encode("password=" + password + "&username=" + username);
-        RxHttpUtils.createApi(LoginApi.class)
-                .login(password, username, sign)
-                .compose(Transformer.<LoginBean>switchSchedulers())
-                .subscribe(new CommonObserver<LoginBean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
-                    }
-
-                    @Override
-                    protected void onSuccess(LoginBean loginBean) {
-                        SpUtils.put("UserInfo", loginBean.getData());
-                        ToastUtil.setToast("成功");
-                    }
-                });
+        messageListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent=new Intent(MessageNotificationListActivity.this, TestScanActivity.class);
+                startActivity(intent);
+            }
+        });
+        createBarcodeWithoutContent();
 
     }
+    private void createBarcodeWithoutContent() {
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                int width = BGAQRCodeUtil.dp2px(MessageNotificationListActivity.this, 150);
+                int height = BGAQRCodeUtil.dp2px(MessageNotificationListActivity.this, 70);
+                return QRCodeEncoder.syncEncodeBarcode("bingoogolapple123", width, height, 0);
+            }
 
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                if (bitmap != null) {
+                    mImgMa.setImageBitmap(bitmap);
+//                    saveBitmap(bitmap);
+                } else {
+                    Toast.makeText(MessageNotificationListActivity.this, "生成条底部不带文字形码失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        requestCodeQRCodePermissions();
+    }
     @Override
     protected void initListener() {
 
@@ -120,55 +152,49 @@ public class MessageNotificationListActivity extends BaseTitleActivity implement
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
-        /**
-         * 上传文件及参数
-         */
-        private void sendMultipart(){
-            File sdcache = getExternalCacheDir();
-            int cacheSize = 10 * 1024 * 1024;
-            //设置超时时间及缓存
-            OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .writeTimeout(20, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS)
-                    .cache(new Cache(sdcache.getAbsoluteFile(), cacheSize));
-            OkHttpClient mOkHttpClient=builder.build();
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
 
-            MultipartBody.Builder mbody=new MultipartBody.Builder().setType(MultipartBody.FORM);
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    }
 
-            List<File> fileList=new ArrayList<File>();
-            File img1=new File("/sdcard/wangshu.jpg");
-            fileList.add(img1);
-            File img2=new File("/sdcard/123.jpg");
-            fileList.add(img2);
-            int i=0;
-            for(File file:fileList){
-                if(file.exists()){
-                    Log.i("imageName:",file.getName());//经过测试，此处的名称不能相同，如果相同，只能保存最后一个图片，不知道那些同名的大神是怎么成功保存图片的。
-                    mbody.addFormDataPart("image"+i,file.getName(),RequestBody.create(MEDIA_TYPE_PNG,file));
-                    i++;
-                }
-            }
-
-            RequestBody requestBody =mbody.build();
-            Request request = new Request.Builder()
-                    .header("Authorization", "Client-ID " + "...")
-                    .url("http://192.168.1.105/interface/index.php?action=sendMultipart")
-                    .post(requestBody)
-                    .build();
-
-            mOkHttpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Log.i("InfoMSG", response.body().string());
-                }
-            });
+    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
+    private void requestCodeQRCodePermissions() {
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
         }
-
+    }
+    public void saveBitmap(Bitmap bitmap) {
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(),"zxing_image");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = "zxing_image" + ".png";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(this.getContentResolver(), file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 通知图库更新
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + "/sdcard/namecard/")));
+    }
     }

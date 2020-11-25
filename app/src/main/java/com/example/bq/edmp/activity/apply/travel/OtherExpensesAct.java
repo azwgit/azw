@@ -289,6 +289,10 @@ public class OtherExpensesAct extends BaseTitleActivity {
                         }catch (Exception ex){
 
                         }
+                        if(-99==obj.getCode()){
+                            ToastUtil.setToast(obj.getMsg());
+                            return;
+                        }
                         //循环添加图片信息
                         for(int i=0;i<selectList.size();i++){
                             LocalNewMedia localnewMedia=new LocalNewMedia();

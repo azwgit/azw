@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
@@ -36,12 +38,12 @@ import okhttp3.OkHttpClient;
  * 应用,主要用来做一下初始化的操作
  */
 
-public class ProApplication extends Application {
+public class ProApplication extends MultiDexApplication {
     private static Context mContext;
     private String a = "git 测试";
     // 保存所有的Activity
     private List<Activity> activityList;
-
+    private static ProApplication instance;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -50,6 +52,13 @@ public class ProApplication extends Application {
         initLodingLayout();
 
         AutoLayoutConifg.getInstance().useDeviceSize();
+    }
+    // 单列模式获取唯一MyApplication的实例
+    public static ProApplication getinstance() {
+        if (instance == null) {
+            instance = new ProApplication();
+        }
+        return instance;
     }
     //static 代码段可以防止内存泄露
     static {
@@ -176,7 +185,15 @@ public class ProApplication extends Application {
         }
 
     }
-
+    // 在Activity 的Oncreate（）的方法中执行：
+    // ProApplication.getinstance().addActivity(this);
+    // 遍历所有的Activity并finish
+    public void closeAllActiivty() {
+        for (int i = 0; i < activityList.size(); i++) {
+            Activity activity = activityList.get(i);
+            activity.finish();
+        }
+    }
     private void setOkHttpconfig() {
         OkHttpClient okHttpClient = new OkHttpConfig
                 .Builder(this).setAddInterceptor(new MoreBaseUrlInterceptor())
@@ -186,7 +203,7 @@ public class ProApplication extends Application {
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzgwMDAwMDAwMCIsInN1YiI6IjE2LOadjuWbmywxLDIiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDU4MzU5NjIsImV4cCI6MTYwNTkyMjM2Mn0.3jbw0ImqUbyw3iAKePlmQaSBPb0UxFuMXGB1L2Tawzo");
+                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzgwMDAwMDAwMCIsInN1YiI6IjE2LOadjuWbmywxLDIiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDYyNjg1NDQsImV4cCI6MTYwNjM1NDk0NH0.WnPVfTIVVdF4VhDQOOaCLp_Y3xt7fVv68d-w0xza7Uk");
                         return hashMap;
                     }
                 })
@@ -216,6 +233,12 @@ public class ProApplication extends Application {
                 .setBaseUrl("http://192.168.0.188:8081/")
                 //开启全局配置
                 .setOkClient(okHttpClient);
+
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
 
     }
 }

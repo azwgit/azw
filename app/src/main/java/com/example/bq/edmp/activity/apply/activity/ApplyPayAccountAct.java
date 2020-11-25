@@ -32,6 +32,7 @@ import com.example.bq.edmp.activity.login.LoginApi;
 import com.example.bq.edmp.activity.login.UserInfoBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.LoginBean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LoadingDialog;

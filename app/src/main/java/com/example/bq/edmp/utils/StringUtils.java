@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.matches;
+
 /**
  * Created by tl on 2018/5/22.
  */
@@ -91,6 +93,33 @@ public class StringUtils {
         }
     }
 
+    /*** 验证电话号码
+     * @return 如果是符合格式的字符串, 返回 <b>true </b>,否则为 <b>false </b>
+     */
+    public static boolean IsTelephone(String str) {
+        String regex = "^0(10|2[0-5789]-|\\d{3})-?\\d{7,8}$";
+        return matches(regex, str);
+    }
+
+
+    /**
+     * @prama: str 要判断是否包含特殊字符的目标字符串
+     */
+
+    public static boolean compileExChar(String str) {
+        boolean flag = true;
+        String limitEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+
+        Pattern pattern = Pattern.compile(limitEx);
+        Matcher m = pattern.matcher(str);
+
+        if (m.find()) {
+            flag = false;
+        }
+        return flag;
+    }
+
+
     /**
      * 当浮点型数据位数超过10位之后，数据变成科学计数法显示。用此方法可以使其正常显示。
      *
@@ -125,8 +154,6 @@ public class StringUtils {
         //使用0.00不足位补0，#.##仅保留有效位
         return new DecimalFormat("0.00").format(num);
     }
-
-
 
 
 }

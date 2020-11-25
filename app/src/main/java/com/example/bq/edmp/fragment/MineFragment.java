@@ -13,11 +13,26 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.allen.library.RxHttpUtils;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.observer.CommonObserver;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.login.Control_Login_Activity;
-import com.example.bq.edmp.activity.mine_activity.Message_Activity;
+import com.example.bq.edmp.base.BaseFragment;
+import com.example.bq.edmp.mine.activty.Message_Activity;
+import com.example.bq.edmp.mine.api.MineApi;
+import com.example.bq.edmp.mine.bean.MineUserBean;
+import com.example.bq.edmp.url.BaseApi;
+import com.example.bq.edmp.utils.LoadingDialog;
+import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.utils.TurnImgStringUtils;
 
 import butterknife.BindView;
 
@@ -26,62 +41,126 @@ import butterknife.BindView;
  * 我的baiquan白泉
  *
  * */
-public class MineFragment extends Fragment implements View.OnClickListener {
+public class MineFragment extends BaseFragment {
+
+    @BindView(R.id.dl_rl)
+    RelativeLayout dl_rl;
+    @BindView(R.id.gy_rl)
+    RelativeLayout gy_rl;
+    @BindView(R.id.edit_tv)
+    TextView edit_tv;
+    @BindView(R.id.user_name_tv)
+    TextView user_name_tv;
+    @BindView(R.id.user_phone)
+    TextView user_phone;
+    @BindView(R.id.user_identity_tv)
+    TextView user_identity_tv;
+    @BindView(R.id.mine_head_img)
+    ImageView mine_head_img;
+
+    private ILoadingView loading_dialog;
 
 
-    private ImageView mine_head_img;
-    private TextView mEditTv;
-    private LinearLayout mine_bb;//添加东西
-    private String r = "r";//改的
-    private String nnn = "250";
-    private TextView mTextview;
 
     public MineFragment() {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.fragment_mine, container, false);
-        inttView(inflate);
-        return inflate;
+    protected int getLayoutResource() {
+        return R.layout.fragment_mine;
     }
 
-    private void inttView(View inflate) {
-        RelativeLayout dl_rl = inflate.findViewById(R.id.dl_rl);
-        RelativeLayout gy_rl = inflate.findViewById(R.id.gy_rl);
-        mEditTv = inflate.findViewById(R.id.edit_tv);
-        mine_bb = inflate.findViewById(R.id.mine_bb);
-        mEditTv.setOnClickListener(this);
-        mine_head_img = inflate.findViewById(R.id.mine_head_img);
-        dl_rl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), Control_Login_Activity.class));
-            }
-        });
-        gy_rl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ProApplication.getmContext(), Message_Activity.class));
-            }
-        });
-        TextView a=mEditTv;
-        mEditTv.setOnClickListener(this);
+    @Override
+    protected void initView() {
+        loading_dialog = new LoadingDialog(getActivity());
     }
 
-    private int CHOOSE_SMALL_PICTURE = 250;
+    @Override
+    protected void initData() {
+        //获取用户基本信息
+        gainUserInformationData();
+    }
+
+    private void gainUserInformationData() {
+        RxHttpUtils.createApi(MineApi.class)
+                .getUserData()
+                .compose(Transformer.<MineUserBean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<MineUserBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(MineUserBean mineUserBean) {
+                        if (mineUserBean.getCode() == 200) {
+                            SpUtils.put("UserId", mineUserBean.getData().getId());
+                            SpUtils.put("UserPhone", mineUserBean.getData().getMobTel());
+                            assignment(mineUserBean.getData());
+                        } else {
+                            ToastUtil.setToast(mineUserBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    private void assignment(MineUserBean.DataBean data) {
+        Glide.with(getActivity())
+                .load(BaseApi.head_img_url + TurnImgStringUtils.isImgPath(data.getHeadImg()))
+                .apply(new RequestOptions()
+                        .dontAnimate()
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .circleCrop())
+                .into(mine_head_img);
+        if (data.getName() != null && !data.getName().equals("")) {
+            user_name_tv.setText(data.getName());
+        } else {
+            user_name_tv.setText("暂无名称");
+        }
+        if (data.getMobTel() != null && !data.getMobTel().equals("")) {
+            user_phone.setText(data.getMobTel());
+        } else {
+            user_phone.setText("暂无手机号");
+        }
+        if (data.getTitle() != null && !data.getTitle().equals("")) {
+            user_identity_tv.setText(data.getTitle());
+        } else {
+            user_identity_tv.setText("暂无职位信息");
+        }
+
+    }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            //编辑功能
-            case R.id.edit_tv:
-                Message_Activity.start(ProApplication.getmContext());
+    protected void initListener() {
+        edit_tv.setOnClickListener(this);
+        dl_rl.setOnClickListener(this);
+        gy_rl.setOnClickListener(this);
+    }
+
+    @Override
+    protected void otherViewClick(View view) {
+        Intent intent = null;
+        switch (view.getId()) {
+            case R.id.edit_tv://编辑功能
+                intent = new Intent(ProApplication.getmContext(), Message_Activity.class);
+                startActivityForResult(intent, 250);
                 break;
+            case R.id.dl_rl://登录管理
+                startActivity(new Intent(getContext(), Control_Login_Activity.class));
+                break;
+            case R.id.gy_rl://关于我们
+                ToastUtil.setToast("暂无开通!");
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 250) {
+            gainUserInformationData();
         }
     }
 }

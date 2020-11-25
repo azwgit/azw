@@ -66,21 +66,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         int type = getIntent().getIntExtra("type", 0);
-
         homeFragment = new HomeFragment();
         addressBookFragment = new AddressBookFragment();
         workFragment = new WorkFragment();
         conmmunityFragment = new ConmmunityFragment();
         mineFragment = new MineFragment();
-
         fragmentList.add(homeFragment);
         fragmentList.add(addressBookFragment);
         fragmentList.add(workFragment);
         fragmentList.add(conmmunityFragment);
         fragmentList.add(mineFragment);
-
         viewPager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList));
-
         // ViewPager页面切换监听
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

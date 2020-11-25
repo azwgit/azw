@@ -5,8 +5,10 @@
     android:orientation="vertical"
     tools:context="com.example.bq.edmp.fragment.ConmmunityFragment">
 
-    <WebView
+    <TextView
+        android:textSize="@dimen/sp_50"
         android:id="@+id/wb"
+        android:text="社区"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent"></TextView>
 </LinearLayout>

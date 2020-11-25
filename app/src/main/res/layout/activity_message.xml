@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F2F5F6"
     android:orientation="vertical"
-    tools:context="com.example.bq.edmp.activity.mine_activity.Message_Activity">
+    tools:context="com.example.bq.edmp.mine.activty.Message_Activity">
 
     <include layout="@layout/base_header_layout" />
 
@@ -51,8 +51,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_48"
-                    android:background="@drawable/mine_head_shape"
-                    android:src="@drawable/ic_launcher" />
+                    android:background="@drawable/mine_head_shape" />
 
 
                 <View
@@ -86,7 +85,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_16"
                     android:alpha="0.9"
-                    android:text="爱种--"
+                    android:text="----"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
@@ -122,7 +121,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_16"
                     android:alpha="0.9"
-                    android:text="营销部"
+                    android:text="----"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
@@ -158,7 +157,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_16"
                     android:alpha="0.9"
-                    android:text="营销经理"
+                    android:text="----"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
@@ -202,7 +201,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_44"
                     android:alpha="0.9"
-                    android:text="13195123126"
+                    android:text="----"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
@@ -246,7 +245,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_44"
                     android:alpha="0.9"
-                    android:text="032-55569397"
+                    android:text="----"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
@@ -290,7 +289,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_44"
                     android:alpha="0.9"
-                    android:text="o.gkm@yysd.md"
+                    android:text="----"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
@@ -304,6 +303,7 @@
 
             <!--签名-->
             <RelativeLayout
+                android:id="@+id/signature_rl"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_132"
                 android:layout_marginBottom="@dimen/dp_100">
@@ -329,7 +329,9 @@
                         android:layout_marginBottom="16dp"
                         android:layout_marginLeft="@dimen/dp_16"
                         android:layout_marginTop="@dimen/dp_16"
+                        android:alpha="0.5"
                         android:text="签名"
+                        android:textColor="#17171A"
                         android:textSize="@dimen/sp_16" />
 
                     <ImageView
@@ -337,8 +339,7 @@
                         android:layout_width="@dimen/dp_104"
                         android:layout_height="@dimen/dp_64"
                         android:layout_marginLeft="@dimen/dp_16"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/mask_group" />
+                        android:scaleType="centerCrop" />
 
                 </LinearLayout>
 

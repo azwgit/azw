@@ -1,12 +1,11 @@
 package com.example.bq.edmp.home.adapter;
 
-import android.widget.TextView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.home.bean.MessageBean;
 import com.zhy.autolayout.utils.AutoUtils;
+
 import java.util.List;
 
 /**
