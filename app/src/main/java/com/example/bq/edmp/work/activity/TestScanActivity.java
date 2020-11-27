@@ -1,16 +1,16 @@
-package com.example.bq.edmp.activity;
+package com.example.bq.edmp.work.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.base.BaseActivity;
+import com.example.bq.edmp.base.BaseTitleActivity;
+import com.example.bq.edmp.utils.Constant;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 
@@ -24,12 +24,16 @@ import cn.bingoogolapple.qrcode.core.BarcodeType;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zxing.ZXingView;
 
-public class TestScanActivity extends BaseActivity implements QRCodeView.Delegate {
+public class TestScanActivity extends BaseTitleActivity implements QRCodeView.Delegate {
+    public static void newIntent(Context context, String title) {
+        Intent intent = new Intent(context, TestScanActivity.class);
+        intent.putExtra(Constant.TITLE, title);
+        context.startActivity(intent);
+    }
     private static final String TAG = TestScanActivity.class.getSimpleName();
     private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
-
     private ZXingView mZXingView;
-
+    private String title="";
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -47,8 +51,10 @@ public class TestScanActivity extends BaseActivity implements QRCodeView.Delegat
 
     @Override
     protected void initView() {
+        title = getIntent().getStringExtra(Constant.TITLE);
         mZXingView = findViewById(R.id.zxingview);
         mZXingView.setDelegate(this);
+        txtTabTitle.setText(title);
     }
 
     @Override
@@ -93,8 +99,14 @@ public class TestScanActivity extends BaseActivity implements QRCodeView.Delegat
         Log.i(TAG, "result:" + result);
         setTitle("扫描结果为：" + result);
         vibrate();
-
-        mZXingView.startSpot(); // 开始识别
+        Intent intent=new Intent(TestScanActivity.this,UnloadingVerificationActivity.class);
+        startActivity(intent);
+        //称重毛重
+        //GrossWeightActivity.newIntent(getApplicationContext(),result);
+        //称重皮重
+//        TraeActivity.newIntent(getApplicationContext(),result);
+//        finish();
+//        mZXingView.startSpot(); // 开始识别
     }
 
     @Override

@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
@@ -35,17 +36,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".activity.TestScanActivity"></activity>
-        <activity android:name=".activity.ScheduleInformationActivity" />
-        <activity android:name=".home.activity.UploadImageActivity" />
-        <activity android:name=".home.activity.MessageNotificationListActivity">
+        <activity android:name=".work.activity.NewAcquisitionsSuccessActivity"></activity>
+        <activity android:name=".work.activity.TraeSuccessActivity" />
+        <activity android:name=".work.activity.GrossWeightSuccessActivity" />
+        <activity android:name=".work.activity.UnloadingVerificationActivity" />
+        <activity android:name=".work.activity.StartWeighingActivity">
+
         </activity>
-        <activity android:name=".activity.StartActivity">
+        <activity android:name=".work.activity.GrossWeightActivity" />
+        <activity android:name=".work.activity.TraeActivity" />
+        <activity android:name=".work.activity.NewAcquisitionsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".work.activity.TestScanActivity" />
+        <activity android:name=".activity.ScheduleInformationActivity" />
+        <activity android:name=".home.activity.UploadImageActivity" />
+        <activity android:name=".home.activity.MessageNotificationListActivity" />
+        <activity android:name=".activity.StartActivity">
+
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
 
@@ -72,9 +84,7 @@
         <activity android:name=".activity.head_activity.Backlog_ShiXiang_Activity" />
         <activity android:name=".activity.login.Control_Login_Activity" />
         <activity android:name=".activity.login.Gestures_login_Activity" />
-        <activity android:name=".word.activity.SubmitActivity">
-
-        </activity>
+        <activity android:name=".word.activity.SubmitActivity" />
         <activity android:name=".activity.apply.activity.ApplyPayAccountAct" />
         <activity android:name=".activity.apply.ApplyPayAccountSecondAct" />
         <activity android:name=".activity.apply.AddPayInfoAct" />
@@ -94,11 +104,12 @@
         <activity android:name=".activity.apply.travel.ApplyTravelAccountSecondAct" />
         <activity android:name=".activity.apply.travel.AddTravelDayInfoAct" />
         <activity android:name=".activity.apply.travel.OtherExpensesAct" />
-        <activity android:name=".mine.activty.Amend_Activity"/>
-        <activity android:name=".mine.activty.Message_Activity"/>
-        <activity android:name=".mine.activty.ModificationPasswordActivity"/>
-        <activity android:name=".addressbook.activity.AddressBook_Two_Activity"/>
-        <activity android:name=".addressbook.activity.SearchAddressBookActivity"/>
+        <activity android:name=".mine.activty.Amend_Activity" />
+        <activity android:name=".mine.activty.Message_Activity" />
+        <activity android:name=".mine.activty.ModificationPasswordActivity" />
+        <activity android:name=".addressbook.activity.AddressBook_Two_Activity" />
+        <activity android:name=".addressbook.activity.SearchAddressBookActivity" />
+        <activity android:name=".work.activity.PrinterSettingActivity" />
     </application>
 
 </manifest>

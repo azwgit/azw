@@ -6,7 +6,7 @@
     android:background="#11ffffff">
 
     <LinearLayout
-        android:layout_width="@dimen/dp_260"
+        android:layout_width="@dimen/dp_280"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/dialog_shape_bg"
@@ -20,8 +20,8 @@
             android:layout_margin="15dp"
             android:gravity="center"
             tools:text="删除时提示"
-            android:textColor="#38ADFF"
-            android:textSize="16sp" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18" />
 
         <TextView
             android:id="@+id/tv_message"
@@ -29,6 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:textSize="@dimen/sp_16"
+            android:textColor="#17171A"
+            android:alpha="0.7"
             tools:text="提示消息" />
 
         <View
@@ -52,7 +55,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:textColor="#7D7D7D"
-                android:textSize="16sp"
+                android:textSize="@dimen/sp_16"
                 tools:ignore="RtlHardcoded"
                 tools:text="取消" />
 
@@ -71,8 +74,8 @@
                 android:gravity="center"
                 android:singleLine="true"
                 tools:text="删除"
-                android:textColor="#38ADFF"
-                android:textSize="16sp"
+                android:textColor="#F91515"
+                android:textSize="@dimen/sp_16"
                 tools:ignore="RtlHardcoded" />
         </LinearLayout>
     </LinearLayout>
