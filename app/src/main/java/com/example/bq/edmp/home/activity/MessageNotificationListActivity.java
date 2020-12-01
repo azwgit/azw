@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.bq.edmp.work.activity.TestScanActivity;
+import com.example.bq.edmp.work.grainmanagement.activity.TestScanActivity;
 import com.example.bq.edmp.home.adapter.MessageListAdapter;
 import com.example.bq.edmp.home.bean.MessageBean;
 import com.example.bq.edmp.R;

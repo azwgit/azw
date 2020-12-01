@@ -496,7 +496,7 @@ public class SubmitActivity extends BaseActivity {
         View root = LayoutInflater.from(view.getContext()).inflate(R.layout.gestures_dialog, null);
 
         mCameraDialog.setContentView(root);
-        mCameraDialog.setCanceledOnTouchOutside(false);
+        mCameraDialog.setCanceledOnTouchOutside(true);
 
         Window dialogWindow = mCameraDialog.getWindow();
         dialogWindow.setGravity(Gravity.BOTTOM);

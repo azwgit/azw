@@ -6,23 +6,28 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseFragment;
-import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.word.activity.AuditActivity;
-import com.example.bq.edmp.word.activity.SubmitActivity;
 import com.example.bq.edmp.word.adapter.LeftAdapter;
 import com.example.bq.edmp.word.adapter.RightAdapter;
 import com.example.bq.edmp.word.api.WordListApi;
 import com.example.bq.edmp.word.bean.FirstResult;
 import com.example.bq.edmp.word.bean.SecondResult;
+import com.example.bq.edmp.work.grainmanagement.activity.AcquisitionDetailAct;
+import com.example.bq.edmp.work.grainmanagement.activity.GrossWeightActivity;
+import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
+import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
+import com.example.bq.edmp.work.grainmanagement.activity.StockDetailAct;
+import com.example.bq.edmp.work.grainmanagement.activity.TraeActivity;
+import com.example.bq.edmp.work.grainmanagement.activity.UnloadingVerificationActivity;
+import com.example.bq.edmp.work.grainmanagement.activity.WarehousingDetailAct;
+import com.example.bq.edmp.work.grainmanagement.activity.WarehousingOutDetailAct;
 
 import java.util.List;
 
@@ -165,11 +170,48 @@ public class WorkFragment extends BaseFragment {
                                 rightAdapter.setOnInterface(new RightAdapter.OnInterface() {
                                     @Override
                                     public void OnCilkeface(SecondResult.DataBean.SubtBean subtBean, int position) {
-                                        if (subtBean.getName().equals("审批管理")) {
-                                            startActivity(new Intent(getActivity(), AuditActivity.class));
-                                        } else if (subtBean.getName().equals("报账管理")) {
-                                            startActivity(new Intent(getActivity(), SubmitActivity.class));
+                                        switch (subtBean.getId()) {
+                                            case "020201":
+                                                //新增收购
+                                                startActivity(new Intent(getActivity(), NewAcquisitionsActivity.class));
+                                                break;
+                                            case "020202":
+                                                //称重（毛重）
+                                                StartWeighingActivity.newIntent(getActivity(),"称重毛重");
+                                                break;
+                                            case "020203":
+                                                //卸货验证
+                                                UnloadingVerificationActivity.newIntent(getActivity(),"1");
+                                                break;
+                                            case "020204":
+                                                //称重（皮重）
+                                                StartWeighingActivity.newIntent(getActivity(),"称重皮重");
+                                                break;
+                                            case "020205":
+                                                //收购记录
+                                                AcquisitionDetailAct.newIntent(getActivity(),"1");
+                                                break;
+                                            case "020206":
+                                                //统计
+                                                break;
+                                            case "020207":
+                                                //入库
+                                                WarehousingDetailAct.newIntent(getActivity(),"1");
+                                                break;
+                                            case "020208":
+                                                //出库
+                                                WarehousingOutDetailAct.newIntent(getActivity(),"1");
+                                                break;
+                                            case "020209":
+                                                //库存查询
+                                                StockDetailAct.newIntent(getActivity(),"1");
+                                                break;
                                         }
+//                                        if (subtBean.getName().equals("审批管理")) {
+//                                            startActivity(new Intent(getActivity(), AuditActivity.class));
+//                                        } else if (subtBean.getName().equals("报账管理")) {
+//                                            startActivity(new Intent(getActivity(), SubmitActivity.class));
+//                                        }
                                     }
                                 });
                             }

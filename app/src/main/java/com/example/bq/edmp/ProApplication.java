@@ -203,7 +203,7 @@ public class ProApplication extends MultiDexApplication {
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzgwMDAwMDAwMCIsInN1YiI6IjE2LOadjuWbmywxLDIiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDY0Mzk4NzYsImV4cCI6MTYwNjUyNjI3Nn0.EwJjcaO5fAxpHcaOhnNF6o91pgpPepY6JoQFb5PWNHQ");
+                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzgwMDAwMDAwMCIsInN1YiI6IjE2LOadjuWbmywxLDIiLCJpc3MiOiJFRFAiLCJpYXQiOjE2MDY3ODYxMDQsImV4cCI6MTYwNjg3MjUwNH0.x__50dWulVFWXhnIto8gTzFBVG9t-0TrexY6XsasMDM");
                         return hashMap;
                     }
                 })
@@ -220,7 +220,7 @@ public class ProApplication extends MultiDexApplication {
                 //全局超时配置
                 .setConnectTimeout(60)
                 //全局是否打开请求log日志
-                .setDebug(true)
+//                .setDebug(true)
                 .build();
         RxHttpUtils
                 .getInstance()

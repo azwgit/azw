@@ -1,4 +1,4 @@
-package com.example.bq.edmp.work.activity;
+package com.example.bq.edmp.work.grainmanagement.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,6 +10,7 @@ import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.utils.Constant;
+import com.example.bq.edmp.utils.ToastUtil;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class StartWeighingActivity extends BaseTitleActivity implements EasyPerm
         context.startActivity(intent);
     }
 
-    private String title = "称重";
+    private String title = "称重皮重";
 
     @Override
     protected int getLayoutId() {
@@ -38,6 +39,10 @@ public class StartWeighingActivity extends BaseTitleActivity implements EasyPerm
     @Override
     protected void initView() {
         title = getIntent().getStringExtra(Constant.TITLE);
+        if("".equals(title)){
+            ToastUtil.setToast("数据出错请重试");
+            return;
+        }
         txtTabTitle.setText(title);
         ProApplication.getinstance().addActivity(StartWeighingActivity.this);
     }

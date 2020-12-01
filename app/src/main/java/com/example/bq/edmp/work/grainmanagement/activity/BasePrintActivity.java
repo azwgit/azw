@@ -1,4 +1,4 @@
-package com.example.bq.edmp.work.activity;
+package com.example.bq.edmp.work.grainmanagement.activity;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;

@@ -5,9 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.example.bq.edmp.activity.login.UserInfoBean;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrintUtils {
     //定义编码方式
@@ -16,7 +20,7 @@ public class PrintUtils {
     private OutputStream mOutputStream = null;
     private OutputStreamWriter writer = null;
     public final static int WIDTH_PIXEL = 384;
-    public final static int IMAGE_SIZE = 320;
+    public final static int IMAGE_SIZE = 178;
 
     public PrintUtils(OutputStream outputStream, String encoding) throws IOException {
         this.encoding = encoding;
@@ -240,36 +244,125 @@ public class PrintUtils {
             PrintUtils pUtil = new PrintUtils(bluetoothSocket.getOutputStream(), "GBK");
             // 店铺名 居中 放大
             pUtil.printAlignment(1);
-            pUtil.printText("广州德胜");
-            pUtil.printLine();
-            pUtil.printAlignment(0);
-            pUtil.printLine();
-
-//            pUtil.printText("订单号:123456");
-//            pUtil.printLine();
-
-            pUtil.printText("付款人:白泉");
+            pUtil.printText("原粮收购");
             pUtil.printLine();
             pUtil.printDashLine();
+            pUtil.printAlignment(0);
+            pUtil.printLine();
+            pUtil.printText("承包人：     张晓五");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("品种：       皖垦麦869");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("仓库：       8号仓库");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printDashLine();
+            pUtil.printLine();
+            pUtil.printLine();
             //打印图片
             pUtil.printAlignment(0);
             pUtil.printBitmap(bitmap);
             pUtil.printLine();
-
-            pUtil.printText("订单金额:99.99        ");
-            pUtil.printAlignment(1);
-            pUtil.printText("北京烤鸭        ");
-            pUtil.printText("数量*1");
             pUtil.printLine();
             // 分隔线
             pUtil.printDashLine();
             pUtil.printLine();
-            pUtil.printText("订单金额:99.99");
+            pUtil.printLine();
+            pUtil.printAlignment(1);
+            pUtil.printText("安徽皖垦种业股份有限公司");
+            pUtil.printLine();
+        } catch (IOException e) {
+
+        }
+    }
+    public static void printRawGrainReceipt(BluetoothSocket bluetoothSocket, Bitmap bitmap) {
+        try {
+            PrintUtils pUtil = new PrintUtils(bluetoothSocket.getOutputStream(), "GBK");
+            // 店铺名 居中 放大
+            pUtil.printAlignment(1);
+            pUtil.printText("原粮收据");
             pUtil.printLine();
             pUtil.printDashLine();
+            pUtil.printAlignment(0);
+            pUtil.printLine();
+            pUtil.printText("收购单号：   11010522879859");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("承包人：     张晓五");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("品种：       皖垦麦869");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("仓库：       8号仓库");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printDashLine();
+            pUtil.printLine();
+            pUtil.printLine();
 
-//            pUtil.printLine(4);
+            pUtil.printText("品种：       11010522879859");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("毛重：       张晓五");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("皮重：       皖垦麦869");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("收购时间:    8号仓库");
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printDashLine();
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printText("检测信息:");
+            pUtil.printLine();
+            pUtil.printLine();
+            List <UserInfoBean>list=new ArrayList<UserInfoBean>();
+            UserInfoBean userInfoBean=new UserInfoBean();
+            userInfoBean.setMsg("水份");
+            list.add(userInfoBean);
 
+            UserInfoBean userInfoBean1=new UserInfoBean();
+            userInfoBean1.setMsg("收购时间");
+            list.add(userInfoBean1);
+
+            UserInfoBean userInfoBean2=new UserInfoBean();
+            userInfoBean2.setMsg("收购商");
+            list.add(userInfoBean2);
+
+            for(int i=0;i<list.size();i++){
+                UserInfoBean userInfoBean3=list.get(i);
+                if(userInfoBean3.getMsg().length()==2){
+                    pUtil.printText(userInfoBean3.getMsg()+"：       8号仓库");
+                }else if(userInfoBean3.getMsg().length()==3){
+                    pUtil.printText(userInfoBean3.getMsg()+"：     8号仓库");
+                }else if(userInfoBean3.getMsg().length()==4){
+                    pUtil.printText(userInfoBean3.getMsg()+"：   8号仓库");
+                }
+
+                pUtil.printLine();
+                pUtil.printLine();
+            }
+            pUtil.printDashLine();
+            pUtil.printLine();
+            pUtil.printLine();
+            //打印图片
+            pUtil.printAlignment(0);
+            pUtil.printBitmap(bitmap);
+            pUtil.printLine();
+            pUtil.printLine();
+            // 分隔线
+            pUtil.printDashLine();
+            pUtil.printLine();
+            pUtil.printLine();
+            pUtil.printAlignment(1);
+            pUtil.printText("安徽皖垦种业股份有限公司");
+            pUtil.printLine();
+            pUtil.printLine();
         } catch (IOException e) {
 
         }

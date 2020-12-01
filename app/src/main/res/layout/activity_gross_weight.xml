@@ -79,6 +79,7 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:id="@+id/tv_varieties"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -89,7 +90,6 @@
                 android:textColor="#E617171A"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_56"
@@ -101,7 +101,7 @@
                 android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
-                android:text="毛重"
+                android:text="仓库"
                 android:textColor="#17171A"
                 android:textSize="@dimen/sp_16" />
 
@@ -117,6 +117,7 @@
                 android:textColor="#E617171A"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -138,7 +139,9 @@
                 android:layout_height="@dimen/dp_54"
                 android:background="@color/white"
                 android:hint="请输入皮重重量"
+                android:maxLines="1"
                 android:paddingLeft="@dimen/dp_5"
+                android:inputType="number"
                 android:textSize="14sp" />
 
             <TextView

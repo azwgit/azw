@@ -1,4 +1,4 @@
-package com.example.bq.edmp.work.activity;
+package com.example.bq.edmp.work.grainmanagement.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -99,13 +99,12 @@ public class TestScanActivity extends BaseTitleActivity implements QRCodeView.De
         Log.i(TAG, "result:" + result);
         setTitle("扫描结果为：" + result);
         vibrate();
-        Intent intent=new Intent(TestScanActivity.this,UnloadingVerificationActivity.class);
-        startActivity(intent);
-        //称重毛重
-        //GrossWeightActivity.newIntent(getApplicationContext(),result);
-        //称重皮重
-//        TraeActivity.newIntent(getApplicationContext(),result);
-//        finish();
+        if("称重皮重".equals(title)){
+            TraeActivity.newIntent(getApplicationContext(),result);
+        }else{
+            GrossWeightActivity.newIntent(getApplicationContext(),result);
+        }
+        finish();
 //        mZXingView.startSpot(); // 开始识别
     }
 

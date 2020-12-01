@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rl_view"
     android:background="@color/bg_color">
-
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_submit">
     <LinearLayout
         android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
@@ -19,7 +23,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_104"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_15"
@@ -29,10 +33,10 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_contractor"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_55"
                 android:alpha="0.3"
                 android:text="承包人"
                 android:textColor="@color/text_black"
@@ -54,12 +58,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_104"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_15"
                 android:alpha="0.9"
-                android:text="承包人"
+                android:text="品种"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
 
@@ -67,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_55"
                 android:alpha="0.3"
                 android:text="承包人"
                 android:textColor="@color/text_black"
@@ -89,12 +92,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/dp_104"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_15"
                 android:alpha="0.9"
-                android:text="承包人"
+                android:text="仓库"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
 
@@ -102,19 +105,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_55"
                 android:alpha="0.3"
                 android:text="承包人"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
-            <View style="@style/apply_pay_account_line_style" />
         </LinearLayout>
 
         <TextView
@@ -129,12 +123,15 @@
             android:textSize="@dimen/sp_16" />
 
         <android.support.v7.widget.RecyclerView
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
             android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_12"
             android:background="@color/white" />
     </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     <TextView
         android:id="@+id/tv_submit"
         android:layout_width="match_parent"

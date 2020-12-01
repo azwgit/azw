@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E5E5E5"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="blocksDescendants"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_16"
+            android:paddingRight="@dimen/dp_16">
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:text="收购单号  12222222"
+                android:textColor="#17171A"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_19"
+                android:background="@drawable/btn_border_red_shape"
+                android:gravity="center"
+                android:text="采购入库"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:textColor="@color/color_red"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_22"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_12"
+            android:alpha="0.7"
+            android:text="品种信息"
+            android:textColor="#17171A"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#0D000000"
+                android:gravity="center"
+                android:text="分子公司"
+                android:textColor="#17171A"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_contractor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="子公司名称"
+                android:textColor="#E617171A"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#0D000000"
+                android:gravity="center"
+                android:text="入库仓库"
+                android:textColor="#17171A"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_warehouse"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="8号仓库"
+                android:textColor="#E617171A"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#0D000000"
+                android:gravity="center"
+                android:text="品种"
+                android:textColor="#17171A"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_varieties"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="皖垦麦869"
+                android:textColor="#E617171A"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#0D000000"
+                android:gravity="center"
+                android:text="入库量"
+                android:textColor="#17171A"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_gross_weight"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="1880.00 公斤"
+                android:textColor="#E617171A"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_marginTop="@dimen/dp_1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#0D000000"
+                android:gravity="center"
+                android:text="入库日期"
+                android:textColor="#17171A"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_20"
+                android:text="2020-10-28"
+                android:textColor="#E617171A"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ly_one"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_22"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:alpha="0.7"
+                android:text="检测信息"
+                android:textColor="#17171A"
+                android:textSize="12sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E5E5E5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ly_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_22"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:alpha="0.7"
+                android:text="调拨信息"
+                android:textColor="#17171A"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:layout_marginTop="@dimen/dp_1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="#0D000000"
+                    android:gravity="center"
+                    android:text="调出仓库"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_transfer_warehouse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:text="2号仓库"
+                    android:textColor="#E617171A"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:layout_marginTop="@dimen/dp_1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="#0D000000"
+                    android:gravity="center"
+                    android:text="调拨原因"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_transfer_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:text="8号仓库库存不足，补充备用"
+                    android:textColor="#E617171A"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

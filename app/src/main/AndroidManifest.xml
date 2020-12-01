@@ -36,34 +36,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".work.activity.NewAcquisitionsSuccessActivity"></activity>
-        <activity android:name=".work.activity.TraeSuccessActivity" />
-        <activity android:name=".work.activity.GrossWeightSuccessActivity" />
-        <activity android:name=".work.activity.UnloadingVerificationActivity" />
-        <activity android:name=".work.activity.StartWeighingActivity">
+        <activity android:name=".work.grainmanagement.activity.NewAcquisitionsSuccessActivity"></activity>
+        <activity android:name=".work.grainmanagement.activity.TraeSuccessActivity" />
+        <activity android:name=".work.grainmanagement.activity.GrossWeightSuccessActivity" />
+        <activity android:name=".work.grainmanagement.activity.UnloadingVerificationActivity" />
+        <activity android:name=".work.grainmanagement.activity.StartWeighingActivity">
 
         </activity>
-        <activity android:name=".work.activity.GrossWeightActivity" />
-        <activity android:name=".work.activity.TraeActivity" />
-        <activity android:name=".work.activity.NewAcquisitionsActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".work.grainmanagement.activity.GrossWeightActivity" />
+        <activity android:name=".work.grainmanagement.activity.TraeActivity" />
+        <activity
+            android:name=".work.grainmanagement.activity.NewAcquisitionsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
-        <activity android:name=".work.activity.TestScanActivity" />
+        <activity android:name=".work.grainmanagement.activity.TestScanActivity" />
         <activity android:name=".activity.ScheduleInformationActivity" />
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
         <activity android:name=".activity.StartActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter>intent-filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            intent-filter
         </activity>
 
         <meta-data
@@ -109,7 +109,13 @@
         <activity android:name=".mine.activty.ModificationPasswordActivity" />
         <activity android:name=".addressbook.activity.AddressBook_Two_Activity" />
         <activity android:name=".addressbook.activity.SearchAddressBookActivity" />
-        <activity android:name=".work.activity.PrinterSettingActivity" />
+        <activity android:name=".work.grainmanagement.activity.PrinterSettingActivity" />
+        <activity android:name=".work.grainmanagement.activity.AcquisitionDetailAct">
+
+        </activity>
+        <activity android:name=".work.grainmanagement.activity.WarehousingDetailAct" />
+        <activity android:name=".work.grainmanagement.activity.WarehousingOutDetailAct" />
+        <activity android:name=".work.grainmanagement.activity.StockDetailAct" />
     </application>
 
 </manifest>

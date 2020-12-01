@@ -1,33 +1,37 @@
-package com.example.bq.edmp.work.activity;
+package com.example.bq.edmp.work.grainmanagement.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.allen.library.RxHttpUtils;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.utils.Constant;
-import com.example.bq.edmp.utils.Dialogger;
 import com.example.bq.edmp.utils.DialoggerFinsh;
+import com.example.bq.edmp.utils.LoadingDialog;
+import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.utils.UsualDialogger;
-import com.luck.picture.lib.tools.ScreenUtils;
+import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
 
 import butterknife.BindView;
 
 public class UnloadingVerificationActivity extends BaseTitleActivity {
     @BindView(R.id.tv_submit)
     TextView mTvSubmit;//提交按钮
+    @BindView(R.id.tv_contractor)
+    TextView mTvContractor;//承包人
+    @BindView(R.id.tv_varieties)
+    TextView mTvVarieties;//承包人
+
+
     private CountDownTimer timer;
     private long time;
 
@@ -49,16 +53,21 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
 
     private String id = "";
     private DialoggerFinsh dialog = null;
-
+    private ILoadingView loading_dialog;
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_gross_weight;
+        return R.layout.activity_unloading_verification_weight;
     }
 
     @Override
     protected void initView() {
         id = getIntent().getStringExtra(Constant.ID);
+        if("".equals(id)){
+            ToastUtil.setToast("参数错误");
+            finish();
+        }
         txtTabTitle.setText("卸货验证");
+        loading_dialog = new LoadingDialog(this);
         ProApplication.getinstance().addActivity(UnloadingVerificationActivity.this);
     }
 
@@ -76,7 +85,8 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_submit:
-                showUsualDialog();
+                getUnloadingVerification();
+//                showUsualDialog();
                 break;
         }
 
@@ -107,5 +117,25 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
                 finish();
             }
         }.start();
+    }
+
+    //获取卸货信息
+    private void getUnloadingVerification() {
+        String sign = MD5Util.encode("id="+id);
+        RxHttpUtils.createApi(RawGrainManagementApi.class)
+                .getUnloadingVerificationInfo(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers())
+                .subscribe(new CommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean loginBean) {
+                        ToastUtil.setToast(loginBean.getMsg());
+                    }
+                });
     }
 }

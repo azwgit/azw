@@ -1,4 +1,4 @@
-package com.example.bq.edmp.work.activity;
+package com.example.bq.edmp.work.grainmanagement.activity;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -21,23 +21,37 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.allen.library.RxHttpUtils;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.utils.BluetoothUtil;
+import com.example.bq.edmp.utils.Constant;
+import com.example.bq.edmp.utils.LoadingDialog;
+import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.PrintUtils;
+import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import cn.bingoogolapple.qrcode.core.BGAQRCodeUtil;
-import cn.bingoogolapple.qrcode.core.BarcodeType;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 public class PrinterSettingActivity extends BasePrintActivity implements View.OnClickListener {
+    public static void newIntent(Context context, String type, String id) {
+        Intent intent = new Intent(context, PrinterSettingActivity.class);
+        intent.putExtra(Constant.ID, id);
+        intent.putExtra(Constant.TYPE, type);
+        context.startActivity(intent);
+    }
 
     ListView mLvPairedDevices;
     Button mBtnSetting;
@@ -47,13 +61,21 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
     int mSelectedPosition = -1;
     final static int TASK_TYPE_CONNECT = 1;
     final static int TASK_TYPE_PRINT = 2;
-    private Bitmap newbitmap=null;
+    private Bitmap newbitmap = null;
+    private String type = "1";
+    private String id = "";
+    private ILoadingView loading_dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setContentView(R.layout.activity_printer_setting);
+        type = getIntent().getStringExtra(Constant.TYPE);
+        id = getIntent().getStringExtra(Constant.ID);
         initViews();
+        getAcquisitionDetail();
+        createBarcodeWithoutContent();
     }
 
     @Override
@@ -67,7 +89,7 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
         mBtnSetting = (Button) findViewById(R.id.btn_goto_setting);
         mBtnTest = (Button) findViewById(R.id.btn_test_conntect);
         mBtnPrint = (Button) findViewById(R.id.btn_print);
-
+        loading_dialog = new LoadingDialog(this);
         mLvPairedDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,11 +138,11 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
 
             case R.id.btn_print:
                 setIscheck(false);
-                connectDevice(TASK_TYPE_CONNECT);
-                //打印之前先查看当前打印机是否连接
-                if(isIscheck()){
-                    connectDevice(TASK_TYPE_PRINT);
-                }
+//                connectDevice(TASK_TYPE_CONNECT);
+//                //打印之前先查看当前打印机是否连接
+//                if(isIscheck()){
+                connectDevice(TASK_TYPE_PRINT);
+//                }
                 break;
         }
     }
@@ -168,21 +190,28 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
     public void onConnected(BluetoothSocket socket, int taskType) {
         switch (taskType) {
             case TASK_TYPE_PRINT:
-                PrintUtils.printTest(socket, newbitmap);
+                if ("1".equals(type)) {
+                    ToastUtil.setToast("添加打印");
+//                    PrintUtils.printTest(socket, newbitmap);
+                } else {
+                    ToastUtil.setToast("称重打印");
+//                    PrintUtils.printRawGrainReceipt(socket, newbitmap);
+                }
                 break;
         }
     }
+
     private void createBarcodeWithoutContent() {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return QRCodeEncoder.syncEncodeQRCode("123456789", BGAQRCodeUtil.dp2px(PrinterSettingActivity.this, 150),  Color.BLACK);
+                return QRCodeEncoder.syncEncodeQRCode(id, BGAQRCodeUtil.dp2px(PrinterSettingActivity.this, 150), Color.BLACK);
             }
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
                 if (bitmap != null) {
-                    newbitmap=bitmap;
+                    newbitmap = bitmap;
 
                 } else {
                     Toast.makeText(PrinterSettingActivity.this, "生成条底部不带文字形码失败", Toast.LENGTH_SHORT).show();
@@ -214,5 +243,23 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
 
             return convertView;
         }
+    }
+    //获取收购详情
+    private void getAcquisitionDetail() {
+        String sign = MD5Util.encode("id="+id);
+        RxHttpUtils.createApi(RawGrainManagementApi.class)
+                .getAcquisitionDetail(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean loginBean) {
+                        ToastUtil.setToast(loginBean.getMsg());
+                    }
+                });
     }
 }
