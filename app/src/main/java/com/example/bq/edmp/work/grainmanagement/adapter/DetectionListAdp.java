@@ -10,36 +10,42 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.work.grainmanagement.bean.TestingBeanList;
 
 import java.util.List;
 
-public class DetectionListAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHolder> {
-    public interface SaveEditListener{
+public class DetectionListAdp extends BaseQuickAdapter<TestingBeanList.DataBean.TestPlanItemsBean, BaseViewHolder> {
+    public interface SaveEditListener {
         void SaveEdit(int position, String string);
     }
-    public DetectionListAdp(@Nullable List<PayInfoBean> data) {
+
+    public DetectionListAdp(@Nullable List<TestingBeanList.DataBean.TestPlanItemsBean> data) {
         super(R.layout.item_detection_list, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, PayInfoBean item) {
+    protected void convert(BaseViewHolder helper, TestingBeanList.DataBean.TestPlanItemsBean item) {
         EditText etResult = helper.getView(R.id.et_result);
-        int pos = helper.getLayoutPosition();
-        if(pos==0){
-            etResult.setInputType(InputType.TYPE_CLASS_NUMBER| InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        if (item.getValueType() == 1) {
+            etResult.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        } else {
+            etResult.setInputType(InputType.TYPE_CLASS_TEXT);
         }
-        etResult.setText(item.getDesc());
+        helper.setText(R.id.tv_name, item.getName());
         //添加editText的监听事件
         etResult.addTextChangedListener(new TextSwitcher(helper));
 //        helper.setText(R.id.tv_nick,"昵称");
 //        helper.setText(R.id.tv_time,"2020-10-25 10:12");
     }
+
     //自定义EditText的监听类
     class TextSwitcher implements TextWatcher {
         private BaseViewHolder helper;
-        public TextSwitcher(BaseViewHolder helper ) {
+
+        public TextSwitcher(BaseViewHolder helper) {
             this.helper = helper;
         }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -53,9 +59,9 @@ public class DetectionListAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHold
         @Override
         public void afterTextChanged(Editable s) {
             //用户输入完毕后，处理输入数据，回调给主界面处理
-            SaveEditListener listener= (SaveEditListener) mContext;
-            if(s!=null){
-                listener.SaveEdit(helper.getAdapterPosition(),s.toString());
+            SaveEditListener listener = (SaveEditListener) mContext;
+            if (s != null) {
+                listener.SaveEdit(helper.getAdapterPosition(), s.toString());
             }
 
         }

@@ -10,10 +10,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.example.bq.edmp.utils.BluetoothUtil;
+import com.example.bq.edmp.utils.ToastUtil;
 
 import java.io.IOException;
 
@@ -23,16 +27,16 @@ public abstract  class BasePrintActivity extends AppCompatActivity {
     private BluetoothStateReceiver mBluetoothStateReceiver;
     private AsyncTask mConnectTask;
     private ProgressDialog mProgressDialog;
-    private boolean ischeck;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch(msg.what){
+                case 1:
+                    Toast.makeText(getApplicationContext(),"请先测试蓝牙是否连接",Toast.LENGTH_LONG).show();
+                    break;
 
-    public boolean isIscheck() {
-        return ischeck;
-    }
-
-    public void setIscheck(boolean ischeck) {
-        this.ischeck = ischeck;
-    }
-
+            }
+        };
+    };
     /**
      * 蓝牙连接成功后回调，该方法在子线程执行，可执行耗时操作
      */
@@ -135,6 +139,14 @@ public abstract  class BasePrintActivity extends AppCompatActivity {
                 }
             }
             mSocket = BluetoothUtil.connectDevice(params[0]);;
+            if(mSocket==null){
+                mProgressDialog.dismiss();
+                Message msg = new Message();
+                msg.what = 1;
+                mHandler.sendMessage(msg);
+                //请先测试蓝牙是否连接
+                return null;
+            }
             onConnected(mSocket, mTaskType);
             return mSocket;
         }
@@ -144,12 +156,9 @@ public abstract  class BasePrintActivity extends AppCompatActivity {
             mProgressDialog.dismiss();
             if (socket == null || !socket.isConnected()) {
                 toast("连接打印机失败");
-                setIscheck(false);
             } else {
                 toast("成功！");
-                setIscheck(true);
             }
-
             super.onPostExecute(socket);
         }
     }

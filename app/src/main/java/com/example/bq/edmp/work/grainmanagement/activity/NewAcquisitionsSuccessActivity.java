@@ -50,6 +50,7 @@ public class NewAcquisitionsSuccessActivity extends BaseTitleActivity {
         switch (view.getId()){
             case R.id.tv_submit:
                 PrinterSettingActivity.newIntent(getApplicationContext(),"1",id);
+                finish();
                 break;
         }
     }

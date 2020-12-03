@@ -16,12 +16,15 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.StockDetailAdp;
+import com.example.bq.edmp.work.grainmanagement.bean.StockDetailBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +53,9 @@ public class StockDetailAct extends BaseTitleActivity {
     TextView mTvSubsidiaryCompany;//子公司
 
     private StockDetailAdp mAdapter;
-    private String id="";
+    private String id = "";
     private ILoadingView loading_dialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.layout_stock_detail;
@@ -61,8 +65,8 @@ public class StockDetailAct extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("库存详情");
-        id=getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        id = getIntent().getStringExtra(Constant.ID);
+        if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -71,17 +75,7 @@ public class StockDetailAct extends BaseTitleActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new StockDetailAdp();
         mRecyclerView.setAdapter(mAdapter);
-        setData();
         getStockDetail();
-    }
-
-    private void setData(){
-        List<PayInfoBean> mList = new ArrayList<>();
-        for (int i= 0;i< 3 ; i++){
-            PayInfoBean bean = new PayInfoBean();
-            mList.add(bean);
-        }
-        mAdapter.setNewData(mList);
     }
 
     @Override
@@ -99,21 +93,34 @@ public class StockDetailAct extends BaseTitleActivity {
 
     }
 
+    private void setData(StockDetailBean.DataBean bean) {
+        mTvName.setText(bean.getVarietyName());
+        mTvContractor.setText(MoneyUtils.formatMoney(bean.getQty())+" 吨");
+        mTvWarehouse.setText(bean.getWarehouseName());
+        mTvSubsidiaryCompany.setText(bean.getOrgName());
+        mAdapter.addData(bean.getStockRecords());
+    }
+
     //获取库存详情
     private void getStockDetail() {
-        String sign = MD5Util.encode("id="+id);
+        String sign = MD5Util.encode("id=" + id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getStockDetail(id, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<BaseABean>() {
+                .compose(Transformer.<StockDetailBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<StockDetailBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(BaseABean loginBean) {
-                        ToastUtil.setToast(loginBean.getMsg());
+                    protected void onSuccess(StockDetailBean bean) {
+                        if (bean.getCode() == 200) {
+                            setData(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
                     }
                 });
     }

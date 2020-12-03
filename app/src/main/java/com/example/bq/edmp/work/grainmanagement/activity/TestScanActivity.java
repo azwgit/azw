@@ -101,8 +101,10 @@ public class TestScanActivity extends BaseTitleActivity implements QRCodeView.De
         vibrate();
         if("称重皮重".equals(title)){
             TraeActivity.newIntent(getApplicationContext(),result);
-        }else{
+        }else if("称重毛重".equals(title)){
             GrossWeightActivity.newIntent(getApplicationContext(),result);
+        }else{
+            UnloadingVerificationActivity.newIntent(getApplicationContext(),result);
         }
         finish();
 //        mZXingView.startSpot(); // 开始识别

@@ -31,13 +31,15 @@ import com.allen.library.interfaces.ILoadingView;
 import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.BluetoothUtil;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.PrintUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.bean.AcquisitionBean;
 
 import java.util.List;
 
@@ -65,17 +67,18 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
     private String type = "1";
     private String id = "";
     private ILoadingView loading_dialog;
-
+    private AcquisitionBean acquisitionBean = null;
+    public  PrinterSettingActivity printerSettingActivity=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        printerSettingActivity=this;
         setContentView(R.layout.activity_printer_setting);
         type = getIntent().getStringExtra(Constant.TYPE);
         id = getIntent().getStringExtra(Constant.ID);
         initViews();
         getAcquisitionDetail();
-        createBarcodeWithoutContent();
     }
 
     @Override
@@ -83,7 +86,9 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
         super.onResume();
         fillAdapter();
     }
-
+    public static void tostMsg(String msg){
+        ToastUtil.setToast(msg);
+    }
     private void initViews() {
         mLvPairedDevices = (ListView) findViewById(R.id.lv_paired_devices);
         mBtnSetting = (Button) findViewById(R.id.btn_goto_setting);
@@ -137,7 +142,6 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
                 break;
 
             case R.id.btn_print:
-                setIscheck(false);
 //                connectDevice(TASK_TYPE_CONNECT);
 //                //打印之前先查看当前打印机是否连接
 //                if(isIscheck()){
@@ -191,21 +195,21 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
         switch (taskType) {
             case TASK_TYPE_PRINT:
                 if ("1".equals(type)) {
-                    ToastUtil.setToast("添加打印");
-//                    PrintUtils.printTest(socket, newbitmap);
+                    //添加打印
+                    PrintUtils.printTest(socket, newbitmap, acquisitionBean,printerSettingActivity);
                 } else {
-                    ToastUtil.setToast("称重打印");
-//                    PrintUtils.printRawGrainReceipt(socket, newbitmap);
+                    //称重打印
+                    PrintUtils.printRawGrainReceipt(socket, newbitmap, acquisitionBean.getData(),printerSettingActivity);
                 }
                 break;
         }
     }
 
-    private void createBarcodeWithoutContent() {
+    private void createBarcodeWithoutContent(final String code) {
         new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                return QRCodeEncoder.syncEncodeQRCode(id, BGAQRCodeUtil.dp2px(PrinterSettingActivity.this, 150), Color.BLACK);
+                return QRCodeEncoder.syncEncodeQRCode(code, BGAQRCodeUtil.dp2px(PrinterSettingActivity.this, 150), Color.BLACK);
             }
 
             @Override
@@ -244,22 +248,40 @@ public class PrinterSettingActivity extends BasePrintActivity implements View.On
             return convertView;
         }
     }
+
     //获取收购详情
     private void getAcquisitionDetail() {
-        String sign = MD5Util.encode("id="+id);
+        String sign = MD5Util.encode("id=" + id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getAcquisitionDetail(id, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<BaseABean>() {
+                .compose(Transformer.<AcquisitionBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<AcquisitionBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(BaseABean loginBean) {
-                        ToastUtil.setToast(loginBean.getMsg());
+                    protected void onSuccess(AcquisitionBean bean) {
+                        if (bean.getCode() == 200) {
+                            acquisitionBean = bean;
+                            setData(acquisitionBean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
                     }
                 });
+    }
+
+    //数据赋值
+    private void setData(final AcquisitionBean.DataBean bean) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                createBarcodeWithoutContent(bean.getCode());
+            }
+        }).start();
+
     }
 }

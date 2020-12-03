@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:alpha="0.3"
-                android:text="承包人"
+                android:hint="请选择承包人"
+                android:textColorHint="@color/text_black"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
@@ -68,11 +69,13 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:id="@+id/tv_varieties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:alpha="0.3"
-                android:text="承包人"
+                android:hint="请选择品种"
+                android:textColorHint="@color/text_black"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
@@ -102,11 +105,13 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:id="@+id/tv_warehouse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:alpha="0.3"
-                android:text="承包人"
+                android:hint="请选择仓库"
+                android:textColorHint="@color/text_black"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>

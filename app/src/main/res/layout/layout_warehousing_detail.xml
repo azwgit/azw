@@ -299,6 +299,33 @@
                     android:textColor="#E617171A"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:layout_marginTop="@dimen/dp_1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:background="#0D000000"
+                    android:gravity="center"
+                    android:text="调拨单号"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_transfer_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:text="8号仓库库存不足，补充备用"
+                    android:textColor="#E617171A"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

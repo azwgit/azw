@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.example.bq.edmp.activity.login.UserInfoBean;
+import com.example.bq.edmp.work.grainmanagement.activity.PrinterSettingActivity;
+import com.example.bq.edmp.work.grainmanagement.bean.AcquisitionBean;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -238,8 +240,8 @@ public class PrintUtils {
         targetCanvas.drawBitmap(bitmapOrg, new Rect(0, 0, width, height), new Rect(0, 0, newWidth, newHeight), null);
         return targetBmp;
     }
-
-    public static void printTest(BluetoothSocket bluetoothSocket, Bitmap bitmap) {
+    //新增打印
+    public static void printTest(BluetoothSocket bluetoothSocket, Bitmap bitmap, AcquisitionBean bean,PrinterSettingActivity printerSettingActivity) {
         try {
             PrintUtils pUtil = new PrintUtils(bluetoothSocket.getOutputStream(), "GBK");
             // 店铺名 居中 放大
@@ -249,13 +251,13 @@ public class PrintUtils {
             pUtil.printDashLine();
             pUtil.printAlignment(0);
             pUtil.printLine();
-            pUtil.printText("承包人：     张晓五");
+            pUtil.printText("承包人：     "+bean.getData().getFarmerName());
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("品种：       皖垦麦869");
+            pUtil.printText("品种：       "+bean.getData().getVarietyName());
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("仓库：       8号仓库");
+            pUtil.printText("仓库：       "+bean.getData().getWarehouseName());
             pUtil.printLine();
             pUtil.printLine();
             pUtil.printDashLine();
@@ -271,13 +273,15 @@ public class PrintUtils {
             pUtil.printLine();
             pUtil.printLine();
             pUtil.printAlignment(1);
-            pUtil.printText("安徽皖垦种业股份有限公司");
+            pUtil.printText(bean.getData().getOrgName());
             pUtil.printLine();
+            printerSettingActivity.finish();
         } catch (IOException e) {
 
         }
     }
-    public static void printRawGrainReceipt(BluetoothSocket bluetoothSocket, Bitmap bitmap) {
+   //皮重模块打印
+    public static void printRawGrainReceipt(BluetoothSocket bluetoothSocket, Bitmap bitmap,AcquisitionBean.DataBean bean,PrinterSettingActivity printerSettingActivity) {
         try {
             PrintUtils pUtil = new PrintUtils(bluetoothSocket.getOutputStream(), "GBK");
             // 店铺名 居中 放大
@@ -287,32 +291,32 @@ public class PrintUtils {
             pUtil.printDashLine();
             pUtil.printAlignment(0);
             pUtil.printLine();
-            pUtil.printText("收购单号：   11010522879859");
+            pUtil.printText("收购单号：   "+bean.getCode());
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("承包人：     张晓五");
+            pUtil.printText("分子公司：   "+bean.getOrgName());
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("品种：       皖垦麦869");
+            pUtil.printText("农场：       "+bean.getFarmName());
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("仓库：       8号仓库");
+            pUtil.printText("承包人：     "+bean.getFarmerName());
             pUtil.printLine();
             pUtil.printLine();
             pUtil.printDashLine();
             pUtil.printLine();
             pUtil.printLine();
 
-            pUtil.printText("品种：       11010522879859");
+            pUtil.printText("品种：       "+bean.getVarietyName());
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("毛重：       张晓五");
+            pUtil.printText("毛重：       "+MoneyUtils.formatMoney(bean.getGrossWeight())+" 公斤");
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("皮重：       皖垦麦869");
+            pUtil.printText("皮重：       "+MoneyUtils.formatMoney(bean.getTareWeight())+" 公斤");
             pUtil.printLine();
             pUtil.printLine();
-            pUtil.printText("收购时间:    8号仓库");
+            pUtil.printText("收购时间:    "+bean.getAddedTime());
             pUtil.printLine();
             pUtil.printLine();
             pUtil.printDashLine();
@@ -321,27 +325,15 @@ public class PrintUtils {
             pUtil.printText("检测信息:");
             pUtil.printLine();
             pUtil.printLine();
-            List <UserInfoBean>list=new ArrayList<UserInfoBean>();
-            UserInfoBean userInfoBean=new UserInfoBean();
-            userInfoBean.setMsg("水份");
-            list.add(userInfoBean);
 
-            UserInfoBean userInfoBean1=new UserInfoBean();
-            userInfoBean1.setMsg("收购时间");
-            list.add(userInfoBean1);
-
-            UserInfoBean userInfoBean2=new UserInfoBean();
-            userInfoBean2.setMsg("收购商");
-            list.add(userInfoBean2);
-
-            for(int i=0;i<list.size();i++){
-                UserInfoBean userInfoBean3=list.get(i);
-                if(userInfoBean3.getMsg().length()==2){
-                    pUtil.printText(userInfoBean3.getMsg()+"：       8号仓库");
-                }else if(userInfoBean3.getMsg().length()==3){
-                    pUtil.printText(userInfoBean3.getMsg()+"：     8号仓库");
-                }else if(userInfoBean3.getMsg().length()==4){
-                    pUtil.printText(userInfoBean3.getMsg()+"：   8号仓库");
+            for(int i=0;i<bean.getTestingItems().size();i++){
+                AcquisitionBean.DataBean.TestingItemsBean testingItemsBean=bean.getTestingItems().get(i);
+                if(testingItemsBean.getName().length()==2){
+                    pUtil.printText(testingItemsBean.getName()+"：       "+testingItemsBean.getValue());
+                }else if(testingItemsBean.getName().length()==3){
+                    pUtil.printText(testingItemsBean.getName()+"：     "+testingItemsBean.getValue());
+                }else if(testingItemsBean.getName().length()==4){
+                    pUtil.printText(testingItemsBean.getName()+"：   "+testingItemsBean.getValue());
                 }
 
                 pUtil.printLine();
@@ -360,9 +352,10 @@ public class PrintUtils {
             pUtil.printLine();
             pUtil.printLine();
             pUtil.printAlignment(1);
-            pUtil.printText("安徽皖垦种业股份有限公司");
+            pUtil.printText(bean.getOrgName());
             pUtil.printLine();
             pUtil.printLine();
+            printerSettingActivity.finish();
         } catch (IOException e) {
 
         }

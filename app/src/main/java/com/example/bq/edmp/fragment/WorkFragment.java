@@ -181,7 +181,7 @@ public class WorkFragment extends BaseFragment {
                                                 break;
                                             case "020203":
                                                 //卸货验证
-                                                UnloadingVerificationActivity.newIntent(getActivity(),"1");
+                                                StartWeighingActivity.newIntent(getActivity(),"卸货验证");
                                                 break;
                                             case "020204":
                                                 //称重（皮重）

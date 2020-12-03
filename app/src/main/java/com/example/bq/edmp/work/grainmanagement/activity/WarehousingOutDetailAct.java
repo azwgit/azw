@@ -17,13 +17,15 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
-import com.example.bq.edmp.work.grainmanagement.adapter.DetailsDetectionListAdp;
+import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.WareHousingDetailsDetectionListAdp;
+import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,37 +37,32 @@ import butterknife.BindView;
  */
 public class WarehousingOutDetailAct extends BaseTitleActivity {
     public static void newIntent(Context context, String id) {
-        Intent intent = new Intent(context, WarehousingOutDetailAct.class);
+        Intent intent = new Intent(context, WarehousingDetailAct.class);
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
-    @BindView(R.id.my_recycler_view)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.ly_one)
-    LinearLayout mLyOne;//检测信息父布局
     @BindView(R.id.ly_two)
     LinearLayout mLyTwo;//调拨信息父布局
     @BindView(R.id.tv_number)
     TextView mTvNumber;//收购单号
     @BindView(R.id.tv_status)
-    TextView mTvStatus;//出库类型
+    TextView mTvStatus;//入库类型
     @BindView(R.id.tv_contractor)
     TextView mTvContractor;//分子公司名称
     @BindView(R.id.tv_warehouse)
-    TextView mTvWarehouse;//出库仓库
+    TextView mTvWarehouse;//入库仓库
     @BindView(R.id.tv_varieties)
     TextView mTvVarieties;//品种
     @BindView(R.id.tv_gross_weight)
-    TextView mTvGrossWeight;//出库量
+    TextView mTvGrossWeight;//入库量
     @BindView(R.id.tv_time)
-    TextView mTvTime;//出库日期
+    TextView mTvTime;//入库日期
     @BindView(R.id.tv_transfer_warehouse)
-    TextView mTvTransferWarehouse;//调入仓库
+    TextView mTvTransferWarehouse;//调出仓库
     @BindView(R.id.tv_transfer_reason)
     TextView mTvTransferReason;//调拨原因
-
-
-
+    @BindView(R.id.tv_transfer_number)
+    TextView mTvTransferNumber;//调拨单号
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
     private String id="";
     private ILoadingView loading_dialog;
@@ -84,16 +81,6 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
-        List<PayInfoBean> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            PayInfoBean bean = new PayInfoBean();
-            bean.setId(i + "");
-            bean.setDesc("啊啊啊啊");
-            list.add(bean);
-        }
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        wareHousingDetailsDetectionListAdp = new WareHousingDetailsDetectionListAdp(list);
-        mRecyclerView.setAdapter(wareHousingDetailsDetectionListAdp);
         getAcquisitionDetail();
     }
 
@@ -111,21 +98,52 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
+    private void setData(WarehouseingDetailBean.DataBean bean){
+        mTvNumber.setText("收购单号  "+bean.getCode());
+        String type="";
+        switch (bean.getType2()){
+            case 1:
+                type="加工出库";
+                break;
+            case 2:
+                type="销售出库";
+                break;
+            case 3:
+                type="调拨出库";
+                mLyTwo.setVisibility(View.VISIBLE);
+                mTvTransferWarehouse.setText(bean.getStockAllots().getWarehouseName());
+                mTvTransferReason.setText(bean.getStockAllots().getReason());
+                mTvTransferNumber.setText(bean.getStockAllots().getCode());
+                break;
+        }
+        mTvStatus.setText(type);
+        mTvContractor.setText(bean.getOrgName());
+        mTvWarehouse.setText(bean.getWarehouseName());
+        mTvVarieties.setText(bean.getVarietyName());
+        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getAddQty())+" 公斤");
+        mTvTime.setText(bean.getAddedTime());
+
+    }
     //获取入庫详情
     private void getAcquisitionDetail() {
         String sign = MD5Util.encode("id="+id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
-                .getWareHousingOutDetail(id, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<BaseABean>() {
+                .getWareHousingDetail(id, sign)
+                .compose(Transformer.<WarehouseingDetailBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<WarehouseingDetailBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(BaseABean loginBean) {
-                        ToastUtil.setToast(loginBean.getMsg());
+                    protected void onSuccess(WarehouseingDetailBean bean) {
+                        if (bean.getCode() == 200) {
+                            setData(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
                     }
                 });
     }

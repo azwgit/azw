@@ -30,6 +30,8 @@ public class MoreBaseUrlInterceptor implements Interceptor {
                 baseURL = HttpUrl.parse(BaseApi.base_url);
             } else if ("mdffx".equals(urlname)) {
                 baseURL = HttpUrl.parse(BaseApi.base_url_mdffx);
+            }else if ("production".equals(urlname)) {
+                baseURL = HttpUrl.parse(BaseApi.base_url_production);
             }
             //重建新的HttpUrl，需要重新设置的url部分
             HttpUrl newHttpUrl = oldUrl.newBuilder()

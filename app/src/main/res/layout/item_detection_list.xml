@@ -11,6 +11,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="@dimen/dp_104"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:alpha="0.3"
-            android:text="请填写检测结果"
+            android:hint="请填写检测结果"
+            android:textColorHint="@color/text_black"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_16" />
     </LinearLayout>

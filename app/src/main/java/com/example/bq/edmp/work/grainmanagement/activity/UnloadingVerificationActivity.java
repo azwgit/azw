@@ -14,12 +14,15 @@ import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DialoggerFinsh;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.bean.UnloadingVerificationBean;
 
 import butterknife.BindView;
 
@@ -29,7 +32,11 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
     @BindView(R.id.tv_contractor)
     TextView mTvContractor;//承包人
     @BindView(R.id.tv_varieties)
-    TextView mTvVarieties;//承包人
+    TextView mTvVarieties;//品种
+    @BindView(R.id.tv_warehouse)
+    TextView mTvWarehouse;//仓库
+    @BindView(R.id.tv_gross_weight)
+    TextView mTvGrossWeight;//毛重
 
 
     private CountDownTimer timer;
@@ -40,20 +47,11 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
-//    private Handler mHandler = new Handler(){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            // TODO Auto-generated method stub
-//            int what = msg.what;
-//            if (what == 0) {	//update
-//                dialog.setTitle(time+"");
-//            }
-//        }
-//    };
 
     private String id = "";
     private DialoggerFinsh dialog = null;
     private ILoadingView loading_dialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_unloading_verification_weight;
@@ -62,13 +60,14 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         id = getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        if ("".equals(id)) {
             ToastUtil.setToast("参数错误");
             finish();
         }
         txtTabTitle.setText("卸货验证");
         loading_dialog = new LoadingDialog(this);
         ProApplication.getinstance().addActivity(UnloadingVerificationActivity.this);
+        getUnloadingVerification();
     }
 
     @Override
@@ -85,8 +84,7 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_submit:
-                getUnloadingVerification();
-//                showUsualDialog();
+                finish();
                 break;
         }
 
@@ -94,7 +92,7 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
 
     public void showUsualDialog() {
         dialog = DialoggerFinsh.Builder(this)
-                .setTitle("友情提示")
+                .setTitle("未称重！")
                 .setMessage("3秒后自动返回首页")
                 .build()
                 .shown();
@@ -109,7 +107,7 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
             @Override
             public void onTick(long millisUntilFinished) {
 //                mHandler.sendEmptyMessage(0);
-                dialog.getTvMessage().setText(millisUntilFinished/1000+"秒后自动返回首页");
+                dialog.getTvMessage().setText(millisUntilFinished / 1000 + "秒后自动返回首页");
             }
 
             @Override
@@ -119,13 +117,23 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
         }.start();
     }
 
+    private void setData(UnloadingVerificationBean.DataBean bean) {
+        mTvContractor.setText(bean.getFarmerName());
+        mTvVarieties.setText(bean.getVarietyName());
+        mTvWarehouse.setText(bean.getWarehouseName());
+        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getGrossWeight()) + " 公斤");
+        if(bean.getGrossWeight()==0){
+            showUsualDialog();
+        }
+    }
+
     //获取卸货信息
     private void getUnloadingVerification() {
-        String sign = MD5Util.encode("id="+id);
+        String sign = MD5Util.encode("code=" + id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getUnloadingVerificationInfo(id, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers())
-                .subscribe(new CommonObserver<BaseABean>() {
+                .compose(Transformer.<UnloadingVerificationBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<UnloadingVerificationBean>() {
                     @Override
                     protected void onError(String errorMsg) {
 
@@ -133,8 +141,13 @@ public class UnloadingVerificationActivity extends BaseTitleActivity {
                     }
 
                     @Override
-                    protected void onSuccess(BaseABean loginBean) {
-                        ToastUtil.setToast(loginBean.getMsg());
+                    protected void onSuccess(UnloadingVerificationBean bean) {
+                        if (bean.getCode() == 200) {
+                            setData(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
                     }
                 });
     }

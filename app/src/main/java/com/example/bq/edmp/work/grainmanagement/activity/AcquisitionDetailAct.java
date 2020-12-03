@@ -16,12 +16,15 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.grainmanagement.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.DetailsDetectionListAdp;
+import com.example.bq.edmp.work.grainmanagement.bean.AcquisitionBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,18 +78,8 @@ public class AcquisitionDetailAct extends BaseTitleActivity {
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
-        List<PayInfoBean> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            PayInfoBean bean = new PayInfoBean();
-            bean.setId(i + "");
-            bean.setDesc("啊啊啊啊");
-            list.add(bean);
-        }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
-//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
-//        mRecyclerView.addItemDecoration(gridItemDecoration);
-        detailsDetectionListAdp = new DetailsDetectionListAdp(list);
+        detailsDetectionListAdp = new DetailsDetectionListAdp(null);
         mRecyclerView.setAdapter(detailsDetectionListAdp);
         getAcquisitionDetail();
     }
@@ -105,21 +98,43 @@ public class AcquisitionDetailAct extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
+    //查询成功赋值
+    private void  setData(AcquisitionBean.DataBean bean){
+        mTvNumber.setText("收购单号  "+bean.getCode());
+        if(bean.getStatus()==1){
+            mTvStatus.setText("收购中");
+        }else{
+            mTvStatus.setText("已完成");
+        }
+        mTvContractor.setText(bean.getFarmerName());
+        mTvVarieties.setText(bean.getVarietyName());
+        mTvWarehouse.setText(bean.getWarehouseName());
+        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getGrossWeight())+" 公斤");
+        mTvPiWeight.setText(MoneyUtils.formatMoney(bean.getTareWeight())+" 公斤");
+        mTvWeight.setText(MoneyUtils.formatMoney(bean.getNetWeight())+" 公斤");
+        mTvDate.setText(bean.getAddedTime());
+        detailsDetectionListAdp.addData(bean.getTestingItems());
+    }
     //获取收购详情
     private void getAcquisitionDetail() {
         String sign = MD5Util.encode("id="+id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getAcquisitionDetail(id, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<BaseABean>() {
+                .compose(Transformer.<AcquisitionBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<AcquisitionBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(BaseABean loginBean) {
-                        ToastUtil.setToast(loginBean.getMsg());
+                    protected void onSuccess(AcquisitionBean acquisitionBean) {
+                        if (acquisitionBean.getCode() == 200) {
+                            setData(acquisitionBean.getData());
+                        } else {
+                            ToastUtil.setToast(acquisitionBean.getMsg());
+                            finish();
+                        }
                     }
                 });
     }

@@ -52,6 +52,7 @@ public class TraeSuccessActivity extends BaseTitleActivity {
         switch (view.getId()) {
             case R.id.tv_printing:
                 PrinterSettingActivity.newIntent(getApplicationContext(), "2", id);
+                finish();
                 break;
         }
     }
