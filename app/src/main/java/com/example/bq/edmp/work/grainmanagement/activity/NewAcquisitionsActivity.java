@@ -175,9 +175,9 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
-        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
-        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
         ContractorListAdp contractorListAdp = new ContractorListAdp(contractorListBean.getData());
         myRecyclerViewOne.setAdapter(contractorListAdp);
         contractorListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -256,9 +256,9 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
-        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
-        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
         VarietiesListAdp varietiesListAdp = new VarietiesListAdp(varietiesListBean.getData());
         myRecyclerViewOne.setAdapter(varietiesListAdp);
         varietiesListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -332,9 +332,9 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
-        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
-        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
         WareHouseListAdp wareHouseListAdp = new WareHouseListAdp(wareHouseListBean.getData());
         myRecyclerViewOne.setAdapter(wareHouseListAdp);
         wareHouseListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -374,7 +374,7 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
     private void getTestingList() {
         String sign = MD5Util.encode("id=" + cropId);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
-                .getTestingList(contractorId + "", sign)
+                .getTestingList(cropId + "", sign)
                 .compose(Transformer.<TestingBeanList>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<TestingBeanList>() {
                     @Override

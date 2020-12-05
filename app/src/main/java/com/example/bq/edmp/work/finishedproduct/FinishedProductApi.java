@@ -1,14 +1,6 @@
-package com.example.bq.edmp.work.grainmanagement.api;
+package com.example.bq.edmp.work.finishedproduct;
 
-import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
-import com.example.bq.edmp.activity.apply.bean.PayReimbursementDetailsInfo;
-import com.example.bq.edmp.activity.apply.bean.RevokeApplyBean;
-import com.example.bq.edmp.activity.apply.bean.SelectReimbursementDetailsBean;
-import com.example.bq.edmp.activity.apply.bean.UpdateRembursemenBean;
-import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsBean;
-import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
-import com.example.bq.edmp.activity.login.UserInfoBean;
 import com.example.bq.edmp.work.grainmanagement.bean.AcquisitionBean;
 import com.example.bq.edmp.work.grainmanagement.bean.ContractorListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.GrossWeightBean;
@@ -20,20 +12,16 @@ import com.example.bq.edmp.work.grainmanagement.bean.VarietiesListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.WareHouseListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
 
-public interface RawGrainManagementApi {
+public interface FinishedProductApi {
 
     //称重皮重详情
     @FormUrlEncoded
@@ -96,10 +84,9 @@ public interface RawGrainManagementApi {
     //库存详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("grain/stock")
+    @POST("grain/stock/{id}")
     Observable<StockDetailBean> getStockDetail(
-            @Field("varietyId") String varietyId,
-            @Field("warehouseId") String warehouseId,
+            @Path("id") String id,
             @Field("sign") String sign);
 
     //卸货验证

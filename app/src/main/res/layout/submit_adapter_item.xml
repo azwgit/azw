@@ -16,11 +16,11 @@
 
         <ImageView
             android:id="@+id/state_img"
-            android:layout_width="@dimen/dp_64"
-            android:layout_height="@dimen/dp_64"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginRight="@dimen/dp_16"
             android:src="@drawable/property_1daitijiao" />
 
         <LinearLayout

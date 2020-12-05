@@ -1,4 +1,4 @@
-package com.example.bq.edmp.work.grainmanagement.activity;
+package com.example.bq.edmp.work.finishedproduct.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.finishedproduct.adapter.FinishedStockDetailAdp;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.StockDetailAdp;
 import com.example.bq.edmp.work.grainmanagement.bean.StockDetailBean;
@@ -34,9 +35,9 @@ import butterknife.BindView;
 /**
  * 库存详情
  */
-public class StockDetailAct extends BaseTitleActivity {
+public class FinishedStockDetailActivity extends BaseTitleActivity {
     public static void newIntent(Context context, String warehouseId, String varietyId) {
-        Intent intent = new Intent(context, StockDetailAct.class);
+        Intent intent = new Intent(context, FinishedStockDetailActivity.class);
         intent.putExtra(Constant.ID, warehouseId);
         intent.putExtra(Constant.TYPE, varietyId);
         context.startActivity(intent);
@@ -53,7 +54,7 @@ public class StockDetailAct extends BaseTitleActivity {
     @BindView(R.id.tv_subsidiary_company)
     TextView mTvSubsidiaryCompany;//子公司
 
-    private StockDetailAdp mAdapter;
+    private FinishedStockDetailAdp mAdapter;
     private String warehouseId = "";
     private String varietyId = "";
     private ILoadingView loading_dialog;
@@ -76,7 +77,7 @@ public class StockDetailAct extends BaseTitleActivity {
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new StockDetailAdp();
+        mAdapter = new FinishedStockDetailAdp();
         mRecyclerView.setAdapter(mAdapter);
         getStockDetail();
     }

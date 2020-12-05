@@ -118,6 +118,11 @@ public class TraeActivity extends BaseTitleActivity {
                 .shown();
     }
     private void setData(TraeBean.DataBean bean){
+        if(bean.getGrossWeight()<=0){
+            ToastUtil.setToast("请先称毛重");
+            finish();
+            return;
+        }
         mTvNumber.setText("收购单号  "+bean.getCode());
         mTvContractor.setText(bean.getFarmerName());
         mTvVarieties.setText(bean.getVarietyName());

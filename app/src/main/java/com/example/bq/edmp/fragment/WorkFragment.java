@@ -204,7 +204,7 @@ public class WorkFragment extends BaseFragment {
                                                 break;
                                             case "020209":
                                                 //库存查询
-                                                StockDetailAct.newIntent(getActivity(),"1");
+                                                StockDetailAct.newIntent(getActivity(),"1","1");
                                                 break;
                                         }
 //                                        if (subtBean.getName().equals("审批管理")) {
