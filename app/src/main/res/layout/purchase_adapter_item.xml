@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_232"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="#FFF2F5F6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:alpha="0.7"
+            android:text="111111111111111"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_12" />
+
+
+        <TextView
+            android:background="@drawable/purchase_red_shape"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:id="@+id/status_tv"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="@dimen/dp_22"
+            android:text="收购中"
+            android:textColor="@color/colorf9"
+            android:textSize="@dimen/sp_12" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#FFF2F5F6" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:id="@+id/variety_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:alpha="0.9"
+        android:text="小麦09"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/sp_14" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36">
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:id="@+id/weight_m_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:alpha="0.9"
+            android:text="毛重: 1220.45斤"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:id="@+id/weight_p_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:alpha="0.9"
+            android:text="皮重: 1220.45斤"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:id="@+id/weight_j_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:alpha="0.9"
+        android:text="净重: 22222斤"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/sp_12" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#FFF2F5F6" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36">
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:id="@+id/farm_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:alpha="0.5"
+            android:text="荣耀农场"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:id="@+id/user_name_tv"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:alpha="0.5"
+            android:text="老李"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36">
+
+        <TextView
+            android:id="@+id/company_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:alpha="0.5"
+            android:text="某分公司"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+
+        <TextView
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2020-12-02"
+            android:alpha="0.5"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

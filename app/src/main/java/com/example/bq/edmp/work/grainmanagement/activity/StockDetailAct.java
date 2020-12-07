@@ -106,7 +106,7 @@ public class StockDetailAct extends BaseTitleActivity {
 
     //获取库存详情
     private void getStockDetail() {
-        String sign = MD5Util.encode("varietyId=" + varietyId + "&warehouseId=" + warehouseId);
+        String sign = MD5Util.encode("itemId=" + varietyId + "&warehouseId=" + warehouseId);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getStockDetail(varietyId, warehouseId, sign)
                 .compose(Transformer.<StockDetailBean>switchSchedulers(loading_dialog))

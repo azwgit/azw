@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="承包人"
@@ -93,7 +93,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="品种"
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="仓库"
@@ -149,7 +149,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="毛重"
@@ -177,7 +177,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="皮重"
@@ -205,7 +205,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="净重"
@@ -233,7 +233,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="收购日期"
@@ -254,6 +254,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_pinzhongxinxi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_15"
@@ -269,7 +270,6 @@
             android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
             android:background="#E5E5E5" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

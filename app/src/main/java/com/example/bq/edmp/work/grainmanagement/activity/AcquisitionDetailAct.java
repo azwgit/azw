@@ -60,6 +60,9 @@ public class AcquisitionDetailAct extends BaseTitleActivity {
     TextView mTvWeight;//净重
     @BindView(R.id.tv_date)
     TextView mTvDate;//收购日期
+    @BindView(R.id.tv_pinzhongxinxi)
+    TextView mTvPinZhongXinXi;//收购品种信息
+
     private DetailsDetectionListAdp detailsDetectionListAdp;
     private String id="";
     private ILoadingView loading_dialog;
@@ -113,6 +116,10 @@ public class AcquisitionDetailAct extends BaseTitleActivity {
         mTvPiWeight.setText(MoneyUtils.formatMoney(bean.getTareWeight())+" 公斤");
         mTvWeight.setText(MoneyUtils.formatMoney(bean.getNetWeight())+" 公斤");
         mTvDate.setText(bean.getAddedTime());
+        if(bean.getTestingItems()==null){
+            mTvPinZhongXinXi.setVisibility(View.GONE);
+            return ;
+        }
         detailsDetectionListAdp.addData(bean.getTestingItems());
     }
     //获取收购详情

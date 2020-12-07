@@ -98,7 +98,7 @@ public interface RawGrainManagementApi {
     @Headers({"urlname:production"})
     @POST("grain/stock")
     Observable<StockDetailBean> getStockDetail(
-            @Field("varietyId") String varietyId,
+            @Field("itemId") String itemId,
             @Field("warehouseId") String warehouseId,
             @Field("sign") String sign);
 

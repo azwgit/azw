@@ -18,7 +18,7 @@ public class LoadingDialog extends Dialog implements ILoadingView {
     }
 
     public LoadingDialog(Context context, int themeResId) {
-        super(context, themeResId);
+        super(context, R.style.Transparent_Dialog);
     }
 
     @Override

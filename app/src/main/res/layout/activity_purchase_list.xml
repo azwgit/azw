@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerlayout"
+    android:orientation="vertical"
+    tools:context=".word.purchase.PurchaseListActivity">
+
+    <!--数据-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2FFFFFF"
+        android:orientation="vertical">
+
+    <include layout="@layout/base_header_layout" />
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:id="@+id/rl"
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="7">
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:src="@drawable/search" />
+
+            <EditText
+                android:id="@+id/search_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_36"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_toRightOf="@id/img"
+                android:background="@null"
+                android:hint="请输入单号/品种名称查找"
+                android:textColorHint="@color/color_69"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_marginLeft="@dimen/dp_16"
+            android:id="@+id/screen_img"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/dp_10"
+            android:src="@drawable/icon_universal" />
+
+    </RelativeLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/xr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <!--策划  筛选-->
+    <RelativeLayout
+        android:id="@+id/linter_history"
+        android:layout_width="@dimen/dp_330"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <!--时间区间-->
+        <TextView
+            android:id="@+id/tiem_qj_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_34"
+            android:alpha="0.9"
+            android:gravity="center_vertical"
+            android:text="时间区间"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+        <!--开始时间-->
+            <TextView
+                android:id="@+id/start_time_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_below="@id/tiem_qj_tv"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="#F2F5F6"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:hint="请选择开始时间"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/color_66000000"
+                android:textSize="@dimen/sp_14" />
+
+
+
+        <!--结束时间-->
+
+            <TextView
+                android:id="@+id/end_time_tv"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_below="@id/start_time_tv"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="#F2F5F6"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:hint="请选择结束时间"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/color_66000000"
+                android:textSize="@dimen/sp_14" />
+
+
+        <!--分公司-->
+        <TextView
+            android:layout_below="@id/end_time_tv"
+            android:id="@+id/a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_25"
+            android:alpha="0.9"
+            android:gravity="center_vertical"
+            android:text="分公司"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+        <RelativeLayout
+            android:id="@+id/fen_company_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_below="@id/a"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:background="#F2F5F6">
+
+            <TextView
+                android:id="@+id/fen_company_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:drawableRight="@drawable/down"
+                android:gravity="center"
+                android:hint="所有分子公司"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/color_66000000"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+
+        <!--品种-->
+        <TextView
+            android:id="@+id/pz"
+            android:layout_marginTop="@dimen/dp_33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fen_company_rl"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:gravity="center_vertical"
+            android:text="品种"
+            android:textColor="#000000"
+            android:textSize="@dimen/sp_14" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:layout_below="@id/pz"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <!--底部按钮-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/cz_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="#F2F5F6"
+                android:gravity="center"
+                android:text="重置"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/affirm_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorf9"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

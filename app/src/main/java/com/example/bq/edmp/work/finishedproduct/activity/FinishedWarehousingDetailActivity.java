@@ -35,10 +35,6 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
-    @BindView(R.id.my_recycler_view)
-    RecyclerView mRecyclerView;
-    @BindView(R.id.ly_one)
-    LinearLayout mLyOne;//检测信息父布局
     @BindView(R.id.ly_two)
     LinearLayout mLyTwo;//调拨信息父布局
     @BindView(R.id.tv_number)
@@ -63,12 +59,6 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
     TextView mTvTransferNumber;//调拨单号
     @BindView(R.id.tv_task_number)
     TextView mTvTaskNumber;//任务单号
-
-
-
-
-
-    private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
     private String id="";
     private ILoadingView loading_dialog;
     @Override
@@ -86,9 +76,6 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        wareHousingDetailsDetectionListAdp = new WareHousingDetailsDetectionListAdp(null);
-        mRecyclerView.setAdapter(wareHousingDetailsDetectionListAdp);
         getAcquisitionDetail();
     }
 
@@ -112,14 +99,12 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
         switch (bean.getType2()){
             case 1:
                 type="采购入库";
-                wareHousingDetailsDetectionListAdp.addData(bean.getTestingItems());
                 break;
             case 2:
                 type="加工入库";
                 break;
             case 3:
                 type="调拨入库";
-                mLyOne.setVisibility(View.GONE);
                 mLyTwo.setVisibility(View.VISIBLE);
                 mTvTransferWarehouse.setText(bean.getStockAllots().getWarehouseName());
                 mTvTransferReason.setText(bean.getStockAllots().getReason());

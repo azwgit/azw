@@ -67,10 +67,6 @@ public class WarehousingDetailAct extends BaseTitleActivity {
     TextView mTvTransferReason;//调拨原因
     @BindView(R.id.tv_transfer_number)
     TextView mTvTransferNumber;//调拨单号
-
-
-
-
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
     private String id="";
     private ILoadingView loading_dialog;

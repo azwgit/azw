@@ -39,7 +39,13 @@
         <activity android:name=".work.finishedproduct.activity.FinishedWarehousingOutDetailActivity"></activity>
         <activity android:name=".work.finishedproduct.activity.FinishedWarehousingDetailActivity" />
         <activity android:name=".work.finishedproduct.activity.FinishedStockDetailActivity" />
-        <activity android:name=".work.finishedproduct.activity.DeliverGoodsDetailsActivity" />
+        <activity android:name=".work.finishedproduct.activity.DeliverGoodsDetailsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".work.finishedproduct.activity.MachiningTaskDetailsActivity" />
         <activity android:name=".work.grainmanagement.activity.NewAcquisitionsSuccessActivity" />
         <activity android:name=".work.grainmanagement.activity.TraeSuccessActivity" />
@@ -64,11 +70,7 @@
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
         <activity android:name=".activity.StartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -119,6 +121,9 @@
         <activity android:name=".work.grainmanagement.activity.WarehousingDetailAct" />
         <activity android:name=".work.grainmanagement.activity.WarehousingOutDetailAct" />
         <activity android:name=".work.grainmanagement.activity.StockDetailAct" />
+        <activity android:name=".word.inventory.InventoryActivity" />
+        <activity android:name=".word.put_warehouse.Put_WarehouseActivity"></activity>
+        <activity android:name=".word.purchase.PurchaseListActivity" />
     </application>
 
 </manifest>

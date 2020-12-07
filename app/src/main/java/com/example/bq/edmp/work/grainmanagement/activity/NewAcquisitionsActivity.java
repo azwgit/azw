@@ -59,6 +59,8 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
     TextView mTvVarieties;
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;
+    @BindView(R.id.tv_jiance)
+    TextView mTvJiance;
 
     PopupWindow mTypePopuWindow;
     private DetectionListAdp detectionListAdp;
@@ -197,6 +199,8 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
                 //清空检测项目
                 testPlanItemsBeans.clear();
                 detectionListAdp.addData(testPlanItemsBeans);
+                //隐藏检测信息
+                mTvJiance.setVisibility(View.GONE);
                 mTypePopuWindow.dismiss();
             }
         });
@@ -245,6 +249,7 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
                     protected void onSuccess(VarietiesListBean bean) {
                         varietiesListBean = bean;
                         showVarietiesList();
+
                     }
                 });
     }
@@ -273,6 +278,8 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
                 cropId = varietiesListBean.getData().get(position).getCropId();
                 //根据品种获取检测信息
                 getTestingList();
+                //显示检测信息
+                mTvJiance.setVisibility(View.VISIBLE);
                 mTypePopuWindow.dismiss();
             }
         });
