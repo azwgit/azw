@@ -7,14 +7,14 @@
     android:background="#80000000">
 
     <RelativeLayout
-        android:layout_width="@dimen/dp_280"
-        android:layout_height="@dimen/dp_386"
-        android:layout_centerInParent="true">
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_420">
 
         <LinearLayout
-            android:layout_width="@dimen/dp_280"
-            android:layout_height="@dimen/dp_386"
-            android:background="@drawable/dialog_shape_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_420"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <TextView
@@ -84,7 +84,6 @@
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,75 +96,47 @@
                     android:layout_height="wrap_content"
                     android:alpha="0.9"
                     android:gravity="right"
-                    android:text="上报完成"
+                    android:text="原粮库"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:id="@+id/tv_raw_warehouse"
+                    android:background="@drawable/rounded_editview"
+                    android:gravity="left|center"
+                    android:layout_width="@dimen/dp_150"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:alpha="0.7"
+                    android:hint="请选择原粮出库仓库"
+                    android:textColorHint="#17171A"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_72"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.9"
+                    android:gravity="right"
+                    android:text="加工完成"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
                 <EditText
                     android:background="@drawable/rounded_editview"
                     android:id="@+id/et_current_number"
-                    android:layout_width="@dimen/dp_130"
+                    android:layout_width="@dimen/dp_80"
                     android:layout_height="@dimen/dp_40"
                     android:layout_marginLeft="@dimen/dp_15"
+                    android:inputType="number"
                     android:alpha="0.7"
-                    android:hint="请输入当前完成量"
-                    android:textColorHint="#17171A"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_14" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/dp_72"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.9"
-                    android:gravity="right"
-                    android:text="成品仓库"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:background="@drawable/rounded_editview"
-                    android:id="@+id/tv_warehouse"
-                    android:gravity="left|center"
-                    android:layout_width="@dimen/dp_130"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:alpha="0.7"
-                    android:hint="请选择仓库"
-                    android:textColorHint="#17171A"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_14" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="@dimen/dp_72"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.9"
-                    android:gravity="right"
-                    android:text="副产品重量"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_14" />
-
-                <EditText
-                    android:background="@drawable/rounded_editview"
-                    android:id="@+id/et_product_number"
-                    android:layout_width="@dimen/dp_130"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:alpha="0.7"
-                    android:hint="请输入副产品重量"
                     android:textColorHint="#17171A"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
@@ -178,57 +149,76 @@
                     android:text="公斤"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
+                <TextView
+                    android:id="@+id/tv_complete_warehouse"
+                    android:background="@drawable/rounded_editview"
+                    android:gravity="left|center"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:alpha="0.7"
+                    android:hint="选择存入仓库"
+                    android:textColorHint="#17171A"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="15dp"
-                android:background="#E4E4E4" />
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_20"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="取消"
-                    android:textColor="#7D7D7D"
-                    android:textSize="@dimen/sp_16" />
+                <TextView
+                    android:layout_width="@dimen/dp_72"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.9"
+                    android:gravity="right"
+                    android:text="副产品"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:background="#E4E4E4" />
-
-                <Button
-                    android:id="@+id/btn_confirm"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="确认"
-                    android:textColor="#F91515"
-                    android:textSize="@dimen/sp_16" />
+                <EditText
+                    android:id="@+id/et_product_number"
+                    android:background="@drawable/rounded_editview"
+                    android:layout_width="@dimen/dp_80"
+                    android:layout_height="@dimen/dp_40"
+                    android:inputType="number"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:alpha="0.7"
+                    android:textColorHint="#17171A"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
+                <TextView
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.9"
+                    android:gravity="left"
+                    android:text="公斤"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
+                <TextView
+                    android:id="@+id/tv_product_warehouse"
+                    android:background="@drawable/rounded_editview"
+                    android:gravity="left|center"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:alpha="0.7"
+                    android:hint="选择存入仓库"
+                    android:textColorHint="#17171A"
+                    android:textColor="#17171A"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
         </LinearLayout>
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_alignParentBottom="true"
+            style="@style/btn_small_angle_new_style"
+            android:layout_weight="1"
+            android:text="接受确认"
+            android:layout_marginBottom="@dimen/dp_10"/>
     </RelativeLayout>
+
 </RelativeLayout>

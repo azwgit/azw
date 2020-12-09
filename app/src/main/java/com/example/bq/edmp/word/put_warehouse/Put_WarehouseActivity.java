@@ -552,7 +552,7 @@ public class Put_WarehouseActivity extends BaseActivity {
                         @Override
                         protected void onSuccess(WarehouseListBean warehouseListBean) {
                             List<WarehouseListBean.RowsBean> rows = warehouseListBean.getRows();
-                            if (rows.size() != 0 && rows != null) {
+                            if (rows != null&&rows.size() != 0) {
                                 start_time_tv.setHint("请选择开始时间");
                                 start_time_tv.setText("");
                                 end_time_tv.setHint("请选择结束时间");
@@ -598,7 +598,7 @@ public class Put_WarehouseActivity extends BaseActivity {
                         @Override
                         protected void onSuccess(WarehouseListBean warehouseListBean) {
                             List<WarehouseListBean.RowsBean> rows = warehouseListBean.getRows();
-                            if (rows.size() != 0 && rows != null) {
+                            if (rows != null&&rows.size() != 0) {
                                 start_time_tv.setHint("请选择开始时间");
                                 start_time_tv.setText("");
                                 end_time_tv.setHint("请选择结束时间");

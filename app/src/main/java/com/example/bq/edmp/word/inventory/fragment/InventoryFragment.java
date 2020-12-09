@@ -93,7 +93,7 @@ public class InventoryFragment extends BaseFragment {
         inventoryListAdapter.setOnItemClickListener(new InventoryListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, InventoryBean.RowsBean rowsBean) {
-                StockDetailAct.newIntent(getActivity(),rowsBean.getVarietyId(),rowsBean.getWarehouseId()+"");
+                StockDetailAct.newIntent(getActivity(),rowsBean.getWarehouseId()+"",rowsBean.getItemId());
             }
         });
     }

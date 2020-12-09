@@ -7,11 +7,12 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.work.finishedproduct.bean.VechicleListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.ContractorListBean;
 
 import java.util.List;
 
-public class CardTypeAdp extends BaseQuickAdapter<ContractorListBean.DataBean, BaseViewHolder> {
+public class CardTypeAdp extends BaseQuickAdapter<VechicleListBean.DataBean, BaseViewHolder> {
     public interface SaveEditListener {
         void SaveEdit(int position, String string);
     }
@@ -20,15 +21,16 @@ public class CardTypeAdp extends BaseQuickAdapter<ContractorListBean.DataBean, B
 
 
 
-    public CardTypeAdp(@Nullable List<ContractorListBean.DataBean> data) {
+    public CardTypeAdp(@Nullable List<VechicleListBean.DataBean> data) {
         super(R.layout.item_card_type, data);
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ContractorListBean.DataBean item) {
+    protected void convert(BaseViewHolder helper, VechicleListBean.DataBean item) {
         int pos = helper.getPosition();
         TextView mTvcard = helper.getView(R.id.tv_card);
+        mTvcard.setText(item.getContacts()+" "+item.getLicense());
         if (ischeck == pos) {
             mTvcard.setBackground(mContext.getResources().getDrawable(R.drawable.tv_text_red_shape));
             mTvcard.setTextColor(mContext.getResources().getColor(R.color.colorf9));

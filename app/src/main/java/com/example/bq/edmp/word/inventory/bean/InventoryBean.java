@@ -230,7 +230,6 @@ public class InventoryBean {
          */
 
         private int warehouseId;
-        private String varietyId;
         private String qty;
         private String lockedQty;
         private String orgIds;
@@ -240,6 +239,15 @@ public class InventoryBean {
         private String varietyName;
         private String warehouseName;
         private String stockRecords;
+        private String  itemId;
+
+        public String getItemId() {
+            return itemId;
+        }
+
+        public void setItemId(String itemId) {
+            this.itemId = itemId;
+        }
 
         public int getWarehouseId() {
             return warehouseId;
@@ -249,13 +257,7 @@ public class InventoryBean {
             this.warehouseId = warehouseId;
         }
 
-        public String getVarietyId() {
-            return varietyId;
-        }
 
-        public void setVarietyId(String varietyId) {
-            this.varietyId = varietyId;
-        }
 
         public String getQty() {
             return qty;

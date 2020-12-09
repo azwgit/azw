@@ -27,6 +27,9 @@ import com.example.bq.edmp.word.bean.SecondResult;
 import com.example.bq.edmp.word.inventory.InventoryActivity;
 import com.example.bq.edmp.word.purchase.PurchaseListActivity;
 import com.example.bq.edmp.word.put_warehouse.Put_WarehouseActivity;
+import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
+import com.example.bq.edmp.work.finishedproduct.activity.FinishedStockDetailActivity;
+import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
 
@@ -197,7 +200,20 @@ public class WorkFragment extends BaseFragment {
                                             Intent intent = new Intent(getActivity(), Put_WarehouseActivity.class);
                                             intent.putExtra("WarehouseType", 2);
                                             startActivity(intent);
+                                        }else if(subtBean.getId().equals("020301")){
+                                            MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
                                         }
+                                        else if(subtBean.getId().equals("020302")){
+                                            MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
+                                        }
+                                        else if(subtBean.getId().equals("020303")){
+                                            MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
+                                        }else if(subtBean.getId().equals("020305")){
+                                            DeliverGoodsDetailsActivity.newIntent(getActivity(),"5");
+                                        } else if(subtBean.getId().equals("020309")){
+                                            FinishedStockDetailActivity.newIntent(getActivity(),"34","1");
+                                        }
+
                                     }
                                 });
                             }

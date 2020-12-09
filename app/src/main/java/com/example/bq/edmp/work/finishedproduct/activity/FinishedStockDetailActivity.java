@@ -23,6 +23,7 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.finishedproduct.adapter.FinishedStockDetailAdp;
+import com.example.bq.edmp.work.finishedproduct.api.FinishedProductApi;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.StockDetailAdp;
 import com.example.bq.edmp.work.grainmanagement.bean.StockDetailBean;
@@ -36,10 +37,10 @@ import butterknife.BindView;
  * 库存详情
  */
 public class FinishedStockDetailActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String warehouseId, String varietyId) {
+    public static void newIntent(Context context, String warehouseId, String packagingId) {
         Intent intent = new Intent(context, FinishedStockDetailActivity.class);
         intent.putExtra(Constant.ID, warehouseId);
-        intent.putExtra(Constant.TYPE, varietyId);
+        intent.putExtra(Constant.CODE, packagingId);
         context.startActivity(intent);
     }
 
@@ -56,7 +57,7 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
 
     private FinishedStockDetailAdp mAdapter;
     private String warehouseId = "";
-    private String varietyId = "";
+    private String packagingId = "";
     private ILoadingView loading_dialog;
 
     @Override
@@ -69,8 +70,8 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
     protected void initView() {
         txtTabTitle.setText("库存详情");
         warehouseId = getIntent().getStringExtra(Constant.ID);
-        varietyId = getIntent().getStringExtra(Constant.TYPE);
-        if ("".equals(warehouseId) || "".equals(varietyId)) {
+        packagingId = getIntent().getStringExtra(Constant.CODE);
+        if ("".equals(warehouseId) || "".equals(packagingId)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -107,24 +108,25 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
 
     //获取库存详情
     private void getStockDetail() {
-        String sign = MD5Util.encode("varietyId=" + varietyId + "&warehouseId=" + warehouseId);
-        RxHttpUtils.createApi(RawGrainManagementApi.class)
-                .getStockDetail(varietyId, warehouseId, sign)
-                .compose(Transformer.<StockDetailBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<StockDetailBean>() {
+        String sign = MD5Util.encode("packagingId=" + packagingId + "&warehouseId=" + warehouseId);
+        RxHttpUtils.createApi(FinishedProductApi.class)
+                .getStockDetail(packagingId, warehouseId, sign)
+                .compose(Transformer.<String>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<String>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(StockDetailBean bean) {
-                        if (bean.getCode() == 200) {
-                            setData(bean.getData());
-                        } else {
-                            ToastUtil.setToast(bean.getMsg());
-                            finish();
-                        }
+                    protected void onSuccess(String bean) {
+                        String a=bean;
+//                        if (bean.getCode() == 200) {
+//                            setData(bean.getData());
+//                        } else {
+//                            ToastUtil.setToast(bean.getMsg());
+//                            finish();
+//                        }
                     }
                 });
     }

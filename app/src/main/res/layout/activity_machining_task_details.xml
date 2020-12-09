@@ -103,7 +103,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:id="@+id/tv_contractor"
+                    android:id="@+id/tv_subsidiary_company"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -131,7 +131,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:id="@+id/tv_warehouse"
+                    android:id="@+id/tv_packing"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -159,7 +159,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:id="@+id/tv_varieties"
+                    android:id="@+id/tv_planned_quantity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -182,12 +182,12 @@
                     android:layout_weight="2"
                     android:background="#0D000000"
                     android:gravity="center"
-                    android:text="完成日期"
+                    android:text="计划完成日期"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:id="@+id/tv_gross_weight"
+                    android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -200,6 +200,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ly_task"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -232,7 +234,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
-                        android:id="@+id/tv_transfer_warehouse"
+                        android:id="@+id/tv_receiver"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -260,7 +262,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
-                        android:id="@+id/tv_transfer_reason"
+                        android:id="@+id/tv_accept_time"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -273,95 +275,105 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/ly_operation_info"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_56"
-                    android:layout_marginTop="@dimen/dp_1">
-
-                    <TextView
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:background="#0D000000"
-                        android:gravity="center"
-                        android:text="操作人"
-                        android:textColor="#17171A"
-                        android:textSize="@dimen/sp_14" />
+                        android:layout_height="@dimen/dp_56"
+                        android:layout_marginTop="@dimen/dp_1">
 
-                    <TextView
-                        android:id="@+id/tv_transfer_number"
+                        <TextView
+                            android:id="@+id/tv_operator"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:background="#0D000000"
+                            android:gravity="center"
+                            android:text="操作人"
+                            android:textColor="#17171A"
+                            android:textSize="@dimen/sp_14" />
+
+                        <TextView
+                            android:id="@+id/tv_transfer_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_20"
+                            android:text="8号仓库库存不足，补充备用"
+                            android:textColor="#E617171A"
+                            android:textSize="@dimen/sp_16" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/dp_20"
-                        android:text="8号仓库库存不足，补充备用"
-                        android:textColor="#E617171A"
-                        android:textSize="@dimen/sp_16" />
-                </LinearLayout>
+                        android:layout_height="@dimen/dp_56"
+                        android:layout_marginTop="@dimen/dp_1">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_56"
-                    android:layout_marginTop="@dimen/dp_1">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:background="#0D000000"
+                            android:gravity="center"
+                            android:text="完成日期"
+                            android:textColor="#17171A"
+                            android:textSize="@dimen/sp_14" />
 
-                    <TextView
+                        <TextView
+                            android:id="@+id/tv_completion_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_20"
+                            android:text="8号仓库库存不足，补充备用"
+                            android:textColor="#E617171A"
+                            android:textSize="@dimen/sp_16" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:background="#0D000000"
-                        android:gravity="center"
-                        android:text="完成日期"
-                        android:textColor="#17171A"
-                        android:textSize="@dimen/sp_14" />
+                        android:layout_height="@dimen/dp_56"
+                        android:layout_marginTop="@dimen/dp_1">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/dp_20"
-                        android:text="8号仓库库存不足，补充备用"
-                        android:textColor="#E617171A"
-                        android:textSize="@dimen/sp_16" />
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:background="#0D000000"
+                            android:gravity="center"
+                            android:text="实际加工量"
+                            android:textColor="#17171A"
+                            android:textSize="@dimen/sp_14" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_56"
-                    android:layout_marginTop="@dimen/dp_1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:background="#0D000000"
-                        android:gravity="center"
-                        android:text="实际加工量"
-                        android:textColor="#17171A"
-                        android:textSize="@dimen/sp_14" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/dp_20"
-                        android:text="8号仓库库存不足，补充备用"
-                        android:textColor="#E617171A"
-                        android:textSize="@dimen/sp_16" />
+                        <TextView
+                            android:id="@+id/tv_processing_capacity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_20"
+                            android:text="8号仓库库存不足，补充备用"
+                            android:textColor="#E617171A"
+                            android:textSize="@dimen/sp_16" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ly_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/ly_one"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/dp_16"
@@ -380,6 +392,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tv_degree_of_completion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_22"
@@ -442,24 +455,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/dp_34"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_30"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/btn_del"
-            style="@style/btn_small_angle_style"
+            style="@style/btn_small_angle_new_style"
             android:layout_weight="1"
             android:text="任务终止" />
 
         <TextView
             android:id="@+id/btn_submit"
-            style="@style/btn_small_angle_style"
+            style="@style/btn_small_angle_new_style"
             android:layout_weight="1"
             android:text="加工上报" />
 
         <TextView
-            android:id="@+id/btn_revoke"
-            style="@style/btn_small_angle_style"
+            android:id="@+id/btn_ok"
+            style="@style/btn_small_angle_new_style"
             android:layout_weight="1"
             android:text="接受确认"
             android:visibility="gone" />

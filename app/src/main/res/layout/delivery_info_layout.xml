@@ -49,7 +49,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:textColor="#17171A"
-                android:textColorHint="#17171A"
+                android:textColorHint="#8B8B8C"
                 android:textSize="@dimen/sp_14" />
             <EditText
                 android:id="@+id/et_ordernum"
@@ -62,7 +62,7 @@
                 android:paddingLeft="@dimen/dp_12"
                 android:paddingRight="@dimen/dp_12"
                 android:textColor="#17171A"
-                android:textColorHint="#17171A"
+                android:textColorHint="#8B8B8C"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
@@ -90,6 +90,7 @@
 
     </LinearLayout>
         <TextView
+            android:id="@+id/tv_send"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
