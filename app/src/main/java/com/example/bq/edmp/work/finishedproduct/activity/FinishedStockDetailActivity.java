@@ -24,6 +24,7 @@ import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.finishedproduct.adapter.FinishedStockDetailAdp;
 import com.example.bq.edmp.work.finishedproduct.api.FinishedProductApi;
+import com.example.bq.edmp.work.finishedproduct.bean.FinishedStockDetailBean;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.StockDetailAdp;
 import com.example.bq.edmp.work.grainmanagement.bean.StockDetailBean;
@@ -98,8 +99,8 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
 
     }
 
-    private void setData(StockDetailBean.DataBean bean) {
-        mTvName.setText(bean.getVarietyName());
+    private void setData(FinishedStockDetailBean.DataBean bean) {
+        mTvName.setText(bean.getVarietyName()+" "+bean.getPackagingName());
         mTvContractor.setText(MoneyUtils.formatMoney(bean.getQty()) + " 吨");
         mTvWarehouse.setText(bean.getWarehouseName());
         mTvSubsidiaryCompany.setText(bean.getOrgName());
@@ -111,22 +112,21 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
         String sign = MD5Util.encode("packagingId=" + packagingId + "&warehouseId=" + warehouseId);
         RxHttpUtils.createApi(FinishedProductApi.class)
                 .getStockDetail(packagingId, warehouseId, sign)
-                .compose(Transformer.<String>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<String>() {
+                .compose(Transformer.<FinishedStockDetailBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<FinishedStockDetailBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(String bean) {
-                        String a=bean;
-//                        if (bean.getCode() == 200) {
-//                            setData(bean.getData());
-//                        } else {
-//                            ToastUtil.setToast(bean.getMsg());
-//                            finish();
-//                        }
+                    protected void onSuccess(FinishedStockDetailBean bean) {
+                        if (bean.getCode() == 200) {
+                            setData(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
                     }
                 });
     }

@@ -19,6 +19,7 @@ import com.example.bq.edmp.work.grainmanagement.bean.UnloadingVerificationBean;
 import com.example.bq.edmp.work.grainmanagement.bean.VarietiesListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.WareHouseListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
+import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingOutDetailBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public interface RawGrainManagementApi {
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("grain/substock/{id}")
-    Observable<BaseABean> getWareHousingOutDetail(
+    Observable<WarehouseingOutDetailBean> getWareHousingOutDetail(
             @Path("id") String id,
             @Field("sign") String sign);
 

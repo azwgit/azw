@@ -383,16 +383,15 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
             case "6":
             case "7":
                 mTvStatus.setText("已发货");
-                //隐藏已发货信息
-                mLyOne.setVisibility(View.GONE);
+                mLyOne.setVisibility(View.VISIBLE);
                 //隐藏发货按钮
                 mBtnSubmit.setVisibility(View.GONE);
                 mTvDeliverGoodsTime.setText(bean.getOrderSendOut().getTimes());
                 //1选择车辆发货 2 物流发货 3 其他
                 if (bean.getOrderSendOut().getTypes() == 1) {
-                    mTvDeliveryMethod.setText(bean.getOrderSendOut().getContacts() + "  " + bean.getOrderSendOut().getLicense());
+                    mTvDeliveryMethod.setText(bean.getOrderSendOut().getContacts() + "\n"  + bean.getOrderSendOut().getLicense());
                 } else if (bean.getOrderSendOut().getTypes() == 2) {
-                    mTvDeliveryMethod.setText(bean.getOrderSendOut().getLogisticsName() + "  " + bean.getOrderSendOut().getTplNo());
+                    mTvDeliveryMethod.setText(bean.getOrderSendOut().getLogisticsName() + "\n"  +  bean.getOrderSendOut().getTplNo());
                 } else {
                     mTvDeliveryMethod.setText(bean.getOrderSendOut().getRemark());
                 }

@@ -1,14 +1,13 @@
-package com.example.bq.edmp.work.grainmanagement.bean;
+package com.example.bq.edmp.work.finishedproduct.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class WarehouseingDetailBean implements Serializable {
+public class FinishedWarehousingBean implements Serializable {
 
     /**
      * code : 200
      * msg : 查询成功
-     * data : {"id":1,"code":"143","warehouseId":1,"type1":1,"type2":3,"businessFormId":null,"addedTime":"2020-12-02","addedOperator":null,"finishedTime":null,"finishedOperator":null,"remark":null,"orgId":null,"orgIds":null,"beginTime":null,"endTime":null,"varietyId":null,"varietyName":"一号小麦","warehouseName":"1号仓库","orgName":"北京分公司","addQty":13,"testingItems":null,"stockAllots":{"id":null,"code":"1","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"hajk","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"2号仓库"}}
+     * data : {"id":35,"code":"SG3422","owner":1,"warehouseId":2,"type1":2,"type2":3,"businessFormId":null,"addedTime":"2020-12-09 12:44:50","addedOperator":"管理员","finishedTime":null,"finishedOperator":null,"remark":null,"orgId":null,"orgIds":null,"beginTime":null,"endTime":null,"packagingId":null,"varietyId":null,"varietyName":"一号小麦","warehouseName":"2号仓库","orgName":"北京爱种网络科技有限公司","addQty":324,"grainPurchaseCode":null,"packagingName":null,"processCode":null,"testingItems":null,"stockAllots":{"id":null,"code":"2431","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"43","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"1号仓库"}}
      */
 
     private int code;
@@ -41,14 +40,15 @@ public class WarehouseingDetailBean implements Serializable {
 
     public static class DataBean {
         /**
-         * id : 1
-         * code : 143
-         * warehouseId : 1
-         * type1 : 1
+         * id : 35
+         * code : SG3422
+         * owner : 1
+         * warehouseId : 2
+         * type1 : 2
          * type2 : 3
          * businessFormId : null
-         * addedTime : 2020-12-02
-         * addedOperator : null
+         * addedTime : 2020-12-09 12:44:50
+         * addedOperator : 管理员
          * finishedTime : null
          * finishedOperator : null
          * remark : null
@@ -56,23 +56,28 @@ public class WarehouseingDetailBean implements Serializable {
          * orgIds : null
          * beginTime : null
          * endTime : null
+         * packagingId : null
          * varietyId : null
          * varietyName : 一号小麦
-         * warehouseName : 1号仓库
-         * orgName : 北京分公司
-         * addQty : 13.0
+         * warehouseName : 2号仓库
+         * orgName : 北京爱种网络科技有限公司
+         * addQty : 324.0
+         * grainPurchaseCode : null
+         * packagingName : null
+         * processCode : null
          * testingItems : null
-         * stockAllots : {"id":null,"code":"1","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"hajk","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"2号仓库"}
+         * stockAllots : {"id":null,"code":"2431","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"43","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"1号仓库"}
          */
 
         private int id;
         private String code;
+        private int owner;
         private int warehouseId;
         private int type1;
         private int type2;
         private Object businessFormId;
         private String addedTime;
-        private Object addedOperator;
+        private String addedOperator;
         private Object finishedTime;
         private Object finishedOperator;
         private Object remark;
@@ -80,22 +85,17 @@ public class WarehouseingDetailBean implements Serializable {
         private Object orgIds;
         private Object beginTime;
         private Object endTime;
+        private Object packagingId;
         private Object varietyId;
         private String varietyName;
         private String warehouseName;
         private String orgName;
         private double addQty;
-        private String grainPurchaseCode;
-        private List<TestingItemsBean> testingItems;
+        private Object grainPurchaseCode;
+        private Object packagingName;
+        private String processCode;
+        private Object testingItems;
         private StockAllotsBean stockAllots;
-
-        public String getGrainPurchaseCode() {
-            return grainPurchaseCode;
-        }
-
-        public void setGrainPurchaseCode(String grainPurchaseCode) {
-            this.grainPurchaseCode = grainPurchaseCode;
-        }
 
         public int getId() {
             return id;
@@ -111,6 +111,14 @@ public class WarehouseingDetailBean implements Serializable {
 
         public void setCode(String code) {
             this.code = code;
+        }
+
+        public int getOwner() {
+            return owner;
+        }
+
+        public void setOwner(int owner) {
+            this.owner = owner;
         }
 
         public int getWarehouseId() {
@@ -153,11 +161,11 @@ public class WarehouseingDetailBean implements Serializable {
             this.addedTime = addedTime;
         }
 
-        public Object getAddedOperator() {
+        public String getAddedOperator() {
             return addedOperator;
         }
 
-        public void setAddedOperator(Object addedOperator) {
+        public void setAddedOperator(String addedOperator) {
             this.addedOperator = addedOperator;
         }
 
@@ -217,6 +225,14 @@ public class WarehouseingDetailBean implements Serializable {
             this.endTime = endTime;
         }
 
+        public Object getPackagingId() {
+            return packagingId;
+        }
+
+        public void setPackagingId(Object packagingId) {
+            this.packagingId = packagingId;
+        }
+
         public Object getVarietyId() {
             return varietyId;
         }
@@ -257,58 +273,36 @@ public class WarehouseingDetailBean implements Serializable {
             this.addQty = addQty;
         }
 
-        public List<TestingItemsBean> getTestingItems() {
+        public Object getGrainPurchaseCode() {
+            return grainPurchaseCode;
+        }
+
+        public void setGrainPurchaseCode(Object grainPurchaseCode) {
+            this.grainPurchaseCode = grainPurchaseCode;
+        }
+
+        public Object getPackagingName() {
+            return packagingName;
+        }
+
+        public void setPackagingName(Object packagingName) {
+            this.packagingName = packagingName;
+        }
+
+        public String getProcessCode() {
+            return processCode;
+        }
+
+        public void setProcessCode(String processCode) {
+            this.processCode = processCode;
+        }
+
+        public Object getTestingItems() {
             return testingItems;
         }
 
-        public void setTestingItems(List<TestingItemsBean> testingItems) {
+        public void setTestingItems(Object testingItems) {
             this.testingItems = testingItems;
-        }
-
-        public static class TestingItemsBean {
-            /**
-             * id : null
-             * value : 0
-             * results : null
-             * name : 水分
-             */
-
-            private Object id;
-            private String value;
-            private Object results;
-            private String name;
-
-            public Object getId() {
-                return id;
-            }
-
-            public void setId(Object id) {
-                this.id = id;
-            }
-
-            public String getValue() {
-                return value;
-            }
-
-            public void setValue(String value) {
-                this.value = value;
-            }
-
-            public Object getResults() {
-                return results;
-            }
-
-            public void setResults(Object results) {
-                this.results = results;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
         }
 
         public StockAllotsBean getStockAllots() {
@@ -322,7 +316,7 @@ public class WarehouseingDetailBean implements Serializable {
         public static class StockAllotsBean {
             /**
              * id : null
-             * code : 1
+             * code : 2431
              * types : null
              * outWarehouse : null
              * inWarehouse : null
@@ -330,7 +324,7 @@ public class WarehouseingDetailBean implements Serializable {
              * addedOperator : null
              * addedTime : null
              * status : null
-             * reason : hajk
+             * reason : 43
              * approvedTime : null
              * stockAddId : null
              * outConfirmOperator : null
@@ -338,7 +332,7 @@ public class WarehouseingDetailBean implements Serializable {
              * stockSubId : null
              * inConfirmOperator : null
              * inContirmTime : null
-             * warehouseName : 2号仓库
+             * warehouseName : 1号仓库
              */
 
             private Object id;

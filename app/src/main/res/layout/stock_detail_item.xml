@@ -9,6 +9,7 @@
         android:layout_width="@dimen/dp_80"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:layout_weight="1"
         android:textSize="@dimen/sp_14"
         android:textColor="@color/text_black"
         android:text="20201120"/>

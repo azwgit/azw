@@ -1,6 +1,9 @@
 package com.example.bq.edmp.work.finishedproduct.api;
 
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
+import com.example.bq.edmp.work.finishedproduct.bean.FinishedStockDetailBean;
+import com.example.bq.edmp.work.finishedproduct.bean.FinishedWareHousingOutDetailBean;
+import com.example.bq.edmp.work.finishedproduct.bean.FinishedWarehousingBean;
 import com.example.bq.edmp.work.finishedproduct.bean.MachiningTaskDetailsBean;
 import com.example.bq.edmp.work.finishedproduct.bean.SendGoodsDetailsBean;
 import com.example.bq.edmp.work.finishedproduct.bean.VechicleListBean;
@@ -79,6 +82,7 @@ public interface FinishedProductApi {
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("product/process/delete/{id}")
+
     Observable<BaseABean> deleteTask(
             @Path("id") String id,
             @Field("sign") String sign);
@@ -106,8 +110,27 @@ public interface FinishedProductApi {
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("product/stock")
-    Observable<String> getStockDetail(
+    Observable<FinishedStockDetailBean> getStockDetail(
             @Field("packagingId") String packagingId,
             @Field("warehouseId") String warehouseId,
             @Field("sign") String sign);
+
+    //入库详情
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("product/addstock")
+    Observable<FinishedWarehousingBean> getWareHousingDetail(
+            @Field("id") String id,
+            @Field("packagingId") String packagingId,
+            @Field("sign") String sign);
+
+    //出库详情
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("product/substock")
+    Observable<FinishedWareHousingOutDetailBean> getWareHousingOutDetail(
+            @Field("id") String id,
+            @Field("packagingId") String packagingId,
+            @Field("sign") String sign);
+
 }

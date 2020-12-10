@@ -23,6 +23,8 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.finishedproduct.api.FinishedProductApi;
+import com.example.bq.edmp.work.finishedproduct.bean.FinishedWareHousingOutDetailBean;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.WareHousingDetailsDetectionListAdp;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
@@ -36,9 +38,10 @@ import butterknife.BindView;
  * 入库详情
  */
 public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String id) {
+    public static void newIntent(Context context, String id,String packagingId) {
         Intent intent = new Intent(context, FinishedWarehousingOutDetailActivity.class);
         intent.putExtra(Constant.ID, id);
+        intent.putExtra(Constant.CODE, packagingId);
         context.startActivity(intent);
     }
     @BindView(R.id.ly_two)
@@ -65,10 +68,12 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     TextView mTvTransferNumber;//调拨单号
     @BindView(R.id.tv_task_number)
     TextView mTvTaskNumber;//任务单号
-
+    @BindView(R.id.ly_number)
+    LinearLayout mLyNumber;//任务单号父布局
 
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
     private String id="";
+    private String packagingId="";
     private ILoadingView loading_dialog;
     @Override
     protected int getLayoutId() {
@@ -79,7 +84,8 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     protected void initView() {
         txtTabTitle.setText("出库详情");
         id=getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        packagingId=getIntent().getStringExtra(Constant.CODE);
+        if("".equals(id)|| "".equals(packagingId)){
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -102,7 +108,7 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
-    private void setData(WarehouseingDetailBean.DataBean bean){
+    private void setData(FinishedWareHousingOutDetailBean.DataBean bean){
         mTvNumber.setText("收购单号  "+bean.getCode());
         String type="";
         switch (bean.getType2()){
@@ -110,7 +116,10 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
                 type="加工出库";
                 break;
             case 2:
-                type="销售出库";
+                //销售出库和后台确认 暂定是 订单出库
+                type="订单出库";
+                mLyNumber.setVisibility(View.VISIBLE);
+                mTvTaskNumber.setText(bean.getOrdersCode());
                 break;
             case 3:
                 type="调拨出库";
@@ -124,24 +133,24 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
         mTvContractor.setText(bean.getOrgName());
         mTvWarehouse.setText(bean.getWarehouseName());
         mTvVarieties.setText(bean.getVarietyName());
-        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getAddQty())+" 公斤");
+        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getSubQty())+" 公斤");
         mTvTime.setText(bean.getAddedTime());
 
     }
     //获取入庫详情
     private void getAcquisitionDetail() {
-        String sign = MD5Util.encode("id="+id);
-        RxHttpUtils.createApi(RawGrainManagementApi.class)
-                .getWareHousingDetail(id, sign)
-                .compose(Transformer.<WarehouseingDetailBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<WarehouseingDetailBean>() {
+        String sign = MD5Util.encode("id="+id+"&packagingId="+packagingId);
+        RxHttpUtils.createApi(FinishedProductApi.class)
+                .getWareHousingOutDetail(id, packagingId,sign)
+                .compose(Transformer.<FinishedWareHousingOutDetailBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<FinishedWareHousingOutDetailBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(WarehouseingDetailBean bean) {
+                    protected void onSuccess(FinishedWareHousingOutDetailBean bean) {
                         if (bean.getCode() == 200) {
                             setData(bean.getData());
                         } else {

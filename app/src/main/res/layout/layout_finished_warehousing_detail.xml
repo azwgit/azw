@@ -6,11 +6,11 @@
     android:fillViewport="true">
 
     <LinearLayout
-        android:focusableInTouchMode="true"
-        android:descendantFocusability="blocksDescendants"
-        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:fillViewport="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -38,9 +38,9 @@
                 android:layout_height="@dimen/dp_19"
                 android:background="@drawable/btn_border_red_shape"
                 android:gravity="center"
-                android:text="采购入库"
                 android:paddingLeft="@dimen/dp_5"
                 android:paddingRight="@dimen/dp_5"
+                android:text="采购入库"
                 android:textColor="@color/color_red"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>
@@ -197,7 +197,10 @@
                 android:textColor="#E617171A"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ly_number"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_56"
             android:layout_marginTop="@dimen/dp_1">
@@ -224,12 +227,13 @@
                 android:textColor="#E617171A"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ly_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -254,12 +258,12 @@
                     android:layout_weight="2"
                     android:background="#0D000000"
                     android:gravity="center"
-                    android:text="调出仓库"
+                    android:text="调拨单号"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
-                    android:id="@+id/tv_transfer_warehouse"
+                    android:id="@+id/tv_transfer_number"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -282,12 +286,12 @@
                     android:layout_weight="2"
                     android:background="#0D000000"
                     android:gravity="center"
-                    android:text="调拨原因"
+                    android:text="调出仓库"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
-                    android:id="@+id/tv_transfer_reason"
+                    android:id="@+id/tv_transfer_warehouse"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -298,9 +302,10 @@
                     android:textColor="#E617171A"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_56"
+                android:layout_height="@dimen/dp_78"
                 android:layout_marginTop="@dimen/dp_1">
 
                 <TextView
@@ -309,12 +314,12 @@
                     android:layout_weight="2"
                     android:background="#0D000000"
                     android:gravity="center"
-                    android:text="调拨单号"
+                    android:text="调拨原因"
                     android:textColor="#17171A"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
-                    android:id="@+id/tv_transfer_number"
+                    android:id="@+id/tv_transfer_reason"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

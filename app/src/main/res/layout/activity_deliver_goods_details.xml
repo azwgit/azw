@@ -276,7 +276,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_56"
+                    android:layout_height="@dimen/dp_78"
                     android:layout_marginTop="@dimen/dp_1">
 
                     <TextView
@@ -293,6 +293,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:lineSpacingExtra="@dimen/dp_12"
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_20"

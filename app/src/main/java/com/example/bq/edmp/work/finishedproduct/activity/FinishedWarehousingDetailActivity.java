@@ -20,6 +20,8 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.finishedproduct.api.FinishedProductApi;
+import com.example.bq.edmp.work.finishedproduct.bean.FinishedWarehousingBean;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.WareHousingDetailsDetectionListAdp;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
@@ -30,9 +32,10 @@ import butterknife.BindView;
  * 入库详情
  */
 public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String id) {
+    public static void newIntent(Context context, String id,String packagingId) {
         Intent intent = new Intent(context, FinishedWarehousingDetailActivity.class);
         intent.putExtra(Constant.ID, id);
+        intent.putExtra(Constant.CODE, packagingId);
         context.startActivity(intent);
     }
     @BindView(R.id.ly_two)
@@ -59,7 +62,10 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
     TextView mTvTransferNumber;//调拨单号
     @BindView(R.id.tv_task_number)
     TextView mTvTaskNumber;//任务单号
+    @BindView(R.id.ly_number)
+    LinearLayout mLyNumber;//任务单号父布局
     private String id="";
+    private String packagingId="";
     private ILoadingView loading_dialog;
     @Override
     protected int getLayoutId() {
@@ -70,7 +76,8 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
     protected void initView() {
         txtTabTitle.setText("入库详情");
         id=getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        packagingId=getIntent().getStringExtra(Constant.CODE);
+        if("".equals(id)|| "".equals(packagingId)){
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -93,8 +100,8 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
-    private void setData(WarehouseingDetailBean.DataBean bean){
-        mTvNumber.setText("收购单号  "+bean.getCode());
+    private void setData(FinishedWarehousingBean.DataBean bean){
+        mTvNumber.setText("入库单号  "+bean.getCode());
         String type="";
         switch (bean.getType2()){
             case 1:
@@ -102,6 +109,8 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
                 break;
             case 2:
                 type="加工入库";
+                mLyNumber.setVisibility(View.VISIBLE);
+                mTvTaskNumber.setText(bean.getProcessCode()+"");
                 break;
             case 3:
                 type="调拨入库";
@@ -121,18 +130,18 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
     }
     //获取入庫详情
     private void getAcquisitionDetail() {
-        String sign = MD5Util.encode("id="+id);
-        RxHttpUtils.createApi(RawGrainManagementApi.class)
-                .getWareHousingDetail(id, sign)
-                .compose(Transformer.<WarehouseingDetailBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<WarehouseingDetailBean>() {
+        String sign = MD5Util.encode("id="+id+"&packagingId="+packagingId);
+        RxHttpUtils.createApi(FinishedProductApi.class)
+                .getWareHousingDetail(id,packagingId, sign)
+                .compose(Transformer.<FinishedWarehousingBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<FinishedWarehousingBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(WarehouseingDetailBean bean) {
+                    protected void onSuccess(FinishedWarehousingBean bean) {
                         if (bean.getCode() == 200) {
                             setData(bean.getData());
                         } else {

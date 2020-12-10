@@ -29,6 +29,8 @@ import com.example.bq.edmp.word.purchase.PurchaseListActivity;
 import com.example.bq.edmp.word.put_warehouse.Put_WarehouseActivity;
 import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
 import com.example.bq.edmp.work.finishedproduct.activity.FinishedStockDetailActivity;
+import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingDetailActivity;
+import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingOutDetailActivity;
 import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
@@ -201,17 +203,26 @@ public class WorkFragment extends BaseFragment {
                                             intent.putExtra("WarehouseType", 2);
                                             startActivity(intent);
                                         }else if(subtBean.getId().equals("020301")){
+                                            //任务接受  加工中  加工完成
                                             MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
-                                        }
-                                        else if(subtBean.getId().equals("020302")){
+                                        } else if(subtBean.getId().equals("020302")){
+                                            //任务接受  加工中  加工完成
                                             MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
-                                        }
-                                        else if(subtBean.getId().equals("020303")){
+                                        } else if(subtBean.getId().equals("020303")){
+                                            //任务接受  加工中  加工完成
                                             MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
                                         }else if(subtBean.getId().equals("020305")){
+                                            //发货
                                             DeliverGoodsDetailsActivity.newIntent(getActivity(),"5");
-                                        } else if(subtBean.getId().equals("020309")){
-                                            FinishedStockDetailActivity.newIntent(getActivity(),"34","1");
+                                        } else if(subtBean.getId().equals("020307")){
+                                            //入库
+                                            FinishedWarehousingDetailActivity.newIntent(getActivity(),"34","1");
+                                        } else if(subtBean.getId().equals("020308")){
+                                            //出库
+                                            FinishedWarehousingOutDetailActivity.newIntent(getActivity(),"4","1");
+                                        }else if(subtBean.getId().equals("020309")){
+                                            //库存出库
+                                            FinishedStockDetailActivity.newIntent(getActivity(),"2","1");
                                         }
 
                                     }

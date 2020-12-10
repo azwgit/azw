@@ -95,6 +95,9 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
     TextView mBtnDel;//任务终止按钮
     @BindView(R.id.btn_submit)
     TextView mBtnSubmit;//加工上报按钮
+    @BindView(R.id.ly_bottom)
+    LinearLayout mLyBottom;//下方按钮父布局
+
     private EditText mEtCurrentNumber, mEtProductNumber;//完成量，副产品量
     private TextView mTvRawWarehouse, mTvWarehouse, mTvProductWarehouse;
     private int RawWarehouse = 0, Warehouse = 0, ProductWarehouse = 0;
@@ -258,7 +261,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
             ToastUtil.setToast("请选择副产品存入仓库");
             return;
         }
-        reportTask(code,Warehouse+"",mEtCurrentNumber.getText().toString().trim(),ProductWarehouse+"",mEtCurrentNumber.getText().toString().trim(),RawWarehouse+"");
+        reportTask(code,Warehouse+"",mEtCurrentNumber.getText().toString().trim(),ProductWarehouse+"",mEtProductNumber.getText().toString().trim(),RawWarehouse+"");
     }
     //加工上报
     private void reportTask(String code, String cpwarehouseId, String finishedQty, String fswarehouseId, String productWeight, String ylwarehouseId) {
@@ -312,7 +315,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                 .setOnConfirmClickListener("确定", new UsualDialogger.onConfirmClickListener() {
                     @Override
                     public void onClick(View view) {
-                        deleteTask();
+                        stopTask();
                     }
                 })
                 .setOnCancelClickListener("取消", new UsualDialogger.onCancelClickListener() {
@@ -398,6 +401,8 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                 mBtnDel.setVisibility(View.GONE);
                 mBtnSubmit.setVisibility(View.GONE);
                 mLyOne.setVisibility(View.VISIBLE);
+                mLyBottom.setVisibility(View.GONE);
+                mLyOperationInfo.setVisibility(View.VISIBLE);
                 break;
         }
         mTvPacking.setText(bean.getVarietyPackagingName());
@@ -437,9 +442,9 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
-        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
-        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
         WarehouseListAdp warehouseListAdp = new WarehouseListAdp(warehouseListBean.getData());
         myRecyclerViewOne.setAdapter(warehouseListAdp);
         warehouseListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -484,11 +489,11 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
         mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
 
-    //刪除任務
-    private void deleteTask() {
-        String sign = MD5Util.encode("id=" + id);
+    //终止任務
+    private void stopTask() {
+        String sign = MD5Util.encode("code=" + code);
         RxHttpUtils.createApi(FinishedProductApi.class)
-                .deleteTask(machiningTaskDetailsBean.getData().getId() + "", sign)
+                .stopTask(code, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override

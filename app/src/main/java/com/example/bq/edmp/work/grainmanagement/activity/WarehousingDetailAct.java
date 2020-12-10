@@ -67,6 +67,10 @@ public class WarehousingDetailAct extends BaseTitleActivity {
     TextView mTvTransferReason;//调拨原因
     @BindView(R.id.tv_transfer_number)
     TextView mTvTransferNumber;//调拨单号
+    @BindView(R.id.tv_task_number)
+    TextView mTvTaskNumber;//任务单号
+    @BindView(R.id.ly_number)
+    LinearLayout mLyNumber;//任务单号父布局
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
     private String id="";
     private ILoadingView loading_dialog;
@@ -111,6 +115,8 @@ public class WarehousingDetailAct extends BaseTitleActivity {
         switch (bean.getType2()){
             case 1:
                 type="采购入库";
+                mLyNumber.setVisibility(View.VISIBLE);
+                mTvTaskNumber.setText(bean.getGrainPurchaseCode());
                 wareHousingDetailsDetectionListAdp.addData(bean.getTestingItems());
                 break;
             case 2:

@@ -286,7 +286,6 @@
                         android:layout_marginTop="@dimen/dp_1">
 
                         <TextView
-                            android:id="@+id/tv_operator"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="2"
@@ -297,7 +296,7 @@
                             android:textSize="@dimen/sp_14" />
 
                         <TextView
-                            android:id="@+id/tv_transfer_number"
+                            android:id="@+id/tv_operator"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
