@@ -203,25 +203,25 @@ public class WorkFragment extends BaseFragment {
                                             intent.putExtra("WarehouseType", 2);
                                             startActivity(intent);
                                         }else if(subtBean.getId().equals("020301")){
-                                            //任务接受  加工中  加工完成
+                                            //生产管理任务接受  加工中  加工完成
                                             MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
                                         } else if(subtBean.getId().equals("020302")){
-                                            //任务接受  加工中  加工完成
+                                            //生产管理任务接受  加工中  加工完成
                                             MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
                                         } else if(subtBean.getId().equals("020303")){
-                                            //任务接受  加工中  加工完成
+                                            //生产管理任务接受  加工中  加工完成
                                             MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
                                         }else if(subtBean.getId().equals("020305")){
-                                            //发货
-                                            DeliverGoodsDetailsActivity.newIntent(getActivity(),"5");
+                                            //生产管理发货
+                                            DeliverGoodsDetailsActivity.newIntent(getActivity(),"8");
                                         } else if(subtBean.getId().equals("020307")){
-                                            //入库
-                                            FinishedWarehousingDetailActivity.newIntent(getActivity(),"34","1");
+                                            //生产管理入库
+                                            FinishedWarehousingDetailActivity.newIntent(getActivity(),"34");
                                         } else if(subtBean.getId().equals("020308")){
-                                            //出库
-                                            FinishedWarehousingOutDetailActivity.newIntent(getActivity(),"4","1");
+                                            //生产管理出库
+                                            FinishedWarehousingOutDetailActivity.newIntent(getActivity(),"4");
                                         }else if(subtBean.getId().equals("020309")){
-                                            //库存出库
+                                            //生产管理库存出库
                                             FinishedStockDetailActivity.newIntent(getActivity(),"2","1");
                                         }
 

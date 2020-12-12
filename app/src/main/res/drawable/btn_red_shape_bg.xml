@@ -3,5 +3,5 @@
     android:shape="rectangle">
     <!-- 设置按钮的左上角和右下角为弧形 -->
     <solid android:color="@color/colorf9" />
-    <corners android:radius="22dp" />
+    <corners android:radius="@dimen/dp_8" />
 </shape>

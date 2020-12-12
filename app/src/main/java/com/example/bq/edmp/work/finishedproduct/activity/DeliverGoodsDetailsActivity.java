@@ -38,9 +38,13 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.finishedproduct.adapter.CardTypeAdp;
 import com.example.bq.edmp.work.finishedproduct.adapter.DeliverGoodsDetailsVarietiesListAdp;
+import com.example.bq.edmp.work.finishedproduct.adapter.LogisticsListAdp;
+import com.example.bq.edmp.work.finishedproduct.adapter.WarehouseListAdp;
 import com.example.bq.edmp.work.finishedproduct.api.FinishedProductApi;
+import com.example.bq.edmp.work.finishedproduct.bean.LogisticsListBean;
 import com.example.bq.edmp.work.finishedproduct.bean.SendGoodsDetailsBean;
 import com.example.bq.edmp.work.finishedproduct.bean.VechicleListBean;
+import com.example.bq.edmp.work.finishedproduct.bean.WarehouseListBean;
 import com.example.bq.edmp.work.grainmanagement.activity.AcquisitionDetailAct;
 import com.example.bq.edmp.work.grainmanagement.adapter.ContractorListAdp;
 import com.example.bq.edmp.work.grainmanagement.adapter.DetectionListAdp;
@@ -99,10 +103,11 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
     private SendGoodsDetailsBean sendGoodsDetailsBean = null;//发货详情
     private VechicleListBean vechicleListBean = null;//车辆列表
     private int VechicleLsitposition = 0;//-1 未选中任何车辆
-    private EditText mEtCompany;//物流公司名称
+    private TextView mEtCompany;//物流公司名称
     private EditText mEtOrdernum;//物流单号
     private EditText mEtRemark;//发货信息备注
-
+    private String logisticsId="";//物流id
+    private LogisticsListBean logisticsListBean=null;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_deliver_goods_details;
@@ -242,6 +247,12 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
         TextView mTvTitle = contentView.findViewById(R.id.tv_title);
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         mEtCompany = contentView.findViewById(R.id.et_company);
+        mEtCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getLogisticsList();
+            }
+        });
         mEtOrdernum = contentView.findViewById(R.id.et_ordernum);
         mEtRemark = contentView.findViewById(R.id.et_remark);
         //物流方式
@@ -293,6 +304,47 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
 //            }
 //        });
 
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+    //物流PopuWindow
+    private void shologisticsList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        LogisticsListAdp logisticsListAdp = new LogisticsListAdp(logisticsListBean.getData());
+        myRecyclerViewOne.setAdapter(logisticsListAdp);
+        logisticsListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                logisticsId=logisticsListBean.getData().get(position).getId()+"";
+                mEtCompany.setText(logisticsListBean.getData().get(position).getName());
+                mTypePopuWindow.dismiss();
+            }
+        });
+//        mLyView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTypePopuWindow.dismiss();
+//            }
+//        });
         mTypePopuWindow = new PopupWindow();
         mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         mTypePopuWindow.setContentView(contentView);
@@ -373,6 +425,28 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
                     }
                 });
     }
+    //获取物流列表
+    private void getLogisticsList() {
+        RxHttpUtils.createApi(FinishedProductApi.class)
+                .getLogisticsList()
+                .compose(Transformer.<LogisticsListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<LogisticsListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(LogisticsListBean bean) {
+                        logisticsListBean=bean;
+                        if (bean.getCode() == 200) {
+                            shologisticsList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
     //详情赋值
     private void setData(SendGoodsDetailsBean.DataBean bean) {
         mTvNumber.setText("订单号  " + bean.getCode());
@@ -413,7 +487,7 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
         String truckId="";
         if (deliveryType == 1) {
             // 物流信息 备注信息放空
-            company="";
+            logisticsId="";
             ordernum="";
             remark="";
             truckId=vechicleListBean.getData().get(VechicleLsitposition).getId()+"";
@@ -436,17 +510,17 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
             }
             //车辆信息 物流信息放空
             truckId="";
-            company="";
+            logisticsId="";
             ordernum="";
 
         }
-        sendGoods(company,sendGoodsDetailsBean.getData().getId()+"",remark,ordernum,truckId,deliveryType+"");
+        sendGoods(sendGoodsDetailsBean.getData().getId()+"",remark,logisticsId,ordernum,truckId,deliveryType+"");
     }
     //发货
-    private void sendGoods(String logisticsName, String ordersId, String remark, String tplNo, String truck_id, String types) {
-        String sign = MD5Util.encode("logisticsName=" + logisticsName + "&ordersId=" + ordersId + "&remark=" + remark + "&tplNo=" + tplNo + "&truckId=" + truck_id + "&types=" + types);
+    private void sendGoods( String ordersId, String remark,String logisticsName, String tplNo, String truck_id, String types) {
+        String sign = MD5Util.encode("ordersId=" + ordersId + "&remark=" + remark +"&tplName=" + logisticsName +"&tplNo=" + tplNo + "&truckId=" + truck_id + "&types=" + types);
         RxHttpUtils.createApi(FinishedProductApi.class)
-                .sendGoods(logisticsName, ordersId, remark, tplNo, truck_id, types, sign)
+                .sendGoods( ordersId, remark,logisticsName, tplNo, truck_id, types, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override

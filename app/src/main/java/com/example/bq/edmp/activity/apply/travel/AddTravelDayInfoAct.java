@@ -345,7 +345,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                 .setSubmitColor(getResources().getColor(R.color.appThemeColor))
                 .setTextColorCenter(Color.BLACK)
                 .setDate(startDate)
-                .setRangDate(startDate, selectedDate)
+//                .setRangDate(startDate, selectedDate)
                 .setType(new boolean[]{true, true, true, true, true, false})
                 .setLabel("年", "月", "日", "时", "分", "")
                 .build();
@@ -382,7 +382,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                 .setSubmitColor(getResources().getColor(R.color.appThemeColor))
                 .setTextColorCenter(Color.BLACK)
                 .setDate(startDate)
-                .setRangDate(startDate, selectedDate)
+//                .setRangDate(startDate, selectedDate)
                 .setType(new boolean[]{true, true, true, true, true, false})
                 .setLabel("年", "月", "日", "时", "分", "")
                 .build();

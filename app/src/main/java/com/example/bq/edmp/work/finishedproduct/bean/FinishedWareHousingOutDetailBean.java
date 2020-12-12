@@ -1,13 +1,15 @@
 package com.example.bq.edmp.work.finishedproduct.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class FinishedWareHousingOutDetailBean implements Serializable {
+
 
     /**
      * code : 200
      * msg : 查询成功
-     * data : {"id":4,"code":"5423","orgId":0,"warehouseId":3,"owner":1,"type1":2,"type2":3,"businessFormId":null,"addedTime":"2020-12-09","addedOperator":null,"finishedTime":null,"finishedOperator":null,"remark":null,"orgIds":null,"beginTime":null,"endTime":null,"packagingId":null,"varietyId":null,"varietyName":"一号小麦","warehouseName":"3号仓库","orgName":"南京分公司","subQty":32,"ordersCode":null,"packagingName":"100公斤/袋","stockAllots":{"id":null,"code":"543253","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"trewtwer","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"2号仓库"}}
+     * data : {"id":66,"code":"CK20201211140543","orgId":2,"warehouseId":1,"owner":1,"type1":2,"type2":3,"businessFormId":null,"addedTime":"2020-12-11","addedOperator":"管理员","finishedTime":null,"finishedOperator":null,"remark":null,"beginTime":null,"endTime":null,"packagingId":null,"varietyId":null,"varietyName":null,"warehouseName":"1号仓库","orgName":"北京分公司","subQty":null,"ordersCode":null,"packagingName":null,"processCode":null,"stockAllots":{"id":null,"code":"CX","types":null,"outOrgId":null,"outWarehouse":null,"inOrgId":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"成品出库","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"北京分公司 1号仓库"},"stockSubItems":[{"id":null,"subQty":100,"subWeight":null,"varietyName":"一号小麦 100公斤/袋"}]}
      */
 
     private int code;
@@ -40,31 +42,32 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
 
     public static class DataBean {
         /**
-         * id : 4
-         * code : 5423
-         * orgId : 0
-         * warehouseId : 3
+         * id : 66
+         * code : CK20201211140543
+         * orgId : 2
+         * warehouseId : 1
          * owner : 1
          * type1 : 2
          * type2 : 3
          * businessFormId : null
-         * addedTime : 2020-12-09
-         * addedOperator : null
+         * addedTime : 2020-12-11
+         * addedOperator : 管理员
          * finishedTime : null
          * finishedOperator : null
          * remark : null
-         * orgIds : null
          * beginTime : null
          * endTime : null
          * packagingId : null
          * varietyId : null
-         * varietyName : 一号小麦
-         * warehouseName : 3号仓库
-         * orgName : 南京分公司
-         * subQty : 32.0
+         * varietyName : null
+         * warehouseName : 1号仓库
+         * orgName : 北京分公司
+         * subQty : null
          * ordersCode : null
-         * packagingName : 100公斤/袋
-         * stockAllots : {"id":null,"code":"543253","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"trewtwer","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"2号仓库"}
+         * packagingName : null
+         * processCode : null
+         * stockAllots : {"id":null,"code":"CX","types":null,"outOrgId":null,"outWarehouse":null,"inOrgId":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"成品出库","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"北京分公司 1号仓库"}
+         * stockSubItems : [{"id":null,"subQty":100,"subWeight":null,"varietyName":"一号小麦 100公斤/袋"}]
          */
 
         private int id;
@@ -76,22 +79,23 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
         private int type2;
         private Object businessFormId;
         private String addedTime;
-        private Object addedOperator;
+        private String addedOperator;
         private Object finishedTime;
         private Object finishedOperator;
         private Object remark;
-        private Object orgIds;
         private Object beginTime;
         private Object endTime;
         private Object packagingId;
         private Object varietyId;
-        private String varietyName;
+        private Object varietyName;
         private String warehouseName;
         private String orgName;
-        private double subQty;
+        private Object subQty;
         private String ordersCode;
-        private String packagingName;
+        private Object packagingName;
+        private Object processCode;
         private StockAllotsBean stockAllots;
+        private List<StockSubItemsBean> stockSubItems;
 
         public int getId() {
             return id;
@@ -165,11 +169,11 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
             this.addedTime = addedTime;
         }
 
-        public Object getAddedOperator() {
+        public String getAddedOperator() {
             return addedOperator;
         }
 
-        public void setAddedOperator(Object addedOperator) {
+        public void setAddedOperator(String addedOperator) {
             this.addedOperator = addedOperator;
         }
 
@@ -195,14 +199,6 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
 
         public void setRemark(Object remark) {
             this.remark = remark;
-        }
-
-        public Object getOrgIds() {
-            return orgIds;
-        }
-
-        public void setOrgIds(Object orgIds) {
-            this.orgIds = orgIds;
         }
 
         public Object getBeginTime() {
@@ -237,11 +233,11 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
             this.varietyId = varietyId;
         }
 
-        public String getVarietyName() {
+        public Object getVarietyName() {
             return varietyName;
         }
 
-        public void setVarietyName(String varietyName) {
+        public void setVarietyName(Object varietyName) {
             this.varietyName = varietyName;
         }
 
@@ -261,11 +257,11 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
             this.orgName = orgName;
         }
 
-        public double getSubQty() {
+        public Object getSubQty() {
             return subQty;
         }
 
-        public void setSubQty(double subQty) {
+        public void setSubQty(Object subQty) {
             this.subQty = subQty;
         }
 
@@ -277,12 +273,20 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
             this.ordersCode = ordersCode;
         }
 
-        public String getPackagingName() {
+        public Object getPackagingName() {
             return packagingName;
         }
 
-        public void setPackagingName(String packagingName) {
+        public void setPackagingName(Object packagingName) {
             this.packagingName = packagingName;
+        }
+
+        public Object getProcessCode() {
+            return processCode;
+        }
+
+        public void setProcessCode(Object processCode) {
+            this.processCode = processCode;
         }
 
         public StockAllotsBean getStockAllots() {
@@ -293,18 +297,28 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
             this.stockAllots = stockAllots;
         }
 
+        public List<StockSubItemsBean> getStockSubItems() {
+            return stockSubItems;
+        }
+
+        public void setStockSubItems(List<StockSubItemsBean> stockSubItems) {
+            this.stockSubItems = stockSubItems;
+        }
+
         public static class StockAllotsBean {
             /**
              * id : null
-             * code : 543253
+             * code : CX
              * types : null
+             * outOrgId : null
              * outWarehouse : null
+             * inOrgId : null
              * inWarehouse : null
              * addedOperatorId : null
              * addedOperator : null
              * addedTime : null
              * status : null
-             * reason : trewtwer
+             * reason : 成品出库
              * approvedTime : null
              * stockAddId : null
              * outConfirmOperator : null
@@ -312,13 +326,15 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
              * stockSubId : null
              * inConfirmOperator : null
              * inContirmTime : null
-             * warehouseName : 2号仓库
+             * warehouseName : 北京分公司 1号仓库
              */
 
             private Object id;
             private String code;
             private Object types;
+            private Object outOrgId;
             private Object outWarehouse;
+            private Object inOrgId;
             private Object inWarehouse;
             private Object addedOperatorId;
             private Object addedOperator;
@@ -358,12 +374,28 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
                 this.types = types;
             }
 
+            public Object getOutOrgId() {
+                return outOrgId;
+            }
+
+            public void setOutOrgId(Object outOrgId) {
+                this.outOrgId = outOrgId;
+            }
+
             public Object getOutWarehouse() {
                 return outWarehouse;
             }
 
             public void setOutWarehouse(Object outWarehouse) {
                 this.outWarehouse = outWarehouse;
+            }
+
+            public Object getInOrgId() {
+                return inOrgId;
+            }
+
+            public void setInOrgId(Object inOrgId) {
+                this.inOrgId = inOrgId;
             }
 
             public Object getInWarehouse() {
@@ -476,6 +508,52 @@ public class FinishedWareHousingOutDetailBean implements Serializable {
 
             public void setWarehouseName(String warehouseName) {
                 this.warehouseName = warehouseName;
+            }
+        }
+
+        public static class StockSubItemsBean {
+            /**
+             * id : null
+             * subQty : 100.0
+             * subWeight : null
+             * varietyName : 一号小麦 100公斤/袋
+             */
+
+            private Object id;
+            private double subQty;
+            private Object subWeight;
+            private String varietyName;
+
+            public Object getId() {
+                return id;
+            }
+
+            public void setId(Object id) {
+                this.id = id;
+            }
+
+            public double getSubQty() {
+                return subQty;
+            }
+
+            public void setSubQty(double subQty) {
+                this.subQty = subQty;
+            }
+
+            public Object getSubWeight() {
+                return subWeight;
+            }
+
+            public void setSubWeight(Object subWeight) {
+                this.subWeight = subWeight;
+            }
+
+            public String getVarietyName() {
+                return varietyName;
+            }
+
+            public void setVarietyName(String varietyName) {
+                this.varietyName = varietyName;
             }
         }
     }

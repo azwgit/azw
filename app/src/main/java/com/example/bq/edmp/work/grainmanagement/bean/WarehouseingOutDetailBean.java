@@ -1,6 +1,7 @@
 package com.example.bq.edmp.work.grainmanagement.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class WarehouseingOutDetailBean implements Serializable {
 
@@ -8,7 +9,7 @@ public class WarehouseingOutDetailBean implements Serializable {
     /**
      * code : 200
      * msg : 查询成功
-     * data : {"id":6,"code":"CK20201209140432","orgId":0,"warehouseId":1,"owner":1,"type1":1,"type2":3,"businessFormId":4,"addedTime":"2020-12-09","addedOperator":null,"finishedTime":null,"finishedOperator":null,"remark":null,"orgIds":null,"beginTime":null,"endTime":null,"packagingId":null,"varietyId":null,"varietyName":"一号小麦","warehouseName":"1号仓库","orgName":"北京分公司","subQty":4102,"ordersCode":null,"packagingName":null,"stockAllots":{"id":null,"code":"CX342786543","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"原粮入库","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"1号仓库"}}
+     * data : {"id":6,"code":"CK20201209140432","orgId":2,"warehouseId":1,"owner":1,"type1":1,"type2":3,"businessFormId":4,"addedTime":"2020-12-09","addedOperator":null,"finishedTime":null,"finishedOperator":null,"remark":null,"beginTime":null,"endTime":null,"packagingId":null,"varietyId":null,"varietyName":null,"warehouseName":"1号仓库","orgName":"北京分公司","subQty":null,"ordersCode":null,"packagingName":null,"processCode":null,"stockAllots":{"id":null,"code":"CX342786543","types":null,"outOrgId":null,"outWarehouse":null,"inOrgId":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"原粮入库","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"北京分公司 1号仓库"},"stockSubItems":[{"id":null,"subQty":4102,"subWeight":null,"varietyName":"二号小麦"}]}
      */
 
     private int code;
@@ -43,7 +44,7 @@ public class WarehouseingOutDetailBean implements Serializable {
         /**
          * id : 6
          * code : CK20201209140432
-         * orgId : 0
+         * orgId : 2
          * warehouseId : 1
          * owner : 1
          * type1 : 1
@@ -54,18 +55,19 @@ public class WarehouseingOutDetailBean implements Serializable {
          * finishedTime : null
          * finishedOperator : null
          * remark : null
-         * orgIds : null
          * beginTime : null
          * endTime : null
          * packagingId : null
          * varietyId : null
-         * varietyName : 一号小麦
+         * varietyName : null
          * warehouseName : 1号仓库
          * orgName : 北京分公司
-         * subQty : 4102.0
+         * subQty : null
          * ordersCode : null
          * packagingName : null
-         * stockAllots : {"id":null,"code":"CX342786543","types":null,"outWarehouse":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"原粮入库","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"1号仓库"}
+         * processCode : null
+         * stockAllots : {"id":null,"code":"CX342786543","types":null,"outOrgId":null,"outWarehouse":null,"inOrgId":null,"inWarehouse":null,"addedOperatorId":null,"addedOperator":null,"addedTime":null,"status":null,"reason":"原粮入库","approvedTime":null,"stockAddId":null,"outConfirmOperator":null,"outContirmTime":null,"stockSubId":null,"inConfirmOperator":null,"inContirmTime":null,"warehouseName":"北京分公司 1号仓库"}
+         * stockSubItems : [{"id":null,"subQty":4102,"subWeight":null,"varietyName":"二号小麦"}]
          */
 
         private int id;
@@ -81,27 +83,19 @@ public class WarehouseingOutDetailBean implements Serializable {
         private Object finishedTime;
         private Object finishedOperator;
         private Object remark;
-        private Object orgIds;
         private Object beginTime;
         private Object endTime;
         private Object packagingId;
         private Object varietyId;
-        private String varietyName;
+        private Object varietyName;
         private String warehouseName;
         private String orgName;
-        private double subQty;
+        private Object subQty;
         private Object ordersCode;
         private Object packagingName;
-        private StockAllotsBean stockAllots;
         private String processCode;
-
-        public String getProcessCode() {
-            return processCode;
-        }
-
-        public void setProcessCode(String processCode) {
-            this.processCode = processCode;
-        }
+        private StockAllotsBean stockAllots;
+        private List<StockSubItemsBean> stockSubItems;
 
         public int getId() {
             return id;
@@ -207,14 +201,6 @@ public class WarehouseingOutDetailBean implements Serializable {
             this.remark = remark;
         }
 
-        public Object getOrgIds() {
-            return orgIds;
-        }
-
-        public void setOrgIds(Object orgIds) {
-            this.orgIds = orgIds;
-        }
-
         public Object getBeginTime() {
             return beginTime;
         }
@@ -247,11 +233,11 @@ public class WarehouseingOutDetailBean implements Serializable {
             this.varietyId = varietyId;
         }
 
-        public String getVarietyName() {
+        public Object getVarietyName() {
             return varietyName;
         }
 
-        public void setVarietyName(String varietyName) {
+        public void setVarietyName(Object varietyName) {
             this.varietyName = varietyName;
         }
 
@@ -271,11 +257,11 @@ public class WarehouseingOutDetailBean implements Serializable {
             this.orgName = orgName;
         }
 
-        public double getSubQty() {
+        public Object getSubQty() {
             return subQty;
         }
 
-        public void setSubQty(double subQty) {
+        public void setSubQty(Object subQty) {
             this.subQty = subQty;
         }
 
@@ -295,6 +281,14 @@ public class WarehouseingOutDetailBean implements Serializable {
             this.packagingName = packagingName;
         }
 
+        public String getProcessCode() {
+            return processCode;
+        }
+
+        public void setProcessCode(String processCode) {
+            this.processCode = processCode;
+        }
+
         public StockAllotsBean getStockAllots() {
             return stockAllots;
         }
@@ -303,12 +297,22 @@ public class WarehouseingOutDetailBean implements Serializable {
             this.stockAllots = stockAllots;
         }
 
+        public List<StockSubItemsBean> getStockSubItems() {
+            return stockSubItems;
+        }
+
+        public void setStockSubItems(List<StockSubItemsBean> stockSubItems) {
+            this.stockSubItems = stockSubItems;
+        }
+
         public static class StockAllotsBean {
             /**
              * id : null
              * code : CX342786543
              * types : null
+             * outOrgId : null
              * outWarehouse : null
+             * inOrgId : null
              * inWarehouse : null
              * addedOperatorId : null
              * addedOperator : null
@@ -322,13 +326,15 @@ public class WarehouseingOutDetailBean implements Serializable {
              * stockSubId : null
              * inConfirmOperator : null
              * inContirmTime : null
-             * warehouseName : 1号仓库
+             * warehouseName : 北京分公司 1号仓库
              */
 
             private Object id;
             private String code;
             private Object types;
+            private Object outOrgId;
             private Object outWarehouse;
+            private Object inOrgId;
             private Object inWarehouse;
             private Object addedOperatorId;
             private Object addedOperator;
@@ -368,12 +374,28 @@ public class WarehouseingOutDetailBean implements Serializable {
                 this.types = types;
             }
 
+            public Object getOutOrgId() {
+                return outOrgId;
+            }
+
+            public void setOutOrgId(Object outOrgId) {
+                this.outOrgId = outOrgId;
+            }
+
             public Object getOutWarehouse() {
                 return outWarehouse;
             }
 
             public void setOutWarehouse(Object outWarehouse) {
                 this.outWarehouse = outWarehouse;
+            }
+
+            public Object getInOrgId() {
+                return inOrgId;
+            }
+
+            public void setInOrgId(Object inOrgId) {
+                this.inOrgId = inOrgId;
             }
 
             public Object getInWarehouse() {
@@ -486,6 +508,52 @@ public class WarehouseingOutDetailBean implements Serializable {
 
             public void setWarehouseName(String warehouseName) {
                 this.warehouseName = warehouseName;
+            }
+        }
+
+        public static class StockSubItemsBean {
+            /**
+             * id : null
+             * subQty : 4102.0
+             * subWeight : null
+             * varietyName : 二号小麦
+             */
+
+            private Object id;
+            private double subQty;
+            private Object subWeight;
+            private String varietyName;
+
+            public Object getId() {
+                return id;
+            }
+
+            public void setId(Object id) {
+                this.id = id;
+            }
+
+            public double getSubQty() {
+                return subQty;
+            }
+
+            public void setSubQty(double subQty) {
+                this.subQty = subQty;
+            }
+
+            public Object getSubWeight() {
+                return subWeight;
+            }
+
+            public void setSubWeight(Object subWeight) {
+                this.subWeight = subWeight;
+            }
+
+            public String getVarietyName() {
+                return varietyName;
+            }
+
+            public void setVarietyName(String varietyName) {
+                this.varietyName = varietyName;
             }
         }
     }

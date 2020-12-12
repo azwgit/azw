@@ -118,6 +118,13 @@
         <item name="android:layout_marginRight">@dimen/dp_16</item>
         <item name="android:background">#0D000000</item>
     </style>
+    <style name="line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+        <item name="android:layout_marginRight">@dimen/dp_16</item>
+        <item name="android:background">#F2F5F6</item>
+    </style>
 
     <style name="btn_circle_style">
         <item name="android:layout_width">match_parent</item>
@@ -149,6 +156,16 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/btn_small_angle_shape_bg</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+    <style name="btn_small_angle_grey_new_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_44</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+        <item name="android:layout_marginRight">@dimen/dp_16</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/btn_small_angle_grey_shape_bg</item>
+        <item name="android:textColor">@color/color_99</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
     <style name="btn_small_circle_style">

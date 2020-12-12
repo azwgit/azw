@@ -86,7 +86,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
     @BindView(R.id.tv_processing_capacity)
     TextView mTvProcessingCapacity;//实际加工量
     @BindView(R.id.tv_degree_of_completion)
-    TextView mTvDegreeOfCompletion;//实际加工量
+    TextView mTvDegreeOfCompletion;
     @BindView(R.id.ly_one)
     LinearLayout mLyOne;//加工记录
     @BindView(R.id.btn_ok)
@@ -381,7 +381,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                 mLyTask.setVisibility(View.VISIBLE);
                 mTvReceiver.setText(bean.getAcceptedOperator());
                 mTvAcceptTime.setText(bean.getAcceptedTime());
-                mTvDegreeOfCompletion.setText(bean.getPercentage());
+//                mTvDegreeOfCompletion.setText(bean.getPercentage());
                 mBtnOk.setVisibility(View.GONE);
                 mBtnDel.setVisibility(View.VISIBLE);
                 mBtnSubmit.setVisibility(View.VISIBLE);
@@ -393,7 +393,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                 mTvOperator.setText(bean.getStockAdds().get(0).getAddedOperator());
                 mTvCompletionDate.setText(bean.getFinishedTime());
                 mTvProcessingCapacity.setText(MoneyUtils.formatMoney(bean.getFinishedQty()) + " 公斤");
-                mTvDegreeOfCompletion.setText(bean.getPercentage());
+//                mTvDegreeOfCompletion.setText(bean.getPercentage());
                 mTvStatus.setText("已完成");
                 mLyTask.setVisibility(View.VISIBLE);
                 mTvReceiver.setVisibility(View.VISIBLE);

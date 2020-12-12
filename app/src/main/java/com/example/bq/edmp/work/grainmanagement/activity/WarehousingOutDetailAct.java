@@ -23,6 +23,8 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.grainmanagement.adapter.WarehouseVarietiesListAdp;
+import com.example.bq.edmp.work.grainmanagement.adapter.WarehouseVarietiesOutListAdp;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.adapter.WareHousingDetailsDetectionListAdp;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
@@ -42,6 +44,8 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
+    @BindView(R.id.recycler_view)
+    RecyclerView recycler_view;
     @BindView(R.id.ly_two)
     LinearLayout mLyTwo;//调拨信息父布局
     @BindView(R.id.tv_number)
@@ -52,10 +56,10 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     TextView mTvContractor;//分子公司名称
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;//入库仓库
-    @BindView(R.id.tv_varieties)
-    TextView mTvVarieties;//品种
-    @BindView(R.id.tv_gross_weight)
-    TextView mTvGrossWeight;//入库量
+//    @BindView(R.id.tv_varieties)
+//    TextView mTvVarieties;//品种
+//    @BindView(R.id.tv_gross_weight)
+//    TextView mTvGrossWeight;//入库量
     @BindView(R.id.tv_time)
     TextView mTvTime;//入库日期
     @BindView(R.id.tv_transfer_warehouse)
@@ -71,6 +75,7 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
     private String id="";
     private ILoadingView loading_dialog;
+    private WarehouseVarietiesOutListAdp warehouseVarietiesOutListAdp;
     @Override
     protected int getLayoutId() {
         return R.layout.layout_warehousing_out_detail;
@@ -86,6 +91,9 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
+        recycler_view.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        warehouseVarietiesOutListAdp = new WarehouseVarietiesOutListAdp(null);
+        recycler_view.setAdapter(warehouseVarietiesOutListAdp);
         getAcquisitionDetail();
     }
 
@@ -126,9 +134,10 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
         mTvStatus.setText(type);
         mTvContractor.setText(bean.getOrgName());
         mTvWarehouse.setText(bean.getWarehouseName());
-        mTvVarieties.setText(bean.getVarietyName());
-        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getSubQty())+" 公斤");
+//        mTvVarieties.setText(bean.getVarietyName());
+//        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getSubQty())+" 公斤");
         mTvTime.setText(bean.getAddedTime());
+        warehouseVarietiesOutListAdp.setNewData(bean.getStockSubItems());
 
     }
     //获取出庫详情

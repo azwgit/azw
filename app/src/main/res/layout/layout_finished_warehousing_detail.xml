@@ -114,61 +114,11 @@
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_56"
-            android:layout_marginTop="@dimen/dp_1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:background="#0D000000"
-                android:gravity="center"
-                android:text="品种"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
-
-            <TextView
-                android:id="@+id/tv_varieties"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_20"
-                android:text="皖垦麦869"
-                android:textColor="#E617171A"
-                android:textSize="@dimen/sp_16" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_56"
-            android:layout_marginTop="@dimen/dp_1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:background="#0D000000"
-                android:gravity="center"
-                android:text="入库量"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
-
-            <TextView
-                android:id="@+id/tv_gross_weight"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_20"
-                android:text="1880.00 公斤"
-                android:textColor="#E617171A"
-                android:textSize="@dimen/sp_16" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"

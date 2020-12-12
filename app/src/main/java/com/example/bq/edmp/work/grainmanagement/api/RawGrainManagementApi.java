@@ -73,7 +73,7 @@ public interface RawGrainManagementApi {
     //出库详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("grain/substock/{id}")
+    @POST("grain/substock/show/{id}")
     Observable<WarehouseingOutDetailBean> getWareHousingOutDetail(
             @Path("id") String id,
             @Field("sign") String sign);
@@ -81,7 +81,7 @@ public interface RawGrainManagementApi {
     //入库详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("grain/addstock/{id}")
+    @POST("grain/addstock/show/{id}")
     Observable<WarehouseingDetailBean> getWareHousingDetail(
             @Path("id") String id,
             @Field("sign") String sign);

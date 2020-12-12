@@ -4,6 +4,7 @@ import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.work.finishedproduct.bean.FinishedStockDetailBean;
 import com.example.bq.edmp.work.finishedproduct.bean.FinishedWareHousingOutDetailBean;
 import com.example.bq.edmp.work.finishedproduct.bean.FinishedWarehousingBean;
+import com.example.bq.edmp.work.finishedproduct.bean.LogisticsListBean;
 import com.example.bq.edmp.work.finishedproduct.bean.MachiningTaskDetailsBean;
 import com.example.bq.edmp.work.finishedproduct.bean.SendGoodsDetailsBean;
 import com.example.bq.edmp.work.finishedproduct.bean.VechicleListBean;
@@ -30,15 +31,18 @@ import retrofit2.http.Path;
 
 public interface FinishedProductApi {
 
-    //查询车辆列表
+    //查询物流列表
+    @Headers({"urlname:production"})
+    @POST("product/order/tpl/list")
+    Observable<LogisticsListBean> getLogisticsList();
+    //查询物流列表
     @Headers({"urlname:production"})
     @POST("order/truck")
     Observable<VechicleListBean> getVehicleList();
-
     //发货详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("order/sendout/{id}")
+    @POST("product/order/show/{id}")
     Observable<SendGoodsDetailsBean> getSendGoodsDetails(
             @Path("id") String id,
             @Field("sign") String sign);
@@ -46,11 +50,11 @@ public interface FinishedProductApi {
     //发货
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("order/sendout/affirmgoods")
+    @POST("product/order/sendout/affirmgoods")
     Observable<BaseABean> sendGoods(
-            @Field("logisticsName") String logisticsName,
             @Field("ordersId") String ordersId,
             @Field("remark") String remark,
+            @Field("tplName") String tplName,
             @Field("tplNo") String tplNo,
             @Field("truckId") String truck_id,
             @Field("types") String types,
@@ -118,19 +122,17 @@ public interface FinishedProductApi {
     //入库详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("product/addstock")
+    @POST("product/addstock/show/{id}")
     Observable<FinishedWarehousingBean> getWareHousingDetail(
-            @Field("id") String id,
-            @Field("packagingId") String packagingId,
+            @Path("id") String id,
             @Field("sign") String sign);
 
     //出库详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("product/substock")
+    @POST("product/substock/show/{id}")
     Observable<FinishedWareHousingOutDetailBean> getWareHousingOutDetail(
-            @Field("id") String id,
-            @Field("packagingId") String packagingId,
+            @Path("id") String id,
             @Field("sign") String sign);
 
 }

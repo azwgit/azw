@@ -36,15 +36,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".work.finishedproduct.activity.FinishedWarehousingOutDetailActivity"></activity>
+        <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity"></activity>
+        <activity android:name=".work.inventorytransfer.activity.AddTransferGoodsActivity" />
+        <activity
+            android:name=".work.inventorytransfer.activity.EditFinishedProductAllocationActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".work.inventorytransfer.activity.AddFinishedProductAllocationActivity"></activity>
+        <activity android:name=".work.finishedproduct.activity.FinishedWarehousingOutDetailActivity" />
         <activity android:name=".work.finishedproduct.activity.FinishedWarehousingDetailActivity" />
         <activity android:name=".work.finishedproduct.activity.FinishedStockDetailActivity" />
-        <activity android:name=".work.finishedproduct.activity.DeliverGoodsDetailsActivity" >
-
-        </activity>
-        <activity android:name=".work.finishedproduct.activity.MachiningTaskDetailsActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-        </activity>
+        <activity android:name=".work.finishedproduct.activity.DeliverGoodsDetailsActivity" />
+        <activity
+            android:name=".work.finishedproduct.activity.MachiningTaskDetailsActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".work.grainmanagement.activity.NewAcquisitionsSuccessActivity" />
         <activity android:name=".work.grainmanagement.activity.TraeSuccessActivity" />
         <activity android:name=".work.grainmanagement.activity.GrossWeightSuccessActivity" />
@@ -124,7 +128,7 @@
         <activity android:name=".work.grainmanagement.activity.WarehousingOutDetailAct" />
         <activity android:name=".work.grainmanagement.activity.StockDetailAct" />
         <activity android:name=".word.inventory.InventoryActivity" />
-        <activity android:name=".word.put_warehouse.Put_WarehouseActivity"></activity>
+        <activity android:name=".word.put_warehouse.Put_WarehouseActivity" />
         <activity android:name=".word.purchase.PurchaseListActivity" />
     </application>
 

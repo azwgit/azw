@@ -391,6 +391,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/tv_degree_of_completion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -442,7 +443,8 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false"/>
             </LinearLayout>
 
 

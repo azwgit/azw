@@ -28,7 +28,7 @@ public class DeliverGoodsDetailsVarietiesListAdp extends BaseQuickAdapter<SendGo
     @Override
     protected void convert(BaseViewHolder helper, SendGoodsDetailsBean.DataBean.OrderItemsBean item) {
         helper.setText(R.id.tv_title, "销售品种"+(helper.getPosition()+1));
-        helper.setText(R.id.tv_name, item.getVarietyName()+"  "+item.getPackagingName());
+        helper.setText(R.id.tv_name, item.getVarietyName());
         helper.setText(R.id.tv_number, MoneyUtils.formatMoney(item.getQty())+" 公斤");
     }
 }

@@ -580,7 +580,7 @@ public class EditTravelDetailAct extends BaseTitleActivity {
                 .setSubmitColor(getResources().getColor(R.color.appThemeColor))
                 .setTextColorCenter(Color.BLACK)
                 .setDate(startDate)
-                .setRangDate(startDate, selectedDate)
+//                .setRangDate(startDate, selectedDate)
                 .setType(new boolean[]{true, true, true, false, false, false})
                 .setLabel("年", "月", "日", "", "", "")
                 .build();
