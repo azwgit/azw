@@ -18,9 +18,8 @@
             android:layout_marginTop="@dimen/dp_22"
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_marginBottom="@dimen/dp_12"
-            android:alpha="0.7"
             android:text="调拨商品"
-            android:textColor="#17171A"
+            android:textColor="#999999"
             android:textSize="12sp" />
 
         <LinearLayout
@@ -36,7 +35,7 @@
                 android:background="@color/white"
                 android:gravity="left|center"
                 android:text="商品"
-                android:textColor="#666666"
+                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -46,9 +45,9 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_40"
-                android:drawableRight="@mipmap/icon_bottom_jiantou"
+                android:drawableRight="@drawable/icon_xia"
                 android:text="请选择商品"
-                android:textColor="#333333"
+                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -72,7 +71,7 @@
                 android:background="@color/white"
                 android:gravity="left|center"
                 android:text="调拨数量"
-                android:textColor="#666666"
+                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
 
             <TextView

@@ -126,13 +126,13 @@ public interface RawGrainManagementApi {
 
     //查询当前用户所在农场的承包人
     @Headers({"urlname:production"})
-    @POST("farm/farmer")
+    @POST("system/query/farm/farmer")
     Observable<ContractorListBean> getContractorList();
 
     //查询承包人所有签订品种
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("farmer/varieties/{id}")
+    @POST("system/query/farmer/varieties/{id}")
     Observable<VarietiesListBean> getVarietiesList(
             @Path("id") String id,
             @Field("sign") String sign);
@@ -140,7 +140,7 @@ public interface RawGrainManagementApi {
     //根据品种查询仓库
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("warehouse/forvariety/{id}")
+    @POST("system/query/warehouse/forvariety/{id}")
     Observable<WareHouseListBean> getWarehouseList(
             @Field("id") String id,
             @Field("sign") String sign);
@@ -148,7 +148,7 @@ public interface RawGrainManagementApi {
     //根据作物查询检测项
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("testplan/crop/{id}")
+    @POST("system/query/testplan/crop/{id}")
     Observable<TestingBeanList> getTestingList(
             @Path("id") String id,
             @Field("sign") String sign);

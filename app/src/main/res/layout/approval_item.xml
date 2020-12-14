@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-    <ImageView
+    <com.example.bq.edmp.utils.RoundImageView
         android:id="@+id/img_head"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
-        android:background="@color/colorf9"/>
+        android:src="@drawable/untitled"/>
     <TextView
         android:id="@+id/tv_nick"
         android:layout_toLeftOf="@+id/tv_time"

@@ -92,15 +92,15 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()){
             case  R.id.btn_add_info:
-//                PayInfoBean payInfoBean=new PayInfoBean();
-//                payInfoBean.setDesc("添加商品");
-//                payInfoBeanList.add(payInfoBean);
-//                mAdapter.notifyDataSetChanged();
+                PayInfoBean payInfoBean=new PayInfoBean();
+                payInfoBean.setDesc("添加商品");
+                payInfoBeanList.add(payInfoBean);
+                mAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_submit:
-//                ToastUtil.setToast("调拨成功");
-//                Intent intent=new Intent(getApplicationContext(),AddTransferGoodsActivity.class);
-//                startActivity(intent);
+                ToastUtil.setToast("调拨成功");
+                Intent intent=new Intent(getApplicationContext(),AddTransferGoodsActivity.class);
+                startActivity(intent);
                 break;
         }
     }
