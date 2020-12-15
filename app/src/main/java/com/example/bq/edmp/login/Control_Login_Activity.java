@@ -1,8 +1,6 @@
-package com.example.bq.edmp.activity.login;
+package com.example.bq.edmp.login;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,13 +8,14 @@ import android.widget.TextView;
 
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
+import com.example.bq.edmp.mine.activty.ModificationPasswordActivity;
 import com.example.bq.edmp.utils.SpUtils;
 
 import butterknife.BindView;
 
 /*
-* 登录管理
-* */
+ * 登录管理
+ * */
 public class Control_Login_Activity extends BaseActivity {
 
     @BindView(R.id.password_login)
@@ -63,18 +62,12 @@ public class Control_Login_Activity extends BaseActivity {
         Boolean shoushi = (Boolean) SpUtils.get("shoushi", false);
         Boolean shualian = (Boolean) SpUtils.get("shualian", false);
         if (shoushi) {
-            SHOUSHI = true;
-            SHUALIAN = false;
             gesture_login_tv.setText("已启动");
             swiping_login_tv.setText("未启动");
         } else if (shualian) {
-            SHOUSHI = false;
-            SHUALIAN = true;
             gesture_login_tv.setText("未启动");
             swiping_login_tv.setText("已启动");
         } else {
-            SHOUSHI = false;
-            SHUALIAN = false;
             gesture_login_tv.setText("未启动");
             swiping_login_tv.setText("未启动");
         }
@@ -82,7 +75,7 @@ public class Control_Login_Activity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_control__login_;
+        return R.layout.activity_control__login;
     }
 
     @Override
@@ -93,33 +86,45 @@ public class Control_Login_Activity extends BaseActivity {
                 fund();
                 break;
             case R.id.password_login://密码登录
-
+                startActivity(new Intent(Control_Login_Activity.this, ModificationPasswordActivity.class));
                 break;
             case R.id.swiping_login://刷脸登录
-                SpUtils.put("SHOUSHILOGIN", "");
+                intent = new Intent(Control_Login_Activity.this, GestureoneActivity.class);
+                intent.putExtra("text_one", "使用刷脸登录");
+                intent.putExtra("text_two", "修改刷脸密码");
+                intent.putExtra("text_title", "设置刷脸密码");
+                intent.putExtra("type", 1);
+                startActivity(intent);
                 break;
             case R.id.gesture_login://手势密码
-                String shoushilogin = (String) SpUtils.get("SHOUSHILOGIN", "");
-                if (shoushilogin.equals("") || shoushilogin == null) {
-                    intent = new Intent(Control_Login_Activity.this, GestureSettingLoginActivity.class);
-                    startActivityForResult(intent, 250);
-                } else {
-                    if (SHOUSHI) {
-                        SHOUSHI = false;
-                        SHUALIAN = false;
-                        gesture_login_tv.setText("未启动");
-                        swiping_login_tv.setText("未启动");
-                        SpUtils.put("shoushi", false);
-                        SpUtils.put("shualian", false);
-                    } else {
-                        SHOUSHI = true;
-                        SHUALIAN = false;
-                        gesture_login_tv.setText("已启动");
-                        swiping_login_tv.setText("未启动");
-                        SpUtils.put("shoushi", true);
-                        SpUtils.put("shualian", false);
-                    }
-                }
+                intent = new Intent(Control_Login_Activity.this, GestureoneActivity.class);
+                intent.putExtra("text_one", "使用手势密码登录");
+                intent.putExtra("text_two", "修改手势密码");
+                intent.putExtra("text_title", "设置手势密码");
+                intent.putExtra("type", 2);
+                startActivity(intent);
+
+//                String shoushilogin = (String) SpUtils.get("SHOUSHILOGIN", "");
+//                if (shoushilogin.equals("") || shoushilogin == null) {
+//                    intent = new Intent(Control_Login_Activity.this, GestureSettingLoginActivity.class);
+//                    startActivityForResult(intent, 250);
+//                } else {
+//                    if (SHOUSHI) {
+//                        SHOUSHI = false;
+//                        SHUALIAN = false;
+//                        gesture_login_tv.setText("未启动");
+//                        swiping_login_tv.setText("未启动");
+//                        SpUtils.put("shoushi", false);
+//                        SpUtils.put("shualian", false);
+//                    } else {
+//                        SHOUSHI = true;
+//                        SHUALIAN = false;
+//                        gesture_login_tv.setText("已启动");
+//                        swiping_login_tv.setText("未启动");
+//                        SpUtils.put("shoushi", true);
+//                        SpUtils.put("shualian", false);
+//                    }
+//                }
 //                intent = new Intent(Control_Login_Activity.this, Gestures_login_Activity.class);
 //                startActivityForResult(intent, 250);
                 break;

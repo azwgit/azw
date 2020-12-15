@@ -56,8 +56,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:alpha="0.05"
-            android:background="@color/text_black" />
+            android:background="@color/color_bg" />
 
         <!--全部数据-->
         <LinearLayout
@@ -109,6 +108,7 @@
         <!--筛选数据-->
         <RelativeLayout
             android:id="@+id/sx_rl"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
@@ -141,11 +141,21 @@
 
             </RelativeLayout>
 
+
+            <View
+                android:layout_below="@id/rrll"
+                android:id="@+id/vie"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/color_bg" />
+
+
+
             <com.jcodecraeer.xrecyclerview.XRecyclerView
                 android:id="@+id/xr"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/rrll"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+                android:layout_below="@id/vie"></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
             <TextView
                 android:id="@+id/wsj"
@@ -184,32 +194,36 @@
             android:textSize="@dimen/sp_16" />
 
         <TextView
-            android:id="@+id/text_history_start_time"
-            android:layout_width="@dimen/dp_296"
-            android:layout_height="@dimen/dp_48"
             android:layout_below="@id/a"
-            android:layout_centerHorizontal="true"
-            android:alpha="0.5"
+            android:id="@+id/text_history_start_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
             android:background="#F2F5F6"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:hint="选择开始时间"
+            android:hint="请选择开始时间"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/sp_16" />
+            android:textColorHint="@color/color_66000000"
+            android:textSize="@dimen/sp_14" />
+
 
         <TextView
-            android:id="@+id/text_history_end_time"
-            android:layout_width="@dimen/dp_296"
-            android:layout_height="@dimen/dp_48"
             android:layout_below="@id/text_history_start_time"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_24"
-            android:alpha="0.5"
+            android:id="@+id/text_history_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
             android:background="#F2F5F6"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
             android:gravity="center"
-            android:hint="选择结束时间"
+            android:hint="请选择结束时间"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/sp_16" />
-
+            android:textColorHint="@color/color_66000000"
+            android:textSize="@dimen/sp_14" />
         <TextView
             android:id="@+id/b"
             android:layout_width="wrap_content"

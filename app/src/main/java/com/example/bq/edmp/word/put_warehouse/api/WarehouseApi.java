@@ -1,7 +1,7 @@
 package com.example.bq.edmp.word.put_warehouse.api;
 
-import com.example.bq.edmp.word.inventory.bean.InventoryBean;
-import com.example.bq.edmp.word.put_warehouse.bean.WarehouseListBean;
+import com.example.bq.edmp.word.put_warehouse.bean.ChuKuWarehouseListBean;
+import com.example.bq.edmp.word.put_warehouse.bean.RuKuWarehouseListBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -16,11 +16,11 @@ public interface WarehouseApi {
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("grain/addstock/list")
-    Observable<WarehouseListBean> getWarehouseListData(
+    Observable<RuKuWarehouseListBean> getWarehouseListData(
             @Field("beginTime") String beginTime, //开始时间
             @Field("code") String code, //单号
             @Field("endTime") String endTime, //结束时间
-            @Field("orgIds") String orgIds, //公司id
+            @Field("orgId") String orgId, //公司id
             @Field("page") int page,
             @Field("pagerow") int pagerow,
             @Field("varietyId") String varietyId,//品种id
@@ -33,11 +33,11 @@ public interface WarehouseApi {
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("grain/substock/list")
-    Observable<WarehouseListBean> getChuWarehouseListData(
+    Observable<ChuKuWarehouseListBean> getChuWarehouseListData(
             @Field("beginTime") String beginTime, //开始时间
             @Field("code") String code, //单号
             @Field("endTime") String endTime, //结束时间
-            @Field("orgIds") String orgIds, //公司id
+            @Field("orgId") String orgId, //公司id
             @Field("page") int page,
             @Field("pagerow") int pagerow,
             @Field("varietyId") String varietyId,//品种id

@@ -9,7 +9,7 @@
         android:id="@+id/vw"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_10"
-        android:background="@color/color_d0d0d0" />
+        android:background="#F7F7F7" />
 
     <LinearLayout
         android:layout_width="match_parent"

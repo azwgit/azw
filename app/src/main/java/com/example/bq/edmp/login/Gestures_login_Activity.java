@@ -1,4 +1,4 @@
-package com.example.bq.edmp.activity.login;
+package com.example.bq.edmp.login;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class Gestures_login_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gestures_login_);
+        setContentView(R.layout.activity_gestures_login);
 
         initView();
     }

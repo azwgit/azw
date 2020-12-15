@@ -5,22 +5,22 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.login.LoginActivity;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.fragment.AddressBookFragment;
 import com.example.bq.edmp.fragment.ConmmunityFragment;
 import com.example.bq.edmp.fragment.HomeFragment;
 import com.example.bq.edmp.fragment.MineFragment;
 import com.example.bq.edmp.fragment.WorkFragment;
-import com.example.bq.edmp.utils.NoSrcollViewPage;
+import com.example.bq.edmp.utils.FragmentUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,8 +30,8 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.view_pager)
-    NoSrcollViewPage viewPager;
+   /* @BindView(R.id.view_pager)
+    NoSrcollViewPage viewPager;*/
     @BindView(R.id.radio_group)
     RadioGroup radioGroup;
     @BindView(R.id.home_rb)
@@ -44,6 +44,8 @@ public class MainActivity extends BaseActivity {
     RadioButton conmmunity_rb;
     @BindView(R.id.mine_rb)
     RadioButton mine_rb;
+    @BindView(R.id.FL)
+    FrameLayout FL;
 
     private List<Fragment> fragmentList = new ArrayList<>();
     private HomeFragment homeFragment;
@@ -52,6 +54,9 @@ public class MainActivity extends BaseActivity {
     private ConmmunityFragment conmmunityFragment;
     private MineFragment mineFragment;
     long preTime;
+    private FragmentManager manager;
+
+
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -65,7 +70,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        int type = getIntent().getIntExtra("type", 0);
+
+
+/*        int type = getIntent().getIntExtra("type", 0);
         homeFragment = new HomeFragment();
         addressBookFragment = new AddressBookFragment();
         workFragment = new WorkFragment();
@@ -115,7 +122,6 @@ public class MainActivity extends BaseActivity {
         });
         viewPager.setCurrentItem(type);
         if (type == 0) {
-
             home_rb.setChecked(true);
         } else if (type == 1) {
             addressbook_rb.setChecked(true);
@@ -125,27 +131,59 @@ public class MainActivity extends BaseActivity {
             conmmunity_rb.setChecked(true);
         } else if (type == 4) {
             mine_rb.setChecked(true);
-        }
+        }*/
 
     }
 
     @Override
     protected void initListener() {
-        home_rb.setOnClickListener(this);
+      /*  home_rb.setOnClickListener(this);
         addressbook_rb.setOnClickListener(this);
         work_rb.setOnClickListener(this);
         conmmunity_rb.setOnClickListener(this);
-        mine_rb.setOnClickListener(this);
+        mine_rb.setOnClickListener(this);*/
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.home_rb://首页
+                        FragmentUtils.addFragment(manager, HomeFragment.class, R.id.FL, null);
+                        break;
+                    case R.id.addressbook_rb://通讯录
+                        FragmentUtils.addFragment(manager, AddressBookFragment.class, R.id.FL, null);
+                        break;
+                    case R.id.work_rb://工作台
+                        FragmentUtils.addFragment(manager, WorkFragment.class, R.id.FL, null);
+                        break;
+                    case R.id.conmmunity_rb://社区
+                        FragmentUtils.addFragment(manager, ConmmunityFragment.class, R.id.FL, null);
+                        break;
+                    case R.id.mine_rb://我的
+                        FragmentUtils.addFragment(manager, MineFragment.class, R.id.FL, null);
+                        break;
+                }
+            }
+        });
     }
 
     @Override
     protected void initView() {
 
+        ProApplication.getinstance().addActivity(MainActivity.this);
+
+        //碎片事务管理器
+        manager = getSupportFragmentManager();
+
+        //默认碎片
+        FragmentUtils.addFragment(manager, HomeFragment.class, R.id.FL, null);
+        //默认选中首页
+        home_rb.setChecked(true);
     }
 
     @Override
     protected void otherViewClick(View view) {
-        switch (view.getId()) {
+       /* switch (view.getId()) {
             case R.id.home_rb:
                 viewPager.setCurrentItem(0, false);
                 break;
@@ -161,7 +199,7 @@ public class MainActivity extends BaseActivity {
             case R.id.mine_rb:
                 viewPager.setCurrentItem(4, false);
                 break;
-        }
+        }*/
     }
 
     @Override
@@ -229,5 +267,12 @@ public class MainActivity extends BaseActivity {
         public int getCount() {
             return list.size();
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ProApplication.getinstance().finishActivity(MainActivity.this);
     }
 }

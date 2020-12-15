@@ -1,6 +1,5 @@
 package com.example.bq.edmp.word.inventory.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.word.inventory.bean.CompanyBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

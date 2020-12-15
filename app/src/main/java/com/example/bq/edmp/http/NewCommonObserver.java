@@ -1,12 +1,13 @@
 package com.example.bq.edmp.http;
 
 
-import android.content.Intent;
 import android.text.TextUtils;
 
 import com.allen.library.base.BaseObserver;
 import com.allen.library.utils.ToastUtils;
 import com.example.bq.edmp.ProApplication;
+import com.example.bq.edmp.login.LoginActivity;
+import com.example.bq.edmp.utils.ToastUtil;
 
 import io.reactivex.disposables.Disposable;
 
@@ -45,9 +46,15 @@ public abstract class NewCommonObserver<T> extends BaseObserver<T> {
         if (!isHideToast() && !TextUtils.isEmpty(errorMsg)) {
             ToastUtils.showToast(errorMsg);
         }
-        onError(errorMsg);
+        if (errorMsg.equals("HTTP 401 ")) {
+            ProApplication.getinstance().closeAllActiivty();
+            LoginActivity.start(ProApplication.getmContext());
+            ToastUtil.setToast("登录过期！请重新登录");
+        } else {
+            onError(errorMsg);
+        }
         //稍后处理整体异常
-       // ProApplication.getinstance().closeAllActiivty();
+        // ProApplication.getinstance().closeAllActiivty();
     }
 
     @Override

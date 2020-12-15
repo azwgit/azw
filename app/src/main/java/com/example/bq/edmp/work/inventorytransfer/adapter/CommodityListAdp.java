@@ -1,34 +1,27 @@
 package com.example.bq.edmp.work.inventorytransfer.adapter;
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.apply.PreviewImageAdapter;
-import com.example.bq.edmp.bean.PayInfoBean;
-import com.example.bq.edmp.utils.FullyGridLayoutManager;
-import com.example.bq.edmp.utils.MoneyUtils;
-import com.luck.picture.lib.entity.LocalMedia;
+import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CommodityListAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHolder> {
+public class CommodityListAdp extends BaseQuickAdapter<EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean, BaseViewHolder> {
 
-    public CommodityListAdp(@Nullable List<PayInfoBean> data) {
+    public CommodityListAdp(@Nullable List<EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean> data) {
         super(R.layout.item_commodity, data);
     }
     @Override
-    protected void convert(BaseViewHolder helper, final PayInfoBean item) {
+    protected void convert(BaseViewHolder helper, final EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean item) {
 
         final int pos = helper.getLayoutPosition();
-        helper.setText(R.id.tv_title, item.getDesc());
-        helper.setText(R.id.tv_number, item.getDesc());
+        helper.setText(R.id.tv_title, item.getVarietyName());
+        helper.setText(R.id.tv_number, item.getQty()+"");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);
         View mView = helper.getView(R.id.view_line);
@@ -65,7 +58,7 @@ public class CommodityListAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHold
     private OnItemDelListener onItemDelListener;
 
     public abstract static class OnItemDelListener {
-        public abstract void onItemDelClick(int position, PayInfoBean bean);
+        public abstract void onItemDelClick(int position, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean);
     }
     //编辑
     public void setOnItemEditLisenter(OnItemEditLisenter onItemEditLisenter){
@@ -73,6 +66,6 @@ public class CommodityListAdp extends BaseQuickAdapter<PayInfoBean, BaseViewHold
     }
     private OnItemEditLisenter onItemEditLisenter;
     public abstract static class OnItemEditLisenter{
-        public abstract void onItemEditClick(int pos,PayInfoBean bean);
+        public abstract void onItemEditClick(int pos, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean);
     }
 }

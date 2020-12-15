@@ -5,13 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.word.bean.SubmitListBean;
 import com.example.bq.edmp.word.purchase.bean.PurchaseListBean;
 
 import java.util.List;
@@ -22,13 +19,13 @@ import java.util.List;
 
 public class PruchaseListAdapter extends RecyclerView.Adapter<PruchaseListAdapter.Holder> {
 
-    private List<PurchaseListBean.RowsBean> list;
+    private List<PurchaseListBean.DataBean.RowsBean> list;
 
-    public PruchaseListAdapter(List<PurchaseListBean.RowsBean> list) {
+    public PruchaseListAdapter(List<PurchaseListBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
-    public void addMoreData(List<PurchaseListBean.RowsBean> data) {
+    public void addMoreData(List<PurchaseListBean.DataBean.RowsBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -43,31 +40,37 @@ public class PruchaseListAdapter extends RecyclerView.Adapter<PruchaseListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, final int position) {
-        final PurchaseListBean.RowsBean rowsBean = list.get(position);
+        final PurchaseListBean.DataBean.RowsBean rowsBean = list.get(position);
 
-        if (rowsBean.getStatus() == 1) {
-            holder.status_tv.setText("收购中");
-            holder.status_tv.setTextColor(R.color.colorf9);
-            holder.status_tv.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.purchase_red_shape));
-        } else if (rowsBean.getStatus() == 2) {
-            holder.status_tv.setText("已完成");
-            holder.status_tv.setTextColor(R.color.color_d0d0d0);//colorf9
-            holder.status_tv.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.purchase_back_shape));
+        String status = rowsBean.getStatus();
+        if (status != null) {
+            if (status.equals("1")) {
+                holder.status_tv.setText("收购中");
+//            holder.status_tv.setTextColor(R.color.colorf9);
+                holder.status_tv.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.purchase_red_shape));
+            } else if (status.equals("2")) {
+                holder.status_tv.setText("已完成");
+//            holder.status_tv.setTextColor(R.color.color_d0d0d0);//colorf9
+                holder.status_tv.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.purchase_back_shape));
+            }
+        } else {
+            holder.status_tv.setText("无状态");
         }
+
         if (rowsBean.getGrossWeight() == null || rowsBean.getGrossWeight().equals("")) {
             holder.weight_m_tv.setText("毛重: ----");
         } else {
-            holder.weight_m_tv.setText("毛重: "+rowsBean.getGrossWeight());
+            holder.weight_m_tv.setText("毛重: " + rowsBean.getGrossWeight());
         }
         if (rowsBean.getTareWeight() == null || rowsBean.getTareWeight().equals("")) {
             holder.weight_p_tv.setText("皮重: ----");
         } else {
-            holder.weight_p_tv.setText("皮重: "+rowsBean.getTareWeight());
+            holder.weight_p_tv.setText("皮重: " + rowsBean.getTareWeight());
         }
         if (rowsBean.getNetWeight() == null || rowsBean.getNetWeight().equals("")) {
             holder.weight_j_tv.setText("净重: ----");
         } else {
-            holder.weight_j_tv.setText("净重: "+rowsBean.getNetWeight());
+            holder.weight_j_tv.setText("净重: " + rowsBean.getNetWeight());
         }
         holder.code_tv.setText(rowsBean.getCode());
         holder.variety_name_tv.setText(rowsBean.getVarietyName());
@@ -78,7 +81,7 @@ public class PruchaseListAdapter extends RecyclerView.Adapter<PruchaseListAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mItemClickListener.onItemClick(position,rowsBean);
+                mItemClickListener.onItemClick(position, rowsBean);
             }
         });
     }
@@ -119,7 +122,7 @@ public class PruchaseListAdapter extends RecyclerView.Adapter<PruchaseListAdapte
     protected OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, PurchaseListBean.RowsBean rowsBean);
+        void onItemClick(int pos, PurchaseListBean.DataBean.RowsBean rowsBean);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

@@ -23,7 +23,6 @@ import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.adapter.SubmitListAdapter;
 import com.example.bq.edmp.word.api.WordListApi;
 import com.example.bq.edmp.word.bean.SubmitListBean;
-import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -117,7 +116,7 @@ public class SubmitFragment extends BaseFragment {
                             xr.setAdapter(submitListAdapter);
                             submitListAdapter.setOnItemClickListener(new SubmitListAdapter.OnItemClickListener() {
                                 @Override
-                                public void onItemClick(int position,SubmitListBean.RowsBean  rowsBean ) {
+                                public void onItemClick(int position, SubmitListBean.RowsBean  rowsBean ) {
                                     SubmitListBean.RowsBean newRowsBean=rowsBean;
                                     //1开始报账详情 2差旅报账详情
                                     if(newRowsBean.getTypes()==1){

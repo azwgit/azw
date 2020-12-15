@@ -1,8 +1,6 @@
 package com.example.bq.edmp.activity.apply.travel.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -19,23 +17,16 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.MainActivity;
-import com.example.bq.edmp.activity.apply.ApplyPayAccountSecondAct;
 import com.example.bq.edmp.activity.apply.ReimbursementApi;
 import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.travel.ApplyTravelAccountSecondAct;
-import com.example.bq.edmp.activity.login.LoginApi;
-import com.example.bq.edmp.activity.login.UserInfoBean;
+import com.example.bq.edmp.login.UserInfoBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
-import com.example.bq.edmp.bean.LoginBean;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
-import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;

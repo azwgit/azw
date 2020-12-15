@@ -18,14 +18,17 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseFragment;
+import com.example.bq.edmp.base.ServiceAndDemonstrateFieldWebViewActivity;
 import com.example.bq.edmp.home.activity.MessageNotificationListActivity;
 import com.example.bq.edmp.home.activity.UploadImageActivity;
 import com.example.bq.edmp.home.adapter.HomeJournalismAdapter;
 import com.example.bq.edmp.home.api.HomeApi;
 import com.example.bq.edmp.home.bean.HomeBean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.url.BaseApi;
-import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.LoadingDialog;
+import com.example.bq.edmp.utils.LogUtils;
+import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MyLoader;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.TurnImgStringUtils;
@@ -109,7 +112,8 @@ public class HomeFragment extends BaseFragment {
         homeJournalismAdapter.setOnItemLeftClckListener(new HomeJournalismAdapter.OnItemLeftClckListener() {
             @Override
             public void onItemLeftClck(HomeBean.DataBean.ArticlesBean articlesBean, int mPosition) {
-                ToastUtil.setToast(articlesBean.getTitle());
+                Intent intent = ServiceAndDemonstrateFieldWebViewActivity.newIntent(getActivity(), "http://192.168.0.188:8010/dist/index.html#/Detail?id=" + articlesBean.getId(), "");
+                getActivity().startActivity(intent);
             }
         });
     }
@@ -129,11 +133,10 @@ public class HomeFragment extends BaseFragment {
         RxHttpUtils.createApi(HomeApi.class)
                 .getHomeData()
                 .compose(Transformer.<HomeBean>switchSchedulers(loading_dialog))
-                .subscribe(new CommonObserver<HomeBean>() {
+                .subscribe(new NewCommonObserver<HomeBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
-                        ActivityUtils.getMsg(errorMsg, getContext());
                     }
 
                     @Override
@@ -232,7 +235,8 @@ public class HomeFragment extends BaseFragment {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.gd_tv:
-                ToastUtil.setToast("调转到新闻");
+                Intent intent = ServiceAndDemonstrateFieldWebViewActivity.newIntent(getActivity(), "http://192.168.0.188:8010/dist/index.html#/Party", "");
+                getActivity().startActivity(intent);
                 break;
         }
     }

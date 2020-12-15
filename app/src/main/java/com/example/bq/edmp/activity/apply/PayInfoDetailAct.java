@@ -18,7 +18,6 @@ import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.activity.CopyPayInfoDetailAct;
 import com.example.bq.edmp.activity.apply.activity.UpdateDetailsPayInfoAct;
-import com.example.bq.edmp.activity.apply.activity.UpdatePayInfoAct;
 import com.example.bq.edmp.activity.apply.adapter.DetailsPayInfoAdp;
 import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
@@ -34,8 +33,6 @@ import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

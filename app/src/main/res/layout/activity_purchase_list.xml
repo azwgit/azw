@@ -17,8 +17,10 @@
 
     <include layout="@layout/base_header_layout" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,7 +29,7 @@
         <RelativeLayout
             android:background="@color/white"
             android:id="@+id/rl"
-            android:layout_width="@dimen/dp_300"
+            android:layout_width="@dimen/dp_276"
             android:layout_height="@dimen/dp_40"
             android:layout_gravity="center_vertical"
             android:layout_weight="7">
@@ -48,7 +50,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_toRightOf="@id/img"
                 android:background="@null"
-                android:hint="请输入单号/品种名称查找"
+                android:hint="请输入单号查找"
                 android:textColorHint="@color/color_69"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
@@ -57,6 +59,15 @@
 
         </RelativeLayout>
 
+        <ImageView
+            android:layout_marginLeft="@dimen/dp_16"
+            android:id="@+id/scan_img"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_margin="@dimen/dp_10"
+            android:src="@drawable/vector" />
 
         <ImageView
             android:layout_marginLeft="@dimen/dp_16"
@@ -68,13 +79,29 @@
             android:layout_margin="@dimen/dp_10"
             android:src="@drawable/icon_universal" />
 
-    </RelativeLayout>
+    </LinearLayout>
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/xr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+            <TextView
+                android:id="@+id/wsj"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14"
+                android:text="暂无数据"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
     <!--策划  筛选-->
@@ -85,6 +112,16 @@
         android:layout_gravity="right"
         android:background="@color/white"
         android:orientation="vertical">
+
+    <ScrollView
+        android:layout_above="@id/butt_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <!--时间区间-->
         <TextView
@@ -120,7 +157,6 @@
 
 
         <!--结束时间-->
-
             <TextView
                 android:id="@+id/end_time_tv"
                 android:layout_marginTop="@dimen/dp_20"
@@ -192,19 +228,39 @@
             android:textColor="#000000"
             android:textSize="@dimen/sp_14" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
+        <RelativeLayout
             android:layout_below="@id/pz"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/dp_16"
-            android:layout_marginRight="@dimen/dp_16">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/shaixuan_wsj"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14"
+                android:text="暂无数据"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    </ScrollView>
+
 
         <!--底部按钮-->
         <LinearLayout
+            android:id="@+id/butt_ll"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_56"
             android:layout_alignParentBottom="true"

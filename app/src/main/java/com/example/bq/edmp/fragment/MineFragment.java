@@ -2,14 +2,9 @@ package com.example.bq.edmp.fragment;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,11 +14,10 @@ import com.allen.library.interfaces.ILoadingView;
 import com.allen.library.observer.CommonObserver;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.login.Control_Login_Activity;
+import com.example.bq.edmp.login.Control_Login_Activity;
 import com.example.bq.edmp.base.BaseFragment;
 import com.example.bq.edmp.mine.activty.Message_Activity;
 import com.example.bq.edmp.mine.api.MineApi;
@@ -129,6 +123,7 @@ public class MineFragment extends BaseFragment {
         } else {
             user_identity_tv.setText("暂无职位信息");
         }
+
 
     }
 

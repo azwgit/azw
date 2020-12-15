@@ -15,7 +15,7 @@
             android:id="@+id/home_banner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_200"
-            android:background="@mipmap/error"
+            android:background="@drawable/rectangle"
             app:image_scale_type="fit_xy" />
 
 
@@ -36,11 +36,14 @@
              android:textSize="@dimen/sp_25" />
  -->
         <LinearLayout
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_below="@id/home_banner"
             android:id="@+id/ll"
             android:layout_width="@dimen/dp_350"
             android:layout_height="@dimen/dp_96"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_150"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/home_tow"
             android:orientation="horizontal">
 

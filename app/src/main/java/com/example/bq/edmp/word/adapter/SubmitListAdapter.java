@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.apply.adapter.DeleteGridImageAdapter;
 import com.example.bq.edmp.word.bean.SubmitListBean;
 
 import java.util.List;
@@ -66,9 +65,21 @@ public class SubmitListAdapter extends RecyclerView.Adapter<SubmitListAdapter.Ho
             holder.bz_distinction_tv.setText("差旅报账");
         }
 
-        holder.spdh_tv.setText("审批单号：" + rowsBean.getId());
-        holder.bm_tv.setText(rowsBean.getDeptName());
-        holder.name_tv.setText(rowsBean.getEmpName());
+        if (rowsBean.getId()==0){
+            holder.spdh_tv.setText("审批单号：000000000" );
+        }else {
+            holder.spdh_tv.setText("审批单号：" + rowsBean.getId());
+        }
+        if (rowsBean.getDeptName()==null){
+            holder.bm_tv.setText("某部门");
+        }else {
+            holder.bm_tv.setText(rowsBean.getDeptName());
+        }
+        if (rowsBean.getEmpName()==null){
+            holder.name_tv.setText("某某");
+        }else {
+            holder.name_tv.setText(rowsBean.getEmpName());
+        }
 
         if (mItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

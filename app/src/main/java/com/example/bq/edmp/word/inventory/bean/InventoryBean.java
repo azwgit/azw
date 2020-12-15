@@ -4,331 +4,426 @@ import java.util.List;
 
 public class InventoryBean {
 
+
     /**
-     * filter : {"warehouseId":null,"varietyId":null,"qty":null,"lockedQty":null,"orgIds":null,"cropId":0,"orgId":2,"orgName":null,"varietyName":null,"warehouseName":null,"stockRecords":null}
-     * rows : [{"warehouseId":1,"varietyId":null,"qty":123,"lockedQty":null,"orgIds":null,"cropId":null,"orgId":null,"orgName":"北京分公司","varietyName":"一号小麦","warehouseName":"1号仓库","stockRecords":null},{"warehouseId":4,"varietyId":null,"qty":182,"lockedQty":null,"orgIds":null,"cropId":null,"orgId":null,"orgName":"北京分公司","varietyName":"一号玉米","warehouseName":"1号玉米仓库","stockRecords":null}]
-     * page : 1
-     * pagerow : 15
-     * totalpages : 0
-     * totalrows : 2
-     * sumtotal : 0
-     * sortname : null
-     * sortorder : ASC
+     * code : 200
+     * msg : 查询成功
+     * data : {"filter":{"id":null,"qty":null,"lockedQty":null,"warehouseId":null,"itemId":null,"varietyId":null,"packagingId":null,"cropId":0,"orgId":2,"orgName":null,"varietyName":null,"warehouseName":null,"packagingName":null,"stockRecords":null},"rows":[{"id":null,"qty":88.94,"lockedQty":null,"warehouseId":1,"itemId":1,"varietyId":null,"packagingId":null,"cropId":null,"orgId":null,"orgName":"1号仓库","varietyName":"北京分公司","warehouseName":"一号小麦","packagingName":null,"stockRecords":null},{"id":null,"qty":-1.87,"lockedQty":null,"warehouseId":4,"itemId":1,"varietyId":null,"packagingId":null,"cropId":null,"orgId":null,"orgName":"1号玉米仓库","varietyName":"北京分公司","warehouseName":"一号小麦","packagingName":null,"stockRecords":null},{"id":null,"qty":1.35,"lockedQty":null,"warehouseId":11,"itemId":1,"varietyId":null,"packagingId":null,"cropId":null,"orgId":null,"orgName":"耗材库23","varietyName":"北京分公司","warehouseName":"一号小麦","packagingName":null,"stockRecords":null}],"page":1,"pagerow":15,"totalpages":0,"totalrows":3,"sumtotal":0,"sortname":null,"sortorder":"ASC"}
      */
 
-    private FilterBean filter;
-    private int page;
-    private int pagerow;
-    private int totalpages;
-    private int totalrows;
-    private int sumtotal;
-    private Object sortname;
-    private String sortorder;
-    private List<RowsBean> rows;
+    private String code;
+    private String msg;
+    private DataBean data;
 
-    public FilterBean getFilter() {
-        return filter;
+    public String getCode() {
+        return code;
     }
 
-    public void setFilter(FilterBean filter) {
-        this.filter = filter;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public int getPage() {
-        return page;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public int getPagerow() {
-        return pagerow;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setPagerow(int pagerow) {
-        this.pagerow = pagerow;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
-    public int getTotalpages() {
-        return totalpages;
-    }
-
-    public void setTotalpages(int totalpages) {
-        this.totalpages = totalpages;
-    }
-
-    public int getTotalrows() {
-        return totalrows;
-    }
-
-    public void setTotalrows(int totalrows) {
-        this.totalrows = totalrows;
-    }
-
-    public int getSumtotal() {
-        return sumtotal;
-    }
-
-    public void setSumtotal(int sumtotal) {
-        this.sumtotal = sumtotal;
-    }
-
-    public Object getSortname() {
-        return sortname;
-    }
-
-    public void setSortname(Object sortname) {
-        this.sortname = sortname;
-    }
-
-    public String getSortorder() {
-        return sortorder;
-    }
-
-    public void setSortorder(String sortorder) {
-        this.sortorder = sortorder;
-    }
-
-    public List<RowsBean> getRows() {
-        return rows;
-    }
-
-    public void setRows(List<RowsBean> rows) {
-        this.rows = rows;
-    }
-
-    public static class FilterBean {
+    public static class DataBean {
         /**
-         * warehouseId : null
-         * varietyId : null
-         * qty : null
-         * lockedQty : null
-         * orgIds : null
-         * cropId : 0
-         * orgId : 2
-         * orgName : null
-         * varietyName : null
-         * warehouseName : null
-         * stockRecords : null
+         * filter : {"id":null,"qty":null,"lockedQty":null,"warehouseId":null,"itemId":null,"varietyId":null,"packagingId":null,"cropId":0,"orgId":2,"orgName":null,"varietyName":null,"warehouseName":null,"packagingName":null,"stockRecords":null}
+         * rows : [{"id":null,"qty":88.94,"lockedQty":null,"warehouseId":1,"itemId":1,"varietyId":null,"packagingId":null,"cropId":null,"orgId":null,"orgName":"1号仓库","varietyName":"北京分公司","warehouseName":"一号小麦","packagingName":null,"stockRecords":null},{"id":null,"qty":-1.87,"lockedQty":null,"warehouseId":4,"itemId":1,"varietyId":null,"packagingId":null,"cropId":null,"orgId":null,"orgName":"1号玉米仓库","varietyName":"北京分公司","warehouseName":"一号小麦","packagingName":null,"stockRecords":null},{"id":null,"qty":1.35,"lockedQty":null,"warehouseId":11,"itemId":1,"varietyId":null,"packagingId":null,"cropId":null,"orgId":null,"orgName":"耗材库23","varietyName":"北京分公司","warehouseName":"一号小麦","packagingName":null,"stockRecords":null}]
+         * page : 1
+         * pagerow : 15
+         * totalpages : 0
+         * totalrows : 3
+         * sumtotal : 0
+         * sortname : null
+         * sortorder : ASC
          */
 
-        private Object warehouseId;
-        private Object varietyId;
-        private Object qty;
-        private Object lockedQty;
-        private Object orgIds;
-        private int cropId;
-        private int orgId;
-        private Object orgName;
-        private Object varietyName;
-        private Object warehouseName;
-        private Object stockRecords;
+        private FilterBean filter;
+        private String page;
+        private String pagerow;
+        private String totalpages;
+        private String totalrows;
+        private String sumtotal;
+        private String sortname;
+        private String sortorder;
+        private List<RowsBean> rows;
 
-        public Object getWarehouseId() {
-            return warehouseId;
+        public FilterBean getFilter() {
+            return filter;
         }
 
-        public void setWarehouseId(Object warehouseId) {
-            this.warehouseId = warehouseId;
+        public void setFilter(FilterBean filter) {
+            this.filter = filter;
         }
 
-        public Object getVarietyId() {
-            return varietyId;
+        public String getPage() {
+            return page;
         }
 
-        public void setVarietyId(Object varietyId) {
-            this.varietyId = varietyId;
+        public void setPage(String page) {
+            this.page = page;
         }
 
-        public Object getQty() {
-            return qty;
+        public String getPagerow() {
+            return pagerow;
         }
 
-        public void setQty(Object qty) {
-            this.qty = qty;
+        public void setPagerow(String pagerow) {
+            this.pagerow = pagerow;
         }
 
-        public Object getLockedQty() {
-            return lockedQty;
+        public String getTotalpages() {
+            return totalpages;
         }
 
-        public void setLockedQty(Object lockedQty) {
-            this.lockedQty = lockedQty;
+        public void setTotalpages(String totalpages) {
+            this.totalpages = totalpages;
         }
 
-        public Object getOrgIds() {
-            return orgIds;
+        public String getTotalrows() {
+            return totalrows;
         }
 
-        public void setOrgIds(Object orgIds) {
-            this.orgIds = orgIds;
+        public void setTotalrows(String totalrows) {
+            this.totalrows = totalrows;
         }
 
-        public int getCropId() {
-            return cropId;
+        public String getSumtotal() {
+            return sumtotal;
         }
 
-        public void setCropId(int cropId) {
-            this.cropId = cropId;
+        public void setSumtotal(String sumtotal) {
+            this.sumtotal = sumtotal;
         }
 
-        public int getOrgId() {
-            return orgId;
+        public String getSortname() {
+            return sortname;
         }
 
-        public void setOrgId(int orgId) {
-            this.orgId = orgId;
+        public void setSortname(String sortname) {
+            this.sortname = sortname;
         }
 
-        public Object getOrgName() {
-            return orgName;
+        public String getSortorder() {
+            return sortorder;
         }
 
-        public void setOrgName(Object orgName) {
-            this.orgName = orgName;
+        public void setSortorder(String sortorder) {
+            this.sortorder = sortorder;
         }
 
-        public Object getVarietyName() {
-            return varietyName;
+        public List<RowsBean> getRows() {
+            return rows;
         }
 
-        public void setVarietyName(Object varietyName) {
-            this.varietyName = varietyName;
+        public void setRows(List<RowsBean> rows) {
+            this.rows = rows;
         }
 
-        public Object getWarehouseName() {
-            return warehouseName;
+        public static class FilterBean {
+            /**
+             * id : null
+             * qty : null
+             * lockedQty : null
+             * warehouseId : null
+             * itemId : null
+             * varietyId : null
+             * packagingId : null
+             * cropId : 0
+             * orgId : 2
+             * orgName : null
+             * varietyName : null
+             * warehouseName : null
+             * packagingName : null
+             * stockRecords : null
+             */
+
+            private String id;
+            private String qty;
+            private String lockedQty;
+            private String warehouseId;
+            private String itemId;
+            private String varietyId;
+            private String packagingId;
+            private String cropId;
+            private String orgId;
+            private String orgName;
+            private String varietyName;
+            private String warehouseName;
+            private String packagingName;
+            private String stockRecords;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getQty() {
+                return qty;
+            }
+
+            public void setQty(String qty) {
+                this.qty = qty;
+            }
+
+            public String getLockedQty() {
+                return lockedQty;
+            }
+
+            public void setLockedQty(String lockedQty) {
+                this.lockedQty = lockedQty;
+            }
+
+            public String getWarehouseId() {
+                return warehouseId;
+            }
+
+            public void setWarehouseId(String warehouseId) {
+                this.warehouseId = warehouseId;
+            }
+
+            public String getItemId() {
+                return itemId;
+            }
+
+            public void setItemId(String itemId) {
+                this.itemId = itemId;
+            }
+
+            public String getVarietyId() {
+                return varietyId;
+            }
+
+            public void setVarietyId(String varietyId) {
+                this.varietyId = varietyId;
+            }
+
+            public String getPackagingId() {
+                return packagingId;
+            }
+
+            public void setPackagingId(String packagingId) {
+                this.packagingId = packagingId;
+            }
+
+            public String getCropId() {
+                return cropId;
+            }
+
+            public void setCropId(String cropId) {
+                this.cropId = cropId;
+            }
+
+            public String getOrgId() {
+                return orgId;
+            }
+
+            public void setOrgId(String orgId) {
+                this.orgId = orgId;
+            }
+
+            public String getOrgName() {
+                return orgName;
+            }
+
+            public void setOrgName(String orgName) {
+                this.orgName = orgName;
+            }
+
+            public String getVarietyName() {
+                return varietyName;
+            }
+
+            public void setVarietyName(String varietyName) {
+                this.varietyName = varietyName;
+            }
+
+            public String getWarehouseName() {
+                return warehouseName;
+            }
+
+            public void setWarehouseName(String warehouseName) {
+                this.warehouseName = warehouseName;
+            }
+
+            public String getPackagingName() {
+                return packagingName;
+            }
+
+            public void setPackagingName(String packagingName) {
+                this.packagingName = packagingName;
+            }
+
+            public String getStockRecords() {
+                return stockRecords;
+            }
+
+            public void setStockRecords(String stockRecords) {
+                this.stockRecords = stockRecords;
+            }
         }
 
-        public void setWarehouseName(Object warehouseName) {
-            this.warehouseName = warehouseName;
-        }
+        public static class RowsBean {
+            /**
+             * id : null
+             * qty : 88.94
+             * lockedQty : null
+             * warehouseId : 1
+             * itemId : 1
+             * varietyId : null
+             * packagingId : null
+             * cropId : null
+             * orgId : null
+             * orgName : 1号仓库
+             * varietyName : 北京分公司
+             * warehouseName : 一号小麦
+             * packagingName : null
+             * stockRecords : null
+             */
 
-        public Object getStockRecords() {
-            return stockRecords;
-        }
+            private String id;
+            private String qty;
+            private String lockedQty;
+            private String warehouseId;
+            private String itemId;
+            private String varietyId;
+            private String packagingId;
+            private String cropId;
+            private String orgId;
+            private String orgName;
+            private String varietyName;
+            private String warehouseName;
+            private String packagingName;
+            private String stockRecords;
 
-        public void setStockRecords(Object stockRecords) {
-            this.stockRecords = stockRecords;
-        }
-    }
+            public String getId() {
+                return id;
+            }
 
-    public static class RowsBean {
-        /**
-         * warehouseId : 1
-         * varietyId : null
-         * qty : 123
-         * lockedQty : null
-         * orgIds : null
-         * cropId : null
-         * orgId : null
-         * orgName : 北京分公司
-         * varietyName : 一号小麦
-         * warehouseName : 1号仓库
-         * stockRecords : null
-         */
+            public void setId(String id) {
+                this.id = id;
+            }
 
-        private int warehouseId;
-        private String qty;
-        private String lockedQty;
-        private String orgIds;
-        private String cropId;
-        private String orgId;
-        private String orgName;
-        private String varietyName;
-        private String warehouseName;
-        private String stockRecords;
-        private String  itemId;
+            public String getQty() {
+                return qty;
+            }
 
-        public String getItemId() {
-            return itemId;
-        }
+            public void setQty(String qty) {
+                this.qty = qty;
+            }
 
-        public void setItemId(String itemId) {
-            this.itemId = itemId;
-        }
+            public String getLockedQty() {
+                return lockedQty;
+            }
 
-        public int getWarehouseId() {
-            return warehouseId;
-        }
+            public void setLockedQty(String lockedQty) {
+                this.lockedQty = lockedQty;
+            }
 
-        public void setWarehouseId(int warehouseId) {
-            this.warehouseId = warehouseId;
-        }
+            public String getWarehouseId() {
+                return warehouseId;
+            }
 
+            public void setWarehouseId(String warehouseId) {
+                this.warehouseId = warehouseId;
+            }
 
+            public String getItemId() {
+                return itemId;
+            }
 
-        public String getQty() {
-            return qty;
-        }
+            public void setItemId(String itemId) {
+                this.itemId = itemId;
+            }
 
-        public void setQty(String qty) {
-            this.qty = qty;
-        }
+            public String getVarietyId() {
+                return varietyId;
+            }
 
-        public String getLockedQty() {
-            return lockedQty;
-        }
+            public void setVarietyId(String varietyId) {
+                this.varietyId = varietyId;
+            }
 
-        public void setLockedQty(String lockedQty) {
-            this.lockedQty = lockedQty;
-        }
+            public String getPackagingId() {
+                return packagingId;
+            }
 
-        public String getOrgIds() {
-            return orgIds;
-        }
+            public void setPackagingId(String packagingId) {
+                this.packagingId = packagingId;
+            }
 
-        public void setOrgIds(String orgIds) {
-            this.orgIds = orgIds;
-        }
+            public String getCropId() {
+                return cropId;
+            }
 
-        public String getCropId() {
-            return cropId;
-        }
+            public void setCropId(String cropId) {
+                this.cropId = cropId;
+            }
 
-        public void setCropId(String cropId) {
-            this.cropId = cropId;
-        }
+            public String getOrgId() {
+                return orgId;
+            }
 
-        public String getOrgId() {
-            return orgId;
-        }
+            public void setOrgId(String orgId) {
+                this.orgId = orgId;
+            }
 
-        public void setOrgId(String orgId) {
-            this.orgId = orgId;
-        }
+            public String getOrgName() {
+                return orgName;
+            }
 
-        public String getOrgName() {
-            return orgName;
-        }
+            public void setOrgName(String orgName) {
+                this.orgName = orgName;
+            }
 
-        public void setOrgName(String orgName) {
-            this.orgName = orgName;
-        }
+            public String getVarietyName() {
+                return varietyName;
+            }
 
-        public String getVarietyName() {
-            return varietyName;
-        }
+            public void setVarietyName(String varietyName) {
+                this.varietyName = varietyName;
+            }
 
-        public void setVarietyName(String varietyName) {
-            this.varietyName = varietyName;
-        }
+            public String getWarehouseName() {
+                return warehouseName;
+            }
 
-        public String getWarehouseName() {
-            return warehouseName;
-        }
+            public void setWarehouseName(String warehouseName) {
+                this.warehouseName = warehouseName;
+            }
 
-        public void setWarehouseName(String warehouseName) {
-            this.warehouseName = warehouseName;
-        }
+            public String getPackagingName() {
+                return packagingName;
+            }
 
-        public String getStockRecords() {
-            return stockRecords;
-        }
+            public void setPackagingName(String packagingName) {
+                this.packagingName = packagingName;
+            }
 
-        public void setStockRecords(String stockRecords) {
-            this.stockRecords = stockRecords;
+            public String getStockRecords() {
+                return stockRecords;
+            }
+
+            public void setStockRecords(String stockRecords) {
+                this.stockRecords = stockRecords;
+            }
         }
     }
 }

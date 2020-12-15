@@ -1,4 +1,4 @@
-package com.example.bq.edmp.activity.login;
+package com.example.bq.edmp.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -51,7 +52,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_btn_img)
     ImageView login_btn_img;
     @BindView(R.id.auth_ll)
-    LinearLayout auth_ll;
+    RelativeLayout auth_ll;
     @BindView(R.id.password_ll)
     LinearLayout password_ll;
 
@@ -164,6 +165,10 @@ public class LoginActivity extends BaseActivity {
                 type = 0;
                 break;
             case R.id.password_tv:
+                if (timer != null) {
+                    timer.cancel();
+                    timer = null;
+                }
                 password_v.setVisibility(ViewGroup.VISIBLE);
                 code_v.setVisibility(ViewGroup.GONE);
                 password_ll.setVisibility(ViewGroup.VISIBLE);
@@ -176,9 +181,11 @@ public class LoginActivity extends BaseActivity {
             case R.id.gain_authcode_tv://获取验证码
                 if (phone.isEmpty()) {
                     phone_et.setError("请输入手机号");
+                    ToastUtil.setToast("请输入手机号");
                     break;
                 } else if (!StringUtils.isPhone(phone)) {
                     phone_et.setError("请输入正确的手机号");
+                    ToastUtil.setToast("请输入正确的手机号");
                     break;
                 }
                 if (JUDGE_CODE == false) {
@@ -192,20 +199,24 @@ public class LoginActivity extends BaseActivity {
             case R.id.login_btn_img://登录
                 if (phone.isEmpty()) {
                     phone_et.setError("请输入手机号");
+                    ToastUtil.setToast("请输入手机号");
+                    break;
+
+                } else if (!StringUtils.isPhone(phone)) {
+                    phone_et.setError("请输入正确的手机号");
+                    ToastUtil.setToast("请输入正确的手机号");
                     break;
                 }
-//                } else if (!StringUtils.isPhone(phone)) {
-//                    phone_et.setError("请输入正确的手机号");
-//                    break;
-//                }
                 if (type == 0) {
                     if (authcode.isEmpty()) {
                         authcode_et.setError("请输入验证码");
+                        ToastUtil.setToast("请输入验证码");
                         break;
                     }
                 } else {
                     if (password.isEmpty()) {
                         password_et.setError("请输入密码");
+                        ToastUtil.setToast("请输入密码");
                         break;
                     }
                 }
@@ -238,7 +249,7 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
-    //獲取驗證碼
+    //获取验证码 时间
     private void StartTimer() {
         /** 倒计时60秒，一次1秒 */
         // TODO Auto-generated method stub
@@ -281,12 +292,16 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     protected void onSuccess(LoginBean loginBean) {
-                        SpUtils.put("UserInfo", loginBean.getData());
-                        ToastUtil.setToast("登录成功");
+                        if (loginBean.getData() != null) {
+                            SpUtils.put("UserInfo", loginBean.getData());
+                            ToastUtil.setToast("登录成功");
+                            MainActivity.start(getApplicationContext());
+                        }
                     }
                 });
     }
-    //密碼登录
+
+    //密码登录
     private void passwordLogin(String phone, String code) {
         String sign = MD5Util.encode("password=" + code + "&username=" + phone);
         RxHttpUtils.createApi(LoginApi.class)
@@ -295,17 +310,20 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new CommonObserver<LoginBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
                     protected void onSuccess(LoginBean loginBean) {
-                        SpUtils.put("UserInfo", loginBean.getData());
-                        MainActivity.start(getApplicationContext());
+                        if (loginBean.getData() != null) {
+                            SpUtils.put("UserInfo", loginBean.getData());
+                            ToastUtil.setToast("登录成功");
+                            MainActivity.start(getApplicationContext());
+                        }
                     }
                 });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

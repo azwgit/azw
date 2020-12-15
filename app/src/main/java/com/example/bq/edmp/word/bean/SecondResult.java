@@ -123,6 +123,15 @@ public class SecondResult {
             private int levels;
             private Object icon;
             private Object subt;
+            private String accessUri;
+
+            public String getAccessUri() {
+                return accessUri;
+            }
+
+            public void setAccessUri(String accessUri) {
+                this.accessUri = accessUri;
+            }
 
             public String getId() {
                 return id;

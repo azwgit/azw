@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.word.bean.AuditChBean;
 import com.example.bq.edmp.word.inventory.bean.SxPzBean;
 
 import java.util.ArrayList;

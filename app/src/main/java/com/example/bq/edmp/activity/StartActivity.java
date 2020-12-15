@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.os.Bundle;
 
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.login.Gestures_login_Activity;
-import com.example.bq.edmp.activity.login.LoginActivity;
+import com.example.bq.edmp.login.Gestures_login_Activity;
+import com.example.bq.edmp.login.LoginActivity;
 import com.example.bq.edmp.utils.SpUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 

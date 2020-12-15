@@ -1,8 +1,7 @@
 package com.example.bq.edmp.word.inventory;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -28,17 +26,10 @@ import android.widget.TextView;
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.apply.activity.ApplyPayAccountAct;
-import com.example.bq.edmp.activity.apply.travel.activity.ApplyTravelAccountAct;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
-import com.example.bq.edmp.utils.LogUtils;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.word.activity.SubmitActivity;
-import com.example.bq.edmp.word.api.WordListApi;
-import com.example.bq.edmp.word.bean.SubmitListBean;
-import com.example.bq.edmp.word.fragment.SubmitFragment;
 import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
 import com.example.bq.edmp.word.inventory.adapter.InventoryListAdapter;
 import com.example.bq.edmp.word.inventory.adapter.PzAdapter;
@@ -48,16 +39,16 @@ import com.example.bq.edmp.word.inventory.bean.InventoryBean;
 import com.example.bq.edmp.word.inventory.bean.InventoryTabBean;
 import com.example.bq.edmp.word.inventory.bean.SxPzBean;
 import com.example.bq.edmp.word.inventory.fragment.InventoryFragment;
-import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
 /*
-* 库存查询
-* */
+ * 库存查询
+ * */
 public class InventoryActivity extends BaseActivity {
 
     @BindView(R.id.layout_tab)
@@ -92,6 +83,13 @@ public class InventoryActivity extends BaseActivity {
     XRecyclerView xr;
     @BindView(R.id.rv)
     RecyclerView recyclerView;
+    @BindView(R.id.rl)
+    RelativeLayout rl;
+    @BindView(R.id.wsj)
+    TextView wsj;
+    @BindView(R.id.shaixuan_wsj)
+    TextView shaixuan_wsj;
+
 
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> idlist = new ArrayList<>();
@@ -112,10 +110,13 @@ public class InventoryActivity extends BaseActivity {
     private List<SxPzBean.DataBean> data;
     private ArrayList<CompanyBean.DataBean> companyDataBeans;
     private BaseCom_Ck_Adapter baseCom_ck_adapter;
+    private boolean Fund = false;//判断返回顺序
 
     private int currentPager = 1;
-    private ArrayList<InventoryBean.RowsBean> rowsBeans;
+    private ArrayList<InventoryBean.DataBean.RowsBean> rowsBeans;
     private InventoryListAdapter inventoryListAdapter;
+    private TextView wsj_dial;
+    private XRecyclerView buttom_rv;
 
     @Override
     protected void initData() {
@@ -150,10 +151,9 @@ public class InventoryActivity extends BaseActivity {
                                 fragmentList.add(new InventoryFragment(idlist.get(i)));
                                 mLayout_tab.addTab(mLayout_tab.newTab().setText(namelist.get(i)));
                             }
-
                             dataMethod(data);
                         } else {
-
+                            ToastUtil.setToast("暂无数据");
                         }
                     }
                 });
@@ -245,15 +245,46 @@ public class InventoryActivity extends BaseActivity {
                 xr.loadMoreComplete();
             }
         });
+
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                fen_company_tv.setHint("所有分子公司");
+                fen_company_tv.setText("");
+                ck_tv.setHint("所有仓库");
+                ck_tv.setText("");
+                virtual_orgIds = "";
+                orgIds = "";
+                org_name = "";
+                varietyId = "";
+                virtual_orgIds = "";
+                virtual_warehouseId = "";
+                warehouse_name = "";
+                warehouseId = "";
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("cropId=" + mId + "&orgIds=" + orgIds +
+        String sign = MD5Util.encode("cropId=" + mId + "&itemId=" + varietyId + "&orgId=" + orgIds +
                 "&page=" + currentPager + "&pagerow=" + 15 +
-                "&varietyId=" + varietyId + "&warehouseId=" + warehouseId);
-
+                "&warehouseId=" + warehouseId);
         RxHttpUtils.createApi(InventoryListApi.class)
-                .getInventoryData(mId, orgIds, currentPager, 15, varietyId, warehouseId, sign)
+                .getInventoryData(mId, varietyId, orgIds, currentPager, 15, warehouseId, sign)
                 .compose(Transformer.<InventoryBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<InventoryBean>() {
                     @Override
@@ -263,8 +294,8 @@ public class InventoryActivity extends BaseActivity {
 
                     @Override
                     protected void onSuccess(InventoryBean inventoryBean) {
-                        List<InventoryBean.RowsBean> rows = inventoryBean.getRows();
-                        if (rows.size() != 0 && rows != null) {
+                        List<InventoryBean.DataBean.RowsBean> rows = inventoryBean.getData().getRows();
+                        if (rows != null && rows.size() != 0) {
                             rowsBeans.addAll(rows);
                             inventoryListAdapter.addMoreData(rows);
                         } else {
@@ -286,7 +317,7 @@ public class InventoryActivity extends BaseActivity {
                 int visibility = top_ll.getVisibility();
                 if (visibility != 0) {
                     top_ll.setVisibility(ViewGroup.VISIBLE);
-                    xr.setVisibility(ViewGroup.GONE);
+                    rl.setVisibility(ViewGroup.GONE);
                     initDataMethod();
                 } else {
                     fund();
@@ -301,7 +332,7 @@ public class InventoryActivity extends BaseActivity {
                 findContentViews2(view);
                 break;
             case R.id.ck_rl://仓库
-                if (fen_company_tv.getText().toString().equals("")||fen_company_tv.getText().toString().equals("所有分子公司")) {
+                if (fen_company_tv.getText().toString().equals("") || fen_company_tv.getText().toString().equals("所有分子公司")) {
                     ToastUtil.setToast("请先选择所公司");
                     break;
                 }
@@ -309,10 +340,10 @@ public class InventoryActivity extends BaseActivity {
                 findContentViews2(view);
                 break;
             case R.id.cz_tv://重置
-                fen_company_tv.setText("所有分子公司");
-                fen_company_tv.setTextColor(getResources().getColor(R.color.color_66000000));
-                ck_tv.setText("所有仓库");
-                ck_tv.setTextColor(getResources().getColor(R.color.color_66000000));
+                fen_company_tv.setText("");
+                fen_company_tv.setHint("所有分子公司");
+                ck_tv.setText("");
+                ck_tv.setHint("所有仓库");
                 orgIds = "";
                 warehouseId = "";
                 varietyId = "";
@@ -320,13 +351,13 @@ public class InventoryActivity extends BaseActivity {
                 warehouse_name = "";
                 break;
             case R.id.affirm_tv://筛选  确定
-                xr.setVisibility(ViewGroup.VISIBLE);
+                rl.setVisibility(ViewGroup.VISIBLE);
                 top_ll.setVisibility(ViewGroup.GONE);
+                aginDataMethod();
                 if (linterHistoryConfirm.getVisibility() == View.VISIBLE) {
                     //当菜单栏是可见的，则关闭
                     drawerLayout.closeDrawer(linterHistoryConfirm);
                 }
-                aginDataMethod();
                 break;
         }
     }
@@ -345,6 +376,10 @@ public class InventoryActivity extends BaseActivity {
                     protected void onSuccess(SxPzBean sxPzBean) {
                         data = sxPzBean.getData();
                         if (data.size() != 0 && data != null) {
+                            recyclerView.setVisibility(ViewGroup.VISIBLE);
+                            shaixuan_wsj.setVisibility(ViewGroup.GONE);
+
+
                             dataBeans.clear();
                             SxPzBean.DataBean dataBean = new SxPzBean.DataBean();
                             dataBean.setSelected(true);
@@ -354,7 +389,8 @@ public class InventoryActivity extends BaseActivity {
                             dataBeans.addAll(data);
                             pzAdapter.notifyDataSetChanged();
                         } else {
-
+                            recyclerView.setVisibility(ViewGroup.GONE);
+                            shaixuan_wsj.setVisibility(ViewGroup.VISIBLE);
                         }
                     }
                 });
@@ -425,9 +461,10 @@ public class InventoryActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
 
-        XRecyclerView buttom_rv = root.findViewById(R.id.buttom_rv);
+        buttom_rv = root.findViewById(R.id.buttom_rv);
         TextView no_tv = root.findViewById(R.id.no_tv);
         TextView yes_tv = root.findViewById(R.id.yes_tv);
+        wsj_dial = root.findViewById(R.id.wsj);
 
         no_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -489,6 +526,7 @@ public class InventoryActivity extends BaseActivity {
         btuomMethod();
     }
 
+    //分公司
     private void btuomMethod() {
         if (type == 1) {
             RxHttpUtils.createApi(InventoryListApi.class)
@@ -504,6 +542,9 @@ public class InventoryActivity extends BaseActivity {
                         protected void onSuccess(CompanyBean companyBean) {
                             List<CompanyBean.DataBean> data = companyBean.getData();
                             if (data.size() != 0 && data != null) {
+                                buttom_rv.setVisibility(ViewGroup.VISIBLE);
+                                wsj_dial.setVisibility(ViewGroup.GONE);
+
                                 companyDataBeans.clear();
                                 data.get(0).setSelected(true);
                                 virtual_orgIds = data.get(0).getId();
@@ -511,7 +552,9 @@ public class InventoryActivity extends BaseActivity {
                                 companyDataBeans.addAll(data);
                                 baseCom_ck_adapter.notifyDataSetChanged();
                             } else {
-
+                                buttom_rv.setVisibility(ViewGroup.GONE);
+                                wsj_dial.setVisibility(ViewGroup.VISIBLE);
+                                ToastUtil.setToast("暂无数据");
                             }
                         }
                     });
@@ -529,6 +572,8 @@ public class InventoryActivity extends BaseActivity {
                         protected void onSuccess(CompanyBean companyBean) {
                             List<CompanyBean.DataBean> data = companyBean.getData();
                             if (data.size() != 0 && data != null) {
+                                buttom_rv.setVisibility(ViewGroup.VISIBLE);
+                                wsj_dial.setVisibility(ViewGroup.GONE);
                                 companyDataBeans.clear();
                                 data.get(0).setSelected(true);
                                 virtual_warehouseId = data.get(0).getId();
@@ -536,7 +581,9 @@ public class InventoryActivity extends BaseActivity {
                                 companyDataBeans.addAll(data);
                                 baseCom_ck_adapter.notifyDataSetChanged();
                             } else {
-
+                                buttom_rv.setVisibility(ViewGroup.GONE);
+                                wsj_dial.setVisibility(ViewGroup.VISIBLE);
+                                ToastUtil.setToast("暂无数据");
                             }
                         }
                     });
@@ -546,12 +593,12 @@ public class InventoryActivity extends BaseActivity {
 
     private void aginDataMethod() {
         currentPager = 1;
-        String sign = MD5Util.encode("cropId=" + mId + "&orgIds=" + orgIds +
+        String sign = MD5Util.encode("cropId=" + mId + "&itemId=" + varietyId + "&orgId=" + orgIds +
                 "&page=" + currentPager + "&pagerow=" + 15 +
-                "&varietyId=" + varietyId + "&warehouseId=" + warehouseId);
-
+                "&warehouseId=" + warehouseId);
+        ;
         RxHttpUtils.createApi(InventoryListApi.class)
-                .getInventoryData(mId, orgIds, currentPager, 15, varietyId, warehouseId, sign)
+                .getInventoryData(mId, varietyId, orgIds, currentPager, 15, warehouseId, sign)
                 .compose(Transformer.<InventoryBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<InventoryBean>() {
                     @Override
@@ -561,12 +608,14 @@ public class InventoryActivity extends BaseActivity {
 
                     @Override
                     protected void onSuccess(InventoryBean inventoryBean) {
-                        List<InventoryBean.RowsBean> rows = inventoryBean.getRows();
+                        List<InventoryBean.DataBean.RowsBean> rows = inventoryBean.getData().getRows();
                         if (rows.size() != 0 && rows != null) {
-                            fen_company_tv.setText("所有分子公司");
-                            fen_company_tv.setTextColor(getResources().getColor(R.color.color_66000000));
-                            ck_tv.setText("所有仓库");
-                            ck_tv.setTextColor(getResources().getColor(R.color.color_66000000));
+                            xr.setVisibility(ViewGroup.VISIBLE);
+                            wsj.setVisibility(ViewGroup.GONE);
+                            fen_company_tv.setText("");
+                            fen_company_tv.setHint("所有分子公司");
+                            ck_tv.setText("");
+                            ck_tv.setHint("所有仓库");
                             orgIds = "";
                             warehouseId = "";
                             varietyId = "";
@@ -577,7 +626,12 @@ public class InventoryActivity extends BaseActivity {
                             rowsBeans.addAll(rows);
                             inventoryListAdapter.notifyDataSetChanged();
                         } else {
+                            xr.setVisibility(ViewGroup.GONE);
+                            wsj.setVisibility(ViewGroup.VISIBLE);
 
+                            rowsBeans.clear();
+                            inventoryListAdapter.notifyDataSetChanged();
+                            ToastUtil.setToast("暂无数据");
                         }
                     }
                 });

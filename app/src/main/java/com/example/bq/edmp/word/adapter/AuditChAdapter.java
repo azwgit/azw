@@ -1,7 +1,6 @@
 package com.example.bq.edmp.word.adapter;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +11,8 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.word.bean.AuditChBean;
-import com.example.bq.edmp.word.bean.FirstResult;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bq on 2020/11/12.
@@ -44,13 +41,13 @@ public class AuditChAdapter extends RecyclerView.Adapter<AuditChAdapter.Holder> 
 
         //判断点击与不点击的背景
         if (list.get(position).isSelected()) {
-//            holder.tv.setBackgroundColor(Color.parseColor("#F2F5F6"));
+            holder.tv.setBackgroundColor(Color.parseColor("#FFFEE8E8"));
 //            holder.tv.setBackgroundResource(R.drawable.audit_ch_shape_yes);
-            holder.tv.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.tv.setTextColor(Color.parseColor("#F91515"));//FFFEE8E8    FFF2F5F6
         } else {
-//            holder.tv.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.tv.setBackgroundColor(Color.parseColor("#FFF2F5F6"));
 //            holder.tv.setBackgroundResource(R.drawable.audit_ch_shape_no);
-            holder.tv.setTextColor(Color.parseColor("#d0d0d0"));
+            holder.tv.setTextColor(Color.parseColor("#66000000"));
         }
 
         //点击条目

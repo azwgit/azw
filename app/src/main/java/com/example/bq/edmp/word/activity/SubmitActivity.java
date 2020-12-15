@@ -2,14 +2,14 @@ package com.example.bq.edmp.word.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,38 +24,34 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
-import com.bumptech.glide.Glide;
-import com.example.bq.edmp.ProApplication;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.activity.ApplyPayAccountAct;
 import com.example.bq.edmp.activity.apply.travel.activity.ApplyTravelAccountAct;
-import com.example.bq.edmp.activity.login.Gestures_login_Activity;
-import com.example.bq.edmp.activity.login.LoginActivity;
 import com.example.bq.edmp.base.BaseActivity;
+import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LogUtils;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.utils.dateselector.CustomDatePicker;
-import com.example.bq.edmp.utils.dateselector.DateFormatUtils;
 import com.example.bq.edmp.word.adapter.AuditChAdapter;
-import com.example.bq.edmp.word.adapter.LeftAdapter;
 import com.example.bq.edmp.word.adapter.SubmitListAdapter;
 import com.example.bq.edmp.word.api.WordListApi;
 import com.example.bq.edmp.word.bean.AuditChBean;
 import com.example.bq.edmp.word.bean.SubmitListBean;
 import com.example.bq.edmp.word.fragment.SubmitFragment;
-import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -120,12 +116,13 @@ public class SubmitActivity extends BaseActivity {
     private int ScreenCode = 0;
     private int currentPager = 1;
 
-    private CustomDatePicker mStartDatePicker, mEndDatePicker;
     private String start_time;
     private String end_time;
 
     @Override
     protected void initData() {
+
+        mLayout_tab.removeAllTabs();
         for (int i = 0; i < integers.size(); i++) {
             fragmentList.add(new SubmitFragment(integers.get(i)));
             mLayout_tab.addTab(mLayout_tab.newTab().setText(tablist.get(i)));
@@ -236,6 +233,30 @@ public class SubmitActivity extends BaseActivity {
             }
         });
 
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                text_history_start_time.setHint("请选择开始时间");
+                text_history_start_time.setText("");
+                text_history_end_time.setHint("请选择结束时间");
+                text_history_end_time.setText("");
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
     }
 
     @Override
@@ -252,22 +273,21 @@ public class SubmitActivity extends BaseActivity {
                 fund();
                 break;
             case R.id.screen_img://筛选
+                mView_pager.setCurrentItem(0);
                 screen();
                 break;
             case R.id.apply_tv:
                 findContentViews2(view);
                 break;
-            case R.id.text_history_start_time:
-                initStartDatePicker();
-                mStartDatePicker.show(text_history_start_time.getText().toString());
+            case R.id.text_history_start_time://开始时间
+                initStartDatePicker(text_history_start_time);
                 break;
-            case R.id.text_history_end_time:
+            case R.id.text_history_end_time://结束时间
                 if (text_history_start_time.getText().toString().isEmpty()) {
                     ToastUtil.setToast("请选择开始时间");
                     break;
                 }
-                initEndDatePicker();
-                mEndDatePicker.show(text_history_end_time.getText().toString());
+                initStartDatePicker(text_history_end_time);
                 break;
             case R.id.cz_tv://重置
                 for (int i = 0; i < data.size(); i++) {
@@ -279,23 +299,17 @@ public class SubmitActivity extends BaseActivity {
                 }
                 ScreenCode = 0;
                 auditChAdapter.notifyDataSetChanged();
-
-                text_history_start_time.setText("选择开始时间");
-                text_history_end_time.setText("选择结束时间");
-
+                text_history_start_time.setHint("选择开始时间");
+                text_history_start_time.setText("");
+                text_history_end_time.setHint("选择结束时间");
+                text_history_end_time.setText("");
                 break;
             case R.id.affirm_tv://确认
-                if (start_time.equals("选择开始时间")) {
-                    ToastUtil.setToast("请选择开始时间");
-                    break;
-                } else if (start_time.equals("")) {
+                if (text_history_start_time.getText().toString().equals("")) {
                     ToastUtil.setToast("请选择开始时间");
                     break;
                 }
-                if (end_time.equals("选择结束时间")) {
-                    ToastUtil.setToast("请选择结束时间");
-                    break;
-                } else if (end_time.equals("")) {
+                if (text_history_end_time.getText().toString().equals("")) {
                     ToastUtil.setToast("请选择结束时间");
                     break;
                 }
@@ -316,9 +330,7 @@ public class SubmitActivity extends BaseActivity {
                 } else if (ScreenCode == -3) {
                     shaixuan_tj_tv.setText("筛选条件：" + start_time + "-" + end_time + " 已撤销");
                 }
-
                 gainScreenData();
-
                 if (linterHistoryConfirm.getVisibility() == View.VISIBLE) {
                     //当菜单栏是可见的，则关闭
                     drawerLayout.closeDrawer(linterHistoryConfirm);
@@ -328,8 +340,10 @@ public class SubmitActivity extends BaseActivity {
                 qb_ll.setVisibility(ViewGroup.VISIBLE);
                 sx_rl.setVisibility(ViewGroup.GONE);
                 ScreenCode = 0;
-                text_history_start_time.setText("选择开始时间");
-                text_history_end_time.setText("选择结束时间");
+                text_history_start_time.setText("");
+                text_history_start_time.setHint("选择开始时间");
+                text_history_end_time.setText("");
+                text_history_end_time.setHint("选择结束时间");
                 if (linterHistoryConfirm.getVisibility() == View.VISIBLE) {
                     //当菜单栏是可见的，则关闭
                     drawerLayout.closeDrawer(linterHistoryConfirm);
@@ -530,7 +544,7 @@ public class SubmitActivity extends BaseActivity {
         authcodelogin_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), ApplyTravelAccountAct.class);
+                Intent intent = new Intent(getApplicationContext(), ApplyTravelAccountAct.class);
                 startActivity(intent);
                 mCameraDialog.dismiss();
             }
@@ -539,7 +553,7 @@ public class SubmitActivity extends BaseActivity {
         sllogin_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(), ApplyPayAccountAct.class);
+                Intent intent = new Intent(getApplicationContext(), ApplyPayAccountAct.class);
                 startActivity(intent);
                 mCameraDialog.dismiss();
             }
@@ -553,68 +567,9 @@ public class SubmitActivity extends BaseActivity {
 
     }
 
-    private void initStartDatePicker() {
-        long beginTimestamp = DateFormatUtils.str2Long("2009-05-01", false);
-        long endTimestamp = System.currentTimeMillis();
-
-        text_history_start_time.setText(DateFormatUtils.long2Str(endTimestamp, false));
-
-        // 通过时间戳初始化日期，毫秒级别
-        mStartDatePicker = new CustomDatePicker(this, new CustomDatePicker.Callback() {
-            @Override
-            public void onTimeSelected(long timestamp) {
-                text_history_start_time.setText(DateFormatUtils.long2Str(timestamp, false));
-            }
-        }, beginTimestamp, endTimestamp);
-        // 不允许点击屏幕或物理返回键关闭
-        mStartDatePicker.setCancelable(false);
-        // 不显示时和分
-        mStartDatePicker.setCanShowPreciseTime(false);
-        // 不允许循环滚动
-        mStartDatePicker.setScrollLoop(false);
-        // 不允许滚动动画
-        mStartDatePicker.setCanShowAnim(false);
-
-    }
-
-    private void initEndDatePicker() {
-        long beginTimestamp = DateFormatUtils.str2Long("2009-05-01", false);
-        long endTimestamp = System.currentTimeMillis();
-
-        text_history_end_time.setText(DateFormatUtils.long2Str(endTimestamp, false));
-
-        // 通过时间戳初始化日期，毫秒级别
-        mEndDatePicker = new CustomDatePicker(this, new CustomDatePicker.Callback() {
-            @Override
-            public void onTimeSelected(long timestamp) {
-                boolean dateOneBigger = isDateOneBigger(start_time, DateFormatUtils.long2Str(timestamp, false));
-
-                if (dateOneBigger) {
-                    ToastUtil.setToast("结束时间不能比开始时间早");
-                } else {
-                    text_history_end_time.setText(DateFormatUtils.long2Str(timestamp, false));
-                }
-            }
-        }, beginTimestamp, endTimestamp);
-        // 不允许点击屏幕或物理返回键关闭
-        mEndDatePicker.setCancelable(false);
-        // 不显示时和分
-        mEndDatePicker.setCanShowPreciseTime(false);
-        // 不允许循环滚动
-        mEndDatePicker.setScrollLoop(false);
-        // 不允许滚动动画
-        mEndDatePicker.setCanShowAnim(false);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mStartDatePicker != null) {
-            mStartDatePicker.onDestroy();
-        }
-        if (mEndDatePicker != null) {
-            mEndDatePicker.onDestroy();
-        }
     }
 
     public static boolean isDateOneBigger(String str1, String str2) {
@@ -638,4 +593,44 @@ public class SubmitActivity extends BaseActivity {
         return isBigger;
     }
 
+    //选择时间
+    private void initStartDatePicker(final TextView view) {
+        /**
+         * @description
+         *
+         * 注意事项：
+         * 1.自定义布局中，id为 optionspicker 或者 timepicker 的布局以及其子控件必须要有，否则会报空指针.
+         * 具体可参考demo 里面的两个自定义layout布局。
+         * 2.因为系统Calendar的月份是从0-11的,所以如果是调用Calendar的set方法来设置时间,月份的范围也要是从0-11
+         * setRangDate方法控制起始终止时间(如果不设置范围，则使用默认时间1900-2100年，此段代码可注释)
+         */
+        Calendar selectedDate = Calendar.getInstance();//系统当前时间
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2019, 0, 1);
+        selectedDate.set(2200, 12, 31);
+        //时间选择器 ，自定义布局
+        TimePickerView StartTime;
+        new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回调
+                view.setText(DataUtils.getTime(date, "yyyy-MM-dd"));
+            }
+        })
+                .setCancelText("取消")
+                .setSubmitText("确认")
+                .setContentTextSize(18)
+                .setDividerColor(Color.LTGRAY)//设置分割线的颜色
+                .setBgColor(Color.WHITE)
+                .setTitleBgColor(getResources().getColor(R.color.colorF1))
+                .setCancelColor(getResources().getColor(R.color.color33))
+                .setSubmitColor(getResources().getColor(R.color.appThemeColor))
+                .setTextColorCenter(Color.BLACK)
+                .setDate(Calendar.getInstance())
+                .setRangDate(startDate, selectedDate)
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "", "", "")
+                .build()
+                .show();
+
+    }
 }

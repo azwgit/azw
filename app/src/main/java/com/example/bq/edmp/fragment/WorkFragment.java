@@ -27,6 +27,9 @@ import com.example.bq.edmp.word.bean.SecondResult;
 import com.example.bq.edmp.word.inventory.InventoryActivity;
 import com.example.bq.edmp.word.purchase.PurchaseListActivity;
 import com.example.bq.edmp.word.put_warehouse.Put_WarehouseActivity;
+import com.example.bq.edmp.work.finished.DmachineActivity;
+import com.example.bq.edmp.work.finished.JmachineActivity;
+import com.example.bq.edmp.work.finished.YmachineActivity;
 import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
 import com.example.bq.edmp.work.finishedproduct.activity.FinishedStockDetailActivity;
 import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingDetailActivity;
@@ -34,6 +37,11 @@ import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingOutD
 import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
+import com.example.bq.edmp.work.library.activity.ClibraryActivity;
+import com.example.bq.edmp.work.library.activity.CxlibraryActivity;
+import com.example.bq.edmp.work.library.activity.RlibraryActivity;
+import com.example.bq.edmp.work.shipments.DshipmentsActivity;
+import com.example.bq.edmp.work.shipments.YshipmentsActivity;
 
 import java.util.List;
 
@@ -174,55 +182,62 @@ public class WorkFragment extends BaseFragment {
                                 rightAdapter.setOnInterface(new RightAdapter.OnInterface() {
                                     @Override
                                     public void OnCilkeface(SecondResult.DataBean.SubtBean subtBean, int position) {
-                                        if (subtBean.getName().equals("审批管理")) {
+                                        if (subtBean.getAccessUri().equals("/approvals")) {//审批管理
                                             startActivity(new Intent(getActivity(), AuditActivity.class));
-                                        } else if (subtBean.getName().equals("报账管理")) {
+                                        } else if (subtBean.getAccessUri().equals("/reimburser")) {//报账管理
                                             startActivity(new Intent(getActivity(), SubmitActivity.class));
-                                        } else if (subtBean.getId().equals("020201")) {
-                                            //新增收购
+                                        } else if (subtBean.getAccessUri().equals("/grain/purchase/addnew")) { //新增收购
                                             startActivity(new Intent(getActivity(), NewAcquisitionsActivity.class));
-                                        } else if (subtBean.getId().equals("020202")) {
-                                            //称重（毛重）
-                                            StartWeighingActivity.newIntent(getActivity(),"称重毛重");
-                                        } else if (subtBean.getId().equals("020203")) {
-                                            //卸货验证
-                                            StartWeighingActivity.newIntent(getActivity(),"卸货验证");
-                                        } else if (subtBean.getId().equals("020204")) {
-                                            //称重（皮重）
-                                            StartWeighingActivity.newIntent(getActivity(),"称重皮重");
-                                        }else if (subtBean.getId().equals("020205")) {
+                                        } else if (subtBean.getAccessUri().equals("/grain/purchase/grossweight")) {//称重（毛重）
+                                            StartWeighingActivity.newIntent(getActivity(), "称重毛重");
+                                        } else if (subtBean.getAccessUri().equals("/grain/purchase/checked")) {//卸货验证
+                                            StartWeighingActivity.newIntent(getActivity(), "卸货验证");
+                                        } else if (subtBean.getAccessUri().equals("/grain/purchase/tare")) {//称重（皮重）
+                                            StartWeighingActivity.newIntent(getActivity(), "称重皮重");
+                                        } else if (subtBean.getAccessUri().equals("/grain/purchase")) {//收购记录
                                             startActivity(new Intent(getActivity(), PurchaseListActivity.class));
-                                        } else if (subtBean.getId().equals("020209")) {
-                                            startActivity(new Intent(getActivity(), InventoryActivity.class));
-                                        } else if (subtBean.getId().equals("020207")) {//入库
+                                        } else if (subtBean.getAccessUri().equals("/grain/purchase/statistics")) {//统计
+                                            ToastUtil.setToast("统计,暂未开通");
+                                        } else if (subtBean.getAccessUri().equals("/grain/addstock")) {//原粮管理====入库
                                             Intent intent = new Intent(getActivity(), Put_WarehouseActivity.class);
                                             intent.putExtra("WarehouseType", 1);
                                             startActivity(intent);
-                                        } else if (subtBean.getId().equals("020208")) {//出库
+                                        } else if (subtBean.getAccessUri().equals("/grain/substock")) {//原粮管理====出库
                                             Intent intent = new Intent(getActivity(), Put_WarehouseActivity.class);
                                             intent.putExtra("WarehouseType", 2);
                                             startActivity(intent);
-                                        }else if(subtBean.getId().equals("020301")){
-                                            //生产管理任务接受  加工中  加工完成
-                                            MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
-                                        } else if(subtBean.getId().equals("020302")){
-                                            //生产管理任务接受  加工中  加工完成
-                                            MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
-                                        } else if(subtBean.getId().equals("020303")){
-                                            //生产管理任务接受  加工中  加工完成
-                                            MachiningTaskDetailsActivity.newIntent(getActivity(),"JG20201209164701","1");
-                                        }else if(subtBean.getId().equals("020305")){
-                                            //生产管理发货
-                                            DeliverGoodsDetailsActivity.newIntent(getActivity(),"8");
-                                        } else if(subtBean.getId().equals("020307")){
-                                            //生产管理入库
-                                            FinishedWarehousingDetailActivity.newIntent(getActivity(),"34");
-                                        } else if(subtBean.getId().equals("020308")){
-                                            //生产管理出库
-                                            FinishedWarehousingOutDetailActivity.newIntent(getActivity(),"4");
-                                        }else if(subtBean.getId().equals("020309")){
-                                            //生产管理库存出库
-                                            FinishedStockDetailActivity.newIntent(getActivity(),"2","1");
+                                        } else if (subtBean.getAccessUri().equals("/grain/stock")) {//原粮管理====库存查询
+                                            startActivity(new Intent(getActivity(), InventoryActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/product/process/accept")) {//成品管理====任务接受
+                                            startActivity(new Intent(getActivity(), DmachineActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/product/processing")) {//成品管理====加工中
+                                            startActivity(new Intent(getActivity(), JmachineActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/product/process/finished")) {//成品管理====加工完成
+                                            startActivity(new Intent(getActivity(), YmachineActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/product/process/record")) {//成品管理====加工记录
+                                            ToastUtil.setToast("加工记录,暂未开通");
+                                        }else if (subtBean.getAccessUri().equals("/order/sendout")) {//发货管理====发货
+                                            startActivity(new Intent(getActivity(), DshipmentsActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/order/sendout/record")) {//发货管理====发货记录
+                                            startActivity(new Intent(getActivity(), YshipmentsActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/product/addstock")) {//成品管理====入库
+                                            startActivity(new Intent(getActivity(), RlibraryActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/product/substock")) {//成品管理====出库
+                                            startActivity(new Intent(getActivity(), ClibraryActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/product/stock")) {//成品管理====库存查询
+                                            startActivity(new Intent(getActivity(), CxlibraryActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/allot/newsave")) {//库存调拨====申请调拨
+
+                                        }else if (subtBean.getAccessUri().equals("/allot/accomplish")) {//库存调拨====已完成
+
+                                        }else if (subtBean.getAccessUri().equals("/allot/approval")) {//库存调拨====审批中
+
+                                        }else if (subtBean.getAccessUri().equals("/allot/allotcentre")) {//库存调拨====调拨中
+
+                                        }else if (subtBean.getAccessUri().equals("/allot/tosubmit")) {//库存调拨====待提交
+
+                                        } else {
+                                            ToastUtil.setToast("暂未开通");
                                         }
 
                                     }

@@ -1,4 +1,4 @@
-package com.example.bq.edmp.activity.login;
+package com.example.bq.edmp.login;
 
 import java.io.Serializable;
 

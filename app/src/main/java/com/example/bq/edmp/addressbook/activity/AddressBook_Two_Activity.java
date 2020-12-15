@@ -107,6 +107,8 @@ public class AddressBook_Two_Activity extends BaseActivity {
                             } else if (orgChildren.size() == 0) {
                                 department_rv.setVisibility(ViewGroup.GONE);
                             }
+
+
                             if (employees.size() > 0) {
                                 staff_rv.setVisibility(ViewGroup.VISIBLE);
                                 employeesBeanXXXES.clear();

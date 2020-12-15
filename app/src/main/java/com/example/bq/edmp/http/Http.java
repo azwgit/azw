@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.bq.edmp.ProApplication;
-import com.example.bq.edmp.activity.login.LoginActivity;
+import com.example.bq.edmp.login.LoginActivity;
 import com.example.bq.edmp.bean.GetSessionResult;
 import com.example.bq.edmp.bean.ResponseResult;
 import com.example.bq.edmp.url.UrlHelper;

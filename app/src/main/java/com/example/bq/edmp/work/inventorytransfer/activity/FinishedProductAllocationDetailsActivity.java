@@ -1,12 +1,8 @@
 package com.example.bq.edmp.work.inventorytransfer.activity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -20,7 +16,6 @@ import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.grainmanagement.adapter.ContractorListAdp;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.bean.ContractorListBean;
 import com.example.bq.edmp.work.inventorytransfer.adapter.VarietiesNameListAdp;

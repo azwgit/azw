@@ -4,113 +4,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.example.bq.edmp.activity.MainActivity">
 
-    <com.example.bq.edmp.utils.NoSrcollViewPage
-        android:id="@+id/view_pager"
+    <!--   <com.example.bq.edmp.utils.NoSrcollViewPage
+           android:id="@+id/view_pager"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_above="@id/ll" />-->
+
+    <FrameLayout
+        android:id="@+id/FL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ll" />
+        android:layout_above="@id/vm"></FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/ll"
+
+    <View
+        android:id="@+id/vm"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/radio_group"
+        android:alpha="0.2"
+        android:background="#17171A" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_5">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:alpha="0.2"
-            android:background="#17171A" />
-
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_49"
-            android:background="#fff"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/dp_5">
-
-            <!--首页-->
-            <RadioButton
-                android:id="@+id/home_rb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:button="@null"
-                android:checked="true"
-                android:drawableTop="@drawable/home_drawable_selector"
-                android:gravity="center"
-                android:text="首页"
-                android:textColor="@drawable/selector_main_buttom_text_color"
-                android:textSize="@dimen/sp_11" />
+        <!--首页-->
+        <RadioButton
+            android:id="@+id/home_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/home_drawable_selector"
+            android:gravity="center"
+            android:text="首页"
+            android:textColor="@drawable/selector_main_buttom_text_color"
+            android:textSize="@dimen/sp_11" />
 
 
-            <!--通讯录-->
-            <RadioButton
-                android:id="@+id/addressbook_rb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:button="@null"
-                android:checked="false"
-                android:drawableTop="@drawable/addressbook_drawable_selector"
-                android:gravity="center"
-                android:text="通讯录"
-                android:textColor="@drawable/selector_main_buttom_text_color"
-                android:textSize="@dimen/sp_11" />
+        <!--通讯录-->
+        <RadioButton
+            android:id="@+id/addressbook_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/addressbook_drawable_selector"
+            android:gravity="center"
+            android:text="通讯录"
+            android:textColor="@drawable/selector_main_buttom_text_color"
+            android:textSize="@dimen/sp_11" />
 
-            <!--工作-->
-            <RadioButton
-                android:id="@+id/work_rb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:button="@null"
-                android:checked="false"
-                android:drawableTop="@drawable/work_drawable_selector"
-                android:gravity="center"
-                android:text="工作"
-                android:textColor="@drawable/selector_main_buttom_text_color"
-                android:textSize="@dimen/sp_11" />
+        <!--工作-->
+        <RadioButton
+            android:id="@+id/work_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/work_drawable_selector"
+            android:gravity="center"
+            android:text="工作"
+            android:textColor="@drawable/selector_main_buttom_text_color"
+            android:textSize="@dimen/sp_11" />
 
 
-            <!--社区-->
-            <RadioButton
-                android:id="@+id/conmmunity_rb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:button="@null"
-                android:checked="false"
-                android:drawableTop="@drawable/conmmunity_drawable_selector"
-                android:gravity="center"
-                android:text="社区"
-                android:textColor="@drawable/selector_main_buttom_text_color"
-                android:textSize="@dimen/sp_11" />
+        <!--社区-->
+        <RadioButton
+            android:id="@+id/conmmunity_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/conmmunity_drawable_selector"
+            android:gravity="center"
+            android:text="社区"
+            android:textColor="@drawable/selector_main_buttom_text_color"
+            android:textSize="@dimen/sp_11" />
 
-            <RadioButton
-                android:id="@+id/mine_rb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:button="@null"
-                android:checked="false"
-                android:drawableTop="@drawable/mine_drawable_selector"
-                android:gravity="center"
-                android:text="我的"
-                android:textColor="@drawable/selector_main_buttom_text_color"
-                android:textSize="@dimen/sp_11" />
+        <RadioButton
+            android:id="@+id/mine_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/mine_drawable_selector"
+            android:gravity="center"
+            android:text="我的"
+            android:textColor="@drawable/selector_main_buttom_text_color"
+            android:textSize="@dimen/sp_11" />
 
-        </RadioGroup>
+    </RadioGroup>
 
-    </LinearLayout>
 
 </RelativeLayout>

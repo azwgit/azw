@@ -5,13 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.word.bean.SubmitListBean;
 import com.example.bq.edmp.word.inventory.bean.InventoryBean;
 
 import java.util.List;
@@ -21,13 +18,13 @@ import java.util.List;
  */
 public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdapter.Holder> {
 
-    private List<InventoryBean.RowsBean> list;
+    private List<InventoryBean.DataBean.RowsBean> list;
 
-    public InventoryListAdapter(List<InventoryBean.RowsBean> list) {
+    public InventoryListAdapter(List<InventoryBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
-    public void addMoreData(List<InventoryBean.RowsBean> data) {
+    public void addMoreData(List<InventoryBean.DataBean.RowsBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -42,7 +39,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, final int position) {
-        final InventoryBean.RowsBean rowsBean = list.get(position);
+        final InventoryBean.DataBean.RowsBean rowsBean = list.get(position);
         holder.pz_name_tv.setText(rowsBean.getVarietyName());
         holder.ck_h_tv.setText(rowsBean.getWarehouseName());
         holder.zl_tv.setText(rowsBean.getQty());
@@ -79,7 +76,7 @@ public class InventoryListAdapter extends RecyclerView.Adapter<InventoryListAdap
     protected OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, InventoryBean.RowsBean rowsBean);
+        void onItemClick(int pos, InventoryBean.DataBean.RowsBean rowsBean);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

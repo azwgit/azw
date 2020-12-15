@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.bq.edmp.activity.login.LoginActivity">
+    android:background="@color/white"
+    tools:context=".login.LoginActivity">
 
     <ImageView
         android:id="@+id/login_logo"
@@ -13,6 +14,61 @@
         android:layout_marginTop="130px"
         android:scaleType="centerCrop"
         android:src="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/login_btn_img"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_44"
+        android:layout_below="@id/line_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_60"
+        android:src="@drawable/loginbtn" />
+
+    <LinearLayout
+        android:id="@+id/phone_ll"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_40"
+        android:layout_below="@id/ll"
+        android:layout_marginLeft="@dimen/dp_32"
+        android:layout_marginRight="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_60"
+        android:orientation="horizontal">
+        <!-- +86 -->
+        <EditText
+            android:id="@+id/phone_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/dp_5"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="请输入手机号"
+            android:inputType="number"
+            android:maxLength="11"
+            android:padding="@dimen/dp_5"
+            android:text=""
+            android:textColor="#17171A"
+            android:textColorHint="@color/color_66000000"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_18"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="+86"
+            android:textColor="#17171A"
+            android:textSize="@dimen/sp_14" />
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_18"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="#999999" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll"
@@ -77,58 +133,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/phone_ll"
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_40"
-        android:layout_below="@id/ll"
-        android:layout_marginLeft="@dimen/dp_32"
-        android:layout_marginRight="@dimen/dp_32"
-        android:layout_marginTop="@dimen/dp_60"
-        android:orientation="horizontal">
-        <!-- +86 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_18"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:text="+86"
-            android:textColor="#17171A"
-            android:textSize="@dimen/sp_14" />
-
-        <View
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="@dimen/dp_18"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/dp_12"
-            android:layout_marginRight="@dimen/dp_12"
-            android:background="#999999" />
-
-        <EditText
-            android:id="@+id/phone_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/dp_5"
-            android:background="@null"
-            android:hint="请输入手机号"
-            android:maxLength="15"
-            android:padding="@dimen/dp_5"
-            android:text="12346963651"
-            android:textColor="#17171A"
-            android:textSize="@dimen/sp_14" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/phone_v"
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_1"
-        android:layout_below="@id/phone_ll"
-        android:layout_marginLeft="@dimen/dp_32"
-        android:alpha="0.05"
-        android:background="#000000" />
-
 
     <RelativeLayout
         android:id="@+id/rl"
@@ -136,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/phone_v">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/auth_ll"
             android:layout_width="@dimen/dp_300"
             android:layout_height="@dimen/dp_40"
@@ -147,35 +151,35 @@
             android:visibility="visible">
 
             <EditText
+                android:layout_marginLeft="@dimen/dp_5"
                 android:id="@+id/authcode_et"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/dp_5"
-                android:layout_weight="3"
                 android:background="@null"
+                android:gravity="center_vertical"
                 android:hint="请输入验证码"
-                android:paddingBottom="@dimen/dp_5"
-                android:paddingRight="@dimen/dp_5"
-                android:paddingTop="@dimen/dp_5"
+                android:inputType="number"
                 android:textColor="#17171A"
+                android:textColorHint="@color/color_66000000"
                 android:textSize="@dimen/sp_14" />
 
             <!-- 获取验证码 -->
             <TextView
+                android:layout_alignParentRight="true"
                 android:id="@+id/gain_authcode_tv"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dp_18"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_28"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/dp_5"
-                android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:text="获取验证码"
                 android:textColor="#F91515"
                 android:textSize="@dimen/sp_14" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/password_ll"
@@ -188,40 +192,22 @@
             android:visibility="gone">
 
             <EditText
+                android:layout_marginLeft="@dimen/dp_5"
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_40"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/dp_5"
                 android:background="@null"
                 android:hint="请输入密码"
-                android:paddingBottom="@dimen/dp_5"
-                android:paddingRight="@dimen/dp_5"
-                android:paddingTop="@dimen/dp_5"
-                android:text="1234"
+                android:inputType="numberPassword"
+                android:text=""
                 android:textColor="#17171A"
+                android:textColorHint="@color/color_66000000"
                 android:textSize="@dimen/sp_14" />
 
         </LinearLayout>
     </RelativeLayout>
-
-    <View
-        android:id="@+id/line_2"
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_1"
-        android:layout_below="@id/rl"
-        android:layout_marginLeft="@dimen/dp_32"
-        android:alpha="0.05"
-        android:background="#000000" />
-
-    <ImageView
-        android:id="@+id/login_btn_img"
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_44"
-        android:layout_below="@id/line_2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_60"
-        android:src="@drawable/loginbtn" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -233,5 +219,23 @@
         android:text="北京爱种网络科技有限公司技术支持"
         android:textColor="#17171A"
         android:textSize="@dimen/sp_12" />
+
+    <View
+        android:id="@+id/phone_v"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_1"
+        android:layout_below="@id/phone_ll"
+        android:layout_marginLeft="@dimen/dp_32"
+        android:alpha="0.05"
+        android:background="#000000" />
+
+    <View
+        android:id="@+id/line_2"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_1"
+        android:layout_below="@id/rl"
+        android:layout_marginLeft="@dimen/dp_32"
+        android:alpha="0.05"
+        android:background="#000000" />
 
 </RelativeLayout>

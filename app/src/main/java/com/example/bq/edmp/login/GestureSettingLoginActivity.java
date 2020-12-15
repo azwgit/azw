@@ -1,17 +1,14 @@
-package com.example.bq.edmp.activity.login;
+package com.example.bq.edmp.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;

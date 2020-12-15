@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -25,10 +24,8 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.apply.AddPayInfoAct;
 import com.example.bq.edmp.activity.apply.GridImageAdapter;
 import com.example.bq.edmp.activity.apply.LocalNewMedia;
-import com.example.bq.edmp.activity.apply.activity.UpdatePayInfoAct;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;

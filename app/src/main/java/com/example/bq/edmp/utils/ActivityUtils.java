@@ -2,8 +2,7 @@ package com.example.bq.edmp.utils;
 
 import android.content.Context;
 
-import com.example.bq.edmp.ProApplication;
-import com.example.bq.edmp.activity.login.LoginActivity;
+import com.example.bq.edmp.login.LoginActivity;
 
 public class ActivityUtils {
 

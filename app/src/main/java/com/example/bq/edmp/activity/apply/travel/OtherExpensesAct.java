@@ -20,7 +20,6 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.activity.apply.AddPayInfoAct;
 import com.example.bq.edmp.activity.apply.GridImageAdapter;
 import com.example.bq.edmp.activity.apply.LocalNewMedia;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;

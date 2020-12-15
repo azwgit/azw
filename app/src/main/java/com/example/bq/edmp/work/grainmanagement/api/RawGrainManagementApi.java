@@ -1,14 +1,6 @@
 package com.example.bq.edmp.work.grainmanagement.api;
 
-import com.example.bq.edmp.activity.apply.bean.ApplyPayBean;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
-import com.example.bq.edmp.activity.apply.bean.PayReimbursementDetailsInfo;
-import com.example.bq.edmp.activity.apply.bean.RevokeApplyBean;
-import com.example.bq.edmp.activity.apply.bean.SelectReimbursementDetailsBean;
-import com.example.bq.edmp.activity.apply.bean.UpdateRembursemenBean;
-import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsBean;
-import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
-import com.example.bq.edmp.activity.login.UserInfoBean;
 import com.example.bq.edmp.work.grainmanagement.bean.AcquisitionBean;
 import com.example.bq.edmp.work.grainmanagement.bean.ContractorListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.GrossWeightBean;
@@ -21,18 +13,14 @@ import com.example.bq.edmp.work.grainmanagement.bean.WareHouseListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingDetailBean;
 import com.example.bq.edmp.work.grainmanagement.bean.WarehouseingOutDetailBean;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
 
 public interface RawGrainManagementApi {
 
@@ -89,7 +77,7 @@ public interface RawGrainManagementApi {
     //收购记录详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("grain/purchase/{id}")
+    @POST("grain/purchase/show/{id}")
     Observable<AcquisitionBean> getAcquisitionDetail(
             @Path("id") String id,
             @Field("sign") String sign);
@@ -114,7 +102,7 @@ public interface RawGrainManagementApi {
     //新增收购
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("grain/purchase/addnew")
+    @POST("grain/purchase/newsave")
     Observable<BaseABean> addAcquisitions(
             @Field("farmId") String id,
             @Field("farmerId") String testinformation,

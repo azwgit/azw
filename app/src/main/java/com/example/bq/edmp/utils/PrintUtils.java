@@ -5,15 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.example.bq.edmp.activity.login.UserInfoBean;
 import com.example.bq.edmp.work.grainmanagement.activity.PrinterSettingActivity;
 import com.example.bq.edmp.work.grainmanagement.bean.AcquisitionBean;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PrintUtils {
     //定义编码方式

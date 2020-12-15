@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
 
     <TextView
+        android:textColor="@color/text_black"
         android:id="@+id/tv"
         android:layout_width="@dimen/dp_140"
         android:layout_height="@dimen/dp_40"
@@ -12,6 +15,6 @@
         android:text="22"
         android:textSize="@dimen/sp_14" />
 
-<!--    android:background="@drawable/audit_ch_shape_yes"-->
+    <!--    android:background="@drawable/audit_ch_shape_yes"-->
 
 </LinearLayout>

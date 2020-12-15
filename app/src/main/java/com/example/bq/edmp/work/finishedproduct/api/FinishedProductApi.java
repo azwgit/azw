@@ -113,7 +113,7 @@ public interface FinishedProductApi {
     //库存详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("product/stock")
+    @POST("product/stock/show")
     Observable<FinishedStockDetailBean> getStockDetail(
             @Field("packagingId") String packagingId,
             @Field("warehouseId") String warehouseId,

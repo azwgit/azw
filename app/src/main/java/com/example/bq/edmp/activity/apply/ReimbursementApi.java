@@ -8,18 +8,14 @@ import com.example.bq.edmp.activity.apply.bean.SelectReimbursementDetailsBean;
 import com.example.bq.edmp.activity.apply.bean.UpdateRembursemenBean;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsBean;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
-import com.example.bq.edmp.activity.login.UserInfoBean;
-import com.example.bq.edmp.bean.AddressBean;
+import com.example.bq.edmp.login.UserInfoBean;
 
 import io.reactivex.Observable;
-import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ReimbursementApi {
 
