@@ -390,7 +390,9 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
             case 3:
                 mTvReceiver.setText(bean.getAcceptedOperator());
                 mTvAcceptTime.setText(bean.getAcceptedTime());
-                mTvOperator.setText(bean.getStockAdds().get(0).getAddedOperator());
+                if(bean.getStockAdds().size()>0){
+                    mTvOperator.setText(bean.getStockAdds().get(0).getAddedOperator());
+                }
                 mTvCompletionDate.setText(bean.getFinishedTime());
                 mTvProcessingCapacity.setText(MoneyUtils.formatMoney(bean.getFinishedQty()) + " 公斤");
 //                mTvDegreeOfCompletion.setText(bean.getPercentage());

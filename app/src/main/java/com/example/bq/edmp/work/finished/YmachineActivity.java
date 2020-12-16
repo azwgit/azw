@@ -43,6 +43,7 @@ import com.example.bq.edmp.work.baozhuang.adapter.BzAdapter;
 import com.example.bq.edmp.work.finished.adapter.YmachineListAdapter;
 import com.example.bq.edmp.work.finished.api.MachineApi;
 import com.example.bq.edmp.work.finished.bean.MachineListBean;
+import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.example.bq.edmp.work.shi.CommonPopupWindow;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -157,7 +158,7 @@ public class YmachineActivity extends BaseActivity implements EasyPermissions.Pe
         yachineListAdapter.setOnItemClickListener(new YmachineListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, MachineListBean.DataBean.RowsBean rowsBean) {
-                ToastUtil.setToast(rowsBean.getOrgName());
+                MachiningTaskDetailsActivity.newIntent(getApplicationContext(),rowsBean.getCode(),rowsBean.getPackagingId());
             }
         });
 

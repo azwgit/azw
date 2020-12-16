@@ -26,6 +26,7 @@ import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
 import com.example.bq.edmp.word.inventory.adapter.PzAdapter;
 import com.example.bq.edmp.word.inventory.bean.CompanyBean;
 import com.example.bq.edmp.word.inventory.bean.SxPzBean;
+import com.example.bq.edmp.work.finishedproduct.activity.FinishedStockDetailActivity;
 import com.example.bq.edmp.work.library.adapter.CxLibraryListAdapter;
 import com.example.bq.edmp.work.library.api.LibraryApi;
 import com.example.bq.edmp.work.library.bean.CxLibraryBean;
@@ -140,7 +141,7 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
         cxLibraryListAdapter.setOnItemClickListener(new CxLibraryListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, CxLibraryBean.DataBean.RowsBean rowsBean) {
-                ToastUtil.setToast(rowsBean.getOrgName());
+                FinishedStockDetailActivity.newIntent(getApplicationContext(),rowsBean.getWarehouseId(),rowsBean.getItemId());
             }
         });
         //筛选  品种适配器

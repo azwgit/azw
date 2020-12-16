@@ -23,6 +23,7 @@ import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.finished.adapter.DmachineListAdapter;
 import com.example.bq.edmp.work.finished.api.MachineApi;
 import com.example.bq.edmp.work.finished.bean.MachineListBean;
+import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class DmachineActivity extends BaseActivity implements EasyPermissions.Pe
         machineListAdapter.setOnItemClickListener(new DmachineListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, MachineListBean.DataBean.RowsBean rowsBean) {
-                ToastUtil.setToast(rowsBean.getOrgName());
+                MachiningTaskDetailsActivity.newIntent(getApplicationContext(),rowsBean.getCode(),rowsBean.getPackagingId());
             }
         });
 

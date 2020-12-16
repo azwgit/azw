@@ -109,7 +109,7 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
 
     //获取库存详情
     private void getStockDetail() {
-        String sign = MD5Util.encode("packagingId=" + packagingId + "&warehouseId=" + warehouseId);
+        String sign = MD5Util.encode("itemId=" + packagingId + "&warehouseId=" + warehouseId);
         RxHttpUtils.createApi(FinishedProductApi.class)
                 .getStockDetail(packagingId, warehouseId, sign)
                 .compose(Transformer.<FinishedStockDetailBean>switchSchedulers(loading_dialog))

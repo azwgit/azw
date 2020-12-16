@@ -115,7 +115,7 @@ public interface FinishedProductApi {
     @Headers({"urlname:production"})
     @POST("product/stock/show")
     Observable<FinishedStockDetailBean> getStockDetail(
-            @Field("packagingId") String packagingId,
+            @Field("itemId") String packagingId,
             @Field("warehouseId") String warehouseId,
             @Field("sign") String sign);
 

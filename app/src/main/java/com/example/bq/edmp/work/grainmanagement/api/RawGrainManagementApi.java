@@ -85,7 +85,7 @@ public interface RawGrainManagementApi {
     //库存详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("grain/stock")
+    @POST("grain/stock/show")
     Observable<StockDetailBean> getStockDetail(
             @Field("itemId") String itemId,
             @Field("warehouseId") String warehouseId,

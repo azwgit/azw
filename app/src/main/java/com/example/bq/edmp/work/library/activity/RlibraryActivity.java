@@ -37,6 +37,7 @@ import com.example.bq.edmp.word.inventory.bean.CompanyBean;
 import com.example.bq.edmp.word.inventory.bean.SxPzBean;
 import com.example.bq.edmp.work.baozhuang.BzBean;
 import com.example.bq.edmp.work.baozhuang.adapter.BzAdapter;
+import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingDetailActivity;
 import com.example.bq.edmp.work.library.adapter.LibraryListAdapter;
 import com.example.bq.edmp.work.library.api.LibraryApi;
 import com.example.bq.edmp.work.library.bean.LibraryBean;
@@ -158,7 +159,7 @@ public class RlibraryActivity extends BaseActivity implements EasyPermissions.Pe
         libraryListAdapter.setOnItemClickListener(new LibraryListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, LibraryBean.DataBean.RowsBean rowsBean) {
-                ToastUtil.setToast(rowsBean.getOrgName());
+                FinishedWarehousingDetailActivity.newIntent(getApplicationContext(),rowsBean.getId());
             }
         });
         //筛选  品种适配器

@@ -32,6 +32,7 @@ import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
 import com.example.bq.edmp.word.inventory.api.InventoryListApi;
 import com.example.bq.edmp.word.inventory.bean.CompanyBean;
+import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
 import com.example.bq.edmp.work.shipments.adapter.DshipmentsListAdapter;
 import com.example.bq.edmp.work.shipments.adapter.UserNameListAdapter;
 import com.example.bq.edmp.work.shipments.api.ShipmentsApi;
@@ -128,7 +129,7 @@ public class DshipmentsActivity extends BaseActivity {
         dshipmentsListAdapter.setOnItemClickListener(new DshipmentsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, DshipmentsListBean.DataBean.RowsBean rowsBean) {
-                ToastUtil.setToast(rowsBean.getId());
+                DeliverGoodsDetailsActivity.newIntent(getApplicationContext(),rowsBean.getId());
             }
         });
 
