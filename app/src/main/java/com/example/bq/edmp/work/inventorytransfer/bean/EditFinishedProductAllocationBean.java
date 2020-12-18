@@ -80,28 +80,46 @@ public class EditFinishedProductAllocationBean implements Serializable {
         private int inOrgId;
         private int inWarehouse;
         private Object addedOperatorId;
-        private Object addedOperator;
-        private Object addedTime;
+        private String addedOperator;
+        private String addedTime;
         private int status;
         private String reason;
         private String submitTime;
-        private Object approvedTime;
+        private String approvedTime;
         private int stockAddId;
         private Object outConfirmOperator;
         private Object outContirmTime;
         private Object stockSubId;
         private Object inConfirmOperator;
-        private Object inContirmTime;
+        private String inContirmTime;
         private Object warehouseName;
         private Object beginTime;
         private Object endTime;
         private Object orgId;
         private Object inOrgWarehouseName;
-        private Object outOrgWarehouseName;
+        private String outOrgWarehouseName;
         private String inOrgName;
         private String inWarehouseName;
         private String outOrgName;
         private String outWarehouseName;
+        private String orgName;
+        private String subCode;
+        private String addCode;
+        public String getSubCode() {
+            return subCode;
+        }
+
+        public String getAddCode() {
+            return addCode;
+        }
+
+        public String getOrgName() {
+            return orgName;
+        }
+
+        public void setOrgName(String orgName) {
+            this.orgName = orgName;
+        }
 
         public String getInOrgName() {
             return inOrgName;
@@ -209,19 +227,19 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.addedOperatorId = addedOperatorId;
         }
 
-        public Object getAddedOperator() {
+        public String getAddedOperator() {
             return addedOperator;
         }
 
-        public void setAddedOperator(Object addedOperator) {
+        public void setAddedOperator(String addedOperator) {
             this.addedOperator = addedOperator;
         }
 
-        public Object getAddedTime() {
+        public String getAddedTime() {
             return addedTime;
         }
 
-        public void setAddedTime(Object addedTime) {
+        public void setAddedTime(String addedTime) {
             this.addedTime = addedTime;
         }
 
@@ -249,11 +267,11 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.submitTime = submitTime;
         }
 
-        public Object getApprovedTime() {
+        public String getApprovedTime() {
             return approvedTime;
         }
 
-        public void setApprovedTime(Object approvedTime) {
+        public void setApprovedTime(String approvedTime) {
             this.approvedTime = approvedTime;
         }
 
@@ -297,11 +315,11 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.inConfirmOperator = inConfirmOperator;
         }
 
-        public Object getInContirmTime() {
+        public String getInContirmTime() {
             return inContirmTime;
         }
 
-        public void setInContirmTime(Object inContirmTime) {
+        public void setInContirmTime(String inContirmTime) {
             this.inContirmTime = inContirmTime;
         }
 
@@ -345,11 +363,11 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.inOrgWarehouseName = inOrgWarehouseName;
         }
 
-        public Object getOutOrgWarehouseName() {
+        public String getOutOrgWarehouseName() {
             return outOrgWarehouseName;
         }
 
-        public void setOutOrgWarehouseName(Object outOrgWarehouseName) {
+        public void setOutOrgWarehouseName(String outOrgWarehouseName) {
             this.outOrgWarehouseName = outOrgWarehouseName;
         }
 

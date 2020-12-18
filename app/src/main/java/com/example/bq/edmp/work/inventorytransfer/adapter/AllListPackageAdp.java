@@ -19,7 +19,7 @@ public class AllListPackageAdp extends BaseQuickAdapter<AllpackageListBean.DataB
 
     @Override
     protected void convert(BaseViewHolder helper, AllpackageListBean.DataBean item) {
-        helper.setText(R.id.tv_title,item.getName());
+        helper.setText(R.id.tv_title,item.getVarietyPackagingName());
     }
 
 }

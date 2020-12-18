@@ -20,6 +20,7 @@ import com.allen.library.interfaces.ILoadingView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
@@ -27,8 +28,10 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.inventorytransfer.adapter.AllListPackageAdp;
+import com.example.bq.edmp.work.inventorytransfer.adapter.VarietiesAdp;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
+import com.example.bq.edmp.work.inventorytransfer.bean.VarittiesListBean;
 
 import butterknife.BindView;
 
@@ -51,6 +54,7 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
 
     private ILoadingView loading_dialog;
     private AllpackageListBean allpackageListBean;
+    private VarittiesListBean varittiesListBean;
     PopupWindow mTypePopuWindow;
     private String type = "";
     private String id = "";
@@ -77,12 +81,6 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
-        //1原粮进入 2成品进入
-        if ("1".equals(type)) {
-
-        } else {
-            getAllpackageList();
-        }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
 
@@ -103,7 +101,12 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
                 finish();
                 break;
             case R.id.tv_transfer_number:
-                getAllpackageList();
+                //1原粮进入 2成品进入
+                if ("1".equals(type)) {
+                    getVarietiesList();
+                } else {
+                    getAllpackageList();
+                }
                 break;
         }
 
@@ -124,16 +127,15 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
                     protected void onSuccess(AllpackageListBean bean) {
                         if (bean.getCode() == 200) {
                             allpackageListBean = bean;
-                            showSubsidiaryCompanyList();
+                            showAllpackageList();
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }
                     }
                 });
     }
-
-    //公司列表PopuWindow
-    private void showSubsidiaryCompanyList() {
+    //包裝列表PopuWindow
+    private void showAllpackageList() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
         final View contentView = inflater.inflate(R.layout.select_option_layout, null);
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
@@ -149,6 +151,72 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
                 mTvTransferNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 mTvTransferNumber.setText(bean.getVarietyPackagingName());
                 allpackageId = allpackageListBean.getData().get(position).getId();
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+    //获取所有包装列表
+    private void getVarietiesList() {
+        RxHttpUtils.createApi(AllocationApi.class)
+                .getVarietiesList()
+                .compose(Transformer.<VarittiesListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<VarittiesListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(VarittiesListBean bean) {
+                        if (bean.getCode() == 200) {
+                            varittiesListBean = bean;
+                            showVarietiesList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+    //品种列表PopuWindow
+    private void showVarietiesList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        VarietiesAdp varietiesAdp = new VarietiesAdp(varittiesListBean.getData());
+        myRecyclerViewOne.setAdapter(varietiesAdp);
+        varietiesAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                VarittiesListBean.DataBean bean = varittiesListBean.getData().get(position);
+                mTvTransferNumber.setTextColor(getResources().getColor(R.color.color33));
+                mTvTransferNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                mTvTransferNumber.setText(bean.getName());
+                allpackageId = varittiesListBean.getData().get(position).getId();
                 mTypePopuWindow.dismiss();
             }
         });
@@ -194,20 +262,20 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
         String sign = MD5Util.encode("inItemId=" + allpackageId + "&qty=" + number+ "&stockAllotId=" + id);
         RxHttpUtils.createApi(AllocationApi.class)
                 .addTransferGoods(allpackageId+"",number,id,sign)
-                .compose(Transformer.<String>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<String>() {
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
                     @Override
-                    protected void onSuccess(String bean) {
-                        String a =bean;
-//                        if (bean.getCode() == 200) {
-//
-//                        } else {
-//                            ToastUtil.setToast(bean.getMsg());
-//                        }
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("添加成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
                     }
                 });
     }

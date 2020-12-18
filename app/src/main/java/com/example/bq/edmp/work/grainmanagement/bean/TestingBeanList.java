@@ -128,9 +128,9 @@ public class TestingBeanList implements Serializable {
             private int id;
             private int testPlanId;
             private String name;
-            private Object unit;
-            private Object lowerLimit;
-            private Object upperLimit;
+            private String unit;
+            private String lowerLimit;
+            private String upperLimit;
             private int valueType;
             private String content;
 
@@ -169,27 +169,27 @@ public class TestingBeanList implements Serializable {
                 this.name = name;
             }
 
-            public Object getUnit() {
+            public String getUnit() {
                 return unit;
             }
 
-            public void setUnit(Object unit) {
+            public void setUnit(String unit) {
                 this.unit = unit;
             }
 
-            public Object getLowerLimit() {
+            public String getLowerLimit() {
                 return lowerLimit;
             }
 
-            public void setLowerLimit(Object lowerLimit) {
+            public void setLowerLimit(String lowerLimit) {
                 this.lowerLimit = lowerLimit;
             }
 
-            public Object getUpperLimit() {
+            public String getUpperLimit() {
                 return upperLimit;
             }
 
-            public void setUpperLimit(Object upperLimit) {
+            public void setUpperLimit(String upperLimit) {
                 this.upperLimit = upperLimit;
             }
 

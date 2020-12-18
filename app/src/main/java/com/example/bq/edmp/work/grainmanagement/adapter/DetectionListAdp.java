@@ -31,7 +31,17 @@ public class DetectionListAdp extends BaseQuickAdapter<TestingBeanList.DataBean.
         } else {
             etResult.setInputType(InputType.TYPE_CLASS_TEXT);
         }
-        helper.setText(R.id.tv_name, item.getName());
+        if(item.getUpperLimit()!=null&&item.getLowerLimit()!=null){
+            etResult.setHint(item.getLowerLimit()+"-"+item.getUpperLimit());
+        }else{
+            if(item.getLowerLimit()!=null){
+                etResult.setHint("≥"+item.getLowerLimit()+"("+item.getUnit()+")");
+            }else{
+                etResult.setHint("≤"+item.getUpperLimit()+"("+item.getUnit()+")");
+            }
+        }
+
+        helper.setText(R.id.tv_name, item.getName()+" ("+item.getUnit()+")");
         //添加editText的监听事件
         etResult.addTextChangedListener(new TextSwitcher(helper));
 //        helper.setText(R.id.tv_nick,"昵称");

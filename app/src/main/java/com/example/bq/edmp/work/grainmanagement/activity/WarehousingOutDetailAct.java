@@ -112,7 +112,7 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
 
     }
     private void setData(WarehouseingOutDetailBean.DataBean bean){
-        mTvNumber.setText("收购单号  "+bean.getCode());
+        mTvNumber.setText("出库单号  "+bean.getCode());
         String type="";
         switch (bean.getType2()){
             case 1:

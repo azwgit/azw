@@ -13,6 +13,7 @@ import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
@@ -39,8 +40,11 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
     LinearLayout mBtnAddInfo;
     @BindView(R.id.tv_submit)
     TextView mTvSubmit;
+    @BindView(R.id.btn_del)
+    TextView mBtnDel;
     @BindView(R.id.tv_content)
     TextView mTvContent;//调拨原因
+    @BindView(R.id.tv_transfer_company)
     TextView mTvTransferCompany;//调入公司
     @BindView(R.id.tv_transfer_out_company)
     TextView mTvTransferOutCompany;//调出公司
@@ -61,10 +65,8 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("申请成品调拨");
         type = getIntent().getStringExtra(Constant.TYPE);
         id = getIntent().getStringExtra(Constant.ID);
-        id = "3";
         if ("".equals(type) || "".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;
@@ -76,7 +78,6 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
-        getProudctAllocationDetails();
         mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mAdapter = new CommodityListAdp(null);
@@ -85,15 +86,7 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
         mAdapter.setOnItemDelListener(new CommodityListAdp.OnItemDelListener() {
             @Override
             public void onItemDelClick(int position, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean) {
-                ToastUtil.setToast("点击了删除");
-                mAdapter.remove(position);
-                mAdapter.notifyDataSetChanged();
-//                if (payInfoBeanList.size() > 0) {
-//                    payInfoBeanList.remove(position);
-//                }
-//                if (payInfoBeanList.size() <= 0) {
-//                    mRecyclerView.setVisibility(View.GONE);
-//                }
+                deleteGoods(bean.getInItemId() + "");
             }
         });
 
@@ -101,9 +94,15 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
         mAdapter.setOnItemEditLisenter(new CommodityListAdp.OnItemEditLisenter() {
             @Override
             public void onItemEditClick(int pos, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean) {
-                ToastUtil.setToast("点击了编辑");
+                UpdateTransferGoodsActivity.newIntent(getApplicationContext(), bean.getInItemId() + "", id);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getProudctAllocationDetails();
     }
 
     @Override
@@ -115,19 +114,23 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
     protected void initListener() {
         mBtnAddInfo.setOnClickListener(this);
         mTvSubmit.setOnClickListener(this);
+        mBtnDel.setOnClickListener(this);
     }
 
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_info:
-                //添加商品
+                AddTransferGoodsActivity.newIntent(getApplicationContext(), type, editFinishedProductAllocationBean.getData().getId() + "");
                 break;
             case R.id.tv_submit:
-                ToastUtil.setToast("调拨成功");
-                Intent intent = new Intent(getApplicationContext(), AddTransferGoodsActivity.class);
-                startActivity(intent);
+                submitAllot();
                 break;
+            case R.id.btn_del:
+                deleteAllot();
+                break;
+
+
         }
     }
 
@@ -162,5 +165,83 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
         mTvTransferOutCompany.setText(bean.getOutOrgName());
         mTvTransferOutWarehouse.setText(bean.getInWarehouseName());
         mTvTransferWarehouse.setText(bean.getOutWarehouseName());
+        if (bean.getStockAllotItems().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            mRecyclerView.setVisibility(View.GONE);
+        }
+        mAdapter.setNewData(bean.getStockAllotItems());
+    }
+
+    //删除调拨
+    private void deleteAllot() {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(AllocationApi.class)
+                .deleteAllot(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("删除成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //调拨提交
+    private void submitAllot() {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(AllocationApi.class)
+                .submitAllot(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("提交成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //刪除调拨商品
+    private void deleteGoods(String inItemId) {
+        String sign = MD5Util.encode("inItemId=" + inItemId + "&stockAllotId=" + id);
+        RxHttpUtils.createApi(AllocationApi.class)
+                .deleteGoods(inItemId, id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("商品删除成功");
+                            getProudctAllocationDetails();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
     }
 }

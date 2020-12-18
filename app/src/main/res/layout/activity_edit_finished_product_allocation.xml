@@ -262,7 +262,7 @@
             android:id="@+id/btn_del"
             style="@style/btn_small_angle_grey_new_style"
             android:layout_weight="1"
-            android:text="取消" />
+            android:text="删除" />
         <TextView
             android:id="@+id/tv_submit"
             style="@style/btn_small_angle_new_style"

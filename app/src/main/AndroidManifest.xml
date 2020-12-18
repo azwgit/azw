@@ -36,36 +36,61 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity">
-        </activity>
-        <activity android:name=".base.ServiceAndDemonstrateFieldWebViewActivity">
+        <activity android:name=".work.marketing.activity.EditCustomerDetailsActivity"></activity>
+        <activity android:name=".work.marketing.activity.CustomerDetailsActivity" >
 
         </activity>
+        <activity android:name=".work.marketing.activity.AddCustomerActivity"/>
+        <activity android:name=".work.marketing.activity.CustomerAccountActivity">
+
+        </activity>
+        <activity android:name=".work.marketing.activity.CustomerAccountListActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".work.marketing.activity.CustomerManagementListActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity" />
+        <activity android:name=".base.ServiceAndDemonstrateFieldWebViewActivity" />
         <activity android:name=".work.inventorytransfer.activity.AddTransferGoodsActivity" />
-        <activity android:name=".work.finished.DmachineActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.finished.JmachineActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".work.inventorytransfer.activity.UpdateTransferGoodsActivity" />
+        <activity
+            android:name=".work.finished.DmachineActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.finished.JmachineActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.finished.MachineScanActivity" />
-        <activity android:name=".work.finished.YmachineActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.library.activity.ClibraryActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.library.activity.CxlibraryActivity"
+        <activity
+            android:name=".work.finished.YmachineActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.library.activity.ClibraryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.library.activity.CxlibraryActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.library.activity.LibraryListScanActivity" />
-        <activity android:name=".work.library.activity.RlibraryActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.shipments.DshipmentsActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".work.library.activity.RlibraryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.shipments.DshipmentsActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.shipments.ShipmentsScanActivity" />
-        <activity android:name=".work.shipments.YshipmentsActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".work.shipments.YshipmentsActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.inventorytransfer.activity.EditFinishedProductAllocationActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".work.inventorytransfer.activity.AddFinishedProductAllocationActivity">
-        </activity>
+        <activity android:name=".work.inventorytransfer.activity.AddFinishedProductAllocationActivity" />
         <activity android:name=".work.finishedproduct.activity.FinishedWarehousingOutDetailActivity" />
         <activity android:name=".work.finishedproduct.activity.FinishedWarehousingDetailActivity" />
         <activity android:name=".login.GestureoneActivity" />
@@ -97,12 +122,8 @@
         <activity android:name=".activity.ScheduleInformationActivity" />
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
-        <activity android:name=".activity.StartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.StartActivity" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -154,11 +175,13 @@
         <activity android:name=".work.grainmanagement.activity.WarehousingOutDetailAct" />
         <activity android:name=".work.grainmanagement.activity.StockDetailAct" />
         <activity android:name=".word.inventory.InventoryActivity" />
-        <activity android:name=".word.put_warehouse.Put_WarehouseActivity"
+        <activity
+            android:name=".word.put_warehouse.Put_WarehouseActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".word.activity.AuditActivity" />
-        <activity android:name=".word.purchase.PurchaseListActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".word.purchase.PurchaseListActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

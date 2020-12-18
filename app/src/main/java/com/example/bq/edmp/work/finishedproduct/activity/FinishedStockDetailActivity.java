@@ -100,7 +100,7 @@ public class FinishedStockDetailActivity extends BaseTitleActivity {
     }
 
     private void setData(FinishedStockDetailBean.DataBean bean) {
-        mTvName.setText(bean.getVarietyName()+" "+bean.getPackagingName());
+        mTvName.setText(bean.getVarietyName());
         mTvContractor.setText(MoneyUtils.formatMoney(bean.getQty()) + " 吨");
         mTvWarehouse.setText(bean.getWarehouseName());
         mTvSubsidiaryCompany.setText(bean.getOrgName());

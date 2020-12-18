@@ -93,7 +93,7 @@ public interface FinishedProductApi {
     //加工上报
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("product/processing")
+    @POST("product/process/processing")
     Observable<BaseABean> ReporTask(
             @Field("code") String code,
             @Field("cpwarehouseId") String cpwarehouseId,
@@ -102,10 +102,10 @@ public interface FinishedProductApi {
             @Field("productWeight") String productWeight,
             @Field("ylwarehouseId") String ylwarehouseId,
             @Field("sign") String sign);
-    //查询承包人所有签订品种
+    //查询仓库列表
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("allwarehouse")
+    @POST("system/query/allwarehouse")
     Observable<WarehouseListBean> getWarehouseList(
             @Field("types") String types,
             @Field("sign") String sign);

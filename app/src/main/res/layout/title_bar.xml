@@ -31,7 +31,6 @@
             android:gravity="center"
             android:maxLength="16"
             android:singleLine="true"
-            android:text=""
             android:textStyle="bold" />
 
         <ImageView

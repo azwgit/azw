@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CommodityListAdp extends BaseQuickAdapter<EditFinishedProductAlloca
 
         final int pos = helper.getLayoutPosition();
         helper.setText(R.id.tv_title, item.getVarietyName());
-        helper.setText(R.id.tv_number, item.getQty()+"");
+        helper.setText(R.id.tv_number, MoneyUtils.formatMoney(item.getQty())+" 公斤");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);
         View mView = helper.getView(R.id.view_line);

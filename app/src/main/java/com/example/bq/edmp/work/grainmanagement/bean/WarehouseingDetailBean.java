@@ -93,7 +93,7 @@ public class WarehouseingDetailBean implements Serializable {
         private Object packagingName;
         private Object processCode;
         private StockAllotsBean  stockAllots;
-        private List<TestingItemsBean> testingItems;
+        private List<TestingItemsBean> testPlanItem;
         private List<StockAddItemsBean> stockAddItems;
 
         public int getId() {
@@ -290,11 +290,11 @@ public class WarehouseingDetailBean implements Serializable {
 
 
         public List<TestingItemsBean> getTestingItems() {
-            return testingItems;
+            return testPlanItem;
         }
 
         public void setTestingItems(List<TestingItemsBean> testingItems) {
-            this.testingItems = testingItems;
+            this.testPlanItem = testingItems;
         }
 
         public List<StockAddItemsBean> getStockAddItems() {
@@ -479,8 +479,35 @@ public class WarehouseingDetailBean implements Serializable {
 
             private Object id;
             private String value;
-            private Object results;
+            private int results;
             private String name;
+            private String unit;
+            private Double lowerLimit;
+            private Double upperLimit;
+
+            public String getUnit() {
+                return unit;
+            }
+
+            public void setUnit(String unit) {
+                this.unit = unit;
+            }
+
+            public Double getLowerLimit() {
+                return lowerLimit;
+            }
+
+            public void setLowerLimit(Double lowerLimit) {
+                this.lowerLimit = lowerLimit;
+            }
+
+            public Double getUpperLimit() {
+                return upperLimit;
+            }
+
+            public void setUpperLimit(Double upperLimit) {
+                this.upperLimit = upperLimit;
+            }
 
             public Object getId() {
                 return id;
@@ -498,11 +525,11 @@ public class WarehouseingDetailBean implements Serializable {
                 this.value = value;
             }
 
-            public Object getResults() {
+            public int getResults() {
                 return results;
             }
 
-            public void setResults(Object results) {
+            public void setResults(int results) {
                 this.results = results;
             }
 

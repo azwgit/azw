@@ -118,7 +118,7 @@ public class WarehousingDetailAct extends BaseTitleActivity {
 
     }
     private void setData(WarehouseingDetailBean.DataBean bean){
-        mTvNumber.setText("收购单号  "+bean.getCode());
+        mTvNumber.setText("入库单号  "+bean.getCode());
         String type="";
         switch (bean.getType2()){
             case 1:
@@ -126,7 +126,9 @@ public class WarehousingDetailAct extends BaseTitleActivity {
                 mLyNumber.setVisibility(View.VISIBLE);
                 //询问后台 是否 落下
                 mTvTaskNumber.setText(bean.getGrainPurchaseCode());
-                wareHousingDetailsDetectionListAdp.addData(bean.getTestingItems());
+                if(bean.getTestingItems()!=null){
+                    wareHousingDetailsDetectionListAdp.addData(bean.getTestingItems());
+                }
                 break;
             case 2:
                 type="加工入库";

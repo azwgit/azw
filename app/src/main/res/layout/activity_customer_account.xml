@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F5F6"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/a"
+        layout="@layout/base_header_layout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/white"
+        android:padding="@dimen/dp_17"
+        android:text="谷稻希望有限公司"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/white"
+        android:padding="@dimen/dp_17"
+        android:text="定金 ￥10000.00"
+        android:textColor="#999999"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_17"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_17"
+        android:text="谷稻希望有限公司"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_16" />
+
+    <LinearLayout
+        android:id="@+id/qb_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/layout_tab"
+                android:layout_width="@dimen/dp_160"
+                android:layout_height="@dimen/dp_44"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                app:tabIndicatorColor="#F91515"
+                app:tabIndicatorHeight="@dimen/dp_3"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextColor="@color/text_gray" />
+
+        </RelativeLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff" />
+    </LinearLayout>
+</LinearLayout>

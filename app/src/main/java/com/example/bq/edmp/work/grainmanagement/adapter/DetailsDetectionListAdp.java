@@ -1,6 +1,7 @@
 package com.example.bq.edmp.work.grainmanagement.adapter;
 
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -17,8 +18,25 @@ public class DetailsDetectionListAdp extends BaseQuickAdapter<AcquisitionBean.Da
 
     @Override
     protected void convert(BaseViewHolder helper, AcquisitionBean.DataBean.TestingItemsBean item) {
-//        ImageView mImgHead = helper.getView(R.id.img_head);
-        helper.setText(R.id.tv_name,item.getName());
-        helper.setText(R.id.tv_content,item.getValue());
+        helper.setText(R.id.tv_name, item.getName() + " (" + item.getUnit() + ")");
+        TextView mTvContent = helper.getView(R.id.tv_content);
+        TextView mTvInfo = helper.getView(R.id.tv_info);
+        //1为合格
+        if (item.getResults() == 1) {
+            mTvContent.setTextColor(mContext.getResources().getColor(R.color.color_e6));
+        } else {
+            mTvContent.setTextColor(mContext.getResources().getColor(R.color.colorf9));
+        }
+        mTvContent.setText(item.getValue());
+        if(item.getUpperLimit()!=null&&item.getLowerLimit()!=null){
+            mTvInfo.setText(item.getLowerLimit()+"-"+item.getUpperLimit());
+        }else{
+            if(item.getLowerLimit()!=null){
+                mTvInfo.setText("≥"+item.getLowerLimit());
+            }else{
+                mTvInfo.setText("≤"+item.getUpperLimit());
+            }
+        }
+
     }
 }

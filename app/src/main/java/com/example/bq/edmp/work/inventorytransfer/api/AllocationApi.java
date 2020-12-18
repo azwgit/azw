@@ -3,7 +3,9 @@ package com.example.bq.edmp.work.inventorytransfer.api;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
+import com.example.bq.edmp.work.inventorytransfer.bean.GoodsDetailsBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.SubsidiaryCompanyBean;
+import com.example.bq.edmp.work.inventorytransfer.bean.VarittiesListBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
 
 import io.reactivex.Observable;
@@ -49,12 +51,16 @@ public interface AllocationApi {
     @POST("system/query/allpackage")
     Observable<AllpackageListBean> getAllpackageList();
 
+    //查询所有包装
+    @Headers({"urlname:production"})
+    @POST("system/query/allvariety")
+    Observable<VarittiesListBean> getVarietiesList();
 
     //添加调拨商品
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("allot/item/newsave")
-    Observable<String> addTransferGoods(
+    Observable<BaseABean> addTransferGoods(
             @Field("inItemId") String inItemId,
             @Field("qty") String qty,
             @Field("stockAllotId") String stockAllotId,
@@ -66,5 +72,49 @@ public interface AllocationApi {
     @POST("allot/show/{id}")
     Observable<EditFinishedProductAllocationBean> getProudctAllocationDetails(
             @Path("id") String id,
+            @Field("sign") String sign);
+
+    //根据公司id查询仓库
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/delete/{id}")
+    Observable<BaseABean> deleteAllot(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
+    //调拨提交
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/submit/{id}")
+    Observable<BaseABean> submitAllot(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
+    //删除调拨商品
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/item/delete")
+    Observable<BaseABean> deleteGoods(
+            @Field("inItemId") String inItemId,
+            @Field("stockAllotId") String stockAllotId,
+            @Field("sign") String sign);
+
+    //调拨商品详情
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/item/show")
+    Observable<GoodsDetailsBean> getGoodsDetails(
+            @Field("inItemId") String inItemId,
+            @Field("stockAllotId") String stockAllotId,
+            @Field("sign") String sign);
+
+    //修改调拨商品
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/item/save")
+    Observable<BaseABean> updateTransferGoods(
+            @Field("inItemId") String inItemId,
+            @Field("qty") String qty,
+            @Field("stockAllotId") String stockAllotId,
             @Field("sign") String sign);
 }

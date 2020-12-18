@@ -37,6 +37,8 @@ import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingOutD
 import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
+import com.example.bq.edmp.work.inventorytransfer.activity.AddFinishedProductAllocationActivity;
+import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity;
 import com.example.bq.edmp.work.library.activity.ClibraryActivity;
 import com.example.bq.edmp.work.library.activity.CxlibraryActivity;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
@@ -227,13 +229,13 @@ public class WorkFragment extends BaseFragment {
                                         }else if (subtBean.getAccessUri().equals("/product/stock")) {//成品管理====库存查询
                                             startActivity(new Intent(getActivity(), CxlibraryActivity.class));
                                         }else if (subtBean.getAccessUri().equals("/allot/newsave")) {//库存调拨====申请调拨
-
+                                            AddFinishedProductAllocationActivity.newIntent(getActivity(),"2");
                                         }else if (subtBean.getAccessUri().equals("/allot/accomplish")) {//库存调拨====已完成
-
+                                            FinishedProductAllocationDetailsActivity.newIntent(getActivity(),"35");
                                         }else if (subtBean.getAccessUri().equals("/allot/approval")) {//库存调拨====审批中
-
+                                            FinishedProductAllocationDetailsActivity.newIntent(getActivity(),"35");
                                         }else if (subtBean.getAccessUri().equals("/allot/allotcentre")) {//库存调拨====调拨中
-
+                                            FinishedProductAllocationDetailsActivity.newIntent(getActivity(),"35");
                                         }else if (subtBean.getAccessUri().equals("/allot/tosubmit")) {//库存调拨====待提交
 
                                         } else {

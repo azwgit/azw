@@ -36,10 +36,9 @@ import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
 import butterknife.BindView;
 
 public class AddFinishedProductAllocationActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String type,String id) {
+    public static void newIntent(Context context, String type) {
         Intent intent = new Intent(context, AddFinishedProductAllocationActivity.class);
         intent.putExtra(Constant.TYPE, type);
-        intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
 
@@ -57,7 +56,7 @@ public class AddFinishedProductAllocationActivity extends BaseTitleActivity {
     TextView mTvTransferWarehouse;//调入仓库
     private ILoadingView loading_dialog;
     private String type = "";//1原粮进入 2成品进入
-    private String id = "";
+//    private String id = "";
     PopupWindow mTypePopuWindow;
     private SubsidiaryCompanyBean subsidiaryCompanyBean;//公司数据源
     private WareHouseListBean wareHouseListBean;//仓库数据源
@@ -73,8 +72,8 @@ public class AddFinishedProductAllocationActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         type = getIntent().getStringExtra(Constant.TYPE);
-        id= getIntent().getStringExtra(Constant.ID);
-        if ("".equals(type)|| "".equals(id)) {
+//        id= getIntent().getStringExtra(Constant.ID);
+        if ("".equals(type)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -83,7 +82,6 @@ public class AddFinishedProductAllocationActivity extends BaseTitleActivity {
         } else {
             txtTabTitle.setText("申请成品调拨");
         }
-        type = "2";
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
     }
@@ -106,8 +104,7 @@ public class AddFinishedProductAllocationActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_submit:
-//                checkData();
-                EditFinishedProductAllocationActivity.newIntent(getApplicationContext(),type,"3");
+                checkData();
                 break;
             case R.id.tv_transfer_out_company:
                 //调出公司
@@ -330,6 +327,7 @@ public class AddFinishedProductAllocationActivity extends BaseTitleActivity {
                     protected void onSuccess(BaseABean bean) {
                         if (bean.getCode() == 200) {
                             EditFinishedProductAllocationActivity.newIntent(getApplicationContext(),type,bean.getData());
+                            finish();
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }

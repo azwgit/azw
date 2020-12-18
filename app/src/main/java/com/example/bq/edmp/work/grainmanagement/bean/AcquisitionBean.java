@@ -92,7 +92,7 @@ public class AcquisitionBean implements Serializable {
         private String warehouseName;
         private Object orgIds;
         private int status;
-        private List<TestingItemsBean> testingItems;
+        private List<TestingItemsBean> testPlanItem;
 
         public int getId() {
             return id;
@@ -287,11 +287,11 @@ public class AcquisitionBean implements Serializable {
         }
 
         public List<TestingItemsBean> getTestingItems() {
-            return testingItems;
+            return testPlanItem;
         }
 
         public void setTestingItems(List<TestingItemsBean> testingItems) {
-            this.testingItems = testingItems;
+            this.testPlanItem = testPlanItem;
         }
 
         public static class TestingItemsBean {
@@ -306,6 +306,33 @@ public class AcquisitionBean implements Serializable {
             private String value;
             private int results;
             private String name;
+            private String unit;
+            private Double lowerLimit;
+            private Double upperLimit;
+
+            public Double getLowerLimit() {
+                return lowerLimit;
+            }
+
+            public void setLowerLimit(Double lowerLimit) {
+                this.lowerLimit = lowerLimit;
+            }
+
+            public Double getUpperLimit() {
+                return upperLimit;
+            }
+
+            public void setUpperLimit(Double upperLimit) {
+                this.upperLimit = upperLimit;
+            }
+
+            public String getUnit() {
+                return unit;
+            }
+
+            public void setUnit(String unit) {
+                this.unit = unit;
+            }
 
             public Object getId() {
                 return id;
