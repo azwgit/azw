@@ -79,7 +79,7 @@ public class FinishedProductAllocationDetailsActivity extends BaseTitleActivity 
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("成品调拨单详情");
+        txtTabTitle.setText("调拨单详情");
         id = getIntent().getStringExtra(Constant.ID);
         if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
@@ -137,6 +137,7 @@ public class FinishedProductAllocationDetailsActivity extends BaseTitleActivity 
                             setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });

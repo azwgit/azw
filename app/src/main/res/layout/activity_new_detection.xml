@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_view"
+    android:background="@color/bg_color"
+    tools:context=".work.detection.NewDetectionActivity">
+
+    <include layout="@layout/base_header_layout"
+        android:id="@+id/in"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/in"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tv_submit">
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_56"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_104"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:alpha="0.9"
+                        android:text="检测类型"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:id="@+id/tv_contractor_lx"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:alpha="0.5"
+                        android:hint="请选择检测类型"
+                        android:textColorHint="@color/text_black"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <View style="@style/apply_pay_account_line_style" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_56"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_104"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:alpha="0.9"
+                        android:text="检测地点"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:id="@+id/tv_varieties_dk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:alpha="0.5"
+                        android:hint="请选择地块/仓库"
+                        android:textColorHint="@color/text_black"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <View style="@style/apply_pay_account_line_style" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_56"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_104"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:alpha="0.9"
+                        android:text="检测品种"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:id="@+id/tv_warehouse_pz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:alpha="0.5"
+                        android:hint="请选择检测品种"
+                        android:textColorHint="@color/text_black"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_jiance"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_22"
+                    android:alpha="0.9"
+                    android:text="检测信息"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:paddingLeft="@dimen/dp_15"
+                    android:paddingRight="@dimen/dp_15"
+                    android:id="@+id/my_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:background="@color/white" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginEnd="@dimen/dp_15"
+        android:layout_marginBottom="@dimen/dp_35"
+        android:background="@drawable/btn_red_shape"
+        android:gravity="center"
+        android:text="确认添加"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
+</RelativeLayout>

@@ -63,12 +63,16 @@ public class AccountDetailsAdp extends RecyclerView.Adapter<AccountDetailsAdp.Ho
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        private final TextView tv_name;
+        private final TextView tv_name;//标题
+        private final TextView tv_money;//金额
+        private final TextView tv_time;//时间
         private final LinearLayout ly_view;
 
         public Holder(View itemView) {
             super(itemView);
             tv_name = itemView.findViewById(R.id.tv_name);
+            tv_money= itemView.findViewById(R.id.tv_money);
+            tv_time= itemView.findViewById(R.id.tv_time);
             ly_view = itemView.findViewById(R.id.ly_view);
         }
     }

@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="11010522879859"
@@ -27,6 +27,7 @@
         android:textSize="@dimen/sp_14" />
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_22"
@@ -35,6 +36,7 @@
         android:textSize="@dimen/sp_14" />
 
     <TextView
+        android:id="@+id/tv_position"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_24"
@@ -48,17 +50,19 @@
         android:layout_marginTop="@dimen/dp_8">
 
         <TextView
+            android:id="@+id/tv_company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="销售经理 张晓晓"
+            android:text="分公司子名称"
             android:textColor="#999999"
             android:textSize="@dimen/sp_14" />
 
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="销售经理 张晓晓"
+            android:text="2020-09-03"
             android:textColor="#999999"
             android:textSize="@dimen/sp_14" />
     </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.bq.edmp.login;
 
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.bean.LoginBean;
 
 import io.reactivex.Observable;
@@ -33,5 +34,10 @@ public interface LoginApi {
             @Field("username") String phone,
             @Field("smscode") String code,
             @Field("sign") String sign);
+
+    //短信登錄
+    @Headers({"urlname:manage"})
+    @POST("current/user/loginout")
+    Observable<BaseABean> putLogin();
 
 }

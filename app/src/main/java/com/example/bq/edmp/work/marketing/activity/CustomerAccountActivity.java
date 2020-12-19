@@ -1,6 +1,7 @@
 package com.example.bq.edmp.work.marketing.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -37,6 +38,7 @@ import com.example.bq.edmp.activity.apply.activity.ApplyPayAccountAct;
 import com.example.bq.edmp.activity.apply.travel.activity.ApplyTravelAccountAct;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.base.BaseTitleActivity;
+import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LogUtils;
 import com.example.bq.edmp.utils.MD5Util;
@@ -47,6 +49,7 @@ import com.example.bq.edmp.word.api.WordListApi;
 import com.example.bq.edmp.word.bean.AuditChBean;
 import com.example.bq.edmp.word.bean.SubmitListBean;
 import com.example.bq.edmp.word.fragment.SubmitFragment;
+import com.example.bq.edmp.work.inventorytransfer.activity.EditFinishedProductAllocationActivity;
 import com.example.bq.edmp.work.marketing.fragment.CustomerAccountFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -63,7 +66,11 @@ import butterknife.BindView;
  * 报账管理
  * */
 public class CustomerAccountActivity extends BaseActivity {
-
+    public static void newIntent(Context context, String type) {
+        Intent intent = new Intent(context, CustomerAccountActivity.class);
+        intent.putExtra(Constant.TYPE, type);
+        context.startActivity(intent);
+    }
     @BindView(R.id.layout_tab)
     TabLayout mLayout_tab;
     @BindView(R.id.view_pager)
@@ -72,11 +79,17 @@ public class CustomerAccountActivity extends BaseActivity {
     ImageView return_img;
     @BindView(R.id.title_tv)
     TextView mTitleTv;
+    @BindView(R.id.tv_name)
+    TextView mTvName;//公司名称
+    @BindView(R.id.tv_money)
+    TextView mTvMoney;//定金
+    @BindView(R.id.tv_balance)
+    TextView mTvBalance;//余额
 
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     ArrayList<String> tablist = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
-
+    private String type="";
     @Override
     protected void initData() {
         mLayout_tab.removeAllTabs();
@@ -120,6 +133,14 @@ public class CustomerAccountActivity extends BaseActivity {
         integers.clear();
         integers.add(0);
         integers.add(1);
+        type = getIntent().getStringExtra(Constant.TYPE);
+        if ("".equals(type)) {
+            ToastUtil.setToast("数据出错请重试");
+            return;
+        }
+        if ("2".equals(type)) {
+            mTvName.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -245,14 +245,12 @@
                 android:text="营业执照"
                 android:textColor="#666666"
                 android:textSize="@dimen/sp_16" />
-
-            <ImageView
-                android:layout_width="@dimen/dp_56"
-                android:layout_height="@dimen/dp_56"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pic_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_70"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp_24"
-                android:background="@color/white"
-                android:src="@drawable/ddgl" />
+                android:layout_marginLeft="@dimen/dp_24" />
         </LinearLayout>
     </LinearLayout>
 

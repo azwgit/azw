@@ -37,23 +37,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".work.marketing.activity.EditCustomerDetailsActivity"></activity>
-        <activity android:name=".work.marketing.activity.CustomerDetailsActivity" >
+        <activity android:name=".work.marketing.activity.CustomerDetailsActivity" ></activity>
+            <activity
+                android:name=".work.allocation.AllocationCompleteActivity"
+                android:windowSoftInputMode="stateHidden" />
+            <activity
+                android:name=".work.allocation.ApprovalInActivity"
+                android:windowSoftInputMode="stateHidden" />
+            <activity
+                android:name=".work.allocation.AllocationApprovalActivity"
+                android:windowSoftInputMode="stateHidden" />
+            <activity android:name=".work.allocation.AllocationApplyActivity" />
+            <activity android:name=".work.detection.DetectionParticularsActivity" />
+            <activity android:name=".work.detection.DetectionRecordListActivity" />
+        <activity
+            android:name=".work.detection.NewDetectionActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".work.marketing.activity.AddCustomerActivity"
+            android:windowSoftInputMode="stateHidden">
 
         </activity>
-        <activity android:name=".work.marketing.activity.AddCustomerActivity"/>
         <activity android:name=".work.marketing.activity.CustomerAccountActivity">
 
         </activity>
         <activity android:name=".work.marketing.activity.CustomerAccountListActivity"
             android:windowSoftInputMode="stateHidden">
+
         </activity>
         <activity android:name=".work.marketing.activity.CustomerManagementListActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity android:name=".work.marketing.activity.SalesContractListActivity"
+            android:windowSoftInputMode="stateHidden">
+
         </activity>
 
         <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity" />
@@ -123,7 +140,11 @@
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
         <activity android:name=".activity.StartActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data

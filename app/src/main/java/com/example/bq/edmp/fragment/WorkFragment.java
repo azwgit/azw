@@ -27,6 +27,12 @@ import com.example.bq.edmp.word.bean.SecondResult;
 import com.example.bq.edmp.word.inventory.InventoryActivity;
 import com.example.bq.edmp.word.purchase.PurchaseListActivity;
 import com.example.bq.edmp.word.put_warehouse.Put_WarehouseActivity;
+import com.example.bq.edmp.work.allocation.AllocationApplyActivity;
+import com.example.bq.edmp.work.allocation.AllocationApprovalActivity;
+import com.example.bq.edmp.work.allocation.AllocationCompleteActivity;
+import com.example.bq.edmp.work.allocation.ApprovalInActivity;
+import com.example.bq.edmp.work.detection.DetectionRecordListActivity;
+import com.example.bq.edmp.work.detection.NewDetectionActivity;
 import com.example.bq.edmp.work.finished.DmachineActivity;
 import com.example.bq.edmp.work.finished.JmachineActivity;
 import com.example.bq.edmp.work.finished.YmachineActivity;
@@ -228,20 +234,21 @@ public class WorkFragment extends BaseFragment {
                                             startActivity(new Intent(getActivity(), ClibraryActivity.class));
                                         }else if (subtBean.getAccessUri().equals("/product/stock")) {//成品管理====库存查询
                                             startActivity(new Intent(getActivity(), CxlibraryActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/allot/newsave")) {//库存调拨====申请调拨
-                                            AddFinishedProductAllocationActivity.newIntent(getActivity(),"2");
+                                        }else if (subtBean.getAccessUri().equals("/allot/tosubmit")) {//库存调拨====申请调拨
+                                            startActivity(new Intent(getActivity(), AllocationApplyActivity.class));
                                         }else if (subtBean.getAccessUri().equals("/allot/accomplish")) {//库存调拨====已完成
-                                            FinishedProductAllocationDetailsActivity.newIntent(getActivity(),"35");
-                                        }else if (subtBean.getAccessUri().equals("/allot/approval")) {//库存调拨====审批中
-                                            FinishedProductAllocationDetailsActivity.newIntent(getActivity(),"35");
-                                        }else if (subtBean.getAccessUri().equals("/allot/allotcentre")) {//库存调拨====调拨中
-                                            FinishedProductAllocationDetailsActivity.newIntent(getActivity(),"35");
-                                        }else if (subtBean.getAccessUri().equals("/allot/tosubmit")) {//库存调拨====待提交
-
+                                            startActivity(new Intent(getActivity(), AllocationCompleteActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/allot/approval")) {//库存调拨====审批中
+                                            startActivity(new Intent(getActivity(), AllocationApprovalActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/allot/allotcentre")) {//库存调拨====调拨中
+                                            startActivity(new Intent(getActivity(), ApprovalInActivity.class));
+                                        }else if (subtBean.getAccessUri().equals("/testing/newsave")) {//质量管理====新增检测
+                                            startActivity(new Intent(getActivity(), NewDetectionActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/testing/list")) {//质量管理====检测记录
+                                            startActivity(new Intent(getActivity(), DetectionRecordListActivity.class));
                                         } else {
                                             ToastUtil.setToast("暂未开通");
                                         }
-
                                     }
                                 });
                             }

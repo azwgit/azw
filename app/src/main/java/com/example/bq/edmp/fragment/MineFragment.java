@@ -17,8 +17,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
+import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.login.Control_Login_Activity;
 import com.example.bq.edmp.base.BaseFragment;
+import com.example.bq.edmp.login.LoginActivity;
+import com.example.bq.edmp.login.LoginApi;
 import com.example.bq.edmp.mine.activty.Message_Activity;
 import com.example.bq.edmp.mine.api.MineApi;
 import com.example.bq.edmp.mine.bean.MineUserBean;
@@ -33,8 +37,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  * 我的baiquan白泉
- *
- * */
+ */
 public class MineFragment extends BaseFragment {
 
     @BindView(R.id.dl_rl)
@@ -51,9 +54,10 @@ public class MineFragment extends BaseFragment {
     TextView user_identity_tv;
     @BindView(R.id.mine_head_img)
     ImageView mine_head_img;
+    @BindView(R.id.mine_login_out_img)
+    ImageView mine_login_out_img;
 
     private ILoadingView loading_dialog;
-
 
 
     public MineFragment() {
@@ -68,6 +72,7 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initView() {
         loading_dialog = new LoadingDialog(getActivity());
+
     }
 
     @Override
@@ -132,6 +137,7 @@ public class MineFragment extends BaseFragment {
         edit_tv.setOnClickListener(this);
         dl_rl.setOnClickListener(this);
         gy_rl.setOnClickListener(this);
+        mine_login_out_img.setOnClickListener(this);
     }
 
     @Override
@@ -148,7 +154,38 @@ public class MineFragment extends BaseFragment {
             case R.id.gy_rl://关于我们
                 ToastUtil.setToast("暂无开通!");
                 break;
+            case R.id.mine_login_out_img://退出登录
+                putLogin();
+                break;
         }
+    }
+
+    //退出登录
+    private void putLogin() {
+        RxHttpUtils.createApi(LoginApi.class)
+                .putLogin()
+                .compose(Transformer.<BaseABean>switchSchedulers())
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean baseABean) {
+                        if (baseABean.getCode() == 200) {
+                            ToastUtil.setToast("退出登录成功");
+                            SpUtils.put("UserInfo", "");
+                            SpUtils.put("SHOUSHILOGIN", "");
+                            SpUtils.put("shoushi", false);
+                            SpUtils.put("shualian", false);
+                            ProApplication.getinstance().closeAllActiivty();
+                            LoginActivity.start(ProApplication.getmContext());
+                        } else {
+                            ToastUtil.setToast("退出登录失败");
+                        }
+                    }
+                });
     }
 
     @Override

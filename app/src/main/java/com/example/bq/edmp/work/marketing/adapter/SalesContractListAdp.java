@@ -60,12 +60,21 @@ public class SalesContractListAdp extends RecyclerView.Adapter<SalesContractList
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        private final TextView tv_name;
+        private final TextView tv_number;//合同编号
+        private final TextView tv_name;//品种 重量
+        private final TextView tv_position;//职位 姓名
+        private final TextView tv_company;//公司名称
+        private final TextView tv_time;//公司名称
         private final LinearLayout ly_view;
+
 
         public Holder(View itemView) {
             super(itemView);
+            tv_number = itemView.findViewById(R.id.tv_number);
             tv_name = itemView.findViewById(R.id.tv_name);
+            tv_position = itemView.findViewById(R.id.tv_position);
+            tv_company = itemView.findViewById(R.id.tv_company);
+            tv_time = itemView.findViewById(R.id.tv_time);
             ly_view = itemView.findViewById(R.id.ly_view);
         }
     }

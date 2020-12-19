@@ -12,7 +12,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -78,8 +78,6 @@ public class CustomerManagementListActivity extends BaseActivity {
     TextView mTvShi;//市
     @BindView(R.id.tv_qu)
     TextView mTvQu;//区
-    @BindView(R.id.fen_company_tv)
-    TextView fen_company_tv;
     @BindView(R.id.wsj)
     TextView wsj;
     @BindView(R.id.affirm_tv)
@@ -160,8 +158,8 @@ public class CustomerManagementListActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                fen_company_tv.setHint("所有分子公司");
-                fen_company_tv.setText("");
+                mTvSheng.setHint("所有分子公司");
+                mTvSheng.setText("");
                 orgIds = "";
                 org_name = "";
                 virtual_orgIds = "";
@@ -204,15 +202,15 @@ public class CustomerManagementListActivity extends BaseActivity {
                                 org_name = "";
                                 virtual_orgIds = "";
                                 customerId = "";
-                                xr.setVisibility(ViewGroup.VISIBLE);
-                                wsj.setVisibility(ViewGroup.GONE);
+                                xr.setVisibility(View.VISIBLE);
+                                wsj.setVisibility(View.GONE);
 
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
                                 customerManagementListAdp.notifyDataSetChanged();
                             } else {
-                                xr.setVisibility(ViewGroup.GONE);
-                                wsj.setVisibility(ViewGroup.VISIBLE);
+                                xr.setVisibility(View.GONE);
+                                wsj.setVisibility(View.VISIBLE);
 
                                 rowsBeans.clear();
                                 customerManagementListAdp.notifyDataSetChanged();
@@ -223,8 +221,8 @@ public class CustomerManagementListActivity extends BaseActivity {
                             org_name = "";
                             virtual_orgIds = "";
                             customerId = "";
-                            xr.setVisibility(ViewGroup.GONE);
-                            wsj.setVisibility(ViewGroup.VISIBLE);
+                            xr.setVisibility(View.GONE);
+                            wsj.setVisibility(View.VISIBLE);
                             ToastUtil.setToast("暂无数据");
                         }
                     }
@@ -303,7 +301,7 @@ public class CustomerManagementListActivity extends BaseActivity {
                 drawerLayout.openDrawer(Gravity.RIGHT);
                 break;
             case R.id.rl_sheng:
-                findContentViews2(view);
+                btuomMethod(view);
                 break;
             case R.id.rl_shi:
                 findContentViews2(view);
@@ -312,14 +310,14 @@ public class CustomerManagementListActivity extends BaseActivity {
                 findContentViews2(view);
                 break;
             case R.id.cz_tv:
-                fen_company_tv.setText("");
-                fen_company_tv.setHint("所有分子公司");
+                mTvSheng.setText("");
+                mTvSheng.setHint("所有分子公司");
                 org_name = "";
                 orgIds = "";
                 virtual_orgIds = "";
                 break;
             case R.id.affirm_tv:
-                if (fen_company_tv.getText().toString().equals("")) {
+                if (mTvSheng.getText().toString().equals("")) {
                     ToastUtil.setToast("请选择分公司");
                     break;
                 }
@@ -380,8 +378,8 @@ public class CustomerManagementListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 orgIds = virtual_orgIds;
-                fen_company_tv.setText(org_name);
-                fen_company_tv.setTextColor(getResources().getColor(R.color.text_black));
+                mTvSheng.setText(org_name);
+                mTvSheng.setTextColor(getResources().getColor(R.color.text_black));
                 mCameraDialog.dismiss();
             }
         });
@@ -410,10 +408,10 @@ public class CustomerManagementListActivity extends BaseActivity {
             }
         });
 
-        btuomMethod();
+
     }
 
-    private void btuomMethod() {
+    private void btuomMethod(final View view) {
         RxHttpUtils.createApi(InventoryListApi.class)
                 .getCompanyData()
                 .compose(Transformer.<CompanyBean>switchSchedulers())
@@ -427,8 +425,9 @@ public class CustomerManagementListActivity extends BaseActivity {
                     protected void onSuccess(CompanyBean companyBean) {
                         List<CompanyBean.DataBean> data = companyBean.getData();
                         if (data.size() != 0 && data != null) {
-                            buttom_rv.setVisibility(ViewGroup.VISIBLE);
-                            wsj_dial.setVisibility(ViewGroup.GONE);
+                            findContentViews2(view);
+                            buttom_rv.setVisibility(View.VISIBLE);
+                            wsj_dial.setVisibility(View.GONE);
 
                             companyDataBeans.clear();
                             data.get(0).setSelected(true);
@@ -437,8 +436,8 @@ public class CustomerManagementListActivity extends BaseActivity {
                             companyDataBeans.addAll(data);
                             selectProvinceAdapter.notifyDataSetChanged();
                         } else {
-                            buttom_rv.setVisibility(ViewGroup.GONE);
-                            wsj_dial.setVisibility(ViewGroup.VISIBLE);
+                            buttom_rv.setVisibility(View.GONE);
+                            wsj_dial.setVisibility(View.VISIBLE);
                             ToastUtil.setToast("暂无数据");
                         }
                     }
@@ -595,8 +594,8 @@ public class CustomerManagementListActivity extends BaseActivity {
                     @Override
                     protected void onSuccess(UserNameListBean userNameListBean) {
                         if (userNameListBean.getCode().equals("200")) {
-                            user_rv.setVisibility(ViewGroup.VISIBLE);
-                            user_wsj.setVisibility(ViewGroup.GONE);
+                            user_rv.setVisibility(View.VISIBLE);
+                            user_wsj.setVisibility(View.GONE);
                             customerName = "";
 
                             List<UserNameListBean.DataBean> data = userNameListBean.getData();
@@ -604,8 +603,8 @@ public class CustomerManagementListActivity extends BaseActivity {
                             userNameAtaBeans.addAll(data);
                             userNameListAdapter.notifyDataSetChanged();
                         } else {
-                            user_rv.setVisibility(ViewGroup.GONE);
-                            user_wsj.setVisibility(ViewGroup.VISIBLE);
+                            user_rv.setVisibility(View.GONE);
+                            user_wsj.setVisibility(View.VISIBLE);
                             userNameAtaBeans.clear();
                             userNameListAdapter.notifyDataSetChanged();
                             ToastUtil.setToast("暂无数据");

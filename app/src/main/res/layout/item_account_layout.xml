@@ -23,31 +23,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
-            android:text="定转余"
-            android:textColor="@color/black"
+            android:text="谷稻希望有限公司"
+            android:textColor="@color/color33"
             android:textSize="@dimen/sp_16" />
-
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_info"
             android:layout_below="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginBottom="@dimen/dp_16"
-            android:text="2020-10-28 11:31:05"
-            android:textColor="@color/black"
+            android:text="定金  "
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_16" />
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_below="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_toRightOf="@+id/tv_info"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:text="￥20000"
+            android:textColor="@color/colorf9"
             android:textSize="@dimen/sp_16" />
 
         <TextView
+            android:id="@+id/tv_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_name"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginBottom="@dimen/dp_16"
-            android:layout_toRightOf="@+id/tv_time"
+            android:layout_toRightOf="@+id/tv_money"
             android:gravity="right"
             android:text="-10000.00"
-            android:textColor="@color/black"
+            android:textColor="@color/color_66"
             android:textSize="@dimen/sp_16" />
     </RelativeLayout>
 

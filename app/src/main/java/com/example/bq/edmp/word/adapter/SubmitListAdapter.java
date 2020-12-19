@@ -22,7 +22,6 @@ import java.util.List;
 public class SubmitListAdapter extends RecyclerView.Adapter<SubmitListAdapter.Holder> {
 
     private List<SubmitListBean.RowsBean> list;
-    private int newPoistion=0;
     public SubmitListAdapter(List<SubmitListBean.RowsBean> list) {
         this.list = list;
     }
@@ -43,7 +42,6 @@ public class SubmitListAdapter extends RecyclerView.Adapter<SubmitListAdapter.Ho
     @Override
     public void onBindViewHolder(@NonNull SubmitListAdapter.Holder holder, final int position) {
         final  SubmitListBean.RowsBean rowsBean = list.get(position);
-        newPoistion=position;
         if (rowsBean.getStatus() == 1) {//待提交
             Glide.with(ProApplication.getmContext()).load(R.drawable.property_1daitijiao).into(holder.state_img);
         } else if (rowsBean.getStatus() == 2) {//待审批
@@ -85,7 +83,7 @@ public class SubmitListAdapter extends RecyclerView.Adapter<SubmitListAdapter.Ho
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mItemClickListener.onItemClick(newPoistion,rowsBean );
+                    mItemClickListener.onItemClick(position,rowsBean );
                 }
             });
         }

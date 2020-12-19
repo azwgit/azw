@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="1"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_46"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:background="@null"
+            android:hint="请输入地块名称查找"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/color_69"
+            android:textSize="@dimen/sp_14" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_d0d0d0" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view_one"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:layout_below="@+id/rl_view"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15" />
+</LinearLayout>

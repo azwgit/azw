@@ -140,19 +140,15 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
                             }else {
                                 wsj.setVisibility(View.VISIBLE);
                                 xr.setVisibility(View.GONE);
-
                                 rowsBeans.clear();
                                 accountListAdp.notifyDataSetChanged();
-
                                 ToastUtil.setToast("暂无数据");
                             }
                         } else {
                             wsj.setVisibility(View.VISIBLE);
                             xr.setVisibility(View.GONE);
-
                             rowsBeans.clear();
                             accountListAdp.notifyDataSetChanged();
-
                             ToastUtil.setToast("暂无数据");
                         }
                     }
