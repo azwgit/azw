@@ -142,7 +142,7 @@ public class CustomerManagementListActivity extends BaseActivity {
         customerManagementListAdp.setOnItemClickListener(new CustomerManagementListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, DshipmentsListBean.DataBean.RowsBean rowsBean) {
-                DeliverGoodsDetailsActivity.newIntent(getApplicationContext(),rowsBean.getId());
+                CustomerDetailsActivity.newIntent(getApplicationContext(),"2");
             }
         });
         //筛选框状态

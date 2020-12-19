@@ -54,7 +54,7 @@
             android:name=".work.detection.NewDetectionActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name=".work.marketing.activity.AddCustomerActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <activity android:name=".work.marketing.activity.CustomerAccountActivity">

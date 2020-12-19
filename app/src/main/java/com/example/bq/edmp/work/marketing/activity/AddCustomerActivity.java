@@ -8,6 +8,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bq.edmp.R;
@@ -36,6 +38,20 @@ public class AddCustomerActivity extends BaseTitleActivity {
     TextView mTvSubmit;
     @BindView(R.id.pic_recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_name)
+    EditText mTvName;//客户名称
+    @BindView(R.id.tv_distribution_area)
+    TextView mTvDistributionArea;//经销区域
+    @BindView(R.id.tv_contacts)
+    EditText mTvContacts;//联系人
+    @BindView(R.id.tv_contact_information)
+    EditText mTvContactInformation;//联系方式
+    @BindView(R.id.tv_contact_address)
+    EditText mTvContactAddress;//联系地址
+    @BindView(R.id.tv_remarks)
+    EditText mTvRemarks;//备注
+    @BindView(R.id.tv_license_number)
+    EditText mTvLicenseNumber;//执照编号
     private GridImageAdapter mAdapter;
     private int chooseMode = PictureMimeType.ofAll();
     private int maxSelectNum = 1;

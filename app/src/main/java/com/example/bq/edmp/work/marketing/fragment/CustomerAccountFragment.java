@@ -36,13 +36,10 @@ import butterknife.BindView;
  */
 @SuppressLint("ValidFragment")
 public class CustomerAccountFragment extends BaseFragment {
-
-
     @BindView(R.id.xr)
     XRecyclerView xr;
     @BindView(R.id.wsj)
     TextView wsj;
-
     private int mInteger = 0;
     private int currentPager = 1;
     private AccountDetailsAdp accountDetailsAdp;
