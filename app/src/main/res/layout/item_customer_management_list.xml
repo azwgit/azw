@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
     <TextView
+        android:id="@+id/tv_corporate_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="皖垦麦869      12000.00公斤/袋"
@@ -29,6 +30,7 @@
             android:layout_marginTop="@dimen/dp_16">
 
             <TextView
+                android:id="@+id/tv_contacts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="销售经理 张晓晓"
@@ -36,6 +38,7 @@
                 android:textSize="@dimen/sp_14" />
 
             <TextView
+                android:id="@+id/tv_region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -44,6 +47,7 @@
                 android:textSize="@dimen/sp_14" />
         </RelativeLayout>
     <TextView
+        android:id="@+id/tv_sale_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_24"

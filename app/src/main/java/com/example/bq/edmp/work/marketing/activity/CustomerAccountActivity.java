@@ -71,6 +71,7 @@ public class CustomerAccountActivity extends BaseActivity {
         intent.putExtra(Constant.TYPE, type);
         context.startActivity(intent);
     }
+
     @BindView(R.id.layout_tab)
     TabLayout mLayout_tab;
     @BindView(R.id.view_pager)
@@ -89,7 +90,8 @@ public class CustomerAccountActivity extends BaseActivity {
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     ArrayList<String> tablist = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
-    private String type="";
+    private String type = "";
+
     @Override
     protected void initData() {
         mLayout_tab.removeAllTabs();
@@ -150,7 +152,7 @@ public class CustomerAccountActivity extends BaseActivity {
 
     @Override
     protected void otherViewClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.return_img:
                 finish();
                 break;

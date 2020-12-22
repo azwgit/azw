@@ -77,6 +77,7 @@ public class SalesContractListActivity extends BaseTitleActivity {
         salesContractListAdp.setOnItemClickListener(new SalesContractListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, MachineListBean.DataBean.RowsBean rowsBean) {
+                CustomerAccountActivity.newIntent(getApplicationContext(),"2");
             }
         });
 

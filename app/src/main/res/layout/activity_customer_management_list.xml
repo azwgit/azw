@@ -42,7 +42,7 @@
                     android:layout_marginLeft="@dimen/dp_16"
                     android:src="@drawable/search" />
 
-                <TextView
+                <EditText
                     android:gravity="center_vertical"
                     android:id="@+id/search_et"
                     android:layout_width="match_parent"
@@ -75,7 +75,7 @@
         <RelativeLayout
             android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.jcodecraeer.xrecyclerview.XRecyclerView
                 android:background="#F2F5F6"
@@ -91,7 +91,7 @@
                 android:textSize="@dimen/sp_14"
                 android:text="暂无数据"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
     </LinearLayout>

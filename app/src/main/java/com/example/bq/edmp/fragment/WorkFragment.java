@@ -48,6 +48,8 @@ import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAlloca
 import com.example.bq.edmp.work.library.activity.ClibraryActivity;
 import com.example.bq.edmp.work.library.activity.CxlibraryActivity;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
+import com.example.bq.edmp.work.marketing.activity.CustomerAccountListActivity;
+import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
 import com.example.bq.edmp.work.shipments.DshipmentsActivity;
 import com.example.bq.edmp.work.shipments.YshipmentsActivity;
 
@@ -218,34 +220,40 @@ public class WorkFragment extends BaseFragment {
                                             startActivity(new Intent(getActivity(), InventoryActivity.class));
                                         } else if (subtBean.getAccessUri().equals("/product/process/accept")) {//成品管理====任务接受
                                             startActivity(new Intent(getActivity(), DmachineActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/product/processing")) {//成品管理====加工中
+                                        } else if (subtBean.getAccessUri().equals("/product/processing")) {//成品管理====加工中
                                             startActivity(new Intent(getActivity(), JmachineActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/product/process/finished")) {//成品管理====加工完成
+                                        } else if (subtBean.getAccessUri().equals("/product/process/finished")) {//成品管理====加工完成
                                             startActivity(new Intent(getActivity(), YmachineActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/product/process/record")) {//成品管理====加工记录
+                                        } else if (subtBean.getAccessUri().equals("/product/process/record")) {//成品管理====加工记录
                                             ToastUtil.setToast("加工记录,暂未开通");
-                                        }else if (subtBean.getAccessUri().equals("/order/sendout")) {//发货管理====发货
+                                        } else if (subtBean.getAccessUri().equals("/order/sendout")) {//发货管理====发货
                                             startActivity(new Intent(getActivity(), DshipmentsActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/order/sendout/record")) {//发货管理====发货记录
+                                        } else if (subtBean.getAccessUri().equals("/order/sendout/record")) {//发货管理====发货记录
                                             startActivity(new Intent(getActivity(), YshipmentsActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/product/addstock")) {//成品管理====入库
+                                        } else if (subtBean.getAccessUri().equals("/product/addstock")) {//成品管理====入库
                                             startActivity(new Intent(getActivity(), RlibraryActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/product/substock")) {//成品管理====出库
+                                        } else if (subtBean.getAccessUri().equals("/product/substock")) {//成品管理====出库
                                             startActivity(new Intent(getActivity(), ClibraryActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/product/stock")) {//成品管理====库存查询
+                                        } else if (subtBean.getAccessUri().equals("/product/stock")) {//成品管理====库存查询
                                             startActivity(new Intent(getActivity(), CxlibraryActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/allot/tosubmit")) {//库存调拨====申请调拨
+                                        } else if (subtBean.getAccessUri().equals("/allot/tosubmit")) {//库存调拨====申请调拨
                                             startActivity(new Intent(getActivity(), AllocationApplyActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/allot/accomplish")) {//库存调拨====已完成
+                                        } else if (subtBean.getAccessUri().equals("/allot/accomplish")) {//库存调拨====已完成
                                             startActivity(new Intent(getActivity(), AllocationCompleteActivity.class));
                                         } else if (subtBean.getAccessUri().equals("/allot/approval")) {//库存调拨====审批中
                                             startActivity(new Intent(getActivity(), AllocationApprovalActivity.class));
                                         } else if (subtBean.getAccessUri().equals("/allot/allotcentre")) {//库存调拨====调拨中
                                             startActivity(new Intent(getActivity(), ApprovalInActivity.class));
-                                        }else if (subtBean.getAccessUri().equals("/testing/newsave")) {//质量管理====新增检测
+                                        } else if (subtBean.getAccessUri().equals("/testing/newsave")) {//质量管理====新增检测
                                             startActivity(new Intent(getActivity(), NewDetectionActivity.class));
                                         } else if (subtBean.getAccessUri().equals("/testing/list")) {//质量管理====检测记录
                                             startActivity(new Intent(getActivity(), DetectionRecordListActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/customer/newsave")) {//营销管理====客户管理
+                                            startActivity(new Intent(getActivity(), CustomerManagementListActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/customer/list")) {//营销管理====客户查询
+                                            startActivity(new Intent(getActivity(), DetectionRecordListActivity.class));
+                                        } else if (subtBean.getAccessUri().equals("/customer/account/list")) {//营销管理====账户查询
+                                            startActivity(new Intent(getActivity(), CustomerAccountListActivity.class));
                                         } else {
                                             ToastUtil.setToast("暂未开通");
                                         }

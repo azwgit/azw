@@ -28,7 +28,12 @@
             style="@style/apply_pay_account_edit_style"/>
     </LinearLayout>
 
-    <View style="@style/apply_pay_account_line_style" />
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View style="@style/apply_pay_account_line_style" />
+    </LinearLayout>
 
     <LinearLayout style="@style/apply_pay_account_layout_style">
 
@@ -52,7 +57,12 @@
             style="@style/apply_pay_account_edit_style" />
     </LinearLayout>
 
-    <View style="@style/apply_pay_account_line_style" />
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View style="@style/apply_pay_account_line_style" />
+    </LinearLayout>
 
     <RelativeLayout style="@style/apply_pay_account_layout_style">
 

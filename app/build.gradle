@@ -85,4 +85,7 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.youth.banner:banner:1.4.9'
+
+    //工具类
+    implementation 'com.blankj:utilcode:1.29.0'
 }

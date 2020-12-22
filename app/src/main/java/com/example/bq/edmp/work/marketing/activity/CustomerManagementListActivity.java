@@ -2,6 +2,7 @@ package com.example.bq.edmp.work.marketing.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,14 +28,18 @@ import com.allen.library.interceptor.Transformer;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
 import com.example.bq.edmp.word.inventory.api.InventoryListApi;
 import com.example.bq.edmp.word.inventory.bean.CompanyBean;
 import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
+import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity;
+import com.example.bq.edmp.work.marketing.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.adapter.CustomerManagementListAdp;
 import com.example.bq.edmp.work.marketing.adapter.SelectProvinceAdapter;
+import com.example.bq.edmp.work.marketing.bean.CustomerManagementListBean;
 import com.example.bq.edmp.work.shipments.adapter.DshipmentsListAdapter;
 import com.example.bq.edmp.work.shipments.adapter.UserNameListAdapter;
 import com.example.bq.edmp.work.shipments.api.ShipmentsApi;
@@ -51,11 +56,17 @@ import butterknife.BindView;
  * 客户管理
  * */
 public class CustomerManagementListActivity extends BaseActivity {
+    public static void newIntent(Context context) {
+        Intent intent = new Intent(context, CustomerManagementListActivity.class);
+        context.startActivity(intent);
+    }
 
     @BindView(R.id.return_img)
     ImageView return_img;
     @BindView(R.id.title_tv)
     TextView title_tv;
+    @BindView(R.id.tv_operation)
+    TextView mTvOperation;
     @BindView(R.id.search_et)
     TextView search_et;
     @BindView(R.id.screen_img)
@@ -92,21 +103,17 @@ public class CustomerManagementListActivity extends BaseActivity {
     private String customerName = "";//客户名字
     private int currentPager = 1;
 
-    private int shengId=0;//省id
-    private int shiId=0;//市Id
-    private int quId=0;//区Id
-
+    private String shengId = "";//省id
+    private String shiId = "";//市Id
+    private String quId = "0";//区Id
+    private String name = "";//输入客户名称
     private XRecyclerView buttom_rv;
     private TextView wsj_dial;
     private ArrayList<CompanyBean.DataBean> companyDataBeans;
     private SelectProvinceAdapter selectProvinceAdapter;//选择省适配器
     private boolean Fund = false;
-    private ArrayList<DshipmentsListBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<CustomerManagementListBean.DataBean.RowsBean> rowsBeans;
     private CustomerManagementListAdp customerManagementListAdp;
-    private RecyclerView user_rv;
-    private TextView user_wsj;
-    private ArrayList<UserNameListBean.DataBean> userNameAtaBeans;
-    private UserNameListAdapter userNameListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -116,6 +123,7 @@ public class CustomerManagementListActivity extends BaseActivity {
     @Override
     protected void initView() {
         title_tv.setText("客户管理");
+        mTvOperation.setVisibility(View.VISIBLE);
         //数据
         rowsBeans = new ArrayList<>();
         customerManagementListAdp = new CustomerManagementListAdp(rowsBeans);
@@ -127,7 +135,7 @@ public class CustomerManagementListActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 currentPager = 1;
-                initData();
+                gainData();
                 xr.refreshComplete();
             }
 
@@ -141,8 +149,8 @@ public class CustomerManagementListActivity extends BaseActivity {
 
         customerManagementListAdp.setOnItemClickListener(new CustomerManagementListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, DshipmentsListBean.DataBean.RowsBean rowsBean) {
-                CustomerDetailsActivity.newIntent(getApplicationContext(),"2");
+            public void onItemClick(int pos, CustomerManagementListBean.DataBean.RowsBean rowsBean) {
+                CustomerDetailsActivity.newIntent(getApplicationContext(), rowsBean.getId()+"","1");
             }
         });
         //筛选框状态
@@ -170,33 +178,54 @@ public class CustomerManagementListActivity extends BaseActivity {
 
             }
         });
+        //搜索
+        search_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    //此处做逻辑处理
+                    hideKeyboard(search_et);
+                    name = textView.getText().toString();
+                    gainData();
+                    return true;
+                }
+                return false;
 
+            }
+        });
 
     }
 
     @Override
-    protected void initData() {
+    protected void onResume() {
+        super.onResume();
         gainData();
+//        ToastUtil.setToast("添加成功");
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     private void gainData() {
         currentPager = 1;
-        String sign = MD5Util.encode("customerId=" + customerId +
-                "&orgId=" + orgIds + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("cityId=" + shiId + "&countyId=" + quId + "&name=" + name + "&page=" + currentPager +
+                "&pagerow=" + 15 + "&provinceId=" + shengId);
 
-        RxHttpUtils.createApi(ShipmentsApi.class)
-                .getDshipmentsData(customerId, orgIds, currentPager, 15, sign)
-                .compose(Transformer.<DshipmentsListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<DshipmentsListBean>() {
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getCustomerList(shiId, quId, name, currentPager, 15, shengId, sign)
+                .compose(Transformer.<CustomerManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<CustomerManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(DshipmentsListBean dshipmentsListBean) {
-                        if (dshipmentsListBean.getCode().equals("200")) {
-                            List<DshipmentsListBean.DataBean.RowsBean> rows = dshipmentsListBean.getData().getRows();
+                    protected void onSuccess(CustomerManagementListBean bean) {
+                        if (bean.getCode()==200) {
+                            List<CustomerManagementListBean.DataBean.RowsBean> rows = bean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 orgIds = "";
                                 org_name = "";
@@ -230,22 +259,22 @@ public class CustomerManagementListActivity extends BaseActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("customerId=" + customerId +
-                "&orgId=" + orgIds + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("cityId=" + shiId + "&countyId=" + quId + "&name=" + name + "&page=" + currentPager +
+                "&pagerow=" + 15 + "&provinceId=" + shengId);
 
-        RxHttpUtils.createApi(ShipmentsApi.class)
-                .getDshipmentsData(customerId, orgIds, currentPager, 15, sign)
-                .compose(Transformer.<DshipmentsListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<DshipmentsListBean>() {
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getCustomerList(shiId, quId, name, currentPager, 15, shengId, sign)
+                .compose(Transformer.<CustomerManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<CustomerManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(DshipmentsListBean dshipmentsListBean) {
-                        if (dshipmentsListBean.getCode().equals("200")) {
-                            List<DshipmentsListBean.DataBean.RowsBean> rows = dshipmentsListBean.getData().getRows();
+                    protected void onSuccess(CustomerManagementListBean bean) {
+                        if (bean.getCode()==200) {
+                            List<CustomerManagementListBean.DataBean.RowsBean> rows = bean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
                                 customerManagementListAdp.addMoreData(rows);
@@ -268,7 +297,7 @@ public class CustomerManagementListActivity extends BaseActivity {
         mRlQu.setOnClickListener(this);
         cz_tv.setOnClickListener(this);
         affirm_tv.setOnClickListener(this);
-        search_et.setOnClickListener(this);
+        mTvOperation.setOnClickListener(this);
     }
 
     @Override
@@ -283,7 +312,7 @@ public class CustomerManagementListActivity extends BaseActivity {
                     virtual_orgIds = "";
                     Fund = false;
                     gainData();
-                } else if (!search_et.getText().toString().equals("")){
+                } else if (!search_et.getText().toString().equals("")) {
                     search_et.setText("");
                     search_et.setHint("请输入客户查找");
                     orgIds = "";
@@ -292,7 +321,7 @@ public class CustomerManagementListActivity extends BaseActivity {
                     customerId = "";
                     Fund = false;
                     gainData();
-                }else {
+                } else {
                     fund();
                 }
                 break;
@@ -329,8 +358,11 @@ public class CustomerManagementListActivity extends BaseActivity {
                 }
                 break;
             case R.id.search_et:
-                findUserViews(view);
                 break;
+            case R.id.tv_operation:
+                startActivity(new Intent(getApplicationContext(), AddCustomerActivity.class));
+                break;
+
         }
     }
 
@@ -462,156 +494,12 @@ public class CustomerManagementListActivity extends BaseActivity {
     /**
      * 隐藏软键盘
      *
-     * @param  :上下文环境，一般为Activity实例
-     * @param view    :一般为EditText
+     * @param :上下文环境，一般为Activity实例
+     * @param view                 :一般为EditText
      */
     public static void hideKeyboard(View view) {
         InputMethodManager manager = (InputMethodManager) view.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
-    /*
-     * 客户底部跳框
-     * */
-    private void findUserViews(View view) {
-        final Dialog mCameraDialog = new Dialog(view.getContext(), R.style.my_dialog);
-
-        View root = LayoutInflater.from(view.getContext()).inflate(R.layout.user_buttom_item, null);
-
-        mCameraDialog.setContentView(root);
-        mCameraDialog.setCanceledOnTouchOutside(false);
-
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-        dialogWindow.setWindowAnimations(R.style.BottomDialog_Animation); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = -20; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//      lp.height = WindowManager.LayoutParams.WRAP_CONTENT; // 高度
-//      lp.alpha = 9f; // 透明度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
-
-        final EditText user_search_et = root.findViewById(R.id.search_et);
-        final TextView no_tv = root.findViewById(R.id.no_tv);
-        user_rv = root.findViewById(R.id.user_rv);
-        user_wsj = root.findViewById(R.id.user_wsj);
-
-        no_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideKeyboard(no_tv);
-                mCameraDialog.dismiss();
-            }
-        });
-
-        user_search_et.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        userNameAtaBeans = new ArrayList<>();
-        userNameListAdapter = new UserNameListAdapter(userNameAtaBeans);
-        user_rv.setLayoutManager(new LinearLayoutManager(CustomerManagementListActivity.this));
-        user_rv.setAdapter(userNameListAdapter);
-        userNameListAdapter.setOnItemClickListener(new UserNameListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int pos, UserNameListBean.DataBean dataBean,View view) {
-                //当点击时显示当前条目的背景和文字的颜色
-                for (int i = 0; i < userNameAtaBeans.size(); i++) {
-                    if (pos == i) {
-                        userNameAtaBeans.get(i).setSelected(true);
-                    } else {
-                        userNameAtaBeans.get(i).setSelected(false);
-                    }
-                }
-                userNameListAdapter.notifyDataSetChanged();
-                customerId = dataBean.getId();
-                search_et.setText(dataBean.getName());
-                hideKeyboard(view);
-                mCameraDialog.dismiss();
-                gainData();
-            }
-        });
-
-        gainUserNameData();
-
-        //搜索
-        user_search_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    //此处做逻辑处理
-                    customerName = textView.getText().toString();
-                    hideKeyboard(user_search_et);
-                    gainUserNameData();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        user_search_et.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().trim().equals("")){
-                    gainUserNameData();
-                }
-            }
-        });
-
-    }
-    //获取客户列表
-    private void gainUserNameData() {
-        String sign = MD5Util.encode("name=" + customerName);
-
-        RxHttpUtils.createApi(ShipmentsApi.class)
-                .getUserNameData(customerName, sign)
-                .compose(Transformer.<UserNameListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<UserNameListBean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
-                    }
-
-                    @Override
-                    protected void onSuccess(UserNameListBean userNameListBean) {
-                        if (userNameListBean.getCode().equals("200")) {
-                            user_rv.setVisibility(View.VISIBLE);
-                            user_wsj.setVisibility(View.GONE);
-                            customerName = "";
-
-                            List<UserNameListBean.DataBean> data = userNameListBean.getData();
-                            userNameAtaBeans.clear();
-                            userNameAtaBeans.addAll(data);
-                            userNameListAdapter.notifyDataSetChanged();
-                        } else {
-                            user_rv.setVisibility(View.GONE);
-                            user_wsj.setVisibility(View.VISIBLE);
-                            userNameAtaBeans.clear();
-                            userNameListAdapter.notifyDataSetChanged();
-                            ToastUtil.setToast("暂无数据");
-                        }
-                    }
-                });
-    }
-
-
 }

@@ -40,6 +40,10 @@ import pub.devrel.easypermissions.EasyPermissions;
  * 加工任务    待确认
  * */
 public class CustomerAccountListActivity extends BaseTitleActivity {
+    public static void newIntent(Context context) {
+        Intent intent = new Intent(context, CustomerAccountListActivity.class);
+        context.startActivity(intent);
+    }
     @BindView(R.id.wsj)
     TextView wsj;
     @BindView(R.id.search_et)

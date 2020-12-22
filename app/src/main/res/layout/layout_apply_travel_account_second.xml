@@ -36,7 +36,12 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <View style="@style/apply_pay_account_line_style" />
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View style="@style/apply_pay_account_line_style" />
+            </LinearLayout>
 
             <LinearLayout style="@style/apply_pay_account_layout_style">
 
@@ -57,7 +62,12 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <View style="@style/apply_pay_account_line_style" />
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View style="@style/apply_pay_account_line_style" />
+            </LinearLayout>
 
 
             <LinearLayout style="@style/apply_pay_account_layout_style" android:id="@+id/ly_time">
@@ -111,7 +121,12 @@
 
             </LinearLayout>
 
-            <View style="@style/apply_pay_account_line_style" />
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <View style="@style/apply_pay_account_line_style" />
+            </LinearLayout>
             <LinearLayout
                 style="@style/apply_pay_account_layout_style">
 

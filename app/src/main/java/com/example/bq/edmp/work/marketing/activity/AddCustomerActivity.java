@@ -2,23 +2,45 @@ package com.example.bq.edmp.work.marketing.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.allen.library.RxHttpUtils;
+import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.observer.CommonObserver;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.blankj.utilcode.util.GsonUtils;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.GridImageAdapter;
 import com.example.bq.edmp.activity.apply.LocalNewMedia;
-import com.example.bq.edmp.activity.apply.travel.AddTravelDayInfoAct;
+import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
+import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
+import com.example.bq.edmp.utils.GetJsonDataUtil;
+import com.example.bq.edmp.utils.LoadingDialog;
+import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.utils.phoneUtils;
+import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
+import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
+import com.example.bq.edmp.work.marketing.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.bean.CityBean;
+import com.example.bq.edmp.work.marketing.bean.CityModel;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -26,12 +48,16 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import okhttp3.ResponseBody;
 
 public class AddCustomerActivity extends BaseTitleActivity {
     @BindView(R.id.tv_submit)
@@ -56,8 +82,19 @@ public class AddCustomerActivity extends BaseTitleActivity {
     private int chooseMode = PictureMimeType.ofAll();
     private int maxSelectNum = 1;
     private int themeId;
+    private String distributionAreaId = "";//经销区域id
     private List<LocalMedia> selectList = new ArrayList<>();
     private List<LocalNewMedia> newList = new ArrayList<>();
+    private OptionsPickerView pvOptions;
+    private ILoadingView loading_dialog;
+    private ArrayList<CityModel> jsonBean;
+    //省
+    private List<CityModel> options1Items = new ArrayList<>();
+    //  市
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    //  区
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_customer;
@@ -66,6 +103,8 @@ public class AddCustomerActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("新增客户");
+        ProApplication.getinstance().addActivity(this);
+        loading_dialog = new LoadingDialog(this);
         themeId = R.style.picture_QQ_style;
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
@@ -132,20 +171,116 @@ public class AddCustomerActivity extends BaseTitleActivity {
 
     }
 
+    //省市区数据拼接
+    private void setPickViewData(String json) {
+
+        /**
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         *
+         * */
+//        String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
+
+        jsonBean = (ArrayList<CityModel>) parseData(json);//用Gson 转成实体
+        /**
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<String> cityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<String>> province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+            List<CityModel> twoCity = jsonBean.get(i).getChildren();
+            if (twoCity != null && twoCity.size() > 0) {
+                for (int c = 0; c < jsonBean.get(i).getChildren().size(); c++) {//遍历该省份的所有城市
+                    String cityName = jsonBean.get(i).getChildren().get(c).getName();
+                    cityList.add(cityName);//添加城市
+
+                    ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+                    List<CityModel> threeCity = jsonBean.get(i).getChildren().get(c).getChildren();
+                    if (threeCity != null && threeCity.size() > 0) {
+                        for (int j = 0; j < threeCity.size(); j++) {
+                            city_AreaList.add(threeCity.get(j).getName());
+                        }
+                    }
+                    //city_AreaList.addAll( jsonBean.get(i).getChildren().get(c));
+                    province_AreaList.add(city_AreaList);//添加该省所有地区数据
+                }
+            }
+
+            /**
+             * 添加城市数据
+             */
+            options2Items.add(cityList);
+
+            /**
+             * 添加地区数据
+             */
+            options3Items.add(province_AreaList);
+        }
+        showPickerView();
+    }
+
+    //省市区三级联动控件
+    private void showPickerView() {
+        // 弹出选择器
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                String opt1tx = options1Items.size() > 0 ?
+                        options1Items.get(options1).getPickerViewText() : "";
+
+                String opt2tx = options2Items.size() > 0
+                        && options2Items.get(options1).size() > 0 ?
+                        options2Items.get(options1).get(options2) : "";
+
+                String opt3tx = options2Items.size() > 0
+                        && options3Items.get(options1).size() > 0
+                        && options3Items.get(options1).get(options2).size() > 0 ?
+                        options3Items.get(options1).get(options2).get(options3) : "";
+
+                String tx = opt1tx + opt2tx + opt3tx;
+                Log.i("bbbb", jsonBean.get(options1).getId() + "-" + jsonBean.get(options1).getChildren().get(options2).getId() + "-" + jsonBean.get(options1).getChildren().get(options2).getChildren().get(options3).getId());
+                mTvDistributionArea.setText(jsonBean.get(options1).getName() + "-" + jsonBean.get(options1).getChildren().get(options2).getName() + "-" + jsonBean.get(options1).getChildren().get(options2).getChildren().get(options3).getName());
+                distributionAreaId = jsonBean.get(options1).getChildren().get(options2).getChildren().get(options3).getId();
+            }
+        })
+                .setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .build();
+        /*pvOptions.setPicker(options1Items);//一级选择器
+        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+
     @Override
     protected void initListener() {
         mTvSubmit.setOnClickListener(this);
+        mTvDistributionArea.setOnClickListener(this);
     }
 
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_submit:
-                Intent intent = new Intent(getApplicationContext(), CustomerDetailsActivity.class);
-                startActivity(intent);
+                checkAddData();
                 break;
+            case R.id.tv_distribution_area:
+                //隐藏小键盘
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                getAllpackageList();
+                break;
+
         }
     }
+
     private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
         @Override
         public void onAddPicClick() {
@@ -200,6 +335,137 @@ public class AddCustomerActivity extends BaseTitleActivity {
 
     };
 
+    //获取省市区列表
+    private void getAllpackageList() {
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getProvinceList()
+                .compose(Transformer.<String>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<String>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String bean) {
+                        CityBean cityBean = GsonUtils.fromJson(bean, CityBean.class);
+                        if (cityBean == null || cityBean.getData() == null || cityBean.getData().isEmpty()) {
+                            return;
+                        }
+                        if(cityBean.getCode()==200){
+                            setPickViewData(bean);
+                        }
+                    }
+                });
+    }
+
+    //验证客户添加数据
+    private void checkAddData() {
+        //客户名称
+        String name = mTvName.getText().toString().trim();
+        if (name.isEmpty()) {
+            ToastUtil.setToast("请添加客户名称");
+            return;
+        }
+        if ("".equals(distributionAreaId)) {
+            ToastUtil.setToast("请选择经销区域");
+            return;
+        }
+        //联系人
+        String contacts = mTvContacts.getText().toString().trim();
+        if (contacts.isEmpty()) {
+            ToastUtil.setToast("请添加联系人");
+            return;
+        }
+        //联系方式
+        String contactInformation = mTvContactInformation.getText().toString().trim();
+        if (contactInformation.isEmpty()) {
+            ToastUtil.setToast("请添加联系方式");
+            return;
+        }
+        //联系地址
+        String contachAddress = mTvContactAddress.getText().toString().trim();
+        if (contachAddress.isEmpty()) {
+            ToastUtil.setToast("请添加联系地址");
+            return;
+        }
+        //备注
+        String remarks = mTvRemarks.getText().toString().trim();
+        //执照编号
+        String licenseNumber = mTvLicenseNumber.getText().toString().trim();
+        if (licenseNumber.isEmpty()) {
+            ToastUtil.setToast("请添加执照编号");
+            return;
+        }
+        if (selectList.size() <= 0) {
+            ToastUtil.setToast("请添加营业执照");
+            return;
+        }
+        if(!phoneUtils.isMobileNO(contactInformation)){
+            ToastUtil.setToast("请输入正确的手机号");
+            return;
+        }
+        initData(licenseNumber, contachAddress, contacts, contactInformation, name, distributionAreaId, remarks);
+    }
+
+    //参数初始化
+    private void initData(String businessLicenseNumber, String contactAddress, String contacts, String mobTel, String name, String region, String remark) {
+        Map<String, Object> paramsMap = new HashMap<>();
+        List<File> list = new ArrayList<>();
+        String sign = MD5Util.encode("businessLicenseNumber=" + businessLicenseNumber + "&contactAddress=" + contactAddress + "&contacts=" + contacts + "&mobTel=" + mobTel + "&name=" + name + "&region=" + region + "&remark=" + remark);
+        paramsMap = new HashMap<>();
+        paramsMap.put("businessLicenseNumber", businessLicenseNumber);
+        paramsMap.put("contactAddress", contactAddress);
+        paramsMap.put("contacts", contacts);
+        paramsMap.put("mobTel", mobTel);
+        paramsMap.put("name", name);
+        paramsMap.put("region", region);
+        paramsMap.put("remark", remark);
+        paramsMap.put("sign", sign);
+        List<String> filePaths = new ArrayList<>();
+        for (int i = 0; i < selectList.size(); i++) {
+            filePaths.add(selectList.get(i).getPath());
+        }
+        uploadImgAndPar("http://192.168.0.188:8089/customer/newsave", "businessLicenseImg", paramsMap, filePaths);
+    }
+
+    //图片上传接口
+    private void uploadImgAndPar(String uploadUrl, String fileName, Map<String, Object> paramsMap, List<String> uploadPaths) {
+
+        RxHttpUtils.uploadImagesAndParams(uploadUrl, fileName, paramsMap, uploadPaths)
+                .compose(Transformer.<ResponseBody>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<ResponseBody>() {
+
+                    @Override
+                    protected String setTag() {
+                        return "uploadImg";
+                    }
+
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                    }
+
+                    @Override
+                    protected void onSuccess(ResponseBody responseBody) {
+                        BaseABean obj = null;
+                        try {
+                            String json = new String(responseBody.bytes());
+                            Gson gson = new Gson();
+                            obj = gson.fromJson(json, BaseABean.class);
+                        } catch (Exception ex) {
+
+                        }
+                        if (-99 == obj.getCode()) {
+                            ToastUtil.setToast(obj.getMsg());
+                            return;
+                        }
+                        finish();
+
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -222,5 +488,14 @@ public class AddCustomerActivity extends BaseTitleActivity {
                 }
                 break;
         }
+    }
+
+    //gson 解析
+    public List<CityModel> parseData(String result) {//Gson 解析
+        CityBean cityBean = GsonUtils.fromJson(result, CityBean.class);
+        if (cityBean == null || cityBean.getData() == null || cityBean.getData().isEmpty()) {
+            return null;
+        }
+        return cityBean.getData();
     }
 }
