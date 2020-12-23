@@ -26,7 +26,9 @@ import com.example.bq.edmp.work.finished.adapter.DmachineListAdapter;
 import com.example.bq.edmp.work.finished.api.MachineApi;
 import com.example.bq.edmp.work.finished.bean.MachineListBean;
 import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.adapter.AccountListAdp;
+import com.example.bq.edmp.work.marketing.bean.CustomerAccountListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -51,8 +53,8 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
     @BindView(R.id.xr)
     XRecyclerView xr;
     private int currentPager = 1;
-    private String code = "";
-    private ArrayList<MachineListBean.DataBean.RowsBean> rowsBeans;
+    private String name = "";
+    private ArrayList<CustomerAccountListBean.DataBean.RowsBean> rowsBeans;
     private AccountListAdp accountListAdp;
 
     @Override
@@ -88,9 +90,8 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
 
         accountListAdp.setOnItemClickListener(new AccountListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, MachineListBean.DataBean.RowsBean rowsBean) {
-                Intent intent=new Intent(getApplicationContext(),CustomerAccountActivity.class);
-                startActivity(intent);
+            public void onItemClick(int pos, CustomerAccountListBean.DataBean.RowsBean rowsBean) {
+                CustomerAccountActivity.newIntent(getApplicationContext(),rowsBean.getCustomerId()+"","2");
             }
         });
 
@@ -101,7 +102,7 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
                 if (i == EditorInfo.IME_ACTION_SEARCH || i == EditorInfo.IME_ACTION_UNSPECIFIED) {
                     //此处做逻辑处理
                     hideKeyboard(search_et);
-                    code = textView.getText().toString();
+                    name = textView.getText().toString();
                     gainData();
                     return true;
                 }
@@ -120,23 +121,23 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
     private void gainData() {
         currentPager = 1;
 
-        String sign = MD5Util.encode("code=" + code + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(MachineApi.class)
-                .getDmachineData(code, currentPager, 15, sign)
-                .compose(Transformer.<MachineListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<MachineListBean>() {
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getCustomerAccountList(name, currentPager, 15, sign)
+                .compose(Transformer.<CustomerAccountListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<CustomerAccountListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(MachineListBean machineListBean) {
-                        if (machineListBean.getCode().equals("200")) {
+                    protected void onSuccess(CustomerAccountListBean machineListBean) {
+                        if (machineListBean.getCode()==200) {
                             wsj.setVisibility(View.GONE);
                             xr.setVisibility(View.VISIBLE);
-                            List<MachineListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<CustomerAccountListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
@@ -160,21 +161,21 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("code=" + code + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(MachineApi.class)
-                .getDmachineData(code, currentPager, 15, sign)
-                .compose(Transformer.<MachineListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<MachineListBean>() {
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getCustomerAccountList(name, currentPager, 15, sign)
+                .compose(Transformer.<CustomerAccountListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<CustomerAccountListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(MachineListBean machineListBean) {
-                        if (machineListBean.getCode().equals("200")) {
-                            List<MachineListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                    protected void onSuccess(CustomerAccountListBean machineListBean) {
+                        if (machineListBean.getCode()==200) {
+                            List<CustomerAccountListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
                                 accountListAdp.addMoreData(rows);

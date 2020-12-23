@@ -49,6 +49,7 @@ import com.example.bq.edmp.work.library.activity.ClibraryActivity;
 import com.example.bq.edmp.work.library.activity.CxlibraryActivity;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerAccountListActivity;
+import com.example.bq.edmp.work.marketing.activity.CustomerInquirytListActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
 import com.example.bq.edmp.work.shipments.DshipmentsActivity;
 import com.example.bq.edmp.work.shipments.YshipmentsActivity;
@@ -251,7 +252,7 @@ public class WorkFragment extends BaseFragment {
                                         } else if (subtBean.getAccessUri().equals("/customer/newsave")) {//营销管理====客户管理
                                             startActivity(new Intent(getActivity(), CustomerManagementListActivity.class));
                                         } else if (subtBean.getAccessUri().equals("/customer/list")) {//营销管理====客户查询
-                                            startActivity(new Intent(getActivity(), DetectionRecordListActivity.class));
+                                            startActivity(new Intent(getActivity(), CustomerInquirytListActivity.class));
                                         } else if (subtBean.getAccessUri().equals("/customer/account/list")) {//营销管理====账户查询
                                             startActivity(new Intent(getActivity(), CustomerAccountListActivity.class));
                                         } else {

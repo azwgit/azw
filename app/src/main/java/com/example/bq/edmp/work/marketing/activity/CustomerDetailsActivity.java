@@ -32,7 +32,7 @@ import com.example.bq.edmp.utils.TurnImgStringUtils;
 import com.example.bq.edmp.utils.UsualDialogger;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
-import com.example.bq.edmp.work.marketing.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -102,6 +102,11 @@ public class CustomerDetailsActivity extends BaseTitleActivity {
         if ("2".equals(type)) {
             mLyBottom.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getCustomerDetails();
     }
 
@@ -126,11 +131,12 @@ public class CustomerDetailsActivity extends BaseTitleActivity {
                 EditCustomerDetailsActivity.newIntent(getApplicationContext(), id);
                 break;
             case R.id.tv_balance:
-                CustomerAccountActivity.newIntent(getApplicationContext(), "2");
+                CustomerAccountActivity.newIntent(getApplicationContext(), id,"1");
                 break;
             case R.id.tv_sales_contract:
-                Intent intent2 = new Intent(getApplicationContext(), SalesContractListActivity.class);
-                startActivity(intent2);
+                ToastUtil.setToast("功能暂未开通");
+//                Intent intent2 = new Intent(getApplicationContext(), SalesContractListActivity.class);
+//                startActivity(intent2);
                 break;
             case R.id.btn_del:
                 if (customerDetailsBean.getData().getBalance() >0) {

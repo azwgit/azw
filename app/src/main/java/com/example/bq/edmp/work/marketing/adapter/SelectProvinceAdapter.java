@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.word.inventory.bean.CompanyBean;
+import com.example.bq.edmp.work.marketing.bean.ProvinceAndCityListBean;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ import java.util.List;
  */
 
 public class SelectProvinceAdapter extends RecyclerView.Adapter<SelectProvinceAdapter.Holder> {
-    private List<CompanyBean.DataBean> list;
+    private List<ProvinceAndCityListBean.DataBean> list;
 
-    public SelectProvinceAdapter(List<CompanyBean.DataBean> list) {
+    public SelectProvinceAdapter(List<ProvinceAndCityListBean.DataBean> list) {
         this.list = list;
     }
 
@@ -33,7 +34,7 @@ public class SelectProvinceAdapter extends RecyclerView.Adapter<SelectProvinceAd
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, final int position) {
-        final CompanyBean.DataBean dataBean = list.get(position);
+        final ProvinceAndCityListBean.DataBean dataBean = list.get(position);
 
         holder.tv.setText(dataBean.getName());
 
@@ -74,7 +75,7 @@ public class SelectProvinceAdapter extends RecyclerView.Adapter<SelectProvinceAd
 
     //接口回调
     public interface OnItemLeftClckListener {
-        void onItemLeftClck(CompanyBean.DataBean dataBean, int mPosition);
+        void onItemLeftClck(ProvinceAndCityListBean.DataBean dataBean, int mPosition);
     }
 
     private OnItemLeftClckListener onItemLeftClckListener;

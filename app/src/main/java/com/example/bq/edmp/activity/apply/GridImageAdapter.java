@@ -177,7 +177,8 @@ public class GridImageAdapter extends
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
                         .placeholder(R.color.colorf6)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL);
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE);
                 Glide.with(viewHolder.itemView.getContext())
                         .load(path)
                         .apply(options)

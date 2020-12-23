@@ -75,6 +75,11 @@
 
         </activity>
         <activity
+            android:name=".work.marketing.activity.CustomerInquirytListActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity
             android:name=".work.marketing.activity.SalesContractListActivity"
             android:windowSoftInputMode="stateHidden">
 

@@ -28,6 +28,7 @@ import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.GetJsonDataUtil;
@@ -37,7 +38,7 @@ import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.phoneUtils;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
-import com.example.bq.edmp.work.marketing.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CityBean;
 import com.example.bq.edmp.work.marketing.bean.CityModel;
 import com.google.gson.Gson;
@@ -426,7 +427,7 @@ public class AddCustomerActivity extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8089/customer/newsave", "businessLicenseImg", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_marketing+"customer/newsave", "businessLicenseImg", paramsMap, filePaths);
     }
 
     //图片上传接口

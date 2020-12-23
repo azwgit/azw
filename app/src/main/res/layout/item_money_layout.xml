@@ -19,7 +19,7 @@
         android:paddingRight="@dimen/dp_16"
         android:paddingLeft="@dimen/dp_16">
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/tv_time"
-            android:layout_below="@+id/tv_name"
+            android:layout_below="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"

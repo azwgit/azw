@@ -6,49 +6,30 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
-import com.allen.library.interfaces.ILoadingView;
-import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
-import com.example.bq.edmp.utils.Constant;
-import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
-import com.example.bq.edmp.word.inventory.api.InventoryListApi;
-import com.example.bq.edmp.word.inventory.bean.CompanyBean;
-import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
-import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity;
 import com.example.bq.edmp.work.marketing.adapter.CustomerManagementListAdp;
 import com.example.bq.edmp.work.marketing.adapter.SelectProvinceAdapter;
 import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CustomerManagementListBean;
 import com.example.bq.edmp.work.marketing.bean.ProvinceAndCityListBean;
-import com.example.bq.edmp.work.shipments.adapter.DshipmentsListAdapter;
-import com.example.bq.edmp.work.shipments.adapter.UserNameListAdapter;
-import com.example.bq.edmp.work.shipments.api.ShipmentsApi;
-import com.example.bq.edmp.work.shipments.bean.DshipmentsListBean;
-import com.example.bq.edmp.work.shipments.bean.UserNameListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -59,9 +40,9 @@ import butterknife.BindView;
 /*
  * 客户管理
  * */
-public class CustomerManagementListActivity extends BaseActivity {
+public class CustomerInquirytListActivity extends BaseActivity {
     public static void newIntent(Context context) {
-        Intent intent = new Intent(context, CustomerManagementListActivity.class);
+        Intent intent = new Intent(context, CustomerInquirytListActivity.class);
         context.startActivity(intent);
     }
 
@@ -112,7 +93,7 @@ public class CustomerManagementListActivity extends BaseActivity {
     private ArrayList<CustomerManagementListBean.DataBean.RowsBean> rowsBeans;
     private CustomerManagementListAdp customerManagementListAdp;
     private List<ProvinceAndCityListBean.DataBean> data = null;
-    private ILoadingView loading_dialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_customer_management_list;
@@ -121,8 +102,6 @@ public class CustomerManagementListActivity extends BaseActivity {
     @Override
     protected void initView() {
         title_tv.setText("客户管理");
-        ProApplication.getinstance().addActivity(this);
-        loading_dialog = new LoadingDialog(this);
         mTvOperation.setVisibility(View.VISIBLE);
         //数据
         rowsBeans = new ArrayList<>();
@@ -130,7 +109,7 @@ public class CustomerManagementListActivity extends BaseActivity {
         xr.setAdapter(customerManagementListAdp);
         xr.setPullRefreshEnabled(true);
         xr.setLoadingMoreEnabled(true);
-        xr.setLayoutManager(new LinearLayoutManager(CustomerManagementListActivity.this));
+        xr.setLayoutManager(new LinearLayoutManager(CustomerInquirytListActivity.this));
         xr.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -150,7 +129,7 @@ public class CustomerManagementListActivity extends BaseActivity {
         customerManagementListAdp.setOnItemClickListener(new CustomerManagementListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, CustomerManagementListBean.DataBean.RowsBean rowsBean) {
-                CustomerDetailsActivity.newIntent(getApplicationContext(), rowsBean.getId() + "", "1");
+                CustomerDetailsActivity.newIntent(getApplicationContext(), rowsBean.getId() + "", "2");
             }
         });
         //筛选框状态
@@ -423,7 +402,7 @@ public class CustomerManagementListActivity extends BaseActivity {
         //筛选  分公司
         companyDataBeans = new ArrayList<>();
         selectProvinceAdapter = new SelectProvinceAdapter(companyDataBeans);
-        buttom_rv.setLayoutManager(new LinearLayoutManager(CustomerManagementListActivity.this));
+        buttom_rv.setLayoutManager(new LinearLayoutManager(CustomerInquirytListActivity.this));
         buttom_rv.setAdapter(selectProvinceAdapter);
         selectProvinceAdapter.setOnItemLeftClckListener(new SelectProvinceAdapter.OnItemLeftClckListener() {
             @Override
@@ -458,7 +437,7 @@ public class CustomerManagementListActivity extends BaseActivity {
         String sign = MD5Util.encode("parentId=" + id);
         RxHttpUtils.createApi(CustomerManagementApi.class)
                 .getProvinceAndCityList(id, sign)
-                .compose(Transformer.<ProvinceAndCityListBean>switchSchedulers(loading_dialog))
+                .compose(Transformer.<ProvinceAndCityListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<ProvinceAndCityListBean>() {
                     @Override
                     protected void onError(String errorMsg) {

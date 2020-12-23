@@ -42,6 +42,7 @@ import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LogUtils;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.adapter.AuditChAdapter;
 import com.example.bq.edmp.word.adapter.SubmitListAdapter;
@@ -50,6 +51,9 @@ import com.example.bq.edmp.word.bean.AuditChBean;
 import com.example.bq.edmp.word.bean.SubmitListBean;
 import com.example.bq.edmp.word.fragment.SubmitFragment;
 import com.example.bq.edmp.work.inventorytransfer.activity.EditFinishedProductAllocationActivity;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.adapter.AccountDetailsAdp;
+import com.example.bq.edmp.work.marketing.bean.CustomerAccountDetails;
 import com.example.bq.edmp.work.marketing.fragment.CustomerAccountFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -66,8 +70,9 @@ import butterknife.BindView;
  * 报账管理
  * */
 public class CustomerAccountActivity extends BaseActivity {
-    public static void newIntent(Context context, String type) {
+    public static void newIntent(Context context, String id, String type) {
         Intent intent = new Intent(context, CustomerAccountActivity.class);
+        intent.putExtra(Constant.ID, id);
         intent.putExtra(Constant.TYPE, type);
         context.startActivity(intent);
     }
@@ -90,13 +95,14 @@ public class CustomerAccountActivity extends BaseActivity {
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     ArrayList<String> tablist = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
+    private String id = "";
     private String type = "";
 
     @Override
     protected void initData() {
         mLayout_tab.removeAllTabs();
         for (int i = 0; i < integers.size(); i++) {
-            fragmentList.add(new CustomerAccountFragment(integers.get(i)));
+            fragmentList.add(new CustomerAccountFragment(integers.get(i), id));
             mLayout_tab.addTab(mLayout_tab.newTab().setText(tablist.get(i)));
         }
         VPAdapter adapter = new VPAdapter(getSupportFragmentManager(), fragmentList);
@@ -133,16 +139,18 @@ public class CustomerAccountActivity extends BaseActivity {
         tablist.add("余额明细");
         tablist.add("定金明细");
         integers.clear();
-        integers.add(0);
         integers.add(1);
+        integers.add(2);
+        id = getIntent().getStringExtra(Constant.ID);
         type = getIntent().getStringExtra(Constant.TYPE);
         if ("".equals(type)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
-        if ("2".equals(type)) {
+        if ("1".equals(type)) {
             mTvName.setVisibility(View.GONE);
         }
+        getData();
     }
 
     @Override
@@ -181,6 +189,33 @@ public class CustomerAccountActivity extends BaseActivity {
         }
     }
 
+    public void setData(CustomerAccountDetails.DataBean bean) {
+        mTvName.setText(bean.getName());
+        mTvMoney.setText("定金 ￥" + MoneyUtils.formatMoney(bean.getDeposit()));
+        mTvBalance.setText("账户余额  ￥" + MoneyUtils.formatMoney(bean.getBalance()));
+    }
+
+    private void getData() {
+        final String sign = MD5Util.encode(
+                "customerId=" + id + "&types=" + "1");
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getCustomerAccountDetails(id, 1, sign)
+                .compose(Transformer.<CustomerAccountDetails>switchSchedulers())
+                .subscribe(new CommonObserver<CustomerAccountDetails>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(CustomerAccountDetails submitListBean) {
+                        if (submitListBean.getCode() == 200) {
+                            setData(submitListBean.getData());
+                        }
+                    }
+                });
+
+    }
 
     @Override
     protected void onDestroy() {

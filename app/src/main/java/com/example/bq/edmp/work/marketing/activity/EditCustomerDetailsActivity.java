@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.GridImageAdapter;
+import com.example.bq.edmp.activity.apply.adapter.DeleteGridImageAdapter;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
@@ -34,7 +35,7 @@ import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.TurnImgStringUtils;
 import com.example.bq.edmp.utils.phoneUtils;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
-import com.example.bq.edmp.work.marketing.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
@@ -80,7 +81,7 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
     EditText mTvRemarks;//备注
     @BindView(R.id.tv_license_number)
     EditText mTvLicenseNumber;//执照编号
-    private GridImageAdapter mAdapter;
+    private DeleteGridImageAdapter mAdapter;
     private int chooseMode = PictureMimeType.ofAll();
     private List<LocalMedia> selectList = new ArrayList<>();
     private int maxSelectNum = 1;
@@ -107,11 +108,11 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
         themeId = R.style.picture_QQ_style;
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new GridImageAdapter(getApplicationContext(), onAddPicClickListener);
+        mAdapter = new DeleteGridImageAdapter(getApplicationContext(), onAddPicClickListener);
         mAdapter.setList(selectList);
         mAdapter.setSelectMax(maxSelectNum);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new DeleteGridImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
                 if (selectList.size() > 0) {
@@ -134,6 +135,14 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
                             break;
                     }
                 }
+            }
+        });
+        mAdapter.setOnDelterImg(new DeleteGridImageAdapter.DeleteImg() {
+            @Override
+            public void deleteImgList(int postion) {
+                isUploadImage=1;
+                selectList.remove(postion);
+                mAdapter.notifyDataSetChanged();
             }
         });
         // 清空图片缓存，包括裁剪、压缩后的图片 注意:必须要在上传完成后调用 必须要获取权限
@@ -164,7 +173,7 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
         getCustomerDetails();
     }
 
-    private GridImageAdapter.onAddPicClickListener onAddPicClickListener = new GridImageAdapter.onAddPicClickListener() {
+    private DeleteGridImageAdapter.onAddPicClickListener onAddPicClickListener = new DeleteGridImageAdapter.onAddPicClickListener() {
         @Override
         public void onAddPicClick() {
             boolean mode = true;
@@ -230,7 +239,7 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
 
     @Override
     protected void otherViewClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_submit:
                 checkAddData();
                 break;
@@ -316,7 +325,7 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
             ToastUtil.setToast("请添加营业执照");
             return;
         }
-        if(!phoneUtils.isMobileNO(contactInformation)){
+        if (!phoneUtils.isMobileNO(contactInformation)) {
             ToastUtil.setToast("请输入正确的手机号");
             return;
         }
@@ -339,12 +348,12 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
         paramsMap.put("remark", remark);
         paramsMap.put("sign", sign);
         List<String> filePaths = new ArrayList<>();
-        if(isUploadImage==1){
+        if (isUploadImage == 1) {
             for (int i = 0; i < selectList.size(); i++) {
                 filePaths.add(selectList.get(i).getPath());
             }
         }
-        uploadImgAndPar("http://192.168.0.188:8089/customer/save", "businessLicenseImg", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_marketing + "customer/save", "businessLicenseImg", paramsMap, filePaths);
     }
 
     //图片上传接口

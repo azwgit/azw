@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.word.bean.SubmitListBean;
 import com.example.bq.edmp.work.finished.bean.MachineListBean;
+import com.example.bq.edmp.work.marketing.bean.CustomerAccountListBean;
 
 import java.util.List;
 
@@ -21,13 +23,13 @@ import java.util.List;
 
 public class AccountListAdp extends RecyclerView.Adapter<AccountListAdp.Holder> {
 
-    private List<MachineListBean.DataBean.RowsBean> list;
+    private List<CustomerAccountListBean.DataBean.RowsBean> list;
 
-    public AccountListAdp(List<MachineListBean.DataBean.RowsBean> list) {
+    public AccountListAdp(List<CustomerAccountListBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
-    public void addMoreData(List<MachineListBean.DataBean.RowsBean> data) {
+    public void addMoreData(List<CustomerAccountListBean.DataBean.RowsBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -42,8 +44,11 @@ public class AccountListAdp extends RecyclerView.Adapter<AccountListAdp.Holder> 
 
     @Override
     public void onBindViewHolder(@NonNull AccountListAdp.Holder holder, final int position) {
-        final MachineListBean.DataBean.RowsBean rowsBean = list.get(position);
+        final CustomerAccountListBean.DataBean.RowsBean rowsBean = list.get(position);
         if (mItemClickListener != null) {
+            holder.tv_name.setText(rowsBean.getName());
+            holder.tv_money.setText("￥" + MoneyUtils.formatMoney(rowsBean.getDeposit()));
+            holder.tv_balance.setText("￥" + MoneyUtils.formatMoney(rowsBean.getBalance()));
             holder.ly_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,7 +85,7 @@ public class AccountListAdp extends RecyclerView.Adapter<AccountListAdp.Holder> 
     protected AccountListAdp.OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, MachineListBean.DataBean.RowsBean rowsBean);
+        void onItemClick(int pos, CustomerAccountListBean.DataBean.RowsBean rowsBean);
     }
 
     public void setOnItemClickListener(AccountListAdp.OnItemClickListener listener) {

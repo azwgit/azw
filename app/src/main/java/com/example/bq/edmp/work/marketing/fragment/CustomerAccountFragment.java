@@ -23,7 +23,10 @@ import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.adapter.SubmitListAdapter;
 import com.example.bq.edmp.word.api.WordListApi;
 import com.example.bq.edmp.word.bean.SubmitListBean;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.activity.CustomerAccountActivity;
 import com.example.bq.edmp.work.marketing.adapter.AccountDetailsAdp;
+import com.example.bq.edmp.work.marketing.bean.CustomerAccountDetails;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -41,17 +44,17 @@ public class CustomerAccountFragment extends BaseFragment {
     @BindView(R.id.wsj)
     TextView wsj;
     private int mInteger = 0;
+    private String mId="";
     private int currentPager = 1;
     private AccountDetailsAdp accountDetailsAdp;
-    private ArrayList<SubmitListBean.RowsBean> rowsBeans;
+    private ArrayList<CustomerAccountDetails.DataBean.AccountRecordsBean> rowsBeans;
 
     @SuppressLint("ValidFragment")
-    public CustomerAccountFragment(Integer integer) {
+    public CustomerAccountFragment(Integer integer,String id) {
         // Required empty public constructor
         mInteger = integer;
+        mId=id;
     }
-
-
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_customer_account;
@@ -59,50 +62,47 @@ public class CustomerAccountFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        ToastUtil.setToast(mInteger+"");
         rowsBeans = new ArrayList<>();
-        xr.setPullRefreshEnabled(true);
-        xr.setLoadingMoreEnabled(true);
+        xr.setPullRefreshEnabled(false);
+        xr.setLoadingMoreEnabled(false);
         xr.setLayoutManager(new LinearLayoutManager(getActivity()));
-        xr.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                currentPager = 1;
-                initData();
-                xr.refreshComplete();
-            }
-
-            @Override
-            public void onLoadMore() {
-                ++currentPager;
-                initData2();
-                xr.loadMoreComplete();
-            }
-        });
+//        xr.setLoadingListener(new XRecyclerView.LoadingListener() {
+//            @Override
+//            public void onRefresh() {
+//                currentPager = 1;
+//                initData();
+//                xr.refreshComplete();
+//            }
+//
+//            @Override
+//            public void onLoadMore() {
+//                ++currentPager;
+//                initData2();
+//                xr.loadMoreComplete();
+//            }
+//        });
 
     }
 
     @Override
     protected void initData() {
         currentPager = 1;
-        String sign = MD5Util.encode(
-                "page=" + currentPager
-                        + "&pagerow=" + 10
-                        + "&status=" + mInteger);
+        final String sign = MD5Util.encode(
+                "customerId=" + mId + "&types=" + mInteger);
 
 
-        RxHttpUtils.createApi(WordListApi.class)
-                .getSubmitData(currentPager, 10, mInteger, sign)
-                .compose(Transformer.<SubmitListBean>switchSchedulers())
-                .subscribe(new CommonObserver<SubmitListBean>() {
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getCustomerAccountDetails(mId, mInteger, sign)
+                .compose(Transformer.<CustomerAccountDetails>switchSchedulers())
+                .subscribe(new CommonObserver<CustomerAccountDetails>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(SubmitListBean submitListBean) {
-                        final List<SubmitListBean.RowsBean> rows = submitListBean.getRows();
+                    protected void onSuccess(CustomerAccountDetails submitListBean) {
+                        final List<CustomerAccountDetails.DataBean.AccountRecordsBean> rows = submitListBean.getData().getAccountRecords();
                         if (rows != null && rows.size() != 0) {
                             xr.setVisibility(View.VISIBLE);
                             wsj.setVisibility(View.GONE);
@@ -112,8 +112,7 @@ public class CustomerAccountFragment extends BaseFragment {
                             xr.setAdapter(accountDetailsAdp);
                             accountDetailsAdp.setOnItemClickListener(new AccountDetailsAdp.OnItemClickListener() {
                                 @Override
-                                public void onItemClick(int pos, SubmitListBean.RowsBean rowsBean) {
-                                    ToastUtil.setToast(pos+"-"+rows.get(pos).getId());
+                                public void onItemClick(int pos, CustomerAccountDetails.DataBean.AccountRecordsBean rowsBean) {
                                 }
                             });
 
@@ -143,7 +142,7 @@ public class CustomerAccountFragment extends BaseFragment {
                     protected void onSuccess(SubmitListBean submitListBean) {
                         List<SubmitListBean.RowsBean> rows = submitListBean.getRows();
                         if (rows != null && rows.size() != 0) {
-                            accountDetailsAdp.addMoreData(rows);
+//                            accountDetailsAdp.addMoreData(rows);
                         } else {
                             xr.setNoMore(true);
                         }
