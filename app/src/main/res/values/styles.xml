@@ -125,6 +125,11 @@
         <item name="android:layout_marginRight">@dimen/dp_16</item>
         <item name="android:background">#F2F5F6</item>
     </style>
+    <style name="line_style_one">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+        <item name="android:background">#F2F5F6</item>
+    </style>
 
     <style name="btn_circle_style">
         <item name="android:layout_width">match_parent</item>

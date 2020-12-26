@@ -76,6 +76,8 @@ public class CustomerDetailsActivity extends BaseTitleActivity {
     ImageView ImgPhoto;//执照图片
     @BindView(R.id.ly_bottom)
     LinearLayout mLyBottom;//底部按钮父布局
+    @BindView(R.id.tv_sales_manager)
+    TextView mTvSalesManager;//底部按钮父布局
     private String type = "";
     private String id = "";
     private UsualDialogger dialog = null;
@@ -209,6 +211,7 @@ public class CustomerDetailsActivity extends BaseTitleActivity {
         mTvContactAddress.setText(bean.getContactAddress());
         mTvRemarks.setText(bean.getRemark());
         mTvLicenseNumber.setText(bean.getBusinessLicenseNumber());
+        mTvSalesManager.setText(bean.getSaleName());
         Glide.with(CustomerDetailsActivity.this)
                 .load(BaseApi.marketing_img_url + TurnImgStringUtils.isImgPath(bean.getBusinessLicense()))
                 .apply(new RequestOptions()

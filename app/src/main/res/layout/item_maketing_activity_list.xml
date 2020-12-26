@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ly_view"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="#FFF2F5F6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/code_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:text="市场部-张晓伍"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_14" />
+
+
+        <TextView
+            android:background="@drawable/purchase_red_shape"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:id="@+id/status_tv"
+            android:layout_width="@dimen/dp_66"
+            android:layout_height="@dimen/dp_22"
+            android:text="待提交"
+            android:textColor="@color/colorf9"
+            android:textSize="@dimen/sp_12" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#FFF2F5F6" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:id="@+id/ck_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:text="新品种皖垦麦869推广活动"
+        android:textColor="@color/color33"
+        android:textSize="@dimen/sp_16" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_19">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_8"
+            android:text="经费预算"
+            android:layout_toLeftOf="@+id/tv_money"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_12" />
+
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥2480.00"
+            android:textColor="@color/colorf9"
+            android:textSize="@dimen/sp_16" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="#FFF2F5F6"
+        android:layout_marginTop="@dimen/dp_12"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/company_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:text="活动时间：2020.10.28-2020.11.10"
+            android:textColor="@color/color_99"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
+
+</LinearLayout>

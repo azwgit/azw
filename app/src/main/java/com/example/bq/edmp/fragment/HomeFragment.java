@@ -211,7 +211,7 @@ public class HomeFragment extends BaseFragment {
 
         //常用功能
         List<HomeBean.DataBean.FunctionsBean> functions = data.getFunctions();
-        if (functions.size() > 0) {
+        if (functions!=null&&functions.size() > 0) {
             if (functions.get(0).getName() != null && !functions.get(0).getName().equals("")) {
                 one_tv.setText(functions.get(0).getName());
             }

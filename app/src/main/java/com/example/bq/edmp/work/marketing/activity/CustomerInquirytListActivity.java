@@ -6,30 +6,49 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.utils.Constant;
+import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
+import com.example.bq.edmp.word.inventory.api.InventoryListApi;
+import com.example.bq.edmp.word.inventory.bean.CompanyBean;
+import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
+import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity;
 import com.example.bq.edmp.work.marketing.adapter.CustomerManagementListAdp;
 import com.example.bq.edmp.work.marketing.adapter.SelectProvinceAdapter;
 import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CustomerManagementListBean;
 import com.example.bq.edmp.work.marketing.bean.ProvinceAndCityListBean;
+import com.example.bq.edmp.work.shipments.adapter.DshipmentsListAdapter;
+import com.example.bq.edmp.work.shipments.adapter.UserNameListAdapter;
+import com.example.bq.edmp.work.shipments.api.ShipmentsApi;
+import com.example.bq.edmp.work.shipments.bean.DshipmentsListBean;
+import com.example.bq.edmp.work.shipments.bean.UserNameListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -84,6 +103,10 @@ public class CustomerInquirytListActivity extends BaseActivity {
     private String shengId = "";//省id
     private String shiId = "";//市Id
     private String quId = "";//区Id
+    //兼容 侧滑栏 不清空数据 和后台接收参数 省市区 传最后一级 其余放空
+    private String newShengId = "";//省id
+    private String newShiId = "";//市Id
+    private String newQuId = "";//区Id
     private String name = "";//输入客户名称
     private int position = 0;
     private XRecyclerView buttom_rv;
@@ -93,6 +116,7 @@ public class CustomerInquirytListActivity extends BaseActivity {
     private ArrayList<CustomerManagementListBean.DataBean.RowsBean> rowsBeans;
     private CustomerManagementListAdp customerManagementListAdp;
     private List<ProvinceAndCityListBean.DataBean> data = null;
+    private ILoadingView loading_dialog;
 
     @Override
     protected int getLayoutId() {
@@ -102,7 +126,8 @@ public class CustomerInquirytListActivity extends BaseActivity {
     @Override
     protected void initView() {
         title_tv.setText("客户管理");
-        mTvOperation.setVisibility(View.VISIBLE);
+        ProApplication.getinstance().addActivity(this);
+        loading_dialog = new LoadingDialog(this);
         //数据
         rowsBeans = new ArrayList<>();
         customerManagementListAdp = new CustomerManagementListAdp(rowsBeans);
@@ -145,16 +170,16 @@ public class CustomerInquirytListActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                mTvSheng.setHint("请选择");
-                mTvSheng.setText("");
-                mTvShi.setHint("请选择");
-                mTvShi.setText("");
-                mTvQu.setHint("请选择");
-                mTvQu.setText("");
-                shengId = "";
-                shiId = "";
-                quId = "";
-                position = 0;
+//                mTvSheng.setHint("请选择");
+//                mTvSheng.setText("");
+//                mTvShi.setHint("请选择");
+//                mTvShi.setText("");
+//                mTvQu.setHint("请选择");
+//                mTvQu.setText("");
+//                shengId = "";
+//                shiId = "";
+//                quId = "";
+//                position = 0;
             }
 
             @Override
@@ -193,20 +218,26 @@ public class CustomerInquirytListActivity extends BaseActivity {
 
     private void gainData() {
         currentPager = 1;
-        //选择到区 省市id 传空
-        if (!quId.equals("")) {
-            shengId = "";
-            shiId = "";
+        if (!shengId.equals("")) {
+            newShengId = shengId;
+            newShiId = "";
+            newQuId = "";
         }
-        //选择到市 省传空
         if (!shiId.equals("")) {
-            shengId = "";
+            newShiId = shiId;
+            newShengId = "";
+            newQuId = "";
         }
-        String sign = MD5Util.encode("cityId=" + shiId + "&countyId=" + quId + "&name=" + name + "&page=" + currentPager +
-                "&pagerow=" + 15 + "&provinceId=" + shengId);
+        if (!quId.equals("")) {
+            newQuId = quId;
+            newShengId = "";
+            newShiId = "";
+        }
+        String sign = MD5Util.encode("cityId=" + newShiId + "&countyId=" + newQuId + "&name=" + name + "&page=" + currentPager +
+                "&pagerow=" + 15 + "&provinceId=" + newShengId);
 
         RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerList(shiId, quId, name, currentPager, 15, shengId, sign)
+                .getCustomerList(newShiId, newQuId, name, currentPager, 15, newShengId, sign)
                 .compose(Transformer.<CustomerManagementListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<CustomerManagementListBean>() {
                     @Override
@@ -242,11 +273,11 @@ public class CustomerInquirytListActivity extends BaseActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("cityId=" + shiId + "&countyId=" + quId + "&name=" + name + "&page=" + currentPager +
-                "&pagerow=" + 15 + "&provinceId=" + shengId);
+        String sign = MD5Util.encode("cityId=" + newShiId + "&countyId=" + newQuId + "&name=" + name + "&page=" + currentPager +
+                "&pagerow=" + 15 + "&provinceId=" + newShengId);
 
         RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerList(shiId, quId, name, currentPager, 15, shengId, sign)
+                .getCustomerList(newShiId, newQuId, name, currentPager, 15, newShengId, sign)
                 .compose(Transformer.<CustomerManagementListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<CustomerManagementListBean>() {
                     @Override
@@ -280,7 +311,6 @@ public class CustomerInquirytListActivity extends BaseActivity {
         mRlQu.setOnClickListener(this);
         cz_tv.setOnClickListener(this);
         affirm_tv.setOnClickListener(this);
-        mTvOperation.setOnClickListener(this);
     }
 
     @Override
@@ -313,6 +343,11 @@ public class CustomerInquirytListActivity extends BaseActivity {
                 shiId = "";
                 quId = "";
                 position = 0;
+                //需对接需求  是否时候需要再次点击筛选  条件不清空 功能
+                newShengId="";
+                newShiId="";
+                newQuId="";
+
                 break;
             case R.id.affirm_tv:
                 gainData();
@@ -322,9 +357,6 @@ public class CustomerInquirytListActivity extends BaseActivity {
                 }
                 break;
             case R.id.search_et:
-                break;
-            case R.id.tv_operation:
-                startActivity(new Intent(getApplicationContext(), AddCustomerActivity.class));
                 break;
 
         }
@@ -430,14 +462,22 @@ public class CustomerInquirytListActivity extends BaseActivity {
         if (type == 1) {
             id = "0";
         } else if (type == 2) {
+            if ("".equals(shengId)) {
+                ToastUtil.setToast("请选择省");
+                return;
+            }
             id = shengId;
         } else {
+            if ("".equals(shiId)) {
+                ToastUtil.setToast("请选择市");
+                return;
+            }
             id = shiId;
         }
         String sign = MD5Util.encode("parentId=" + id);
         RxHttpUtils.createApi(CustomerManagementApi.class)
                 .getProvinceAndCityList(id, sign)
-                .compose(Transformer.<ProvinceAndCityListBean>switchSchedulers())
+                .compose(Transformer.<ProvinceAndCityListBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<ProvinceAndCityListBean>() {
                     @Override
                     protected void onError(String errorMsg) {

@@ -1,8 +1,11 @@
 package com.example.bq.edmp.work.marketing.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +32,7 @@ import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.url.BaseApi;
+import com.example.bq.edmp.url.MimeType;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.GetJsonDataUtil;
@@ -50,6 +54,9 @@ import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,6 +102,8 @@ public class AddCustomerActivity extends BaseTitleActivity {
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     //  区
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private ArrayList<Map<String, Object>> fileListData = new ArrayList<Map<String, Object>>();
+
 
     @Override
     protected int getLayoutId() {
@@ -104,6 +113,7 @@ public class AddCustomerActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("新增客户");
+//        getAllFiles(new File("/sdcard"));
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         themeId = R.style.picture_QQ_style;
@@ -353,7 +363,7 @@ public class AddCustomerActivity extends BaseTitleActivity {
                         if (cityBean == null || cityBean.getData() == null || cityBean.getData().isEmpty()) {
                             return;
                         }
-                        if(cityBean.getCode()==200){
+                        if (cityBean.getCode() == 200) {
                             setPickViewData(bean);
                         }
                     }
@@ -402,7 +412,7 @@ public class AddCustomerActivity extends BaseTitleActivity {
             ToastUtil.setToast("请添加营业执照");
             return;
         }
-        if(!phoneUtils.isMobileNO(contactInformation)){
+        if (!phoneUtils.isMobileNO(contactInformation)) {
             ToastUtil.setToast("请输入正确的手机号");
             return;
         }
@@ -427,7 +437,7 @@ public class AddCustomerActivity extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar(BaseApi.base_url_marketing+"customer/newsave", "businessLicenseImg", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_marketing + "customer/newsave", "businessLicenseImg", paramsMap, filePaths);
     }
 
     //图片上传接口
@@ -498,5 +508,24 @@ public class AddCustomerActivity extends BaseTitleActivity {
             return null;
         }
         return cityBean.getData();
+    }
+
+    //循环扫描读取文件
+    private ArrayList<Map<String, Object>> getAllFiles(File file) {
+        File files[] = file.listFiles();
+        if (files != null) {
+            HashMap<String, Object> item;
+            for (File f : files) {
+                item = new HashMap<>();
+                item.put("fileName", f.getName());//文件名
+                item.put("filePath", f.getAbsolutePath());//文件路径
+                item.put("isDirectory", f.isDirectory());//是否还有子目录
+                if (f.getName().endsWith(".ppt") || f.getName().endsWith(".pptx") || f.getName().endsWith(".docx")
+                        || f.getName().endsWith(".xls") || f.getName().endsWith(".doc") || f.getName().endsWith(".pdf") || f.getName().endsWith(".pdf")) {
+                    fileListData.add(item);
+                }
+            }
+        }
+        return fileListData;
     }
 }

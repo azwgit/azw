@@ -103,6 +103,10 @@ public class CustomerManagementListActivity extends BaseActivity {
     private String shengId = "";//省id
     private String shiId = "";//市Id
     private String quId = "";//区Id
+    //兼容 侧滑栏 不清空数据 和后台接收参数 省市区 传最后一级 其余放空
+    private String newShengId = "";//省id
+    private String newShiId = "";//市Id
+    private String newQuId = "";//区Id
     private String name = "";//输入客户名称
     private int position = 0;
     private XRecyclerView buttom_rv;
@@ -113,6 +117,7 @@ public class CustomerManagementListActivity extends BaseActivity {
     private CustomerManagementListAdp customerManagementListAdp;
     private List<ProvinceAndCityListBean.DataBean> data = null;
     private ILoadingView loading_dialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_customer_management_list;
@@ -166,16 +171,16 @@ public class CustomerManagementListActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                mTvSheng.setHint("请选择");
-                mTvSheng.setText("");
-                mTvShi.setHint("请选择");
-                mTvShi.setText("");
-                mTvQu.setHint("请选择");
-                mTvQu.setText("");
-                shengId = "";
-                shiId = "";
-                quId = "";
-                position = 0;
+//                mTvSheng.setHint("请选择");
+//                mTvSheng.setText("");
+//                mTvShi.setHint("请选择");
+//                mTvShi.setText("");
+//                mTvQu.setHint("请选择");
+//                mTvQu.setText("");
+//                shengId = "";
+//                shiId = "";
+//                quId = "";
+//                position = 0;
             }
 
             @Override
@@ -214,20 +219,26 @@ public class CustomerManagementListActivity extends BaseActivity {
 
     private void gainData() {
         currentPager = 1;
-        //选择到区 省市id 传空
-        if (!quId.equals("")) {
-            shengId = "";
-            shiId = "";
+        if (!shengId.equals("")) {
+            newShengId = shengId;
+            newShiId = "";
+            newQuId = "";
         }
-        //选择到市 省传空
         if (!shiId.equals("")) {
-            shengId = "";
+            newShiId = shiId;
+            newShengId = "";
+            newQuId = "";
         }
-        String sign = MD5Util.encode("cityId=" + shiId + "&countyId=" + quId + "&name=" + name + "&page=" + currentPager +
-                "&pagerow=" + 15 + "&provinceId=" + shengId);
+        if (!quId.equals("")) {
+            newQuId = quId;
+            newShengId = "";
+            newShiId = "";
+        }
+        String sign = MD5Util.encode("cityId=" + newShiId + "&countyId=" + newQuId + "&name=" + name + "&page=" + currentPager +
+                "&pagerow=" + 15 + "&provinceId=" + newShengId);
 
         RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerList(shiId, quId, name, currentPager, 15, shengId, sign)
+                .getCustomerList(newShiId, newQuId, name, currentPager, 15, newShengId, sign)
                 .compose(Transformer.<CustomerManagementListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<CustomerManagementListBean>() {
                     @Override
@@ -263,11 +274,11 @@ public class CustomerManagementListActivity extends BaseActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("cityId=" + shiId + "&countyId=" + quId + "&name=" + name + "&page=" + currentPager +
-                "&pagerow=" + 15 + "&provinceId=" + shengId);
+        String sign = MD5Util.encode("cityId=" + newShiId + "&countyId=" + newQuId + "&name=" + name + "&page=" + currentPager +
+                "&pagerow=" + 15 + "&provinceId=" + newShengId);
 
         RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerList(shiId, quId, name, currentPager, 15, shengId, sign)
+                .getCustomerList(newShiId, newQuId, name, currentPager, 15, newShengId, sign)
                 .compose(Transformer.<CustomerManagementListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<CustomerManagementListBean>() {
                     @Override
@@ -334,6 +345,11 @@ public class CustomerManagementListActivity extends BaseActivity {
                 shiId = "";
                 quId = "";
                 position = 0;
+                //需对接需求  是否时候需要再次点击筛选  条件不清空 功能
+                newShengId="";
+                newShiId="";
+                newQuId="";
+
                 break;
             case R.id.affirm_tv:
                 gainData();
@@ -451,8 +467,16 @@ public class CustomerManagementListActivity extends BaseActivity {
         if (type == 1) {
             id = "0";
         } else if (type == 2) {
+            if ("".equals(shengId)) {
+                ToastUtil.setToast("请选择省");
+                return;
+            }
             id = shengId;
         } else {
+            if ("".equals(shiId)) {
+                ToastUtil.setToast("请选择市");
+                return;
+            }
             id = shiId;
         }
         String sign = MD5Util.encode("parentId=" + id);

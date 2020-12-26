@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="#F2F5F6">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_above="@+id/ly_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,34 +28,28 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="客户名称"
+                    android:text="活动名称"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:hint="请输入客户名称"
+                    android:hint="请输入活动名称"
                     android:paddingLeft="@dimen/dp_24"
-                    android:textColor="#999999"
-                    android:textColorHint="#999999"
+                    android:textColor="#333333"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
-                <View style="@style/line_style" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/dp_16">
 
@@ -64,7 +58,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="经销区域"
+                    android:text="活动地点"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
@@ -74,16 +68,24 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="center_vertical"
+                    android:hint="请选择活动区域（省/市/区）"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="选择行政区域"
                     android:textColor="#999999"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View style="@style/line_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/dp_16">
 
@@ -92,19 +94,20 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="联系人"
+                    android:text="详细地址"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="center_vertical"
+                    android:hint="请输入活动详细地址（非必填）"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="分子公司1"
-                    android:textColor="#999999"
+                    android:textColor="#333333"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -127,20 +130,47 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="联系方式"
+                    android:text="活动时间"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:id="@+id/tv_contact_information"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dp_24"
-                    android:text="选择仓库"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/sp_16" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:hint="开始时间"
+                        android:paddingLeft="@dimen/dp_24"
+                        android:paddingRight="@dimen/dp_16"
+                        android:textColor="#999999"
+                        android:textColorHint="@color/color_99"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:text="至"
+                        android:textColor="@color/color33"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:hint="开始时间"
+                        android:paddingLeft="@dimen/dp_24"
+                        android:textColor="#999999"
+                        android:textColorHint="@color/color_99"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -162,19 +192,20 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="联系地址"
+                    android:text="合作客户"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_contact_address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="center_vertical"
+                    android:hint="请输入合作客户信息"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="分子公司1"
-                    android:textColor="#999999"
+                    android:textColor="#333333"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -197,19 +228,19 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="备注"
+                    android:text="活动目的"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:id="@+id/tv_remarks"
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="center_vertical"
+                    android:hint="请输入活动说明或目的"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="选择仓库"
-                    android:textColor="#999999"
+                    android:textColor="#333333"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -225,102 +256,19 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="营业执照号"
+                    android:text="实施部门"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:id="@+id/tv_license_number"
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="center_vertical"
+                    android:hint="请输入活动说明或目的"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="选择仓库"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/sp_16" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_100"
-                android:background="@color/white"
-                android:paddingLeft="@dimen/dp_16">
-
-                <TextView
-                    android:layout_width="@dimen/dp_90"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="left|center"
-                    android:text="营业执照"
-                    android:textColor="#666666"
-                    android:textSize="@dimen/sp_16" />
-
-                <ImageView
-                    android:id="@+id/img_photo"
-                    android:layout_width="@dimen/dp_56"
-                    android:layout_height="@dimen/dp_56"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp_24"
-                    android:background="@color/white"
-                    android:src="@drawable/ddgl" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="@color/white"
-                android:paddingLeft="@dimen/dp_16">
-
-                <TextView
-                    android:layout_width="@dimen/dp_90"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="left|center"
-                    android:text="销售经理"
-                    android:textColor="#666666"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:id="@+id/tv_sales_manager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dp_24"
-                    android:text="请输入营业执照证件号"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/sp_16" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="@color/white"
-                android:paddingLeft="@dimen/dp_16"
-                android:paddingRight="@dimen/dp_16">
-
-                <TextView
-                    android:layout_width="@dimen/dp_90"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="left|center"
-                    android:text="客户余额"
-                    android:textColor="#666666"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:id="@+id/tv_balance"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="right|center"
-                    android:paddingLeft="@dimen/dp_24"
-                    android:text="200000"
-                    android:textColor="#999999"
-                    android:drawableRight="@drawable/forward"
+                    android:textColor="#333333"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -336,52 +284,138 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
                 android:background="@color/white"
-                android:paddingLeft="@dimen/dp_16"
-                android:paddingRight="@dimen/dp_16">
+                android:paddingLeft="@dimen/dp_16">
 
                 <TextView
                     android:layout_width="@dimen/dp_90"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="年度销售"
+                    android:text="负责人"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:id="@+id/tv_sales_contract"
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:gravity="right|center"
+                    android:gravity="center_vertical"
+                    android:hint="请输入负责人姓名"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="销售合同"
-                    android:drawableRight="@drawable/forward"
-                    android:textColor="#999999"
+                    android:textColor="#333333"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View style="@style/line_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="left|center"
+                    android:text="经费预算"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/sp_16" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dp_24"
+                        android:text="￥"
+                        android:textColor="@color/color33"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:hint="请输入经费预算额"
+                        android:paddingLeft="@dimen/dp_8"
+                        android:textColor="#999999"
+                        android:textColorHint="@color/color_99"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="left|center"
+                    android:text="活动附件"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/sp_16" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/pic_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.joanzapata.pdfview.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/ly_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/dp_30"
-        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_34"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/btn_del"
-            style="@style/btn_small_angle_grey_new_style"
+            style="@style/btn_circle_style"
             android:layout_weight="1"
-            android:text="删除" />
-
+            android:background="@drawable/btn_gray_shape_bg"
+            android:text="删除"
+            android:textColor="@color/text_black_gray" />
         <TextView
-            android:id="@+id/tv_submit"
-            style="@style/btn_small_angle_new_style"
+            android:id="@+id/btn_revoke"
+            style="@style/btn_circle_style"
             android:layout_weight="1"
-            android:text="编辑" />
+            android:background="@drawable/btn_yellow_shape_bg"
+            android:text="保存"
+            android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/btn_submit"
+            style="@style/btn_circle_style"
+            android:layout_weight="1"
+            android:text="提交" />
+
+
     </LinearLayout>
 </RelativeLayout>

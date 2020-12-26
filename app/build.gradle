@@ -88,4 +88,5 @@ dependencies {
 
     //工具类
     implementation 'com.blankj:utilcode:1.29.0'
+    compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
 }
