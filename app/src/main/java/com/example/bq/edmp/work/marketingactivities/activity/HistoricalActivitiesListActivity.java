@@ -50,7 +50,7 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_marketing_activity_management_list;
+        return R.layout.activity_historical_list;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
         historicalActivitiesListAdp.setOnItemClickListener(new HistoricalActivitiesListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, CustomerAccountListBean.DataBean.RowsBean rowsBean) {
-                AddActivitiesActivity.newIntent(getApplicationContext(), "");
+                startActivity(new Intent(getApplicationContext(), HistoricalActivitiesDetailsActivity.class));
             }
         });
 

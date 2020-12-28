@@ -60,8 +60,8 @@ public class DateUtils {
     }
 
     /*
-   * 将时间转换为时间戳
-   */
+     * 将时间转换为时间戳
+     */
     public static String dateToStamp(String s) throws ParseException {
         String res;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -70,5 +70,19 @@ public class DateUtils {
         res = String.valueOf(ts);
         return res;
     }
+
+    /* //日期转换为时间戳 */
+    public static long timeToStamp(String timers) {
+        Date d = new Date();
+        long timeStemp = 0;
+        try {
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            d = sf.parse(timers);// 日期转换为时间戳
+        } catch (ParseException e) {// TODO Auto-generated catch blocke.printStackTrace();
+        }
+        timeStemp = d.getTime();
+        return timeStemp;
+    }
+
 }
 

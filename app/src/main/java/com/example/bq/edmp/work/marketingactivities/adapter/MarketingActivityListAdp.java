@@ -64,19 +64,22 @@ public class MarketingActivityListAdp extends RecyclerView.Adapter<MarketingActi
 
     public class Holder extends RecyclerView.ViewHolder {
 
-//        private final TextView tv_name;//公司名称
-//        private final TextView tv_info;//款项
-//        private final TextView tv_balance;//余额
+        private final TextView tv_name;//负责人
+        private final TextView tv_status;//活动状态
+        private final TextView tv_title;//活动标题
         private final LinearLayout ly_view;
-//        private final TextView tv_money;//金额
+        private final TextView tv_money;//金额
+        private final TextView tv_time;//活动时间
+
 
         public Holder(View itemView) {
             super(itemView);
-//            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_name = itemView.findViewById(R.id.tv_name);
             ly_view = itemView.findViewById(R.id.ly_view);
-//            tv_info= itemView.findViewById(R.id.tv_info);
-//            tv_balance= itemView.findViewById(R.id.tv_balance);
-//            tv_money= itemView.findViewById(R.id.tv_money);
+            tv_status = itemView.findViewById(R.id.tv_status);
+            tv_title = itemView.findViewById(R.id.tv_title);
+            tv_money = itemView.findViewById(R.id.tv_money);
+            tv_time = itemView.findViewById(R.id.tv_time);
         }
     }
 

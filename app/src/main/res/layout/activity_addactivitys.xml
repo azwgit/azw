@@ -70,7 +70,7 @@
                     android:gravity="center_vertical"
                     android:hint="请选择活动区域（省/市/区）"
                     android:paddingLeft="@dimen/dp_24"
-                    android:textColor="#999999"
+                    android:textColor="#333333"
                     android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
-                    android:id="@+id/tv_contacts"
+                    android:id="@+id/tv_detailed_address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
@@ -140,16 +140,17 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/tv_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:hint="开始时间"
                         android:paddingLeft="@dimen/dp_24"
-                        android:paddingRight="@dimen/dp_16"
-                        android:textColor="#999999"
+                        android:paddingRight="@dimen/dp_14"
+                        android:textColor="#333333"
                         android:textColorHint="@color/color_99"
-                        android:textSize="@dimen/sp_16" />
+                        android:textSize="@dimen/sp_14" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -161,15 +162,16 @@
                         android:textSize="@dimen/sp_16" />
 
                     <TextView
+                        android:id="@+id/tv_end_time"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@color/white"
                         android:gravity="center_vertical"
                         android:hint="开始时间"
-                        android:paddingLeft="@dimen/dp_24"
-                        android:textColor="#999999"
+                        android:paddingLeft="@dimen/dp_14"
+                        android:textColor="#333333"
                         android:textColorHint="@color/color_99"
-                        android:textSize="@dimen/sp_16" />
+                        android:textSize="@dimen/sp_14" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -197,7 +199,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
-                    android:id="@+id/tv_contact_address"
+                    android:id="@+id/tv_cooperative_customers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
@@ -233,6 +235,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/tv_purpose"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
@@ -261,6 +264,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
+                    android:id="@+id/tv_department"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
@@ -296,6 +300,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/tv_person"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
@@ -345,7 +350,9 @@
                         android:textColor="@color/color33"
                         android:textSize="@dimen/sp_16" />
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/tv_money"
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@color/white"
@@ -411,7 +418,7 @@
             android:textColor="@color/text_black_gray" />
 
         <TextView
-            android:id="@+id/btn_revoke"
+            android:id="@+id/btn_save"
             style="@style/btn_small_angle_new_style"
             android:layout_weight="1"
             android:background="@drawable/btn_yellow_small_shape_bg"

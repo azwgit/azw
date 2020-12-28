@@ -54,6 +54,9 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
     EditText search_et;
     @BindView(R.id.xr)
     XRecyclerView xr;
+    @BindView(R.id.btn_add)
+    TextView mBtnAdd;
+
     private int currentPager = 1;
     private String name = "";
     private ArrayList<CustomerAccountListBean.DataBean.RowsBean> rowsBeans;
@@ -93,7 +96,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
         marketingActivityListAdp.setOnItemClickListener(new MarketingActivityListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, CustomerAccountListBean.DataBean.RowsBean rowsBean) {
-                AddActivitiesActivity.newIntent(getApplicationContext(),"");
+                EditActivitiesActivity.newIntent(getApplicationContext(),"1");
             }
         });
 
@@ -192,12 +195,16 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
 
     @Override
     protected void initListener() {
+        mBtnAdd.setOnClickListener(this);
     }
 
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
-
+            case R.id.btn_add:
+                AddActivitiesActivity.newIntent(getApplicationContext());
+                finish();
+                break;
         }
 
     }
