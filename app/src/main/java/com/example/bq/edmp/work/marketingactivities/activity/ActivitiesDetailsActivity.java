@@ -67,7 +67,7 @@ public class ActivitiesDetailsActivity extends BaseTitleActivity {
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("详情");
+        txtTabTitle.setText("活动详情");
         List<PayInfoBean> list = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             PayInfoBean bean = new PayInfoBean();

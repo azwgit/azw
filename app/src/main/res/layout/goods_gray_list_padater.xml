@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:background="@color/beijing_color" />
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_96"
+            android:orientation="vertical">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品结算"
+            android:textSize="@dimen/sp_16"
+            android:alpha="0.9"
+            android:textColor="#666666"/>
+
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥10.00"
+            android:textSize="@dimen/sp_16"
+            android:alpha="0.9"
+            android:textColor="@color/colorf9"/>
+
+
+        <ImageView
+            android:id="@+id/delet_img"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_toLeftOf="@id/edit_img"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_delete"/>
+
+
+        <ImageView
+            android:layout_marginRight="@dimen/dp_16"
+            android:id="@+id/edit_img"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_edit"/>
+
+
+
+    </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_38">
+
+            <TextView
+                android:maxEms="2"
+                android:id="@+id/pinzhong_tv"
+                android:layout_width="@dimen/dp_140"
+                android:layout_height="wrap_content"
+                android:text="品种名称"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:alpha="0.9"
+                android:textColor="@color/text_black"/>
+
+            <TextView
+                android:layout_marginRight="@dimen/dp_16"
+                android:layout_alignParentRight="true"
+                android:id="@+id/xiaoshoulaing_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥0.00/公斤 * 0.00公斤"
+                android:textSize="@dimen/sp_14"
+                android:alpha="0.9"
+                android:textColor="@color/text_black"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

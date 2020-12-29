@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".work.order.activity.OrderTrackingActivity">
+
+    <include layout="@layout/base_header_layout"
+        android:id="@+id/ha"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_below="@id/ha"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/layout_tab"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:background="@color/white"
+            app:tabIndicatorColor="#F91515"
+            app:tabIndicatorHeight="@dimen/dp_3"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/black"
+            app:tabTextColor="@color/text_gray" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wsj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="网络出差错喽！"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/text_black"
+        android:layout_below="@id/ha"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_20"/>
+
+</RelativeLayout>

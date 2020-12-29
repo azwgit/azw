@@ -41,6 +41,7 @@ public class HistoricalActivitiesDetailsActivity extends BaseTitleActivity {
     TextView mTvEnclosure;//活动附件
     @BindView(R.id.tv_activity_site)
     TextView mTvActivitySite;//活动现场
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_historical_activities_details;
@@ -64,7 +65,11 @@ public class HistoricalActivitiesDetailsActivity extends BaseTitleActivity {
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_complete:
+            case R.id.tv_enclosure:
+                //活动附件
+                break;
+            case R.id.tv_activity_site:
+                //活动现场
                 break;
         }
     }

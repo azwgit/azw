@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/beijing_color"
+    android:orientation="vertical"
+    tools:context=".work.order.activity.ChooseCustomerActivity">
+
+    <include layout="@layout/base_header_layout"/>
+
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/dp_4"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="@color/white"
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:src="@drawable/search" />
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_toRightOf="@id/img"
+            android:background="@null"
+            android:hint="请输入客户名称进行查找"
+            android:textColorHint="@color/color_69"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/base_xrecyclerview"/>
+
+</LinearLayout>

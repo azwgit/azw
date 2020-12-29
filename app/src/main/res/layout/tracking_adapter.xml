@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:background="@color/beijing_color"/>
+
+    <!--包装-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:background="#D6D6DE"
+            android:gravity="center"
+            android:text="包装"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_black"
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/baozhuang_tv"
+            android:background="#FFFFFF"
+            android:paddingLeft="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:text="公司名称"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#666666"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E6E6EE"/>
+
+    </LinearLayout>
+
+    <!--数量-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:background="#D6D6DE"
+            android:gravity="center"
+            android:text="数量"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_black"
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/shuliang_tv"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:text="某某"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#666666"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E6E6EE"/>
+
+    </LinearLayout>
+
+    <!--出库仓库-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:background="#D6D6DE"
+            android:gravity="center"
+            android:text="出库仓库"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_black"
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/cangku_tv"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:text="无仓库"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#666666"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E6E6EE"/>
+
+    </LinearLayout>
+
+    <!--发货状态-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:background="#D6D6DE"
+            android:gravity="center"
+            android:text="发货状态"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_black"
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/zhuangtai_tv"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/dp_20"
+            android:gravity="center_vertical"
+            android:text="无状态"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#666666"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
