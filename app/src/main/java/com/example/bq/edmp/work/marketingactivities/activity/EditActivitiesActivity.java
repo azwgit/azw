@@ -4,15 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -27,6 +34,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.GsonUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -47,7 +55,13 @@ import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CityBean;
 import com.example.bq.edmp.work.marketing.bean.CityModel;
 import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
+import com.example.bq.edmp.work.marketingactivities.adapter.CustomerListAdp;
+import com.example.bq.edmp.work.marketingactivities.adapter.DepartmengListAdp;
 import com.example.bq.edmp.work.marketingactivities.adapter.FileUploadGridImageAdapter;
+import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
+import com.example.bq.edmp.work.marketingactivities.bean.CustomerListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.DepartmengListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.MarketingActivitiesDetailsBean;
 import com.google.gson.Gson;
 import com.joanzapata.pdfview.PDFView;
 import com.luck.picture.lib.PictureSelector;
@@ -112,6 +126,12 @@ public class EditActivitiesActivity extends BaseTitleActivity {
     private TimePickerView StartTime;//时间选择器开始时间
     private TimePickerView EndTime;//时间选择器结束时间
     private String id = "";
+    private PopupWindow mTypePopuWindow;
+    private CustomerListBean customerListBean;//承包人数据源
+    private DepartmengListBean departmengListBean;//部门据源
+    private int DepartmentId = 0;//部门id
+    private int CooperativeCustomersId = 0;//合伙人id
+    private MarketingActivitiesDetailsBean marketingActivitiesDetailsBean = null;
     private ArrayList<CityModel> jsonBean;
     //省
     private List<CityModel> options1Items = new ArrayList<>();
@@ -133,18 +153,6 @@ public class EditActivitiesActivity extends BaseTitleActivity {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
-        for (int i = 0; i < 4; i++) {
-            LocalMedia localMedia = new LocalMedia();
-            if (i == 0) {
-                localMedia.setFileType(1);
-                localMedia.setPath("qqqqq");
-            } else {
-                localMedia.setFileType(1);
-                localMedia.setPath("http");
-            }
-
-            selectList.add(localMedia);
-        }
         loading_dialog = new LoadingDialog(this);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
@@ -161,7 +169,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                     String path = media.getPath();
                     File file = new File(path);
                     if (!file.exists()) {
-                        download(mediaType, "aaa.pdf", position, "http://192.168.0.188:8010/license/2020/1608884114661-2417.pdf");
+                        download(mediaType, media.getFileName(), position, media.getDownLoadUrl());
                         return;
                     }
                     switch (mediaType) {
@@ -206,6 +214,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
 
             }
         });
+        getMarketingActivitiesDetails("");
     }
 
     private FileUploadGridImageAdapter.onAddPicClickListener onAddPicClickListener = new FileUploadGridImageAdapter.onAddPicClickListener() {
@@ -248,6 +257,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         mTvStartTime.setOnClickListener(this);
         mTvEndTime.setOnClickListener(this);
         mBtnDel.setOnClickListener(this);
+        mTvDepartment.setOnClickListener(this);
         mTvCooperativeCustomers.setOnClickListener(this);
     }
 
@@ -272,8 +282,11 @@ public class EditActivitiesActivity extends BaseTitleActivity {
             case R.id.tv_distribution_area:
                 getAllpackageList();
                 break;
+            case R.id.tv_department:
+                getDepartmentList();
+                break;
             case R.id.tv_cooperative_customers:
-                ToastUtil.setToast("选择合伙人");
+                getCooperativeCustomersList();
                 break;
 
         }
@@ -309,7 +322,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         //合作客户
         String CooperativeCustomers = mTvCooperativeCustomers.getText().toString();
         if ("".equals(CooperativeCustomers)) {
-            ToastUtil.setToast("请输入合作客户信息");
+            ToastUtil.setToast("请选择合作客户");
             return;
         }
         //活动目的
@@ -320,10 +333,10 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         }
         //实施部门
         String Department = mTvDepartment.getText().toString().trim();
-//        if ("".equals(Department)) {
-//            ToastUtil.setToast("请选择实施部门");
-//            return;
-//        }
+        if ("".equals(Department)) {
+            ToastUtil.setToast("请选择实施部门");
+            return;
+        }
         //负责人
         String Person = mTvPerson.getText().toString().trim();
         if ("".equals(Person)) {
@@ -347,32 +360,35 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < selectList.size(); i++) {
             //1 新添加 附件
-            if ("1".equals(selectList.get(i).getPath())) {
+            if (selectList.get(i).getOperationType()==1) {
                 list.add(selectList.get(i).getPath());
             }
         }
-        initData("", "", "", "", "", "", name, "", list);
+        initData(DetailedAddress, Money, CooperativeCustomersId + "", DepartmentId + "", EndtTime, id, name, Purpose, distributionAreaId, Person, StartTime, list);
     }
 
     //参数初始化
-    private void initData(String businessLicense, String businessLicenseNumber, String contactAddress, String contacts, String id, String mobTel, String name, String remark, List<String> list) {
+    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime, List<String> list) {
         Map<String, Object> paramsMap = new HashMap<>();
-        String sign = MD5Util.encode("businessLicense=" + businessLicense + "&businessLicenseNumber=" + businessLicenseNumber + "&contactAddress=" + contactAddress + "&contacts=" + contacts + "&id=" + id + "&mobTel=" + mobTel + "&name=" + name + "&remark=" + remark);
+        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime);
         paramsMap = new HashMap<>();
-        paramsMap.put("businessLicense", businessLicense);
-        paramsMap.put("businessLicenseNumber", businessLicenseNumber);
-        paramsMap.put("contactAddress", contactAddress);
-        paramsMap.put("contacts", contacts);
+        paramsMap.put("address", address);
+        paramsMap.put("advanceLoan", advanceLoan);
+        paramsMap.put("customerId", customerId);
+        paramsMap.put("deptId", deptId);
+        paramsMap.put("endTime", endTime);
         paramsMap.put("id", id);
-        paramsMap.put("mobTel", mobTel);
         paramsMap.put("name", name);
-        paramsMap.put("remark", remark);
+        paramsMap.put("purpose", purpose);
+        paramsMap.put("region", region);
+        paramsMap.put("responsiblePeople", responsiblePeople);
+        paramsMap.put("startTime", startTime);
         paramsMap.put("sign", sign);
         List<String> filePaths = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             filePaths.add(list.get(i));
         }
-        uploadImgAndPar(BaseApi.base_url_marketing + "customer/save", "businessLicenseImg", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_marketing + "activity/save", "activityAnnex", paramsMap, filePaths);
     }
 
     //图片上传接口
@@ -642,6 +658,195 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                         }
                     }
                 });
+    }
+
+    //获取合作客户列表
+    private void getCooperativeCustomersList() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getCustomerList()
+                .compose(Transformer.<CustomerListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<CustomerListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(CustomerListBean bean) {
+                        customerListBean = bean;
+                        showCustomerLis();
+                    }
+                });
+    }
+
+    //合作客户列表PopuWindow
+    private void showCustomerLis() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+        CustomerListAdp contractorListAdp = new CustomerListAdp(customerListBean.getData());
+        myRecyclerViewOne.setAdapter(contractorListAdp);
+        contractorListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                CooperativeCustomersId = customerListBean.getData().get(position).getId();
+                mTvCooperativeCustomers.setText(customerListBean.getData().get(position).getName());
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+
+    //获取部门列表
+    private void getDepartmentList() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getDepartmentList()
+                .compose(Transformer.<DepartmengListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<DepartmengListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(DepartmengListBean bean) {
+                        departmengListBean = bean;
+                        showDepartmentList();
+                    }
+                });
+    }
+
+    //部门列表PopuWindow
+    private void showDepartmentList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+        DepartmengListAdp contractorListAdp = new DepartmengListAdp(departmengListBean.getData());
+        myRecyclerViewOne.setAdapter(contractorListAdp);
+        contractorListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DepartmentId = departmengListBean.getData().get(position).getId();
+                mTvDepartment.setText(departmengListBean.getData().get(position).getName());
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+
+    //获取活动详情
+    private void getMarketingActivitiesDetails(String type) {
+        String sign = MD5Util.encode("id=" + id + "&type=" + type);
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getActivitieDetails(id, type, sign)
+                .compose(Transformer.<MarketingActivitiesDetailsBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<MarketingActivitiesDetailsBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(MarketingActivitiesDetailsBean bean) {
+                        marketingActivitiesDetailsBean = bean;
+                        setData(bean.getData());
+                    }
+                });
+    }
+
+    //详情赋值
+    private void setData(MarketingActivitiesDetailsBean.DataBean bean) {
+        mTvName.setText(bean.getName());
+        mTvDistributionArea.setText(bean.getRegion());
+        mTvDetailedAddress.setText(bean.getAddress());
+        mTvStartTime.setText(bean.getStartTime());
+        mTvEndTime.setText(bean.getEndTime());
+        mTvCooperativeCustomers.setText(bean.getCustomerName());
+        mTvPurpose.setText(bean.getPurpose());
+        mTvDepartment.setText(bean.getDeptName());
+        mTvPerson.setText(bean.getResponsiblePeople());
+        mTvMoney.setText(bean.getAdvanceLoan() + "");
+        DepartmentId= bean.getDeptId();
+        CooperativeCustomersId = 0;//合伙人id
+        distributionAreaId="0";
+        for (int i = 0; i < bean.getActivityItems().size(); i++) {
+            LocalMedia localMedia = new LocalMedia();
+            if (bean.getActivityItems().get(i).getUri().endsWith(".ppt")) {
+                localMedia.setFileType(1);
+            } else if (bean.getActivityItems().get(i).getUri().endsWith(".pdf")) {
+                localMedia.setFileType(2);
+            } else if (bean.getActivityItems().get(i).getUri().endsWith(".docx")) {
+                localMedia.setFileType(3);
+            } else if (bean.getActivityItems().get(i).getUri().endsWith(".xls")) {
+                localMedia.setFileType(4);
+            } else if (bean.getActivityItems().get(i).getUri().endsWith(".doc")) {
+                localMedia.setFileType(5);
+            } else {
+                localMedia.setFileType(1);
+            }
+            String path = bean.getActivityItems().get(i).getUri().substring(bean.getActivityItems().get(i).getUri().lastIndexOf("/") + 1);
+            localMedia.setPath(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + path);
+            localMedia.setFileName(path);
+            localMedia.setDownLoadUrl(BaseApi.activity_img_url + bean.getActivityItems().get(i).getUri());
+            localMedia.setOperationType(2);
+            selectList.add(localMedia);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -30,6 +30,8 @@ import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.adapter.AccountListAdp;
 import com.example.bq.edmp.work.marketing.bean.CustomerAccountListBean;
 import com.example.bq.edmp.work.marketingactivities.adapter.MarketingActivityListAdp;
+import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
+import com.example.bq.edmp.work.marketingactivities.bean.ActivityManagementListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
 
     private int currentPager = 1;
     private String name = "";
-    private ArrayList<CustomerAccountListBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<ActivityManagementListBean.DataBean.RowsBean> rowsBeans;
     private MarketingActivityListAdp marketingActivityListAdp;
 
     @Override
@@ -95,8 +97,8 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
 
         marketingActivityListAdp.setOnItemClickListener(new MarketingActivityListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, CustomerAccountListBean.DataBean.RowsBean rowsBean) {
-                EditActivitiesActivity.newIntent(getApplicationContext(),"1");
+            public void onItemClick(int pos, ActivityManagementListBean.DataBean.RowsBean rowsBean) {
+                EditActivitiesActivity.newIntent(getApplicationContext(),rowsBean.getId()+"");
             }
         });
 
@@ -126,23 +128,23 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
     private void gainData() {
         currentPager = 1;
 
-        String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerAccountList(name, currentPager, 15, sign)
-                .compose(Transformer.<CustomerAccountListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<CustomerAccountListBean>() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getActivitieNosubmitList(currentPager, 15, sign)
+                .compose(Transformer.<ActivityManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<ActivityManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(CustomerAccountListBean machineListBean) {
+                    protected void onSuccess(ActivityManagementListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
                             wsj.setVisibility(View.GONE);
                             xr.setVisibility(View.VISIBLE);
-                            List<CustomerAccountListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<ActivityManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
@@ -166,21 +168,21 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerAccountList(name, currentPager, 15, sign)
-                .compose(Transformer.<CustomerAccountListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<CustomerAccountListBean>() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getActivitieNosubmitList(currentPager, 15, sign)
+                .compose(Transformer.<ActivityManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<ActivityManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(CustomerAccountListBean machineListBean) {
+                    protected void onSuccess(ActivityManagementListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
-                            List<CustomerAccountListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<ActivityManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
                                 marketingActivityListAdp.addMoreData(rows);

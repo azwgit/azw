@@ -6,6 +6,10 @@ import com.example.bq.edmp.work.marketing.bean.CustomerAccountListBean;
 import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
 import com.example.bq.edmp.work.marketing.bean.CustomerManagementListBean;
 import com.example.bq.edmp.work.marketing.bean.ProvinceAndCityListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.ActivityManagementListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.CustomerListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.DepartmengListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.MarketingActivitiesDetailsBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -19,12 +23,12 @@ public interface MarketingActivitiesApi {
     //查询合作客户
     @Headers({"urlname:marketing"})
     @POST("activity/customer")
-    Observable<String> getCustomerList();
+    Observable<CustomerListBean> getCustomerList();
 
     //查询实施部门
     @Headers({"urlname:marketing"})
     @POST("activity/org")
-    Observable<String> getDepartmentList();
+    Observable<DepartmengListBean> getDepartmentList();
 
     //历史活动列表
     @FormUrlEncoded
@@ -55,8 +59,8 @@ public interface MarketingActivitiesApi {
     //活动待提交列表
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
-    @POST("activity/tosubmit")
-    Observable<CustomerAccountListBean> getActivitieNosubmitList(
+    @POST("activity/list")
+    Observable<ActivityManagementListBean> getActivitieNosubmitList(
             @Field("page") int page,
             @Field("pagerow") int pagerow,
             @Field("sign") String sign);
@@ -65,16 +69,34 @@ public interface MarketingActivitiesApi {
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
     @POST("activity/show")
-    Observable<CustomerAccountListBean> getActivitieDetails(
-            @Field("id") int page,
-            @Field("type") int pagerow,
+    Observable<MarketingActivitiesDetailsBean> getActivitieDetails(
+            @Field("id") String page,
+            @Field("type") String pagerow,
             @Field("sign") String sign);
 
-    //活动提交
+    //活动保存
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
-    @POST("/activity/tosubmit")
+    @POST("activity/newsave")
     Observable<CustomerAccountListBean> submitActivities(
+            @Field("address") int address,
+            @Field("advanceLoan") int advanceLoan,
+            @Field("customerId") int customerId,
+            @Field("deptId") int deptId,
+            @Field("endTime") int endTime,
+            @Field("id") int id,
+            @Field("name") int name,
+            @Field("purpose") int purpose,
+            @Field("region") int region,
+            @Field("responsiblePeople") int responsiblePeople,
+            @Field("startTime") int startTime,
+            @Field("sign") String sign);
+
+    //活动修改
+    @FormUrlEncoded
+    @Headers({"urlname:marketing"})
+    @POST("activity/save")
+    Observable<CustomerAccountListBean> updataActivities(
             @Field("address") int address,
             @Field("advanceLoan") int advanceLoan,
             @Field("customerId") int customerId,

@@ -58,8 +58,12 @@ import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CityBean;
 import com.example.bq.edmp.work.marketing.bean.CityModel;
 import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
+import com.example.bq.edmp.work.marketingactivities.adapter.CustomerListAdp;
+import com.example.bq.edmp.work.marketingactivities.adapter.DepartmengListAdp;
 import com.example.bq.edmp.work.marketingactivities.adapter.FileUploadGridImageAdapter;
 import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
+import com.example.bq.edmp.work.marketingactivities.bean.CustomerListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.DepartmengListBean;
 import com.google.gson.Gson;
 import com.joanzapata.pdfview.PDFView;
 import com.luck.picture.lib.PictureSelector;
@@ -119,9 +123,11 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     private String distributionAreaId = "";//活动地点id
     private TimePickerView StartTime;//时间选择器开始时间
     private TimePickerView EndTime;//时间选择器结束时间
-    private ContractorListBean contractorListBean;//承包人数据源
+    private CustomerListBean customerListBean;//承包人数据源
+    private DepartmengListBean departmengListBean;//部门据源
     private PopupWindow mTypePopuWindow;
     private int DepartmentId = 0;//部门id
+    private int CooperativeCustomersId = 0;//合伙人id
     private ArrayList<CityModel> jsonBean;
     //省
     private List<CityModel> options1Items = new ArrayList<>();
@@ -281,7 +287,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
         //合作客户
         String CooperativeCustomers = mTvCooperativeCustomers.getText().toString();
         if ("".equals(CooperativeCustomers)) {
-            ToastUtil.setToast("请输入合作客户信息");
+            ToastUtil.setToast("请选择合作客户");
             return;
         }
         //活动目的
@@ -316,7 +322,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
             ToastUtil.setToast("请上传附件");
             return;
         }
-        initData(DetailedAddress, Money, CooperativeCustomers, DepartmentId + "", EndtTime, "", name, Purpose, distributionAreaId, Person, StartTime);
+        initData(DetailedAddress, Money, CooperativeCustomersId+"", DepartmentId + "", EndtTime, "", name, Purpose, distributionAreaId, Person, StartTime);
     }
 
     //参数初始化
@@ -341,7 +347,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar(BaseApi.base_url_marketing + "activity/tosubmit", "activityAnnex", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_marketing + "activity/newsave", "activityAnnex", paramsMap, filePaths);
     }
 
     //图片上传接口
@@ -576,28 +582,27 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                 .build();
     }
 
-    //获取承包人列表
+    //获取合作客户列表
     private void getCooperativeCustomersList() {
         RxHttpUtils.createApi(MarketingActivitiesApi.class)
                 .getCustomerList()
-                .compose(Transformer.<String>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<String>() {
+                .compose(Transformer.<CustomerListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<CustomerListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(String bean) {
-                        String a = bean;
-//                        contractorListBean = bean;
-//                        showContractorList();
+                    protected void onSuccess(CustomerListBean bean) {
+                        customerListBean = bean;
+                        showCustomerLis();
                     }
                 });
     }
 
-    //承包人列表PopuWindow
-    private void showContractorList() {
+    //合作客户列表PopuWindow
+    private void showCustomerLis() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
         final View contentView = inflater.inflate(R.layout.select_option_layout, null);
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
@@ -606,13 +611,13 @@ public class AddActivitiesActivity extends BaseTitleActivity {
 //        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
 //        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
 //        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
-        ContractorListAdp contractorListAdp = new ContractorListAdp(contractorListBean.getData());
+        CustomerListAdp contractorListAdp = new CustomerListAdp(customerListBean.getData());
         myRecyclerViewOne.setAdapter(contractorListAdp);
         contractorListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                DepartmentId = contractorListBean.getData().get(position).getId();
-                mTvDepartment.setText(contractorListBean.getData().get(position).getName());
+                CooperativeCustomersId = customerListBean.getData().get(position).getId();
+                mTvCooperativeCustomers.setText(customerListBean.getData().get(position).getName());
                 mTypePopuWindow.dismiss();
             }
         });
@@ -645,18 +650,65 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     private void getDepartmentList() {
         RxHttpUtils.createApi(MarketingActivitiesApi.class)
                 .getDepartmentList()
-                .compose(Transformer.<String>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<String>() {
+                .compose(Transformer.<DepartmengListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<DepartmengListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
+
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(String bean) {
-                        String a = bean;
+                    protected void onSuccess(DepartmengListBean bean) {
+                        departmengListBean = bean;
+                        showDepartmentList();
                     }
                 });
+    }
+
+    //部门列表PopuWindow
+    private void showDepartmentList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+        DepartmengListAdp contractorListAdp = new DepartmengListAdp(departmengListBean.getData());
+        myRecyclerViewOne.setAdapter(contractorListAdp);
+        contractorListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DepartmentId = departmengListBean.getData().get(position).getId();
+                mTvDepartment.setText(departmengListBean.getData().get(position).getName());
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
 
     @Override

@@ -267,7 +267,7 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), OrderTrackingActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/order/historylist")) {//历史订单
                                                 startActivity(new Intent(getActivity(), HistoryOrderActivity.class));
-                                            } else if (subtBean.getAccessUri().equals("/activity/save")) {//活动申请
+                                            } else if (subtBean.getAccessUri().equals("/activity/newsave")) {//活动申请
                                                 startActivity(new Intent(getActivity(), MarketingActivityManagementListActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/activity/history")) {//历史活动
                                                 startActivity(new Intent(getActivity(), HistoricalActivitiesListActivity.class));
