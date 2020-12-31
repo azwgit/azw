@@ -9,17 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.bq.edmp.R;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnclosureAdapter extends
-        RecyclerView.Adapter<EnclosureAdapter.ViewHolder> {
+public class HistoricalEnclosureAdapter extends
+        RecyclerView.Adapter<HistoricalEnclosureAdapter.ViewHolder> {
     private LayoutInflater mInflater;
     private List<LocalMedia> list = new ArrayList<>();
     private Context context;
@@ -32,7 +29,7 @@ public class EnclosureAdapter extends
         void onAddPicClick();
     }
 
-    public EnclosureAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
+    public HistoricalEnclosureAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mOnAddPicClickListener = mOnAddPicClickListener;
@@ -71,8 +68,9 @@ public class EnclosureAdapter extends
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.gv_filter_image,
+        View view = mInflater.inflate(R.layout.round_filter_image,
                 viewGroup, false);
+        //gv_enclosure_image
         final ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -87,7 +85,7 @@ public class EnclosureAdapter extends
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        viewHolder.ll_del.setVisibility(View.GONE);
+//        viewHolder.ll_del.setVisibility(View.GONE);
         LocalMedia media = list.get(position);
         switch (media.getFileType()) {
             case 1:

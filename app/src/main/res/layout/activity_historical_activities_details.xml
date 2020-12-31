@@ -45,16 +45,32 @@
                     android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_14" />
 
-                <TextView
-                    android:id="@+id/tv_dept"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_company"
-                    android:layout_marginTop="@dimen/dp_12"
-                    android:layout_marginBottom="@dimen/dp_16"
-                    android:text="部门"
-                    android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_below="@+id/tv_company">
+
+                    <TextView
+                        android:id="@+id/tv_person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginBottom="@dimen/dp_16"
+                        android:text="部门"
+                        android:textColor="@color/color_66"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginBottom="@dimen/dp_16"
+                        android:text="部门"
+                        android:textColor="@color/color_66"
+                        android:textSize="@dimen/sp_14" />
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/img_status"
@@ -66,7 +82,20 @@
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/dtj_tv"
+                    android:id="@+id/tv_stuats"
+                    android:layout_width="@dimen/dp_57"
+                    android:layout_height="@dimen/dp_21"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:background="@drawable/purchase_red_shape"
+                    android:gravity="center"
+                    android:text="待提交"
+                    android:textColor="@color/colorf9"
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="visible" />
+
+                <TextView
                     android:layout_width="@dimen/dp_57"
                     android:layout_height="@dimen/dp_21"
                     android:layout_alignParentRight="true"
@@ -98,6 +127,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
+                    android:id="@+id/tv_end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -123,6 +153,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
+                    android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -155,6 +186,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
+                    android:id="@+id/tv_person_in_charge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -189,6 +221,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tv_start_end_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -222,6 +255,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tv_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -255,6 +289,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tv_active_customers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -288,6 +323,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tv_purpose"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"

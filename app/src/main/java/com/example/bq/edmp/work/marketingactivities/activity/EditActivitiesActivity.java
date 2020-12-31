@@ -83,11 +83,11 @@ public class EditActivitiesActivity extends BaseTitleActivity {
     @BindView(R.id.pic_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_name)
-    TextView mTvName;//活动名称
+    EditText mTvName;//活动名称
     @BindView(R.id.tv_distribution_area)
     TextView mTvDistributionArea;//活动地点省市区
     @BindView(R.id.tv_detailed_address)
-    TextView mTvDetailedAddress;//详细地址
+    EditText mTvDetailedAddress;//详细地址
     @BindView(R.id.tv_start_time)
     TextView mTvStartTime;//开始时间
     @BindView(R.id.tv_end_time)
@@ -95,11 +95,11 @@ public class EditActivitiesActivity extends BaseTitleActivity {
     @BindView(R.id.tv_cooperative_customers)
     TextView mTvCooperativeCustomers;//合作客户
     @BindView(R.id.tv_purpose)
-    TextView mTvPurpose;//活动目的
+    EditText mTvPurpose;//活动目的
     @BindView(R.id.tv_department)
     TextView mTvDepartment;//实施部门
     @BindView(R.id.tv_person)
-    TextView mTvPerson;//负责人
+    EditText mTvPerson;//负责人
     @BindView(R.id.tv_money)
     EditText mTvMoney;//活动经费
     private FileUploadGridImageAdapter mAdapter;
@@ -187,22 +187,22 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         mAdapter.setOnDelterImg(new FileUploadGridImageAdapter.DeleteImg() {
             @Override
             public void deleteImgList(int postion) {
-                if (selectList.get(postion).getPath().startsWith("http")) {
-                    ToastUtil.setToast("删除网络文件");
-                    //接口调用成功后删除
-                    File file = new File(selectList.get(postion).getPath());
-                    //文件存在删除文件
-                    if (file.exists()) {
-                        file.delete();
-                    }
-                    selectList.remove(postion);
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    //接口调用成功后删除
-                    selectList.remove(postion);
-                    mAdapter.notifyDataSetChanged();
-                    ToastUtil.setToast("删除本地文件");
-                }
+//                if (selectList.get(postion).getPath().startsWith("http")) {
+//                    ToastUtil.setToast("删除网络文件");
+//                    //接口调用成功后删除
+//                    File file = new File(selectList.get(postion).getPath());
+//                    //文件存在删除文件
+//                    if (file.exists()) {
+//                        file.delete();
+//                    }
+//                    selectList.remove(postion);
+//                    mAdapter.notifyDataSetChanged();
+//                } else {
+                //接口调用成功后删除
+                selectList.remove(postion);
+                mAdapter.notifyDataSetChanged();
+                ToastUtil.setToast("删除本地文件");
+//                }
 
             }
         });
@@ -248,6 +248,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         mTvStartTime.setOnClickListener(this);
         mTvEndTime.setOnClickListener(this);
         mBtnDel.setOnClickListener(this);
+        mTvCooperativeCustomers.setOnClickListener(this);
     }
 
     @Override
@@ -270,6 +271,9 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                 break;
             case R.id.tv_distribution_area:
                 getAllpackageList();
+                break;
+            case R.id.tv_cooperative_customers:
+                ToastUtil.setToast("选择合伙人");
                 break;
 
         }
@@ -342,7 +346,8 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         }
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < selectList.size(); i++) {
-            if (!selectList.get(i).getPath().startsWith("http")) {
+            //1 新添加 附件
+            if ("1".equals(selectList.get(i).getPath())) {
                 list.add(selectList.get(i).getPath());
             }
         }
@@ -618,6 +623,10 @@ public class EditActivitiesActivity extends BaseTitleActivity {
 
                     @Override
                     protected void onError(String errorMsg) {
+                        if (loading_dialog != null) {
+                            loading_dialog.hideLoadingView();
+                        }
+                        ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
@@ -627,7 +636,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                                 loading_dialog.hideLoadingView();
                             }
                             selectList.get(position).setPath(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + fileName);
-                            selectList.get(position).setFileType(1);
+                            selectList.get(position).setFileType(type);
                             mAdapter.notifyDataSetChanged();
                             startActivity(OpenFiles.getPdfFileIntent(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + fileName));
                         }
@@ -655,6 +664,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                         String img_path = actualimagecursor.getString(actual_image_column_index);
                         LocalMedia localMedia = new LocalMedia();
                         localMedia.setPath(img_path);
+                        localMedia.setOperationType(1);
                         if (img_path.endsWith(".ppt")) {
                             localMedia.setFileType(1);
                             selectList.add(localMedia);

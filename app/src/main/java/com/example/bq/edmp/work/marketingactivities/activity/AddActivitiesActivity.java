@@ -4,15 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -27,6 +34,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.GsonUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -43,11 +51,15 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.OpenFiles;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.phoneUtils;
+import com.example.bq.edmp.work.grainmanagement.adapter.ContractorListAdp;
+import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
+import com.example.bq.edmp.work.grainmanagement.bean.ContractorListBean;
 import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CityBean;
 import com.example.bq.edmp.work.marketing.bean.CityModel;
 import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
 import com.example.bq.edmp.work.marketingactivities.adapter.FileUploadGridImageAdapter;
+import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
 import com.google.gson.Gson;
 import com.joanzapata.pdfview.PDFView;
 import com.luck.picture.lib.PictureSelector;
@@ -79,11 +91,11 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     @BindView(R.id.pic_recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_name)
-    TextView mTvName;//活动名称
+    EditText mTvName;//活动名称
     @BindView(R.id.tv_distribution_area)
     TextView mTvDistributionArea;//活动地点省市区
     @BindView(R.id.tv_detailed_address)
-    TextView mTvDetailedAddress;//详细地址
+    EditText mTvDetailedAddress;//详细地址
     @BindView(R.id.tv_start_time)
     TextView mTvStartTime;//开始时间
     @BindView(R.id.tv_end_time)
@@ -91,11 +103,11 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     @BindView(R.id.tv_cooperative_customers)
     TextView mTvCooperativeCustomers;//合作客户
     @BindView(R.id.tv_purpose)
-    TextView mTvPurpose;//活动目的
+    EditText mTvPurpose;//活动目的
     @BindView(R.id.tv_department)
     TextView mTvDepartment;//实施部门
     @BindView(R.id.tv_person)
-    TextView mTvPerson;//负责人
+    EditText mTvPerson;//负责人
     @BindView(R.id.tv_money)
     EditText mTvMoney;//活动经费
     private FileUploadGridImageAdapter mAdapter;
@@ -107,6 +119,9 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     private String distributionAreaId = "";//活动地点id
     private TimePickerView StartTime;//时间选择器开始时间
     private TimePickerView EndTime;//时间选择器结束时间
+    private ContractorListBean contractorListBean;//承包人数据源
+    private PopupWindow mTypePopuWindow;
+    private int DepartmentId = 0;//部门id
     private ArrayList<CityModel> jsonBean;
     //省
     private List<CityModel> options1Items = new ArrayList<>();
@@ -205,6 +220,8 @@ public class AddActivitiesActivity extends BaseTitleActivity {
         mTvDistributionArea.setOnClickListener(this);
         mTvStartTime.setOnClickListener(this);
         mTvEndTime.setOnClickListener(this);
+        mTvDepartment.setOnClickListener(this);
+        mTvCooperativeCustomers.setOnClickListener(this);
     }
 
     @Override
@@ -225,7 +242,12 @@ public class AddActivitiesActivity extends BaseTitleActivity {
             case R.id.tv_distribution_area:
                 getAllpackageList();
                 break;
-
+            case R.id.tv_department:
+                getDepartmentList();
+                break;
+            case R.id.tv_cooperative_customers:
+                getCooperativeCustomersList();
+                break;
         }
     }
 
@@ -294,29 +316,32 @@ public class AddActivitiesActivity extends BaseTitleActivity {
             ToastUtil.setToast("请上传附件");
             return;
         }
-        initData(customerDetailsBean.getData().getBusinessLicense(), "", "", "", customerDetailsBean.getData().getId() + "", "", name, "");
+        initData(DetailedAddress, Money, CooperativeCustomers, DepartmentId + "", EndtTime, "", name, Purpose, distributionAreaId, Person, StartTime);
     }
 
     //参数初始化
-    private void initData(String businessLicense, String businessLicenseNumber, String contactAddress, String contacts, String id, String mobTel, String name, String remark) {
+    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime) {
         Map<String, Object> paramsMap = new HashMap<>();
         List<File> list = new ArrayList<>();
-        String sign = MD5Util.encode("businessLicense=" + businessLicense + "&businessLicenseNumber=" + businessLicenseNumber + "&contactAddress=" + contactAddress + "&contacts=" + contacts + "&id=" + id + "&mobTel=" + mobTel + "&name=" + name + "&remark=" + remark);
+        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime);
         paramsMap = new HashMap<>();
-        paramsMap.put("businessLicense", businessLicense);
-        paramsMap.put("businessLicenseNumber", businessLicenseNumber);
-        paramsMap.put("contactAddress", contactAddress);
-        paramsMap.put("contacts", contacts);
+        paramsMap.put("address", address);
+        paramsMap.put("advanceLoan", advanceLoan);
+        paramsMap.put("customerId", customerId);
+        paramsMap.put("deptId", deptId);
+        paramsMap.put("endTime", endTime);
         paramsMap.put("id", id);
-        paramsMap.put("mobTel", mobTel);
         paramsMap.put("name", name);
-        paramsMap.put("remark", remark);
+        paramsMap.put("purpose", purpose);
+        paramsMap.put("region", region);
+        paramsMap.put("responsiblePeople", responsiblePeople);
+        paramsMap.put("startTime", startTime);
         paramsMap.put("sign", sign);
         List<String> filePaths = new ArrayList<>();
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar(BaseApi.base_url_marketing + "customer/save", "businessLicenseImg", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_marketing + "activity/tosubmit", "activityAnnex", paramsMap, filePaths);
     }
 
     //图片上传接口
@@ -549,6 +574,89 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                 .setType(new boolean[]{true, true, true, false, false, false})
                 .setLabel("年", "月", "日", "", "", "")
                 .build();
+    }
+
+    //获取承包人列表
+    private void getCooperativeCustomersList() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getCustomerList()
+                .compose(Transformer.<String>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<String>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String bean) {
+                        String a = bean;
+//                        contractorListBean = bean;
+//                        showContractorList();
+                    }
+                });
+    }
+
+    //承包人列表PopuWindow
+    private void showContractorList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+        ContractorListAdp contractorListAdp = new ContractorListAdp(contractorListBean.getData());
+        myRecyclerViewOne.setAdapter(contractorListAdp);
+        contractorListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DepartmentId = contractorListBean.getData().get(position).getId();
+                mTvDepartment.setText(contractorListBean.getData().get(position).getName());
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+
+    //获取部门列表
+    private void getDepartmentList() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getDepartmentList()
+                .compose(Transformer.<String>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<String>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(String bean) {
+                        String a = bean;
+                    }
+                });
     }
 
     @Override

@@ -51,6 +51,8 @@ import com.example.bq.edmp.work.library.activity.RlibraryActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerAccountListActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerInquirytListActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
+import com.example.bq.edmp.work.marketingactivities.activity.HistoricalActivitiesListActivity;
+import com.example.bq.edmp.work.marketingactivities.activity.MarketingActivityManagementListActivity;
 import com.example.bq.edmp.work.order.activity.HistoryOrderActivity;
 import com.example.bq.edmp.work.order.activity.OrderTrackingActivity;
 import com.example.bq.edmp.work.order.activity.Order_GL_Activity;
@@ -196,7 +198,7 @@ public class WorkFragment extends BaseFragment {
                                 rightAdapter.setOnInterface(new RightAdapter.OnInterface() {
                                     @Override
                                     public void OnCilkeface(SecondResult.DataBean.SubtBean subtBean, int position) {
-                                        if (subtBean.getAccessUri()!=null && !subtBean.getAccessUri().equals("")) {
+                                        if (subtBean.getAccessUri() != null && !subtBean.getAccessUri().equals("")) {
                                             if (subtBean.getAccessUri().equals("/approvals")) {//审批管理
                                                 startActivity(new Intent(getActivity(), AuditActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/reimburser")) {//报账管理
@@ -265,10 +267,14 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), OrderTrackingActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/order/historylist")) {//历史订单
                                                 startActivity(new Intent(getActivity(), HistoryOrderActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/activity/save")) {//活动申请
+                                                startActivity(new Intent(getActivity(), MarketingActivityManagementListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/activity/history")) {//历史活动
+                                                startActivity(new Intent(getActivity(), HistoricalActivitiesListActivity.class));
                                             } else {
                                                 ToastUtil.setToast("暂未开通");
                                             }
-                                        }else {
+                                        } else {
                                             ToastUtil.setToast("点击错误");
                                         }
                                     }

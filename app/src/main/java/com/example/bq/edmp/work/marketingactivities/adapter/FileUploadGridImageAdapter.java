@@ -146,19 +146,19 @@ public class FileUploadGridImageAdapter extends
             LocalMedia media = list.get(position);
             switch (media.getFileType()) {
                 case 1:
-                    viewHolder.mImg.setImageResource(R.drawable.audio_placeholder);
+                    viewHolder.mImg.setImageResource(R.drawable.ppt);
                     break;
                 case 2:
-                    viewHolder.mImg.setImageResource(R.drawable.aboutus);
+                    viewHolder.mImg.setImageResource(R.drawable.pdf);
                     break;
                 case 3:
-                    viewHolder.mImg.setImageResource(R.drawable.addressbook);
+                    viewHolder.mImg.setImageResource(R.drawable.word);
                     break;
                 case 4:
-                    viewHolder.mImg.setImageResource(R.drawable.affirm);
+                    viewHolder.mImg.setImageResource(R.drawable.exel);
                     break;
                 case 5:
-                    viewHolder.mImg.setImageResource(R.drawable.arrow_down);
+                    viewHolder.mImg.setImageResource(R.drawable.word);
                     break;
             }
             //itemView 的点击事件

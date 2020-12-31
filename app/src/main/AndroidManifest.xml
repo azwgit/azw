@@ -79,13 +79,11 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.MarketingActivityManagementListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".work.marketingactivities.activity.ActivitiesDetailsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:windowSoftInputMode="stateHidden">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity android:name=".work.marketingactivities.activity.ActivitiesDetailsActivity">
+
         </activity>
         <activity
             android:name=".work.marketingactivities.activity.AddActivitiesActivity"
@@ -95,9 +93,17 @@
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity
             android:name=".work.marketingactivities.activity.HistoricalActivitiesDetailsActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+        </activity>
         <activity
             android:name=".work.marketingactivities.activity.HistoricalActivitiesListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+
+        </activity>
+
+        <activity
+            android:name=".work.marketingactivities.activity.ActivityEnclosureActivity"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity" />
         <activity android:name=".base.ServiceAndDemonstrateFieldWebViewActivity" />
@@ -165,7 +171,13 @@
         <activity android:name=".activity.ScheduleInformationActivity" />
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
-        <activity android:name=".activity.StartActivity" />
+        <activity android:name=".activity.StartActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="design_width"
@@ -235,7 +247,6 @@
         </provider>
 
 
-
         <activity
             android:name=".work.order.activity.ChooseCustomerActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -244,12 +255,11 @@
 
         <activity
             android:name=".work.order.activity.HistoryOrderActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <activity
             android:name=".work.order.activity.ModifyOrderActivity"
-            android:windowSoftInputMode="stateHidden" ></activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <activity android:name=".work.order.activity.NewOrderActivity" />
 

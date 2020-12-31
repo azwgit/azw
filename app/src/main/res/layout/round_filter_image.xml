@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_101"
+    android:layout_height="@dimen/dp_101"
+    android:layout_marginTop="@dimen/dp_10"
+    android:background="@color/white">
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/dp_101"
+        android:layout_height="@dimen/dp_101">
+        <com.example.bq.edmp.utils.CustomRoundAngleImageView
+            android:id="@+id/fiv"
+            android:layout_width="@dimen/dp_101"
+            android:layout_height="@dimen/dp_101"
+            android:scaleType="centerCrop"
+            android:src="#eeeeee" />
+    </RelativeLayout>
+</RelativeLayout>
