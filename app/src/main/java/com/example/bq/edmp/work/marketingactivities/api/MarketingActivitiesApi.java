@@ -7,8 +7,10 @@ import com.example.bq.edmp.work.marketing.bean.CustomerDetailsBean;
 import com.example.bq.edmp.work.marketing.bean.CustomerManagementListBean;
 import com.example.bq.edmp.work.marketing.bean.ProvinceAndCityListBean;
 import com.example.bq.edmp.work.marketingactivities.bean.ActivityManagementListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.ActivitySiteBean;
 import com.example.bq.edmp.work.marketingactivities.bean.CustomerListBean;
 import com.example.bq.edmp.work.marketingactivities.bean.DepartmengListBean;
+import com.example.bq.edmp.work.marketingactivities.bean.HistoricalListBean;
 import com.example.bq.edmp.work.marketingactivities.bean.MarketingActivitiesDetailsBean;
 
 import io.reactivex.Observable;
@@ -34,25 +36,25 @@ public interface MarketingActivitiesApi {
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
     @POST("activity/history")
-    Observable<CustomerAccountListBean> getHistoryList(
+    Observable<HistoricalListBean> getHistoryList(
             @Field("name") String name,
             @Field("page") int page,
             @Field("pagerow") int pagerow,
-            @Field("sign") String sign);
-
-    //附件删除
-    @FormUrlEncoded
-    @Headers({"urlname:marketing"})
-    @POST("activity/deleteitem/{id}")
-    Observable<CustomerDetailsBean> getCustomerDetails(
-            @Path("id") String id,
             @Field("sign") String sign);
 
     //活动删除
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
     @POST("activity/delete/{id}")
-    Observable<CustomerDetailsBean> deleteActivities(
+    Observable<BaseABean> deleteActivities(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
+    //附件删除
+    @FormUrlEncoded
+    @Headers({"urlname:marketing"})
+    @POST("activity/deleteitem/{id}")
+    Observable<BaseABean> deleteAttachment(
             @Path("id") String id,
             @Field("sign") String sign);
 
@@ -70,6 +72,14 @@ public interface MarketingActivitiesApi {
     @Headers({"urlname:marketing"})
     @POST("activity/show")
     Observable<MarketingActivitiesDetailsBean> getActivitieDetails(
+            @Field("id") String page,
+            @Field("type") String pagerow,
+            @Field("sign") String sign);
+    //活动详情
+    @FormUrlEncoded
+    @Headers({"urlname:marketing"})
+    @POST("activity/show")
+    Observable<ActivitySiteBean> getActivitySiteDetail(
             @Field("id") String page,
             @Field("type") String pagerow,
             @Field("sign") String sign);

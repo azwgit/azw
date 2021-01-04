@@ -35,6 +35,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.GsonUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -144,6 +145,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("新增活动");
+        ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
@@ -234,10 +236,10 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_submit:
-                checkAddData();
+                checkAddData(2);
                 break;
             case R.id.btn_save:
-                checkAddData();
+                checkAddData(1);
                 break;
             case R.id.tv_start_time:
                 StartTime.show();
@@ -258,7 +260,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
     }
 
     //验证活动数据
-    private void checkAddData() {
+    private void checkAddData(int type) {
         //活动名称
         String name = mTvName.getText().toString().trim();
         if (name.isEmpty()) {
@@ -318,18 +320,20 @@ public class AddActivitiesActivity extends BaseTitleActivity {
             ToastUtil.setToast("开始时间不能大于结束时间");
             return;
         }
-        if (selectList.size() <= 0) {
-            ToastUtil.setToast("请上传附件");
-            return;
+        if (type == 2) {
+            if (selectList.size() <= 0) {
+                ToastUtil.setToast("请上传附件");
+                return;
+            }
         }
-        initData(DetailedAddress, Money, CooperativeCustomersId+"", DepartmentId + "", EndtTime, "", name, Purpose, distributionAreaId, Person, StartTime);
+        initData(DetailedAddress, Money, CooperativeCustomersId + "", DepartmentId + "", EndtTime, "", name, Purpose, distributionAreaId, Person, StartTime, type + "");
     }
 
     //参数初始化
-    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime) {
+    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime, String type) {
         Map<String, Object> paramsMap = new HashMap<>();
         List<File> list = new ArrayList<>();
-        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime);
+        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime + "&types=" + type);
         paramsMap = new HashMap<>();
         paramsMap.put("address", address);
         paramsMap.put("advanceLoan", advanceLoan);
@@ -342,6 +346,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
         paramsMap.put("region", region);
         paramsMap.put("responsiblePeople", responsiblePeople);
         paramsMap.put("startTime", startTime);
+        paramsMap.put("types", type);
         paramsMap.put("sign", sign);
         List<String> filePaths = new ArrayList<>();
         for (int i = 0; i < selectList.size(); i++) {
@@ -595,8 +600,12 @@ public class AddActivitiesActivity extends BaseTitleActivity {
 
                     @Override
                     protected void onSuccess(CustomerListBean bean) {
-                        customerListBean = bean;
-                        showCustomerLis();
+                        if (bean.getCode() == 200) {
+                            customerListBean = bean;
+                            showCustomerLis();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
                     }
                 });
     }
@@ -654,14 +663,17 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                 .subscribe(new NewCommonObserver<DepartmengListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
                     protected void onSuccess(DepartmengListBean bean) {
-                        departmengListBean = bean;
-                        showDepartmentList();
+                        if (bean.getCode() == 200) {
+                            departmengListBean = bean;
+                            showDepartmentList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
                     }
                 });
     }

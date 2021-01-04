@@ -35,6 +35,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.blankj.utilcode.util.GsonUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -48,6 +49,7 @@ import com.example.bq.edmp.utils.DateUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.OpenFiles;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.phoneUtils;
@@ -153,6 +155,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
+        ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
@@ -195,23 +198,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         mAdapter.setOnDelterImg(new FileUploadGridImageAdapter.DeleteImg() {
             @Override
             public void deleteImgList(int postion) {
-//                if (selectList.get(postion).getPath().startsWith("http")) {
-//                    ToastUtil.setToast("删除网络文件");
-//                    //接口调用成功后删除
-//                    File file = new File(selectList.get(postion).getPath());
-//                    //文件存在删除文件
-//                    if (file.exists()) {
-//                        file.delete();
-//                    }
-//                    selectList.remove(postion);
-//                    mAdapter.notifyDataSetChanged();
-//                } else {
-                //接口调用成功后删除
-                selectList.remove(postion);
-                mAdapter.notifyDataSetChanged();
-                ToastUtil.setToast("删除本地文件");
-//                }
-
+                deleteAttachment(marketingActivitiesDetailsBean.getData().getActivityItems().get(postion).getId() + "", postion);
             }
         });
         getMarketingActivitiesDetails("");
@@ -265,13 +252,13 @@ public class EditActivitiesActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_submit:
-                checkAddData();
+                checkAddData(2);
                 break;
             case R.id.btn_save:
-                checkAddData();
+                checkAddData(1);
                 break;
             case R.id.btn_del:
-                ToastUtil.setToast("删除成功");
+                deleteActivities(id);
                 break;
             case R.id.tv_start_time:
                 StartTime.show();
@@ -293,7 +280,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
     }
 
     //验证活动数据
-    private void checkAddData() {
+    private void checkAddData(int type) {
         //活动名称
         String name = mTvName.getText().toString().trim();
         if (name.isEmpty()) {
@@ -353,24 +340,26 @@ public class EditActivitiesActivity extends BaseTitleActivity {
             ToastUtil.setToast("开始时间不能大于结束时间");
             return;
         }
-        if (selectList.size() <= 0) {
-            ToastUtil.setToast("请上传附件");
-            return;
+        if (type == 2) {
+            if (selectList.size() <= 0) {
+                ToastUtil.setToast("请上传附件");
+                return;
+            }
         }
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < selectList.size(); i++) {
             //1 新添加 附件
-            if (selectList.get(i).getOperationType()==1) {
+            if (selectList.get(i).getOperationType() == 1) {
                 list.add(selectList.get(i).getPath());
             }
         }
-        initData(DetailedAddress, Money, CooperativeCustomersId + "", DepartmentId + "", EndtTime, id, name, Purpose, distributionAreaId, Person, StartTime, list);
+        initData(DetailedAddress, Money, CooperativeCustomersId + "", DepartmentId + "", EndtTime, id, name, Purpose, distributionAreaId, Person, StartTime, list,type+"");
     }
 
     //参数初始化
-    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime, List<String> list) {
+    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime, List<String> list,String type) {
         Map<String, Object> paramsMap = new HashMap<>();
-        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime);
+        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime+ "&types=" + type);
         paramsMap = new HashMap<>();
         paramsMap.put("address", address);
         paramsMap.put("advanceLoan", advanceLoan);
@@ -383,6 +372,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         paramsMap.put("region", region);
         paramsMap.put("responsiblePeople", responsiblePeople);
         paramsMap.put("startTime", startTime);
+        paramsMap.put("types", type);
         paramsMap.put("sign", sign);
         List<String> filePaths = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
@@ -673,8 +663,13 @@ public class EditActivitiesActivity extends BaseTitleActivity {
 
                     @Override
                     protected void onSuccess(CustomerListBean bean) {
-                        customerListBean = bean;
-                        showCustomerLis();
+                        if (bean.getCode() == 200) {
+                            customerListBean = bean;
+                            showCustomerLis();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+
                     }
                 });
     }
@@ -738,8 +733,12 @@ public class EditActivitiesActivity extends BaseTitleActivity {
 
                     @Override
                     protected void onSuccess(DepartmengListBean bean) {
-                        departmengListBean = bean;
-                        showDepartmentList();
+                        if (bean.getCode() == 200) {
+                            departmengListBean = bean;
+                            showDepartmentList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
                     }
                 });
     }
@@ -820,10 +819,10 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         mTvPurpose.setText(bean.getPurpose());
         mTvDepartment.setText(bean.getDeptName());
         mTvPerson.setText(bean.getResponsiblePeople());
-        mTvMoney.setText(bean.getAdvanceLoan() + "");
-        DepartmentId= bean.getDeptId();
-        CooperativeCustomersId = 0;//合伙人id
-        distributionAreaId="0";
+        mTvMoney.setText("￥" + MoneyUtils.formatMoney(bean.getAdvanceLoan()));
+        DepartmentId = bean.getDeptId();
+        CooperativeCustomersId = bean.getCustomerId();//合伙人id
+        distributionAreaId = bean.getRegion();
         for (int i = 0; i < bean.getActivityItems().size(); i++) {
             LocalMedia localMedia = new LocalMedia();
             if (bean.getActivityItems().get(i).getUri().endsWith(".ppt")) {
@@ -847,6 +846,53 @@ public class EditActivitiesActivity extends BaseTitleActivity {
             selectList.add(localMedia);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    //删除附件
+    private void deleteAttachment(String id, final int position) {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .deleteAttachment(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            selectList.remove(position);
+                            mAdapter.notifyDataSetChanged();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //删除活动
+    private void deleteActivities(String id) {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .deleteActivities(id, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
     }
 
     @Override

@@ -87,10 +87,9 @@
                     android:layout_height="@dimen/dp_21"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginRight="@dimen/dp_16"
                     android:background="@drawable/purchase_red_shape"
                     android:gravity="center"
-                    android:text="待提交"
+                    android:text="已完成"
                     android:textColor="@color/colorf9"
                     android:textSize="@dimen/sp_12"
                     android:visibility="visible" />
@@ -106,7 +105,7 @@
                     android:text="待提交"
                     android:textColor="@color/colorf9"
                     android:textSize="@dimen/sp_12"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </RelativeLayout>
 
 

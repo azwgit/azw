@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -72,6 +73,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("营销活动管理");
+        ProApplication.getinstance().addActivity(this);
         //数据
         rowsBeans = new ArrayList<>();
         marketingActivityListAdp = new MarketingActivityListAdp(rowsBeans);
@@ -83,7 +85,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
             @Override
             public void onRefresh() {
                 currentPager = 1;
-                initData();
+                gainData();
                 xr.refreshComplete();
             }
 
@@ -98,7 +100,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
         marketingActivityListAdp.setOnItemClickListener(new MarketingActivityListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, ActivityManagementListBean.DataBean.RowsBean rowsBean) {
-                EditActivitiesActivity.newIntent(getApplicationContext(),rowsBean.getId()+"");
+                EditActivitiesActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
             }
         });
 
@@ -122,6 +124,11 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
 
     @Override
     protected void initData() {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         gainData();
     }
 

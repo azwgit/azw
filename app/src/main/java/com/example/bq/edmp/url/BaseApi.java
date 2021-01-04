@@ -21,4 +21,6 @@ public class BaseApi {
     public static final String article_img_url = "http://192.168.0.188:8010/img";
     //附件地址
     public static final String activity_img_url = "http://192.168.0.188:8010/activity_annex";
+    //活动现场图片
+    public static final String activity_site_img_url = "http://192.168.0.188:8010/activity_img";
 }

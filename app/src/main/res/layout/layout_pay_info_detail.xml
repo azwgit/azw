@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="陈一一提出的差旅报账申请"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_17" />
 
                 <TextView
@@ -35,9 +35,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_title"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:alpha="0.7"
                     android:text="安徽皖垦种业股份有限公司"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -46,9 +45,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_company"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:alpha="0.7"
                     android:text="部门"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_14" />
 
                 <ImageView
@@ -85,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="审核编号"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color_66"
                         android:textSize="@dimen/sp_17" />
 
                     <TextView
@@ -93,9 +91,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
                         android:text="234789237498234"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color33"
                         android:textSize="@dimen/sp_17" />
                 </LinearLayout>
 
@@ -107,7 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="审核状态"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color_66"
                         android:textSize="@dimen/sp_17" />
 
                     <TextView
@@ -115,9 +112,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
                         android:text="销售部"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color33"
                         android:textSize="@dimen/sp_17" />
                 </LinearLayout>
             </LinearLayout>
@@ -130,13 +126,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="报销事由"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_17" />
 
                 <EditText
                     android:id="@+id/tv_reason"
                     style="@style/apply_pay_account_edit_style"
-                    android:layout_marginTop="@dimen/dp_10" />
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:textColor="@color/color33" />
             </LinearLayout>
 
             <LinearLayout
@@ -153,14 +150,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="预借款"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_17" />
 
                 <EditText
                     android:id="@+id/tv_money"
                     style="@style/apply_pay_account_edit_style"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="@color/color33" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -245,15 +243,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ly_disparity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:id="@+id/ly_disparity"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <View style="@style/apply_pay_account_line_style" />
-                <LinearLayout
-                    style="@style/apply_layout_pd16_style">
+
+                <LinearLayout style="@style/apply_layout_pd16_style">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -283,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dp_16"
                     android:text="报销说明"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
@@ -291,7 +290,8 @@
                     style="@style/apply_pay_account_edit_style"
                     android:layout_marginTop="@dimen/dp_10"
                     android:minHeight="@dimen/dp_44"
-                    android:text="因赶上下大雨，路上给大家买了一次性雨衣，一共6件，共计消费120元，无发票可证明，望批准报销。" />
+                    android:text="因赶上下大雨，路上给大家买了一次性雨衣，一共6件，共计消费120元，无发票可证明，望批准报销。"
+                    android:textColor="@color/color_99" />
             </LinearLayout>
 
             <LinearLayout

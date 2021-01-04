@@ -3,13 +3,12 @@ package com.example.bq.edmp.work.marketingactivities.bean;
 import java.io.Serializable;
 import java.util.List;
 
-public class MarketingActivitiesDetailsBean implements Serializable {
-
+public class ActivitySiteBean implements Serializable {
 
     /**
      * code : 200
      * msg : 查询成功
-     * data : {"id":9,"owner":1,"orgId":2,"deptId":23,"region":"北京市 东城区","customerId":24,"name":"北京活动","responsiblePeople":"可乐","address":"北京","purpose":"活动开始","advanceLoan":5000,"effect":null,"startTime":"2020-12-31","endTime":"2020-12-31","finishedTime":null,"addedTime":"2020-12-31","addedOperator":"李四","addedOperatorId":16,"status":1,"activityAnnex":null,"deptName":"运营部","customerName":"雪碧vs可乐","orgName":"北京爱种网络科技有限公司 - 北京分公司","activityItems":[{"id":9,"activityId":9,"type":1,"uri":"/2020/1609405122144-7169.pdf"},{"id":10,"activityId":9,"type":1,"uri":"/2020/1609405122266-265.docx"}]}
+     * data : {"id":9,"owner":1,"orgId":2,"deptId":23,"region":"110102","customerId":24,"name":"北京活动","responsiblePeople":"可乐","address":"北京","purpose":"活动开始","advanceLoan":5000,"effect":"放假开心","startTime":"2020-12-31","endTime":"2020-12-31","finishedTime":"2021-01-04T03:08:57.000+0000","addedTime":"2020-12-31","addedOperator":"李四","addedOperatorId":16,"status":5,"activityAnnex":null,"deptName":"运营部","customerName":"雪碧vs可乐","orgName":"北京爱种网络科技有限公司 - 北京分公司","regionName":"北京市 西城区","activityItems":[{"id":16,"activityId":9,"type":2,"uri":"/2021/1609729736986-145.jpg"},{"id":17,"activityId":9,"type":2,"uri":"/2021/1609729737423-5492.jpg"}]}
      */
 
     private int code;
@@ -46,26 +45,27 @@ public class MarketingActivitiesDetailsBean implements Serializable {
          * owner : 1
          * orgId : 2
          * deptId : 23
-         * region : 北京市 东城区
+         * region : 110102
          * customerId : 24
          * name : 北京活动
          * responsiblePeople : 可乐
          * address : 北京
          * purpose : 活动开始
          * advanceLoan : 5000.0
-         * effect : null
+         * effect : 放假开心
          * startTime : 2020-12-31
          * endTime : 2020-12-31
-         * finishedTime : null
+         * finishedTime : 2021-01-04T03:08:57.000+0000
          * addedTime : 2020-12-31
          * addedOperator : 李四
          * addedOperatorId : 16
-         * status : 1
+         * status : 5
          * activityAnnex : null
          * deptName : 运营部
          * customerName : 雪碧vs可乐
          * orgName : 北京爱种网络科技有限公司 - 北京分公司
-         * activityItems : [{"id":9,"activityId":9,"type":1,"uri":"/2020/1609405122144-7169.pdf"},{"id":10,"activityId":9,"type":1,"uri":"/2020/1609405122266-265.docx"}]
+         * regionName : 北京市 西城区
+         * activityItems : [{"id":16,"activityId":9,"type":2,"uri":"/2021/1609729736986-145.jpg"},{"id":17,"activityId":9,"type":2,"uri":"/2021/1609729737423-5492.jpg"}]
          */
 
         private int id;
@@ -73,14 +73,13 @@ public class MarketingActivitiesDetailsBean implements Serializable {
         private int orgId;
         private int deptId;
         private String region;
-        private String regionName;
         private int customerId;
         private String name;
         private String responsiblePeople;
         private String address;
         private String purpose;
         private double advanceLoan;
-        private Object effect;
+        private String effect;
         private String startTime;
         private String endTime;
         private String finishedTime;
@@ -92,15 +91,8 @@ public class MarketingActivitiesDetailsBean implements Serializable {
         private String deptName;
         private String customerName;
         private String orgName;
+        private String regionName;
         private List<ActivityItemsBean> activityItems;
-
-        public String getRegionName() {
-            return regionName;
-        }
-
-        public void setRegionName(String regionName) {
-            this.regionName = regionName;
-        }
 
         public int getId() {
             return id;
@@ -190,11 +182,11 @@ public class MarketingActivitiesDetailsBean implements Serializable {
             this.advanceLoan = advanceLoan;
         }
 
-        public Object getEffect() {
+        public String getEffect() {
             return effect;
         }
 
-        public void setEffect(Object effect) {
+        public void setEffect(String effect) {
             this.effect = effect;
         }
 
@@ -286,6 +278,14 @@ public class MarketingActivitiesDetailsBean implements Serializable {
             this.orgName = orgName;
         }
 
+        public String getRegionName() {
+            return regionName;
+        }
+
+        public void setRegionName(String regionName) {
+            this.regionName = regionName;
+        }
+
         public List<ActivityItemsBean> getActivityItems() {
             return activityItems;
         }
@@ -296,10 +296,10 @@ public class MarketingActivitiesDetailsBean implements Serializable {
 
         public static class ActivityItemsBean {
             /**
-             * id : 9
+             * id : 16
              * activityId : 9
-             * type : 1
-             * uri : /2020/1609405122144-7169.pdf
+             * type : 2
+             * uri : /2021/1609729736986-145.jpg
              */
 
             private int id;

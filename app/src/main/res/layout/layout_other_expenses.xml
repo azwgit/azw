@@ -11,12 +11,13 @@
             android:layout_width="@dimen/dp_90"
             android:layout_height="wrap_content"
             android:text="项目描述"
-            android:textColor="@color/text_black"
+            android:textColor="@color/color_66"
             android:textSize="@dimen/sp_16" />
 
         <TextView
             android:enabled="false"
             android:id="@+id/tv_type"
+            android:textColor="@color/color33"
             style="@style/textcolor_70_style"
             android:layout_marginTop="0dp"
             android:text="市内车费" />
@@ -29,7 +30,7 @@
             android:layout_width="@dimen/dp_90"
             android:layout_height="wrap_content"
             android:text="项目花费"
-            android:textColor="@color/text_black"
+            android:textColor="@color/color_66"
             android:textSize="@dimen/sp_16" />
         <TextView
             android:layout_width="wrap_content"
@@ -42,6 +43,7 @@
         <EditText
             android:inputType="number"
             android:id="@+id/et_money"
+            android:textColor="@color/color_66"
             style="@style/apply_pay_account_edit_style"
             />
     </LinearLayout>
@@ -57,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="上传单据"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <ImageView

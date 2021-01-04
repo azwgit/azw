@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="陈一一提出的差旅报账申请"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_17" />
 
                 <TextView
@@ -35,9 +35,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_title"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:alpha="0.7"
                     android:text="安徽皖垦种业股份有限公司"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -46,9 +45,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_company"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:alpha="0.7"
                     android:text="部门"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_14" />
 
                 <ImageView
@@ -82,7 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="审核编号"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color_66"
                         android:textSize="@dimen/sp_17" />
 
                     <TextView
@@ -90,9 +88,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
                         android:text="234789237498234"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color33"
                         android:textSize="@dimen/sp_17" />
                 </LinearLayout>
                 <LinearLayout
@@ -103,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="报销日期"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color_66"
                         android:textSize="@dimen/sp_17" />
 
                     <TextView
@@ -111,8 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_16"
-                        android:alpha="0.7"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/color33"
                         android:textSize="@dimen/sp_17" />
                 </LinearLayout>
             </LinearLayout>
@@ -125,10 +121,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="报销事由"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_17" />
 
                 <EditText
+                    android:textColor="@color/color33"
                     android:id="@+id/tv_reason"
                     android:layout_marginTop="@dimen/dp_10"
                     style="@style/apply_pay_account_edit_style" />
@@ -147,10 +144,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="预借款"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_17" />
 
                 <EditText
+                    android:textColor="@color/color33"
                     android:id="@+id/tv_money"
                     android:inputType="number"
                     android:layout_marginTop="@dimen/dp_10"
@@ -240,13 +238,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dp_16"
                     android:text="报销说明"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
                     android:id="@+id/tv_remark"
                     android:layout_marginTop="@dimen/dp_10"
                     android:maxLength="200"
+                    android:textColor="@color/color_99"
                     style="@style/apply_pay_account_edit_style"
                     android:minHeight="@dimen/dp_44"
                     android:hint="请填写需要补充的报销说明（非必填）" />

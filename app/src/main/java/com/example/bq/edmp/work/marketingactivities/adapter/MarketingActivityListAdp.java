@@ -47,7 +47,7 @@ public class MarketingActivityListAdp extends RecyclerView.Adapter<MarketingActi
         if (mItemClickListener != null) {
             holder.tv_name.setText(rowsBean.getDeptName()+"-"+rowsBean.getResponsiblePeople());
             holder.tv_title.setText(rowsBean.getName());
-            holder.tv_money.setText(rowsBean.getAdvanceLoan() + "");
+            holder.tv_money.setText("￥" + MoneyUtils.formatMoney(rowsBean.getAdvanceLoan()));
             holder.tv_time.setText("活动时间"+rowsBean.getStartTime());
             holder.ly_view.setOnClickListener(new View.OnClickListener() {
                 @Override

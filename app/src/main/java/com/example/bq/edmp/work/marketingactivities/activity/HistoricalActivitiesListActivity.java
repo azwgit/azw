@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
@@ -21,6 +22,8 @@ import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CustomerAccountListBean;
 import com.example.bq.edmp.work.marketingactivities.adapter.HistoricalActivitiesListAdp;
 import com.example.bq.edmp.work.marketingactivities.adapter.MarketingActivityListAdp;
+import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
+import com.example.bq.edmp.work.marketingactivities.bean.HistoricalListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
     XRecyclerView xr;
     private int currentPager = 1;
     private String name = "";
-    private ArrayList<CustomerAccountListBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<HistoricalListBean.DataBean.RowsBean> rowsBeans;
     private HistoricalActivitiesListAdp historicalActivitiesListAdp;
 
     @Override
@@ -56,6 +59,7 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("营销活动管理");
+        ProApplication.getinstance().addActivity(this);
         //数据
         rowsBeans = new ArrayList<>();
         historicalActivitiesListAdp = new HistoricalActivitiesListAdp(rowsBeans);
@@ -81,8 +85,8 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
 
         historicalActivitiesListAdp.setOnItemClickListener(new HistoricalActivitiesListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, CustomerAccountListBean.DataBean.RowsBean rowsBean) {
-                startActivity(new Intent(getApplicationContext(), HistoricalActivitiesDetailsActivity.class));
+            public void onItemClick(int pos, HistoricalListBean.DataBean.RowsBean rowsBean) {
+                HistoricalActivitiesDetailsActivity.newIntent(getApplicationContext(),rowsBean.getId()+"");
             }
         });
 
@@ -114,21 +118,21 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
 
         String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerAccountList(name, currentPager, 15, sign)
-                .compose(Transformer.<CustomerAccountListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<CustomerAccountListBean>() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getHistoryList(name, currentPager, 15, sign)
+                .compose(Transformer.<HistoricalListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<HistoricalListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(CustomerAccountListBean machineListBean) {
+                    protected void onSuccess(HistoricalListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
                             wsj.setVisibility(View.GONE);
                             xr.setVisibility(View.VISIBLE);
-                            List<CustomerAccountListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<HistoricalListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
@@ -154,19 +158,19 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
     private void initData2() {
         String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getCustomerAccountList(name, currentPager, 15, sign)
-                .compose(Transformer.<CustomerAccountListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<CustomerAccountListBean>() {
+        RxHttpUtils.createApi(MarketingActivitiesApi.class)
+                .getHistoryList(name, currentPager, 15, sign)
+                .compose(Transformer.<HistoricalListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<HistoricalListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(CustomerAccountListBean machineListBean) {
+                    protected void onSuccess(HistoricalListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
-                            List<CustomerAccountListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<HistoricalListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
                                 historicalActivitiesListAdp.addMoreData(rows);

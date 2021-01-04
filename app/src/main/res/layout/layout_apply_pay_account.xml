@@ -18,7 +18,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="报账人"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -26,16 +26,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:alpha="0.7"
                 android:text="账单"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color33"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
             <View style="@style/apply_pay_account_line_style" />
         </LinearLayout>
 
@@ -45,28 +45,30 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="所在部门"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
                 android:id="@+id/tv_dept"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:alpha="0.7"
                 android:text="技术部"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color33"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
             <View style="@style/apply_pay_account_line_style" />
         </LinearLayout>
 
 
-        <LinearLayout style="@style/apply_pay_account_layout_style" android:id="@+id/ly_time">
+        <LinearLayout
+            android:id="@+id/ly_time"
+            style="@style/apply_pay_account_layout_style">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,17 +81,17 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:text="报销日期"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
-                android:gravity="center_vertical"
+                android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_date"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_16"
-                android:hint="请选择报销日期" />
+                android:gravity="center_vertical"
+                android:hint="请选择报销日期"
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
         <LinearLayout
@@ -107,19 +109,21 @@
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:text="出差事由"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <EditText
                 android:id="@+id/et_reason"
+                android:textColor="@color/color33"
                 style="@style/apply_pay_account_edit_style"
                 android:hint="请输入出差是由" />
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
             <View style="@style/apply_pay_account_line_style" />
         </LinearLayout>
 
@@ -131,28 +135,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp_3"
                 android:text="*"
-                android:visibility="invisible"
-                android:textColor="@color/colorf9" />
+                android:textColor="@color/color_66"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:text="预借旅费"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" ¥"
                 android:layout_marginRight="@dimen/dp_8"
+                android:text=" ¥"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/sp_16" />
 
             <EditText
                 android:id="@+id/et_money"
-                android:inputType="number"
+                android:textColor="@color/color33"
+                style="@style/apply_pay_account_edit_style"
                 android:hint="0.00"
-                style="@style/apply_pay_account_edit_style" />
+                android:inputType="number" />
         </LinearLayout>
     </LinearLayout>
 
