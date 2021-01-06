@@ -203,7 +203,7 @@ public class ProApplication extends MultiDexApplication {
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzgwMDAwMDAwMCIsInN1YiI6IjE2LOadjuWbmywxLDIsMiIsImlzcyI6IkVEUCIsImlhdCI6MTYwOTcyMzYxMywiZXhwIjoxNjA5ODEwMDEzfQ.K36ItxYKalTTehNmhnaaqn6qV4_rqyvsbwRgSmwsoSg");
+                        hashMap.put("Access-Token","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzgwMDAwMDAwMCIsInN1YiI6IjE2LOadjuWbmywxLDIsMiIsImlzcyI6IkVEUCIsImlhdCI6MTYwOTg5NjY3MywiZXhwIjoxNjA5OTgzMDczfQ.FXyLfqGrox7hCrsqKM167rFHFDN_N4aCiAS26vVPq3U");
                         return hashMap;
                     }
                 })

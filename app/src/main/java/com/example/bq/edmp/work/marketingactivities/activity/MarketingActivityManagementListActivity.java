@@ -40,12 +40,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /*
  * 加工任务    待确认
  * */
-public class MarketingActivityManagementListActivity extends BaseTitleActivity {
+public class MarketingActivityManagementListActivity extends BaseTitleActivity implements EasyPermissions.PermissionCallbacks {
     public static void newIntent(Context context) {
         Intent intent = new Intent(context, MarketingActivityManagementListActivity.class);
         context.startActivity(intent);
@@ -64,6 +65,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
     private String name = "";
     private ArrayList<ActivityManagementListBean.DataBean.RowsBean> rowsBeans;
     private MarketingActivityListAdp marketingActivityListAdp;
+    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
     @Override
     protected int getLayoutId() {
@@ -124,6 +126,12 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
 
     @Override
     protected void initData() {
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        requestCodeQRCodePermissions();
     }
 
     @Override
@@ -211,8 +219,13 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add:
-                AddActivitiesActivity.newIntent(getApplicationContext());
-                finish();
+                String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                if (EasyPermissions.hasPermissions(this, perms)) {
+                    AddActivitiesActivity.newIntent(getApplicationContext());
+                    finish();
+                } else {
+                    requestCodeQRCodePermissions();
+                }
                 break;
         }
 
@@ -224,5 +237,32 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity {
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            ToastUtil.setToast("请设置读写权限");
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
+    private void requestCodeQRCodePermissions() {
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "发布活动需要读写权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+        } else {
+
+        }
+    }
 }
