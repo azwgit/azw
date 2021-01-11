@@ -36,7 +36,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".work.marketingactivities.activity.ActivitySiteActivity"></activity>
+        <activity android:name=".work.returnsmanagement.activity.ApplyForRefundActivity"></activity>
+        <activity android:name=".work.returnsmanagement.activity.AddReturnsGoodsActivity" />
+        <activity android:name=".work.marketingactivities.activity.ActivitySiteActivity" />
 
         <meta-data
             android:name="com.google.android.actions"
@@ -79,32 +81,46 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.MarketingActivityManagementListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.returnsmanagement.activity.ReturnsManagementtListActivity"
             android:windowSoftInputMode="stateHidden">
-
         </activity>
-        <activity android:name=".work.marketingactivities.activity.ActivitiesDetailsActivity">
+        <activity
+            android:name=".work.returnsmanagement.activity.ReturnsGoodsListActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".work.returnsmanagement.activity.DeliverGoodsListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.returnsmanagement.activity.ReturnsGoodsHistoricalListActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".work.returnsmanagement.activity.ReturnsGoodsDetailsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".work.marketingactivities.activity.ActivitiesDetailsActivity" />
         <activity
             android:name=".work.marketingactivities.activity.AddActivitiesActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.EditActivitiesActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.HistoricalActivitiesDetailsActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.HistoricalActivitiesListActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-
-        </activity>
-
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.ActivityEnclosureActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity" />
         <activity android:name=".base.ServiceAndDemonstrateFieldWebViewActivity" />
         <activity android:name=".work.inventorytransfer.activity.AddTransferGoodsActivity" />
@@ -172,12 +188,11 @@
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
         <activity android:name=".activity.StartActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity
+            android:name=".work.approvalmanagement.activity.AllocationApprovalActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <meta-data
             android:name="design_width"
@@ -246,30 +261,20 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-
         <activity
             android:name=".work.order.activity.ChooseCustomerActivity"
             android:windowSoftInputMode="stateHidden" />
-
         <activity android:name=".work.order.activity.GoodsListActivity" />
-
         <activity
             android:name=".work.order.activity.HistoryOrderActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.order.activity.ModifyOrderActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.order.activity.NewOrderActivity" />
-
-
         <activity android:name=".work.order.activity.Order_GL_Activity" />
-
         <activity android:name=".work.order.activity.OrderTrackingActivity" />
-
-
-        <activity android:name=".work.order.activity.Order_Tracking_DetailsActivity"></activity>
+        <activity android:name=".work.order.activity.Order_Tracking_DetailsActivity" />
     </application>
 
 </manifest>

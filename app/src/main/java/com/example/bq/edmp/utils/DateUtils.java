@@ -83,6 +83,18 @@ public class DateUtils {
         timeStemp = d.getTime();
         return timeStemp;
     }
+    /* //日期转换为时间戳 */
+    public static long timeToStamptwo(String timers) {
+        Date d = new Date();
+        long timeStemp = 0;
+        try {
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            d = sf.parse(timers);// 日期转换为时间戳
+        } catch (ParseException e) {// TODO Auto-generated catch blocke.printStackTrace();
+        }
+        timeStemp = d.getTime();
+        return timeStemp;
+    }
 
 }
 

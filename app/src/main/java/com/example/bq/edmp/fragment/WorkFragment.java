@@ -6,15 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
-import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseFragment;
 import com.example.bq.edmp.http.NewCommonObserver;
-import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.activity.AuditActivity;
@@ -36,15 +33,8 @@ import com.example.bq.edmp.work.detection.NewDetectionActivity;
 import com.example.bq.edmp.work.finished.DmachineActivity;
 import com.example.bq.edmp.work.finished.JmachineActivity;
 import com.example.bq.edmp.work.finished.YmachineActivity;
-import com.example.bq.edmp.work.finishedproduct.activity.DeliverGoodsDetailsActivity;
-import com.example.bq.edmp.work.finishedproduct.activity.FinishedStockDetailActivity;
-import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingDetailActivity;
-import com.example.bq.edmp.work.finishedproduct.activity.FinishedWarehousingOutDetailActivity;
-import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
-import com.example.bq.edmp.work.inventorytransfer.activity.AddFinishedProductAllocationActivity;
-import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity;
 import com.example.bq.edmp.work.library.activity.ClibraryActivity;
 import com.example.bq.edmp.work.library.activity.CxlibraryActivity;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
@@ -59,6 +49,7 @@ import com.example.bq.edmp.work.order.activity.Order_GL_Activity;
 import com.example.bq.edmp.work.shipments.DshipmentsActivity;
 import com.example.bq.edmp.work.shipments.YshipmentsActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -193,6 +184,12 @@ public class WorkFragment extends BaseFragment {
                                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                                 linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                                 right_recycler.setLayoutManager(linearLayoutManager);
+                                for (int i = 0; i < secondResult.getData().size(); i++) {
+                                    if (null == secondResult.getData().get(i) || secondResult.getData().get(i).getSubt().size() <= 0) {
+                                        secondResult.getData().remove(i);
+                                        i--;
+                                    }
+                                }
                                 right_recycler.setAdapter(rightAdapter);
                                 rightAdapter.setList(secondResult.getData());
                                 rightAdapter.setOnInterface(new RightAdapter.OnInterface() {
@@ -233,9 +230,9 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), YmachineActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/product/process/record")) {//成品管理====加工记录
                                                 ToastUtil.setToast("加工记录,暂未开通");
-                                            } else if (subtBean.getAccessUri().equals("/order/sendout")) {//发货管理====发货
+                                            } else if (subtBean.getAccessUri().equals("/product/order/sendout")) {//发货管理====发货
                                                 startActivity(new Intent(getActivity(), DshipmentsActivity.class));
-                                            } else if (subtBean.getAccessUri().equals("/order/sendout/record")) {//发货管理====发货记录
+                                            } else if (subtBean.getAccessUri().equals("/product/order/sendout/record")) {//发货管理====发货记录
                                                 startActivity(new Intent(getActivity(), YshipmentsActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/product/addstock")) {//成品管理====入库
                                                 startActivity(new Intent(getActivity(), RlibraryActivity.class));

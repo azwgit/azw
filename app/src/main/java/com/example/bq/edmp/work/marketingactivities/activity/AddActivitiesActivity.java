@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -298,9 +299,11 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                 checkAddData(1);
                 break;
             case R.id.tv_start_time:
+                hideKeyboard(mTvStartTime);
                 StartTime.show();
                 break;
             case R.id.tv_end_time:
+                hideKeyboard(mTvEndTime);
                 EndTime.show();
                 break;
             case R.id.tv_distribution_area:
@@ -825,5 +828,16 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                 }
                 break;
         }
+    }
+    /**
+     * 隐藏软键盘
+     *
+     * @param :上下文环境，一般为Activity实例
+     * @param view                 :一般为EditText
+     */
+    public static void hideKeyboard(View view) {
+        InputMethodManager manager = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -37,6 +37,7 @@ import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
+import com.example.bq.edmp.utils.DateUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
@@ -510,6 +511,10 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
             ToastUtil.setToast("请填写出补贴金额");
             return;
         }
+        if (DateUtils.timeToStamptwo(endTime) < DateUtils.timeToStamptwo(startTime)) {
+            ToastUtil.setToast("到达时间不能早于出发时间");
+            return;
+        }
         updataTraveling(endCity, endTime, tvDays, payInfoBean.getIdx(),payInfoBean.getId() + "", startCity, startTime, subsidyMoney, transport, carMoney);
     }
     //修改差旅日程信息
@@ -682,7 +687,7 @@ public class UpdataAddTravelDayInfoAct extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8080/reimburser/bill/save", "billFile", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_mdffx+"reimburser/bill/save", "billFile", paramsMap, filePaths);
     }
     //上傳圖片到服务器
     private void uploadImgAndPar(String uploadUrl, String fileName, Map<String, Object> paramsMap, List<String> uploadPaths) {

@@ -222,7 +222,7 @@ public class NewDetectionActivity extends BaseActivity implements DetectionJianC
                                 detectionJianCeXiangListAdp.notifyDataSetChanged();
                                 //隐藏检测信息
                                 mTvJiance.setVisibility(View.GONE);
-
+                                finish();
                             } else {
                                 states = 0;
                                 dieesOkDialog();

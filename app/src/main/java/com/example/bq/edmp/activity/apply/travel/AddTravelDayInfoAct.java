@@ -29,9 +29,11 @@ import com.example.bq.edmp.activity.apply.LocalNewMedia;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.DataUtils;
+import com.example.bq.edmp.utils.DateUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
@@ -100,7 +102,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
     @BindView(R.id.pic_recyclerview)
     RecyclerView mRecyclerView;
 
-    private String transport="";//交通工具
+    private String transport = "";//交通工具
     private GridImageAdapter mAdapter;
     private int maxSelectNum = 9;
     private List<LocalMedia> selectList = new ArrayList<>();
@@ -111,6 +113,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
     private int themeId;
     private PayInfoBean payInfoBean = null;
     private ILoadingView loading_dialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.layout_add_travel_day_info;
@@ -225,9 +228,9 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                     }
                 }
                 //包含. 查看. 前面是否有值
-                if(s.toString().trim().contains(".")){
-                    String  a=s.toString().trim().substring(0, s.toString().trim().indexOf("."));
-                    if(a.length()<=0){
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
                         s = "0" + s;
                         mEtCarMoney.setText(s);
                         mEtCarMoney.setSelection(2);
@@ -278,9 +281,9 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                     }
                 }
                 //包含. 查看. 前面是否有值
-                if(s.toString().trim().contains(".")){
-                    String  a=s.toString().trim().substring(0, s.toString().trim().indexOf("."));
-                    if(a.length()<=0){
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
                         s = "0" + s;
                         mEtSubsidyMoney.setText(s);
                         mEtSubsidyMoney.setSelection(2);
@@ -477,7 +480,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
             ToastUtil.setToast("请填写到达城市");
             return;
         }
-        if("".equals(transport)){
+        if ("".equals(transport)) {
             ToastUtil.setToast("请选择交通工具");
             return;
         }
@@ -491,7 +494,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
             ToastUtil.setToast("请填写出差天数");
             return;
         }
-        if (Integer.parseInt(tvDays)<0.5) {
+        if (Integer.parseInt(tvDays) < 0.5) {
             ToastUtil.setToast("出差天数必须大于0.5天");
             return;
         }
@@ -502,6 +505,10 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
         }
         if (selectList.size() <= 0) {
             ToastUtil.setToast("请上传单据");
+            return;
+        }
+        if (DateUtils.timeToStamptwo(endTime) < DateUtils.timeToStamptwo(startTime)) {
+            ToastUtil.setToast("到达时间不能早于出发时间");
             return;
         }
         initData(endCity, endTime, tvDays, payInfoBean.getId() + "", startCity, startTime, subsidyMoney, transport, carMoney);
@@ -527,7 +534,7 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8080/reimburser/traveling/newsave", "billFile", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_mdffx+"reimburser/traveling/newsave", "billFile", paramsMap, filePaths);
     }
 
     //图片上传接口
@@ -545,7 +552,8 @@ public class AddTravelDayInfoAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                        ;
                     }
 
                     @Override

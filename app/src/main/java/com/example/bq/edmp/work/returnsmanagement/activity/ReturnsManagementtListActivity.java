@@ -1,4 +1,4 @@
-package com.example.bq.edmp.work.marketingactivities.activity;
+package com.example.bq.edmp.work.returnsmanagement.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -6,33 +6,25 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
-import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.finished.MachineScanActivity;
-import com.example.bq.edmp.work.finished.adapter.DmachineListAdapter;
-import com.example.bq.edmp.work.finished.api.MachineApi;
-import com.example.bq.edmp.work.finished.bean.MachineListBean;
-import com.example.bq.edmp.work.finishedproduct.activity.MachiningTaskDetailsActivity;
-import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
-import com.example.bq.edmp.work.marketing.adapter.AccountListAdp;
-import com.example.bq.edmp.work.marketing.bean.CustomerAccountListBean;
+import com.example.bq.edmp.work.marketingactivities.activity.AddActivitiesActivity;
+import com.example.bq.edmp.work.marketingactivities.activity.EditActivitiesActivity;
 import com.example.bq.edmp.work.marketingactivities.adapter.MarketingActivityListAdp;
 import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
 import com.example.bq.edmp.work.marketingactivities.bean.ActivityManagementListBean;
+import com.example.bq.edmp.work.returnsmanagement.adapter.ReturnManagementActivityListAdp;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -44,11 +36,11 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /*
- * 加工任务    待确认
+ * 退货管理
  * */
-public class MarketingActivityManagementListActivity extends BaseTitleActivity implements EasyPermissions.PermissionCallbacks {
+public class ReturnsManagementtListActivity extends BaseTitleActivity {
     public static void newIntent(Context context) {
-        Intent intent = new Intent(context, MarketingActivityManagementListActivity.class);
+        Intent intent = new Intent(context, ReturnsManagementtListActivity.class);
         context.startActivity(intent);
     }
 
@@ -64,25 +56,25 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
     private int currentPager = 1;
     private String name = "";
     private ArrayList<ActivityManagementListBean.DataBean.RowsBean> rowsBeans;
-    private MarketingActivityListAdp marketingActivityListAdp;
+    private ReturnManagementActivityListAdp returnManagementActivityListAdp;
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_marketing_activity_management_list;
+        return R.layout.returns_management_list;
     }
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("营销活动管理");
+        txtTabTitle.setText("退货管理");
         ProApplication.getinstance().addActivity(this);
         //数据
         rowsBeans = new ArrayList<>();
-        marketingActivityListAdp = new MarketingActivityListAdp(rowsBeans);
-        xr.setAdapter(marketingActivityListAdp);
+        returnManagementActivityListAdp = new ReturnManagementActivityListAdp(rowsBeans);
+        xr.setAdapter(returnManagementActivityListAdp);
         xr.setPullRefreshEnabled(true);
         xr.setLoadingMoreEnabled(true);
-        xr.setLayoutManager(new LinearLayoutManager(MarketingActivityManagementListActivity.this));
+        xr.setLayoutManager(new LinearLayoutManager(ReturnsManagementtListActivity.this));
         xr.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -99,7 +91,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
             }
         });
 
-        marketingActivityListAdp.setOnItemClickListener(new MarketingActivityListAdp.OnItemClickListener() {
+        returnManagementActivityListAdp.setOnItemClickListener(new ReturnManagementActivityListAdp.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, ActivityManagementListBean.DataBean.RowsBean rowsBean) {
                 EditActivitiesActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
@@ -131,7 +123,6 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
     @Override
     protected void onStart() {
         super.onStart();
-        requestCodeQRCodePermissions();
     }
 
     @Override
@@ -163,19 +154,19 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
-                                marketingActivityListAdp.notifyDataSetChanged();
+                                returnManagementActivityListAdp.notifyDataSetChanged();
                             } else {
                                 wsj.setVisibility(View.VISIBLE);
                                 xr.setVisibility(View.GONE);
                                 rowsBeans.clear();
-                                marketingActivityListAdp.notifyDataSetChanged();
+                                returnManagementActivityListAdp.notifyDataSetChanged();
                                 ToastUtil.setToast("暂无数据");
                             }
                         } else {
                             wsj.setVisibility(View.VISIBLE);
                             xr.setVisibility(View.GONE);
                             rowsBeans.clear();
-                            marketingActivityListAdp.notifyDataSetChanged();
+                            returnManagementActivityListAdp.notifyDataSetChanged();
                             ToastUtil.setToast("暂无数据");
                         }
                     }
@@ -200,7 +191,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
                             List<ActivityManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
-                                marketingActivityListAdp.addMoreData(rows);
+                                returnManagementActivityListAdp.addMoreData(rows);
                             }
                         } else {
                             xr.setNoMore(true);
@@ -219,12 +210,7 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add:
-                String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                if (EasyPermissions.hasPermissions(this, perms)) {
-                    AddActivitiesActivity.newIntent(getApplicationContext());
-                } else {
-                    requestCodeQRCodePermissions();
-                }
+                startActivity(new Intent(getApplicationContext(), AddReturnsGoodsActivity.class));
                 break;
         }
 
@@ -236,32 +222,5 @@ public class MarketingActivityManagementListActivity extends BaseTitleActivity i
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            ToastUtil.setToast("请设置读写权限");
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-
-    }
-
-    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
-    private void requestCodeQRCodePermissions() {
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, "发布活动需要读写权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
-        } else {
-
-        }
-    }
 }

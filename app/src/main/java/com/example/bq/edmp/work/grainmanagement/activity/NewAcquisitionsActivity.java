@@ -67,7 +67,7 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
     private int varietiesId = 0;//所选品种id
     private int warehouseId = 0;//所选仓库id
     private int cropId = 0;//所选品种对应的作物id
-    private int farmId=0;//农场id
+    private int farmId = 0;//农场id
 
     @Override
     protected void initData() {
@@ -132,6 +132,10 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
             ToastUtil.setToast("请选择仓库");
             return;
         }
+        if (testPlanItemsBeans.size() <= 0) {
+            ToastUtil.setToast("当前品种无检测信息");
+            return;
+        }
         for (int i = 0; i < testPlanItemsBeans.size(); i++) {
             TestingBeanList.DataBean.TestPlanItemsBean testPlanItemsBean = testPlanItemsBeans.get(i);
             String content = testPlanItemsBean.getContent();
@@ -142,7 +146,7 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
                 }
             }
         }
-        addAcquisition(farmId+"",contractorId+"",varietiesId+"",warehouseId+"");
+        addAcquisition(farmId + "", contractorId + "", varietiesId + "", warehouseId + "");
     }
 
     //获取承包人列表
@@ -158,8 +162,12 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
 
                     @Override
                     protected void onSuccess(ContractorListBean bean) {
-                        contractorListBean = bean;
-                        showContractorList();
+                        if (bean.getCode() == 200) {
+                            contractorListBean = bean;
+                            showContractorList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
                     }
                 });
     }
@@ -181,7 +189,7 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 contractorId = contractorListBean.getData().get(position).getId();
                 mTvContractor.setText(contractorListBean.getData().get(position).getName());
-                farmId=contractorListBean.getData().get(position).getFarmId();
+                farmId = contractorListBean.getData().get(position).getFarmId();
                 //清空品种信息
                 mTvVarieties.setText("");
                 varietiesId = 0;
@@ -241,8 +249,12 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
 
                     @Override
                     protected void onSuccess(VarietiesListBean bean) {
-                        varietiesListBean = bean;
-                        showVarietiesList();
+                        if (bean.getCode() == 200) {
+                            varietiesListBean = bean;
+                            showVarietiesList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
 
                     }
                 });
@@ -320,8 +332,13 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
 
                     @Override
                     protected void onSuccess(WareHouseListBean bean) {
-                        wareHouseListBean = bean;
-                        showWareHousingList();
+                        if (bean.getCode() == 200) {
+                            wareHouseListBean = bean;
+                            showWareHousingList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+
                     }
                 });
     }
@@ -385,14 +402,19 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
 
                     @Override
                     protected void onSuccess(TestingBeanList bean) {
-                        detectionListAdp.setNewData(bean.getData().get(0).getTestPlanItems());
-                        testPlanItemsBeans = bean.getData().get(0).getTestPlanItems();
+                        if (bean.getCode() == 200) {
+                            detectionListAdp.setNewData(bean.getData().get(0).getTestPlanItems());
+                            testPlanItemsBeans = bean.getData().get(0).getTestPlanItems();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+
                     }
                 });
     }
 
     //新增收购
-    private void addAcquisition(String farmId,String contractorId,String varietiesId,String warehouseId) {
+    private void addAcquisition(String farmId, String contractorId, String varietiesId, String warehouseId) {
         List id = new ArrayList();
         List value = new ArrayList();
         for (int i = 0; i < testPlanItemsBeans.size(); i++) {

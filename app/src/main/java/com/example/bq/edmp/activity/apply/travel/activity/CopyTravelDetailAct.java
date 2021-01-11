@@ -39,6 +39,7 @@ import com.example.bq.edmp.activity.apply.travel.adapter.TravelDetailDayInfoAdp;
 import com.example.bq.edmp.activity.apply.travel.bean.TravelDetailsInfo;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.DataUtils;
 import com.example.bq.edmp.utils.LoadingDialog;
@@ -405,7 +406,7 @@ public class CopyTravelDetailAct extends BaseTitleActivity {
                 List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
                 for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
                     LocalNewMedia localNewMedia = new LocalNewMedia();
-                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    localNewMedia.setPath(BaseApi.base_img_url + bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
                     list.add(localNewMedia);
                 }
                 mList.get(0).setImg_list(list);
@@ -420,7 +421,7 @@ public class CopyTravelDetailAct extends BaseTitleActivity {
                 List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
                 for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
                     LocalNewMedia localNewMedia = new LocalNewMedia();
-                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    localNewMedia.setPath(BaseApi.base_img_url + bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
                     list.add(localNewMedia);
                 }
                 mList.get(1).setImg_list(list);
@@ -435,7 +436,7 @@ public class CopyTravelDetailAct extends BaseTitleActivity {
                 List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
                 for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
                     LocalNewMedia localNewMedia = new LocalNewMedia();
-                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    localNewMedia.setPath(BaseApi.base_img_url + bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
                     list.add(localNewMedia);
                 }
                 mList.get(2).setImg_list(list);
@@ -450,7 +451,7 @@ public class CopyTravelDetailAct extends BaseTitleActivity {
                 List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
                 for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
                     LocalNewMedia localNewMedia = new LocalNewMedia();
-                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    localNewMedia.setPath(BaseApi.base_img_url + bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
                     list.add(localNewMedia);
                 }
                 mList.get(3).setImg_list(list);
@@ -465,7 +466,7 @@ public class CopyTravelDetailAct extends BaseTitleActivity {
                 List<LocalNewMedia> list = new ArrayList<LocalNewMedia>();
                 for (int j = 0; j < bean.getReimburserItems().get(i).getReimburserItemBills().size(); j++) {
                     LocalNewMedia localNewMedia = new LocalNewMedia();
-                    localNewMedia.setPath(bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
+                    localNewMedia.setPath(BaseApi.base_img_url + bean.getReimburserItems().get(i).getReimburserItemBills().get(j).getUri());
                     list.add(localNewMedia);
                 }
                 mList.get(4).setImg_list(list);

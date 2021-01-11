@@ -90,8 +90,9 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
     private int themeId;
     private IntetnCode intetnCode = null;
     //开支项详情
-    private SelectReimbursementDetailsBean detailsBean=null;
+    private SelectReimbursementDetailsBean detailsBean = null;
     private ILoadingView loading_dialog;
+
     @Override
     protected void initListener() {
         mBtnSure.setOnClickListener(this);
@@ -119,7 +120,7 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
             ToastUtil.setToast("数据错误");
             finish();
         }
-        selectReimurser(intetnCode.getIdx()+"", intetnCode.getId()+"");
+        selectReimurser(intetnCode.getIdx() + "", intetnCode.getId() + "");
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         mTickRecyclerView.setLayoutManager(manager);
         mAdapter = new DeleteGridImageAdapter(getApplicationContext(), onAddPicClickListener);
@@ -154,7 +155,7 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
         mAdapter.setOnDelterImg(new DeleteGridImageAdapter.DeleteImg() {
             @Override
             public void deleteImgList(int postion) {
-                deleteImag(detailsBean.getData().getReimburserItemBills().get(postion).getId()+"",postion,"",intetnCode.getId()+"");
+                deleteImag(detailsBean.getData().getReimburserItemBills().get(postion).getId() + "", postion, "", intetnCode.getId() + "");
             }
         });
         // 清空图片缓存，包括裁剪、压缩后的图片 注意:必须要在上传完成后调用 必须要获取权限
@@ -215,9 +216,9 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                     }
                 }
                 //包含. 查看. 前面是否有值
-                if(s.toString().trim().contains(".")){
-                    String  a=s.toString().trim().substring(0, s.toString().trim().indexOf("."));
-                    if(a.length()<=0){
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
                         s = "0" + s;
                         mEtProMoney.setText(s);
                         mEtProMoney.setSelection(2);
@@ -255,19 +256,19 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
     //接口查询成功赋值
     private void initDetailsView(SelectReimbursementDetailsBean.DataBean dataBean) {
         mEtProDesc.setText(dataBean.getName());
-        if("".equals(mEtProMoney.getText().toString().trim())){
+        if ("".equals(mEtProMoney.getText().toString().trim())) {
             mEtProMoney.setText(MoneyUtils.formatMoney(dataBean.getAmount()));
         }
         newSelectList.clear();
         for (int i = 0; i < dataBean.getReimburserItemBills().size(); i++) {
             LocalMedia localMedia = new LocalMedia();
-            localMedia.setPath(BaseApi.base_img_url +dataBean.getReimburserItemBills().get(i).getUri());
+            localMedia.setPath(BaseApi.base_img_url + dataBean.getReimburserItemBills().get(i).getUri());
             newSelectList.add(localMedia);
         }
         //保證每次添加按钮
-       int maxNumber =dataBean.getReimburserItemBills().size()+1;
+        int maxNumber = dataBean.getReimburserItemBills().size() + 1;
         //每次打开相册只能选一张
-        maxSelectNum=1;
+        maxSelectNum = 1;
         mAdapter.setSelectMax(maxNumber);
         mAdapter.notifyDataSetChanged();
     }
@@ -280,15 +281,15 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
             return;
         }
         String mProMoney = mEtProMoney.getText().toString().trim();
-        if(Double.parseDouble(mProMoney)>0){
-            if(newSelectList.size()<=0){
+        if (Double.parseDouble(mProMoney) > 0) {
+            if (newSelectList.size() <= 0) {
                 ToastUtil.setToast("请上传单据");
                 return;
-            }else{
-                updateReimbursement(mProMoney, intetnCode.getIdx()+"", proDesc, intetnCode.getId()+"");
+            } else {
+                updateReimbursement(mProMoney, intetnCode.getIdx() + "", proDesc, intetnCode.getId() + "");
             }
-        }else{
-            updateReimbursement(mProMoney, intetnCode.getIdx()+"", proDesc, intetnCode.getId()+"");
+        } else {
+            updateReimbursement(mProMoney, intetnCode.getIdx() + "", proDesc, intetnCode.getId() + "");
         }
 
     }
@@ -302,7 +303,8 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<UpdateRembursemenBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                        ;
                     }
 
                     @Override
@@ -333,7 +335,7 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8080/reimburser/bill/save", "billFile", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_mdffx + "reimburser/bill/save", "billFile", paramsMap, filePaths);
     }
 
     //上傳圖片到服务器
@@ -351,7 +353,8 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                     @Override
                     protected void onError(String errorMsg) {
                         Log.e("allen", "上传失败: " + errorMsg);
-                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                        ;
                     }
 
                     @Override
@@ -361,17 +364,17 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                             String json = new String(responseBody.bytes());
                             Gson gson = new Gson();
                             obj = gson.fromJson(json, AddApplyPayBean.class);
-                        }catch (Exception ex){
+                        } catch (Exception ex) {
 
                         }
-                        if(obj.getCode()==200){
+                        if (obj.getCode() == 200) {
                             ToastUtil.setToast("单据上传成功");
                             //图片上传成功赋值给图片数据源
                             newSelectList.add(selectList.get(0));
                             mAdapter.setList(newSelectList);
                             mAdapter.notifyDataSetChanged();
                             selectList.clear();
-                            selectReimurser(intetnCode.getIdx()+"", intetnCode.getId()+"");
+                            selectReimurser(intetnCode.getIdx() + "", intetnCode.getId() + "");
                         }
                     }
                 });
@@ -442,13 +445,14 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                 .subscribe(new CommonObserver<SelectReimbursementDetailsBean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                        ;
                     }
 
                     @Override
                     protected void onSuccess(SelectReimbursementDetailsBean selectReimbursementDetailsBean) {
                         if (selectReimbursementDetailsBean.getCode() == 200) {
-                             detailsBean=selectReimbursementDetailsBean;
+                            detailsBean = selectReimbursementDetailsBean;
                             initDetailsView(selectReimbursementDetailsBean.getData());
                         } else {
                             ToastUtil.setToast("开支项详情查询失败请重试");
@@ -459,25 +463,26 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
     }
 
     //删除单据
-    private void deleteImag(String id, int position,String itemType,String reimburserId) {
+    private void deleteImag(String id, int position, String itemType, String reimburserId) {
         final int pos = position;
-        String sign = MD5Util.encode("id=" + id+"&itemType="+itemType+"&reimburserId="+reimburserId);
+        String sign = MD5Util.encode("id=" + id + "&itemType=" + itemType + "&reimburserId=" + reimburserId);
         RxHttpUtils.createApi(ReimbursementApi.class)
-                .deleteIdBill(id, itemType,reimburserId,sign)
+                .deleteIdBill(id, itemType, reimburserId, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new CommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
-                         ActivityUtils.getMsg(errorMsg,getApplicationContext());;
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                        ;
                     }
 
                     @Override
                     protected void onSuccess(BaseABean baseABean) {
-                        if(baseABean.getCode()==200){
+                        if (baseABean.getCode() == 200) {
                             ToastUtil.setToast("单据删除成功");
                             //刪除成功刷新頁面
-                            selectReimurser(intetnCode.getIdx()+"", intetnCode.getId()+"");
-                        }else{
+                            selectReimurser(intetnCode.getIdx() + "", intetnCode.getId() + "");
+                        } else {
                             ToastUtil.setToast(baseABean.getMsg());
                         }
                     }
@@ -503,7 +508,7 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                             Log.i("图片-----》", media.getPath());
                             list.add(media.getPath());
                         }
-                        uploadImg(intetnCode.getIdx()+"","1",intetnCode.getId()+"");
+                        uploadImg(intetnCode.getIdx() + "", "1", intetnCode.getId() + "");
                         //TODO 上传图片接口
 //                        new API(LeaveActivity.this, Base.getClassType()).uploadApprovalImg(list);
                         break;
@@ -511,6 +516,7 @@ public class UpdateTravelOtherExpensesAct extends BaseTitleActivity {
                 break;
         }
     }
+
     //安卓重写返回键事件
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

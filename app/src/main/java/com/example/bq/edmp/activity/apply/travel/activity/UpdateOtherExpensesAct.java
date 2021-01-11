@@ -347,7 +347,7 @@ public class UpdateOtherExpensesAct extends BaseTitleActivity {
         for (int i = 0; i < selectList.size(); i++) {
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8080/reimburser/bill/save", "billFile", paramsMap, filePaths);
+        uploadImgAndPar(BaseApi.base_url_mdffx+"reimburser/bill/save", "billFile", paramsMap, filePaths);
     }
 
     //上傳圖片到服务器

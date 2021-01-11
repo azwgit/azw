@@ -25,6 +25,7 @@ import com.example.bq.edmp.activity.apply.LocalNewMedia;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
@@ -259,7 +260,7 @@ public class OtherExpensesAct extends BaseTitleActivity {
         for(int i=0;i<selectList.size();i++){
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8080/reimburser/item/newsave","billFile",paramsMap,filePaths);
+        uploadImgAndPar(BaseApi.base_url_mdffx+"reimburser/item/newsave","billFile",paramsMap,filePaths);
     }
 
     private void uploadImgAndPar(String uploadUrl,String fileName, Map<String, Object> paramsMap,  List<String> uploadPaths) {

@@ -23,6 +23,7 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
@@ -257,7 +258,7 @@ public class AddPayInfoAct extends BaseTitleActivity {
         for(int i=0;i<selectList.size();i++){
             filePaths.add(selectList.get(i).getPath());
         }
-        uploadImgAndPar("http://192.168.0.188:8080/reimburser/item/newsave","billFile",paramsMap,filePaths);
+        uploadImgAndPar(BaseApi.base_url_mdffx+"reimburser/item/newsave","billFile",paramsMap,filePaths);
     }
     //图片上传接口
     private void uploadImgAndPar(String uploadUrl,String fileName, Map<String, Object> paramsMap,  List<String> uploadPaths) {
