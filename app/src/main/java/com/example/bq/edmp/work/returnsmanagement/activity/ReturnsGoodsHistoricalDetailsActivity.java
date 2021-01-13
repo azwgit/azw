@@ -1,18 +1,11 @@
 package com.example.bq.edmp.work.returnsmanagement.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,28 +15,17 @@ import com.allen.library.interfaces.ILoadingView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.ApprovalAdp;
-import com.example.bq.edmp.activity.apply.GridImageAdapter;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
-import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.marketingactivities.activity.HistoricalActivitiesDetailsActivity;
-import com.example.bq.edmp.work.marketingactivities.adapter.EnclosureAdapter;
 import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
-import com.example.bq.edmp.work.returnsmanagement.bean.ApplyForRefundBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsGoodsDetailsBean;
 import com.example.bq.edmp.work.returnsmanagement.eventbus.CloseActivity;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.permissions.RxPermissions;
-import com.luck.picture.lib.tools.PictureFileUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,12 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
-public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
+public class ReturnsGoodsHistoricalDetailsActivity extends BaseTitleActivity {
     public static void newIntent(Context context, String id) {
-        Intent intent = new Intent(context, ReturnsGoodsDetailsActivity.class);
+        Intent intent = new Intent(context, ReturnsGoodsHistoricalDetailsActivity.class);
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
@@ -181,7 +161,7 @@ public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
         }
     }
 
-    //获取发货详情
+    //获取退货详情
     private void ReturnGoodsDetails() {
         String sign = MD5Util.encode("id=" + id);
         RxHttpUtils.createApi(ReturnGoodsApi.class)
@@ -208,20 +188,11 @@ public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
 
     //详情赋值
     private void setData(ReturnsGoodsDetailsBean.DataBean bean) {
+        mLyNumber.setVisibility(View.GONE);
+        mLyState.setVisibility(View.GONE);
+        mRlTime.setVisibility(View.VISIBLE);
         mTvReturenGoodsOrder.setText("退货单 " + bean.getCode());
-        String status = "";
-        switch (bean.getStatus()) {
-            case 2:
-                status = "待审批";
-                break;
-            case 3:
-                status = "审批拒绝";
-                break;
-            case 4:
-                status = "退货中";
-                break;
-        }
-        tv_stuats.setText(status);
+        tv_stuats.setText("已完成");
         mTvOrderNumbern.setText("订单号" + bean.getOrderCode());
         mTvCompany.setText(bean.getOrgName());
         mTvName.setText(bean.getAddedOperator());
@@ -251,5 +222,6 @@ public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
         mTvSalesCustomers.setText(bean.getCgCustomerName());//销售客户
         mTvSalesPrice.setText("￥" + MoneyUtils.formatMoney(bean.getSalePrice()) + "/公斤");//销售价格
         mTvSalesMoney.setText("￥" + MoneyUtils.formatMoney(bean.getSalesAmount()));//销售金额
+        mTvCompletionTime.setText(bean.getFinishedTime());
     }
 }

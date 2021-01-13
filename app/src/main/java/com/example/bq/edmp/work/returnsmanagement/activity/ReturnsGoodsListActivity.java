@@ -65,6 +65,7 @@ public class ReturnsGoodsListActivity extends BaseActivity {
     ArrayList<String> tablist = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_return_goods;
@@ -88,9 +89,9 @@ public class ReturnsGoodsListActivity extends BaseActivity {
 
         integers.clear();
         integers.add(0);
+        integers.add(2);
         integers.add(4);
-        integers.add(5);
-        integers.add(0);
+        integers.add(3);
     }
 
     @Override

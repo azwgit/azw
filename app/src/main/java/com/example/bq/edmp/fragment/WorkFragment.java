@@ -46,6 +46,9 @@ import com.example.bq.edmp.work.marketingactivities.activity.MarketingActivityMa
 import com.example.bq.edmp.work.order.activity.HistoryOrderActivity;
 import com.example.bq.edmp.work.order.activity.OrderTrackingActivity;
 import com.example.bq.edmp.work.order.activity.Order_GL_Activity;
+import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsGoodsHistoricalListActivity;
+import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsGoodsListActivity;
+import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsManagementtListActivity;
 import com.example.bq.edmp.work.shipments.DshipmentsActivity;
 import com.example.bq.edmp.work.shipments.YshipmentsActivity;
 
@@ -268,6 +271,12 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), MarketingActivityManagementListActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/activity/history")) {//历史活动
                                                 startActivity(new Intent(getActivity(), HistoricalActivitiesListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/return/newsave")) {//新增退单
+                                                startActivity(new Intent(getActivity(), ReturnsManagementtListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/return/track")) {//退单跟踪
+                                                startActivity(new Intent(getActivity(), ReturnsGoodsListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/return/history")) {//历史退单
+                                                startActivity(new Intent(getActivity(), ReturnsGoodsHistoricalListActivity.class));
                                             } else {
                                                 ToastUtil.setToast("暂未开通");
                                             }

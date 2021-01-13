@@ -1,8 +1,11 @@
 package com.example.bq.edmp.work.returnsmanagement.fragment;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,7 +23,14 @@ import com.example.bq.edmp.work.allocation.bean.BaseAllocationBeam;
 import com.example.bq.edmp.work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity;
 import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsGoodsDetailsActivity;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ReturnsGoodsActivityListAdp;
+import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
+import com.example.bq.edmp.work.returnsmanagement.bean.ReturnTrackingListBean;
+import com.example.bq.edmp.work.returnsmanagement.eventbus.CloseActivity;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +49,7 @@ public class ReturnGoodsListFragment extends BaseFragment {
     @BindView(R.id.wsj)
     TextView wsj;
 
-    private ArrayList<BaseAllocationBeam.DataBean.RowsBean> rowsBeans;
+    private ArrayList<ReturnTrackingListBean.DataBean.RowsBean> rowsBeans;
 
     private int currentPager = 1;
     private LoadingDialog loading_dialog;
@@ -47,7 +57,7 @@ public class ReturnGoodsListFragment extends BaseFragment {
     private String code = "";//
     private String inOrgId = "";//调入分公司id
     private String outOrgId = "";//调出分公司id
-    private int status = 0;//状态：0全部 4出库中 5在途	number	默认0
+    private int status = 0;  //0全部 2待审批 3审批拒绝 4退货中
 
     @SuppressLint("ValidFragment")
     public ReturnGoodsListFragment(Integer integer) {
@@ -57,13 +67,12 @@ public class ReturnGoodsListFragment extends BaseFragment {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_allocation;
+        return R.layout.fragment_recyclerview;
     }
 
     @Override
     protected void initView() {
         loading_dialog = new LoadingDialog(getActivity());
-
         rowsBeans = new ArrayList<>();
         returnsGoodsActivityListAdp = new ReturnsGoodsActivityListAdp(rowsBeans);
         xRecyclerView.setAdapter(returnsGoodsActivityListAdp);
@@ -87,10 +96,16 @@ public class ReturnGoodsListFragment extends BaseFragment {
         });
         returnsGoodsActivityListAdp.setOnItemClickListener(new ReturnsGoodsActivityListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, BaseAllocationBeam.DataBean.RowsBean rowsBean) {
-                ReturnsGoodsDetailsActivity.newIntent(getActivity(),rowsBean.getId());
+            public void onItemClick(int pos, ReturnTrackingListBean.DataBean.RowsBean rowsBean) {
+                ReturnsGoodsDetailsActivity.newIntent(getActivity(), rowsBean.getId() + "");
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -102,24 +117,22 @@ public class ReturnGoodsListFragment extends BaseFragment {
     private void gainData() {
         currentPager = 1;
 
-        //状态：0全部 4出库中 5在途	number	默认0
-        String sign = MD5Util.encode("code=" + code + "&inOrgId=" + inOrgId + "&outOrgId=" + outOrgId
-                + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + status);
+        //0全部 2待审批 3审批拒绝 4退货中
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15 + "&status=" + status);
 
-        RxHttpUtils.createApi(AllocationApi.class)
-                .getAllocationInData(code, inOrgId, outOrgId, currentPager, 15, status, sign)
-                .compose(Transformer.<BaseAllocationBeam>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<BaseAllocationBeam>() {
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .getReturnTrackingList(currentPager, 15, status, sign)
+                .compose(Transformer.<ReturnTrackingListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<ReturnTrackingListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(BaseAllocationBeam baseAllocationBeam) {
-                        String code = baseAllocationBeam.getCode();
-                        if (code.equals("200")) {
-                            List<BaseAllocationBeam.DataBean.RowsBean> rows = baseAllocationBeam.getData().getRows();
+                    protected void onSuccess(ReturnTrackingListBean baseAllocationBeam) {
+                        if (baseAllocationBeam.getCode() == 200) {
+                            List<ReturnTrackingListBean.DataBean.RowsBean> rows = baseAllocationBeam.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 wsj.setVisibility(View.GONE);
                                 xRecyclerView.setVisibility(View.VISIBLE);
@@ -144,24 +157,22 @@ public class ReturnGoodsListFragment extends BaseFragment {
 
     //获取调拨中更多数据
     private void initData2() {
-        //状态：0全部 4出库中 5在途	number	默认0
-        String sign = MD5Util.encode("code=" + code + "&inOrgId=" + inOrgId + "&outOrgId=" + outOrgId
-                + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + status);
+        //0全部 2待审批 3审批拒绝 4退货中
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15 + "&status=" + status);
 
-        RxHttpUtils.createApi(AllocationApi.class)
-                .getAllocationInData(code, inOrgId, outOrgId, currentPager, 15, status, sign)
-                .compose(Transformer.<BaseAllocationBeam>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<BaseAllocationBeam>() {
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .getReturnTrackingList(currentPager, 15, status, sign)
+                .compose(Transformer.<ReturnTrackingListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<ReturnTrackingListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(BaseAllocationBeam baseAllocationBeam) {
-                        String code = baseAllocationBeam.getCode();
-                        if (code.equals("200")) {
-                            List<BaseAllocationBeam.DataBean.RowsBean> rows = baseAllocationBeam.getData().getRows();
+                    protected void onSuccess(ReturnTrackingListBean baseAllocationBeam) {
+                        if (baseAllocationBeam.getCode() == 200) {
+                            List<ReturnTrackingListBean.DataBean.RowsBean> rows = baseAllocationBeam.getData().getRows();
                             rowsBeans.addAll(rows);
                             returnsGoodsActivityListAdp.addMoreData(rows);
                         } else {
@@ -180,5 +191,19 @@ public class ReturnGoodsListFragment extends BaseFragment {
     @Override
     protected void otherViewClick(View view) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getColoseActivity(CloseActivity event) {
+        //删除后重新刷新页面
+        if(status==3){
+            gainData();
+        }
     }
 }

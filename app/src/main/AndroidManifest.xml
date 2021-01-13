@@ -87,13 +87,17 @@
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
+            android:name=".work.returnsmanagement.activity.ReturnsGoodsHistoricalDetailsActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity
+            android:name=".work.returnsmanagement.activity.EditApplyForRefundActivity"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity
             android:name=".work.returnsmanagement.activity.ReturnsGoodsListActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".work.returnsmanagement.activity.DeliverGoodsListActivity"
@@ -188,7 +192,11 @@
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
         <activity android:name=".activity.StartActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".work.approvalmanagement.activity.AllocationApprovalActivity"

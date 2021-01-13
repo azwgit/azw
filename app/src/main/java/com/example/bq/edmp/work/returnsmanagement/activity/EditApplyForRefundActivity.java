@@ -3,8 +3,6 @@ package com.example.bq.edmp.work.returnsmanagement.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -33,17 +31,13 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.inventorytransfer.activity.EditFinishedProductAllocationActivity;
-import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
-import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
-import com.example.bq.edmp.work.marketingactivities.bean.DepartmengListBean;
 import com.example.bq.edmp.work.returnsmanagement.adapter.CustomerListAdp;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ProductListAdp;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ReturenGoodsTypeAdp;
 import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
-import com.example.bq.edmp.work.returnsmanagement.bean.ApplyForRefundBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.CustomerListBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.GoodsListBean;
+import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsGoodsDetailsBean;
 import com.example.bq.edmp.work.returnsmanagement.eventbus.CloseActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,11 +47,10 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class ApplyForRefundActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String id, String packingid) {
-        Intent intent = new Intent(context, ApplyForRefundActivity.class);
+public class EditApplyForRefundActivity extends BaseTitleActivity {
+    public static void newIntent(Context context, String id) {
+        Intent intent = new Intent(context, EditApplyForRefundActivity.class);
         intent.putExtra(Constant.ID, id);
-        intent.putExtra(Constant.TYPE, packingid);
         context.startActivity(intent);
     }
 
@@ -89,18 +82,16 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
     TextView mTvAllMoney;//销售总额
     @BindView(R.id.tv_money_info)
     TextView mTvMoneyInfo;//销售总额或退款金额
-
     private PopupWindow mTypePopuWindow;
     private String ordersId = "";
-    private String itemId = "";
     private int saleItemId = 0;//转商商品id
     private int customerid = 0;
     private int returnGoodId = 1;//默认退回仓库  1退回仓库 2 转商销售
     private List<String> returnGoodsTypeList = null;
     private ILoadingView loading_dialog;
     private GoodsListBean goodsListBean;//部门据源
-    private ApplyForRefundBean applyForRefundBean = null;//发货详情
     private CustomerListBean customerListBean;//客户据源
+    private ReturnsGoodsDetailsBean returnsGoodsDetailsBean;
 
     @Override
     protected int getLayoutId() {
@@ -111,15 +102,14 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
     protected void initView() {
         txtTabTitle.setText("申请退单");
         ordersId = getIntent().getStringExtra(Constant.ID);
-        itemId = getIntent().getStringExtra(Constant.TYPE);
-        if ("".equals(ordersId) || "".equals(itemId)) {
+        if ("".equals(ordersId)) {
             ToastUtil.setToast("数据出错请重试");
             finish();
             return;
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
-        getSendGoodsDetails();
+        ReturnGoodsDetails();
         returnGoodsTypeList = new ArrayList<String>();
         returnGoodsTypeList.add("退回仓库");
         returnGoodsTypeList.add("转商销售");
@@ -134,7 +124,7 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (returnGoodId == 1) {
                     if (!"".equals(mEdNumber.getText().toString().trim())) {
-                        double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * applyForRefundBean.getData().getPrice();
+                        double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * returnsGoodsDetailsBean.getData().getReturnPrice();
                         mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(Double.parseDouble(money + "")));
                     } else {
                         mTvAllMoney.setText("￥0.00");
@@ -262,7 +252,7 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
         }
         //1 退回仓库 2转商销售
         if (returnGoodId == 1) {
-            addReturnsGoods("", itemId + "", ordersId, applyForRefundBean.getData().getPrice() + "", number, "", "", type + "", returnGoodId + "");
+            updataReturnsGoods("", returnsGoodsDetailsBean.getData().getItemId() + "", ordersId, returnsGoodsDetailsBean.getData().getReturnPrice() + "", number, "", "", type + "", returnGoodId + "");
         } else {
             String mEdMoney = mEdNumber.getText().toString().trim();
             if ("".equals(mEdMoney)) {
@@ -277,15 +267,15 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
                 ToastUtil.setToast("请选择转商商品");
                 return;
             }
-            addReturnsGoods(customerid + "", itemId, ordersId, applyForRefundBean.getData().getPrice() + "", number, saleItemId + "", mEdMoney, type + "", returnGoodId + "");
+            updataReturnsGoods(customerid + "", returnsGoodsDetailsBean.getData().getItemId() + "", ordersId, returnsGoodsDetailsBean.getData().getReturnPrice() + "", number, saleItemId + "", mEdMoney, type + "", returnGoodId + "");
         }
     }
 
     //退货申请
-    private void addReturnsGoods(String cgCustomerId, String itemId, String ordersId, String returnPrice, String returnQty, String saleItemId, String salePrice, String type, String types) {
-        String sign = MD5Util.encode("cgCustomerId=" + cgCustomerId + "&itemId=" + itemId + "&ordersId=" + ordersId + "&returnPrice=" + returnPrice + "&returnQty=" + returnQty + "&saleItemId=" + saleItemId + "&salePrice=" + salePrice + "&type=" + type + "&types=" + types);
+    private void updataReturnsGoods(String cgCustomerId, String itemId, String ordersId, String returnPrice, String returnQty, String saleItemId, String salePrice, String type, String types) {
+        String sign = MD5Util.encode("cgCustomerId=" + cgCustomerId + "&id=" + returnsGoodsDetailsBean.getData().getId() + "&itemId=" + itemId + "&ordersId=" + ordersId + "&returnPrice=" + returnPrice + "&returnQty=" + returnQty + "&saleItemId=" + saleItemId + "&salePrice=" + salePrice + "&type=" + type + "&types=" + types);
         RxHttpUtils.createApi(ReturnGoodsApi.class)
-                .addReturnsGoods(cgCustomerId, itemId, ordersId, returnPrice, returnQty, saleItemId, salePrice, type, types, sign)
+                .updataReturnsGoods(cgCustomerId, returnsGoodsDetailsBean.getData().getId() + "", itemId, ordersId, returnPrice, returnQty, saleItemId, salePrice, type, types, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -327,7 +317,7 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
                     returnGoodId = 1;
                     mRlZhuangShang.setVisibility(View.GONE);
                     if (!"".equals(mEdNumber.getText().toString().trim())) {
-                        double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * applyForRefundBean.getData().getPrice();
+                        double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * returnsGoodsDetailsBean.getData().getReturnPrice();
                         mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(Double.parseDouble(money + "")));
                     } else {
                         mTvAllMoney.setText("￥0.00");
@@ -463,7 +453,7 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
                 });
     }
 
-    //客户列表PopuWindow
+    //商品列表PopuWindow
     private void showProductList() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
         final View contentView = inflater.inflate(R.layout.select_option_layout, null);
@@ -502,34 +492,57 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
         mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
 
-    //获取发货详情
-    private void getSendGoodsDetails() {
-        String sign = MD5Util.encode("itemId=" + itemId + "&ordersId=" + ordersId);
+    //获取退货详情
+    private void ReturnGoodsDetails() {
+        String sign = MD5Util.encode("id=" + ordersId);
         RxHttpUtils.createApi(ReturnGoodsApi.class)
-                .getSendGoodsDetails(itemId, ordersId, sign)
-                .compose(Transformer.<ApplyForRefundBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<ApplyForRefundBean>() {
+                .ReturnGoodsDetails(ordersId, sign)
+                .compose(Transformer.<ReturnsGoodsDetailsBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<ReturnsGoodsDetailsBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(ApplyForRefundBean bean) {
+                    protected void onSuccess(ReturnsGoodsDetailsBean bean) {
                         if (bean.getCode() == 200) {
-                            applyForRefundBean = bean;
+                            returnsGoodsDetailsBean = bean;
                             setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });
     }
 
     //详情赋值
-    private void setData(ApplyForRefundBean.DataBean bean) {
+    private void setData(ReturnsGoodsDetailsBean.DataBean bean) {
+        mBtnDel.setVisibility(View.VISIBLE);
         mTvOrderNumber.setText("订单号 " + bean.getCode());
         mTvPacking.setText(bean.getVarietyName());
-        mTvMoneyAndNumber.setText("单价 ￥ " + bean.getPrice() + "/公斤    " + "订单数量  " + MoneyUtils.formatMoney(bean.getQty()) + "公斤");
+        mTvMoneyAndNumber.setText("单价 ￥ " + bean.getReturnPrice() + "/公斤    " + "订单数量  " + MoneyUtils.formatMoney(bean.getQty()) + "公斤");
+        mEdNumber.setText(bean.getReturnQty() + "");
+        ordersId = bean.getOrdersId() + "";
+        //1 退回仓库 2转商
+        if (bean.getTypes() == 1) {
+            mTvReturnGoodsType.setText("退回仓库");
+            returnGoodId = 1;
+            mTvMoneyInfo.setText("退款金额");
+            double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * returnsGoodsDetailsBean.getData().getReturnPrice();
+            mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(bean.getAmount()));
+        } else {
+            mTvReturnGoodsType.setText("转商销售");
+            saleItemId = bean.getSalesId();
+            customerid = bean.getCustomerId();
+            returnGoodId = 2;
+            mTvMoneyInfo.setText("销售总额");
+            mTvCommodity.setText(bean.getSaleItemName());
+            mTvCustomer.setText(bean.getCustomerName());
+            mEdMoney.setText(MoneyUtils.formatMoney(bean.getSalePrice()));
+            mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(bean.getSalesAmount()));
+            mRlZhuangShang.setVisibility(View.VISIBLE);
+        }
     }
 }

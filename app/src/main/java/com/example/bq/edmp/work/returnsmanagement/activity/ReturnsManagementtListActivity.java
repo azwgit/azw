@@ -25,6 +25,8 @@ import com.example.bq.edmp.work.marketingactivities.adapter.MarketingActivityLis
 import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
 import com.example.bq.edmp.work.marketingactivities.bean.ActivityManagementListBean;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ReturnManagementActivityListAdp;
+import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
+import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsManagementListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class ReturnsManagementtListActivity extends BaseTitleActivity {
 
     private int currentPager = 1;
     private String name = "";
-    private ArrayList<ActivityManagementListBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<ReturnsManagementListBean.DataBean.RowsBean> rowsBeans;
     private ReturnManagementActivityListAdp returnManagementActivityListAdp;
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
@@ -93,8 +95,8 @@ public class ReturnsManagementtListActivity extends BaseTitleActivity {
 
         returnManagementActivityListAdp.setOnItemClickListener(new ReturnManagementActivityListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, ActivityManagementListBean.DataBean.RowsBean rowsBean) {
-                EditActivitiesActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
+            public void onItemClick(int pos, ReturnsManagementListBean.DataBean.RowsBean rowsBean) {
+                EditApplyForRefundActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
             }
         });
 
@@ -136,21 +138,21 @@ public class ReturnsManagementtListActivity extends BaseTitleActivity {
 
         String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(MarketingActivitiesApi.class)
-                .getActivitieNosubmitList(currentPager, 15, sign)
-                .compose(Transformer.<ActivityManagementListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<ActivityManagementListBean>() {
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .getReturnGoodsManagentList(currentPager, 15, sign)
+                .compose(Transformer.<ReturnsManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<ReturnsManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(ActivityManagementListBean machineListBean) {
+                    protected void onSuccess(ReturnsManagementListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
                             wsj.setVisibility(View.GONE);
                             xr.setVisibility(View.VISIBLE);
-                            List<ActivityManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<ReturnsManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
@@ -176,19 +178,19 @@ public class ReturnsManagementtListActivity extends BaseTitleActivity {
     private void initData2() {
         String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(MarketingActivitiesApi.class)
-                .getActivitieNosubmitList(currentPager, 15, sign)
-                .compose(Transformer.<ActivityManagementListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<ActivityManagementListBean>() {
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .getReturnGoodsManagentList(currentPager, 15, sign)
+                .compose(Transformer.<ReturnsManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<ReturnsManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(ActivityManagementListBean machineListBean) {
+                    protected void onSuccess(ReturnsManagementListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
-                            List<ActivityManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<ReturnsManagementListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
                                 returnManagementActivityListAdp.addMoreData(rows);

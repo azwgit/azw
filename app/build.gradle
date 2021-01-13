@@ -85,7 +85,8 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     compile 'com.youth.banner:banner:1.4.9'
-
+    //eventbus 事件总线
+    compile 'org.greenrobot:eventbus:3.1.1'
     //工具类
     implementation 'com.blankj:utilcode:1.29.0'
     compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'

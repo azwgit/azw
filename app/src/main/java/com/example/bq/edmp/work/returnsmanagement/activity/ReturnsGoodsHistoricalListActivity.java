@@ -26,6 +26,8 @@ import com.example.bq.edmp.work.marketingactivities.adapter.MarketingActivityLis
 import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
 import com.example.bq.edmp.work.marketingactivities.bean.HistoricalListBean;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ReturnsGoodsHistoricalListAdp;
+import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
+import com.example.bq.edmp.work.returnsmanagement.bean.ReturnTrackingListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class ReturnsGoodsHistoricalListActivity extends BaseTitleActivity {
     XRecyclerView xr;
     private int currentPager = 1;
     private String name = "";
-    private ArrayList<HistoricalListBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<ReturnTrackingListBean.DataBean.RowsBean> rowsBeans;
     private ReturnsGoodsHistoricalListAdp returnsGoodsHistoricalListAdp;
 
     @Override
@@ -87,8 +89,8 @@ public class ReturnsGoodsHistoricalListActivity extends BaseTitleActivity {
 
         returnsGoodsHistoricalListAdp.setOnItemClickListener(new ReturnsGoodsHistoricalListAdp.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, HistoricalListBean.DataBean.RowsBean rowsBean) {
-                ReturnsGoodsDetailsActivity.newIntent(getApplicationContext(),rowsBean.getId()+"");
+            public void onItemClick(int pos, ReturnTrackingListBean.DataBean.RowsBean rowsBean) {
+                ReturnsGoodsHistoricalDetailsActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
             }
         });
 
@@ -118,23 +120,23 @@ public class ReturnsGoodsHistoricalListActivity extends BaseTitleActivity {
     private void gainData() {
         currentPager = 1;
 
-        String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("code=" + name + "&page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(MarketingActivitiesApi.class)
-                .getHistoryList(name, currentPager, 15, sign)
-                .compose(Transformer.<HistoricalListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<HistoricalListBean>() {
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .getReturnGoodsHistoricalList(name, currentPager, 15, sign)
+                .compose(Transformer.<ReturnTrackingListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<ReturnTrackingListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(HistoricalListBean machineListBean) {
+                    protected void onSuccess(ReturnTrackingListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
                             wsj.setVisibility(View.GONE);
                             xr.setVisibility(View.VISIBLE);
-                            List<HistoricalListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<ReturnTrackingListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
@@ -158,21 +160,21 @@ public class ReturnsGoodsHistoricalListActivity extends BaseTitleActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("name=" + name + "&page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("code=" + name + "&page=" + currentPager + "&pagerow=" + 15);
 
-        RxHttpUtils.createApi(MarketingActivitiesApi.class)
-                .getHistoryList(name, currentPager, 15, sign)
-                .compose(Transformer.<HistoricalListBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<HistoricalListBean>() {
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .getReturnGoodsHistoricalList(name, currentPager, 15, sign)
+                .compose(Transformer.<ReturnTrackingListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<ReturnTrackingListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(HistoricalListBean machineListBean) {
+                    protected void onSuccess(ReturnTrackingListBean machineListBean) {
                         if (machineListBean.getCode() == 200) {
-                            List<HistoricalListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
+                            List<ReturnTrackingListBean.DataBean.RowsBean> rows = machineListBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 rowsBeans.addAll(rows);
                                 returnsGoodsHistoricalListAdp.addMoreData(rows);

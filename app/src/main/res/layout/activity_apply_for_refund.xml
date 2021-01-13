@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F2F5F6">
@@ -20,6 +21,7 @@
             android:paddingRight="@dimen/dp_16">
 
             <TextView
+                android:id="@+id/tv_order_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
@@ -28,22 +30,16 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:id="@+id/tv_packing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_25"
-                android:text="订单号 DD123456789110"
-                android:textColor="@color/color_66"
-                android:textSize="@dimen/sp_14" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_21"
                 android:text="皖垦麦869 125公斤/袋"
                 android:textColor="@color/color33"
                 android:textSize="@dimen/sp_14" />
 
             <TextView
+                android:id="@+id/tv_money_and_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_8"
@@ -78,6 +74,7 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:hint="输入数量"
+                android:inputType="number"
                 android:paddingLeft="@dimen/dp_24"
                 android:textColor="@color/color33"
                 android:textColorHint="@color/color_66"
@@ -112,6 +109,7 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
+                android:id="@+id/tv_return_goods_type"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/tv_fangshi"
@@ -119,16 +117,18 @@
                 android:drawableRight="@mipmap/icon_bottom_jiantou"
                 android:drawablePadding="@dimen/dp_26"
                 android:gravity="center_vertical"
-                android:hint="转尚销售"
+                android:hint="退回仓库"
                 android:paddingLeft="@dimen/dp_24"
                 android:textColor="@color/color33"
                 android:textColorHint="@color/color33"
                 android:textSize="@dimen/sp_16" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
+            android:visibility="gone"
             android:id="@+id/rl_zhuangshang"
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content">
 
             <RelativeLayout
@@ -179,40 +179,80 @@
 
                 <View style="@style/line_style" />
             </LinearLayout>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_56"
-            android:layout_marginTop="@dimen/dp_8"
-            android:background="@color/white"
-            android:paddingLeft="@dimen/dp_16">
-
-            <TextView
-                android:id="@+id/tv_xiaoshoukehu"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="left|center"
-                android:text="销售客户"
-                android:textColor="@color/color_66"
-                android:textSize="@dimen/sp_16" />
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/tv_xiaoshoukehu"
+                android:layout_height="@dimen/dp_56"
                 android:background="@color/white"
-                android:drawableRight="@mipmap/icon_bottom_jiantou"
-                android:drawablePadding="@dimen/dp_26"
-                android:gravity="center_vertical"
-                android:hint="选择客户"
-                android:paddingLeft="@dimen/dp_27"
-                android:paddingRight="@dimen/dp_27"
-                android:textColor="@color/color33"
-                android:textColorHint="@color/color33"
-                android:textSize="@dimen/sp_16" />
-        </RelativeLayout>
+                android:paddingLeft="@dimen/dp_16">
+
+                <TextView
+                    android:id="@+id/tv_xiaoshoukehu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="left|center"
+                    android:text="销售客户"
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_customer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tv_xiaoshoukehu"
+                    android:background="@color/white"
+                    android:drawableRight="@drawable/forward"
+                    android:drawablePadding="@dimen/dp_26"
+                    android:gravity="center_vertical"
+                    android:hint="选择客户"
+                    android:paddingLeft="@dimen/dp_27"
+                    android:paddingRight="@dimen/dp_27"
+                    android:textColor="@color/color33"
+                    android:textColorHint="@color/color33"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View style="@style/line_style" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/dp_16">
+
+                <TextView
+                    android:id="@+id/tv_zhuangshangshangpin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="left|center"
+                    android:text="转商商品"
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_commodity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/tv_zhuangshangshangpin"
+                    android:background="@color/white"
+                    android:drawableRight="@drawable/forward"
+                    android:drawablePadding="@dimen/dp_26"
+                    android:gravity="center_vertical"
+                    android:hint="选择商品"
+                    android:paddingLeft="@dimen/dp_27"
+                    android:paddingRight="@dimen/dp_27"
+                    android:textColor="@color/color33"
+                    android:textColorHint="@color/color33"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -221,10 +261,11 @@
             android:gravity="center_vertical|right">
 
             <TextView
+                android:id="@+id/tv_money_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp_35"
-                android:text="销售总额"
+                android:text="退款金额"
                 android:textColor="@color/color33"
                 android:textSize="@dimen/sp_16" />
 
@@ -254,7 +295,8 @@
             android:layout_weight="1"
             android:background="@drawable/btn_gray_shape_bg"
             android:text="删除"
-            android:textColor="@color/text_black_gray" />
+            android:textColor="@color/text_black_gray"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/btn_save"

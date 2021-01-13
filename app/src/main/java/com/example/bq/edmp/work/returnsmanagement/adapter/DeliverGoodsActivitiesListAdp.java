@@ -12,6 +12,7 @@ import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.work.marketingactivities.bean.HistoricalListBean;
+import com.example.bq.edmp.work.returnsmanagement.bean.DeliverGoodsListBean;
 
 import java.util.List;
 
@@ -21,13 +22,13 @@ import java.util.List;
 
 public class DeliverGoodsActivitiesListAdp extends RecyclerView.Adapter<DeliverGoodsActivitiesListAdp.Holder> {
 
-    private List<HistoricalListBean.DataBean.RowsBean> list;
+    private List<DeliverGoodsListBean.DataBean.RowsBean> list;
 
-    public DeliverGoodsActivitiesListAdp(List<HistoricalListBean.DataBean.RowsBean> list) {
+    public DeliverGoodsActivitiesListAdp(List<DeliverGoodsListBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
-    public void addMoreData(List<HistoricalListBean.DataBean.RowsBean> data) {
+    public void addMoreData(List<DeliverGoodsListBean.DataBean.RowsBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -42,13 +43,14 @@ public class DeliverGoodsActivitiesListAdp extends RecyclerView.Adapter<DeliverG
 
     @Override
     public void onBindViewHolder(@NonNull DeliverGoodsActivitiesListAdp.Holder holder, final int position) {
-        final HistoricalListBean.DataBean.RowsBean rowsBean = list.get(position);
+        final DeliverGoodsListBean.DataBean.RowsBean rowsBean = list.get(position);
         if (mItemClickListener != null) {
-//            holder.tv_name.setText(rowsBean.getDeptName()+"-"+rowsBean.getResponsiblePeople());
-//            holder.tv_title.setText(rowsBean.getName());
-//            holder.tv_money.setText("￥" + MoneyUtils.formatMoney(rowsBean.getAdvanceLoan()));
-//            holder.tv_time.setText("活动时间："+rowsBean.getStartTime());
-//            holder.tv_end__time.setText("完成时间："+rowsBean.getFinishedTime());
+            holder.tv_order_number.setText("订单号 "+rowsBean.getCode());
+            holder.tv_company.setText(rowsBean.getCustomerName());
+            holder.tv_packing.setText(rowsBean.getVarietyName()+"   *"+MoneyUtils.formatMoney(Double.parseDouble(rowsBean.getQty())) +" 公斤");
+            holder.tv_weight.setText(rowsBean.getWarehouseName());
+            holder.tv_subsidiary_company.setText(rowsBean.getOrgName());
+            holder.tv_time.setText("发货时间 "+rowsBean.getSendOutTimes());
             holder.ly_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -66,30 +68,30 @@ public class DeliverGoodsActivitiesListAdp extends RecyclerView.Adapter<DeliverG
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        //        private final TextView tv_end__time;//完成时间
+        private final TextView tv_order_number;//订单编号
         private final LinearLayout ly_view;
-//        private final TextView tv_name;//负责人
-//        private final TextView tv_status;//活动状态
-//        private final TextView tv_title;//活动标题
-//        private final TextView tv_money;//金额
-//        private final TextView tv_time;//活动时间
+        private final TextView tv_company;//公司名称
+        private final TextView tv_packing;//包装
+        private final TextView tv_weight;//重量
+        private final TextView tv_subsidiary_company;//分子公司
+        private final TextView tv_time;//发货时间
 
         public Holder(View itemView) {
             super(itemView);
-//            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_order_number = itemView.findViewById(R.id.tv_order_number);
             ly_view = itemView.findViewById(R.id.ly_view);
-//            tv_status = itemView.findViewById(R.id.tv_status);
-//            tv_title = itemView.findViewById(R.id.tv_title);
-//            tv_money = itemView.findViewById(R.id.tv_money);
-//            tv_time = itemView.findViewById(R.id.tv_time);
-//            tv_end__time = itemView.findViewById(R.id.tv_end__time);
+            tv_company = itemView.findViewById(R.id.tv_company);
+            tv_packing = itemView.findViewById(R.id.tv_packing);
+            tv_weight = itemView.findViewById(R.id.tv_weight);
+            tv_subsidiary_company = itemView.findViewById(R.id.tv_subsidiary_company);
+            tv_time = itemView.findViewById(R.id.tv_time);
         }
     }
 
     protected DeliverGoodsActivitiesListAdp.OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, HistoricalListBean.DataBean.RowsBean rowsBean);
+        void onItemClick(int pos, DeliverGoodsListBean.DataBean.RowsBean rowsBean);
     }
 
     public void setOnItemClickListener(DeliverGoodsActivitiesListAdp.OnItemClickListener listener) {
