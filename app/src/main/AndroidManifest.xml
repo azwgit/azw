@@ -77,6 +77,18 @@
             android:name=".work.marketing.activity.CustomerInquirytListActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".work.goodsgrainmanagement.activity.GoodsSalesManagementListActivity"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".work.goodsgrainmanagement.activity.AddGoodsSalesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.goodsgrainmanagement.activity.EditGoodsSalesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.goodsgrainmanagement.activity.SelectGoodsListActivity" />
+        <activity
             android:name=".work.marketing.activity.SalesContractListActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
