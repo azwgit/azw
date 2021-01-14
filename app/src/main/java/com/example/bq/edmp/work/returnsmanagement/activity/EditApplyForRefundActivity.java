@@ -31,6 +31,7 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
 import com.example.bq.edmp.work.returnsmanagement.adapter.CustomerListAdp;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ProductListAdp;
 import com.example.bq.edmp.work.returnsmanagement.adapter.ReturenGoodsTypeAdp;
@@ -113,6 +114,7 @@ public class EditApplyForRefundActivity extends BaseTitleActivity {
         returnGoodsTypeList = new ArrayList<String>();
         returnGoodsTypeList.add("退回仓库");
         returnGoodsTypeList.add("转商销售");
+        mEdNumber.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         mEdNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -121,7 +123,41 @@ public class EditApplyForRefundActivity extends BaseTitleActivity {
 
             //输入时的调用
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                //删除“.”后面超过2位后的数据
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        mEdNumber.setText(s);
+                        mEdNumber.setSelection(s.length()); //光标移到最后
+                    }
+                }
+                //如果"."在起始位置,则起始位置自动补0
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    mEdMoney.setText(s);
+                    mEdMoney.setSelection(2);
+                }
+
+                //如果起始位置为0,且第二位跟的不是".",则无法后续输入
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        mEdNumber.setText(s.subSequence(0, 1));
+                        mEdNumber.setSelection(1);
+                        return;
+                    }
+                }
+                //包含. 查看. 前面是否有值
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
+                        s = "0" + s;
+                        mEdNumber.setText(s);
+                        mEdNumber.setSelection(2);
+                    }
+                }
                 if (returnGoodId == 1) {
                     if (!"".equals(mEdNumber.getText().toString().trim())) {
                         double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * returnsGoodsDetailsBean.getData().getReturnPrice();
@@ -229,6 +265,7 @@ public class EditApplyForRefundActivity extends BaseTitleActivity {
                 checkData(1);
                 break;
             case R.id.btn_del:
+                deleteReturnGoods();
                 break;
             case R.id.tv_customer:
                 getCustomerList();
@@ -522,15 +559,15 @@ public class EditApplyForRefundActivity extends BaseTitleActivity {
         mBtnDel.setVisibility(View.VISIBLE);
         mTvOrderNumber.setText("订单号 " + bean.getCode());
         mTvPacking.setText(bean.getVarietyName());
-        mTvMoneyAndNumber.setText("单价 ￥ " + bean.getReturnPrice() + "/公斤    " + "订单数量  " + MoneyUtils.formatMoney(bean.getQty()) + "公斤");
-        mEdNumber.setText(bean.getReturnQty() + "");
+        mTvMoneyAndNumber.setText("单价 ￥ " +MoneyUtils.formatMoney(bean.getReturnPrice())  + "/公斤    " + "订单数量  " + MoneyUtils.formatMoney(bean.getQty()) + "公斤");
+        mEdNumber.setText(MoneyUtils.formatMoney(bean.getReturnQty()));
         ordersId = bean.getOrdersId() + "";
         //1 退回仓库 2转商
         if (bean.getTypes() == 1) {
             mTvReturnGoodsType.setText("退回仓库");
             returnGoodId = 1;
             mTvMoneyInfo.setText("退款金额");
-            double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * returnsGoodsDetailsBean.getData().getReturnPrice();
+//            double money = Double.parseDouble(mEdNumber.getText().toString().trim()) * returnsGoodsDetailsBean.getData().getReturnPrice();
             mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(bean.getAmount()));
         } else {
             mTvReturnGoodsType.setText("转商销售");
@@ -544,5 +581,27 @@ public class EditApplyForRefundActivity extends BaseTitleActivity {
             mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(bean.getSalesAmount()));
             mRlZhuangShang.setVisibility(View.VISIBLE);
         }
+    }
+    //删除退货
+    private void deleteReturnGoods() {
+        String sign = MD5Util.encode("id=" + returnsGoodsDetailsBean.getData().getId());
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .deleteReturnGoods(returnsGoodsDetailsBean.getData().getId()+"", sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
     }
 }

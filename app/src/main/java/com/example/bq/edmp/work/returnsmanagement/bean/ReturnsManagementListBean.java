@@ -481,6 +481,15 @@ public class ReturnsManagementListBean implements Serializable {
             private String sendOutTimes;
             private String varietyName;
             private String customerName;
+            private double salesAmount;
+
+            public double getSalesAmount() {
+                return salesAmount;
+            }
+
+            public void setSalesAmount(double salesAmount) {
+                this.salesAmount = salesAmount;
+            }
 
             public String getCustomerName() {
                 return customerName;

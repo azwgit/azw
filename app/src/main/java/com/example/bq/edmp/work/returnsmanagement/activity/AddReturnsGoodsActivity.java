@@ -24,6 +24,7 @@ import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
+import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.marketingactivities.adapter.DepartmengListAdp;
 import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
@@ -110,8 +111,9 @@ public class AddReturnsGoodsActivity extends BaseTitleActivity {
 
     //获取客户列表
     private void getCustomerList() {
+        String sign = MD5Util.encode("type=" + 1);
         RxHttpUtils.createApi(ReturnGoodsApi.class)
-                .getCustomerList()
+                .getCustomerTypeList(1+"",sign)
                 .compose(Transformer.<CustomerListBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<CustomerListBean>() {
                     @Override

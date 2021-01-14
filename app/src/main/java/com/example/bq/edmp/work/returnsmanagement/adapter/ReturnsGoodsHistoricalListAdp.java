@@ -52,8 +52,10 @@ public class ReturnsGoodsHistoricalListAdp extends RecyclerView.Adapter<ReturnsG
             holder.tv_number.setText("数量 " + rowsBean.getReturnQty() + "公斤");
             if (rowsBean.getTypes() == 1) {
                 holder.tv_type.setText("退回仓库");
+                holder.tv_money.setText("退货金额 ￥" + MoneyUtils.formatMoney(rowsBean.getAmount()));
             } else {
                 holder.tv_type.setText("转商销售");
+                holder.tv_money.setText("销售金额 ￥" + MoneyUtils.formatMoney(rowsBean.getSalesAmount()));
             }
             holder.tv_status.setText("已完成");
             holder.tv_money.setText("退货金额 ￥" + MoneyUtils.formatMoney(rowsBean.getAmount()));

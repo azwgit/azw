@@ -23,6 +23,7 @@ import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.ApprovalAdp;
 import com.example.bq.edmp.activity.apply.GridImageAdapter;
+import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.http.NewCommonObserver;
@@ -36,6 +37,7 @@ import com.example.bq.edmp.work.marketingactivities.activity.HistoricalActivitie
 import com.example.bq.edmp.work.marketingactivities.adapter.EnclosureAdapter;
 import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
 import com.example.bq.edmp.work.returnsmanagement.bean.ApplyForRefundBean;
+import com.example.bq.edmp.work.returnsmanagement.bean.ReapplyReturnGoods;
 import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsGoodsDetailsBean;
 import com.example.bq.edmp.work.returnsmanagement.eventbus.CloseActivity;
 import com.luck.picture.lib.PictureSelector;
@@ -174,9 +176,10 @@ public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_del:
-                EventBus.getDefault().post(new CloseActivity());
+                deleteReturnGoods();
                 break;
             case R.id.btn_submit:
+                reapplyReturnGoods();
                 break;
         }
     }
@@ -251,5 +254,53 @@ public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
         mTvSalesCustomers.setText(bean.getCgCustomerName());//销售客户
         mTvSalesPrice.setText("￥" + MoneyUtils.formatMoney(bean.getSalePrice()) + "/公斤");//销售价格
         mTvSalesMoney.setText("￥" + MoneyUtils.formatMoney(bean.getSalesAmount()));//销售金额
+    }
+
+    //删除退货
+    private void deleteReturnGoods() {
+        String sign = MD5Util.encode("id=" + returnsGoodsDetailsBean.getData().getId());
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .deleteReturnGoods(returnsGoodsDetailsBean.getData().getId() + "", sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            EventBus.getDefault().post(new CloseActivity());
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //重新申请
+    private void reapplyReturnGoods() {
+        String sign = MD5Util.encode("id=" + returnsGoodsDetailsBean.getData().getId());
+        RxHttpUtils.createApi(ReturnGoodsApi.class)
+                .reapplyReturnGoods(returnsGoodsDetailsBean.getData().getId() + "", sign)
+                .compose(Transformer.<ReapplyReturnGoods>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<ReapplyReturnGoods>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(ReapplyReturnGoods bean) {
+                        if (bean.getCode() == 200) {
+                            EditApplyForRefundActivity.newIntent(getApplicationContext(), bean.getData().getId() + "");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
     }
 }

@@ -12,6 +12,7 @@ import com.example.bq.edmp.work.returnsmanagement.bean.CustomerListBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.DeliverGoodsListBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.GoodsListBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.PackagingListBean;
+import com.example.bq.edmp.work.returnsmanagement.bean.ReapplyReturnGoods;
 import com.example.bq.edmp.work.returnsmanagement.bean.ReturnTrackingListBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsGoodsDetailsBean;
 import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsManagementListBean;
@@ -130,6 +131,14 @@ public interface ReturnGoodsApi {
     @POST("return/item")
     Observable<GoodsListBean> getGoodsList();
 
+    //带条件查询客户
+    @FormUrlEncoded
+    @Headers({"urlname:marketing"})
+    @POST("return/customer")
+    Observable<CustomerListBean> getCustomerTypeList(
+            @Field("type") String id,
+            @Field("sign") String sign);
+
     //删除退货单
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
@@ -141,9 +150,9 @@ public interface ReturnGoodsApi {
     //重新申请退货
     @FormUrlEncoded
     @Headers({"urlname:marketing"})
-    @POST("return/reapply")
-    Observable<BaseABean> reapplyReturnGoods(
-            @Field("id") String id,
+    @POST("return/reapply/{id}")
+    Observable<ReapplyReturnGoods> reapplyReturnGoods(
+            @Path("id") String id,
             @Field("sign") String sign);
 
 }

@@ -517,6 +517,15 @@ public class ReturnTrackingListBean implements Serializable {
             private Object itemId;
             private Object price;
             private String customerName;
+            private double salesAmount;
+
+            public double getSalesAmount() {
+                return salesAmount;
+            }
+
+            public void setSalesAmount(double salesAmount) {
+                this.salesAmount = salesAmount;
+            }
 
             public String getCustomerName() {
                 return customerName;
