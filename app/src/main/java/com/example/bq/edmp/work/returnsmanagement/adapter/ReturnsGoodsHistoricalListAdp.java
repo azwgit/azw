@@ -58,7 +58,6 @@ public class ReturnsGoodsHistoricalListAdp extends RecyclerView.Adapter<ReturnsG
                 holder.tv_money.setText("销售金额 ￥" + MoneyUtils.formatMoney(rowsBean.getSalesAmount()));
             }
             holder.tv_status.setText("已完成");
-            holder.tv_money.setText("退货金额 ￥" + MoneyUtils.formatMoney(rowsBean.getAmount()));
             holder.tv_sart_time.setText("发货时间 " + rowsBean.getSendOutTimes());
             holder.tv_end_time.setText("退货时间 " + rowsBean.getAddedTime());
             holder.ly_view.setOnClickListener(new View.OnClickListener() {

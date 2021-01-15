@@ -1,13 +1,23 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
@@ -18,6 +28,12 @@ import com.example.bq.edmp.utils.FromtUtil;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.utils.phoneUtils;
+import com.example.bq.edmp.work.inventorytransfer.adapter.CompanyListAdp;
+import com.example.bq.edmp.work.inventorytransfer.adapter.WarehouseListAdp;
+import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
+import com.example.bq.edmp.work.inventorytransfer.bean.SubsidiaryCompanyBean;
+import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
 import com.example.bq.edmp.work.order.activity.ChooseCustomerActivity;
 import com.example.bq.edmp.work.order.activity.ModifyOrderActivity;
 import com.example.bq.edmp.work.order.api.OrderApi;
@@ -29,22 +45,31 @@ import butterknife.BindView;
  * 新增订单
  * */
 public class AddGoodsSalesActivity extends BaseTitleActivity {
-    @BindView(R.id.username_tv)
-    TextView username_tv;
+    @BindView(R.id.tv_name)
+    TextView mTvName;//客户姓名
     @BindView(R.id.choose_user_tv)
-    TextView choose_user_tv;
+    TextView choose_user_tv;//选择客户
     @BindView(R.id.next_tv)
-    TextView next_tv;
-    @BindView(R.id.contactname_et)
-    EditText contactname_et;
-    @BindView(R.id.contact_phone_et)
-    EditText contact_phone_et;
-    @BindView(R.id.cargo_address_et)
-    EditText cargo_address_et;
-
+    TextView next_tv;//下一步
+    @BindView(R.id.et_contactname)
+    EditText mEtContactName;//联系人
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;//联系电话
+    @BindView(R.id.et_address)
+    EditText mEtAddress;//送货地址
+    @BindView(R.id.tv_subsidiary_company)
+    TextView mTvSubsidiaryCompany;//分子公司
+    @BindView(R.id.tv_warehouse)
+    TextView mTvWarehouse;//仓库
     private LoadingDialog loadingDialog;
     private String customerId = "";//客户id
     private String regionId = "";//区域id
+    private int CompanyId = 0;//公司id
+    private int Warehouseid = 0;//仓库id
+    PopupWindow mTypePopuWindow;
+    private ILoadingView loading_dialog;
+    private SubsidiaryCompanyBean subsidiaryCompanyBean;//公司数据源
+    private WareHouseListBean wareHouseListBean;//仓库数据源
 
     @Override
     protected int getLayoutId() {
@@ -55,9 +80,11 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
     protected void initView() {
         txtTabTitle.setText("新增商品粮销售");
         ProApplication.getinstance().addActivity(AddGoodsSalesActivity.this);
-        loadingDialog = new LoadingDialog(this);
+        ProApplication.getinstance().addActivity(this);
+        loading_dialog = new LoadingDialog(this);
 
     }
+
     @Override
     protected void initData() {
 
@@ -67,12 +94,15 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
     protected void initListener() {
         next_tv.setOnClickListener(this);
         choose_user_tv.setOnClickListener(this);
+        mTvSubsidiaryCompany.setOnClickListener(this);
+        mTvWarehouse.setOnClickListener(this);
     }
 
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.next_tv:
+//                checkData();
                 Intent intent = new Intent(AddGoodsSalesActivity.this, EditGoodsSalesActivity.class);
                 intent.putExtra("orderid", "");
                 startActivity(intent);
@@ -82,17 +112,23 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
                 Intent intent1 = new Intent(AddGoodsSalesActivity.this, ChooseCustomerActivity.class);
                 startActivityForResult(intent1, 250);
                 break;
+            case R.id.tv_subsidiary_company:
+                getSubsidiaryCompanyList();
+                break;
+            case R.id.tv_warehouse:
+                getWarehouseList();
+                break;
         }
     }
 
     //下一步
     private void NextData() {
 
-        String sign = MD5Util.encode("address=" + cargo_address_et.getText().toString() + "&contacts=" + contactname_et.getText().toString()
-                + "&customerId=" + customerId + "&mobTel=" + contact_phone_et.getText().toString() + "&region=" + regionId);
+        String sign = MD5Util.encode("address=" + mEtAddress.getText().toString() + "&contacts=" + mEtContactName.getText().toString()
+                + "&customerId=" + customerId + "&mobTel=" + mEtPhone.getText().toString() + "&region=" + regionId);
 
         RxHttpUtils.createApi(OrderApi.class)
-                .getNewsave(cargo_address_et.getText().toString(), contactname_et.getText().toString(), customerId, contact_phone_et.getText().toString(), regionId, sign)
+                .getNewsave(mEtAddress.getText().toString(), mEtContactName.getText().toString(), customerId, mEtPhone.getText().toString(), regionId, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -126,40 +162,192 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
         if (requestCode == 250 && resultCode == 350) {
             CustomerBean.DataBean.RowsBean rowsbean = (CustomerBean.DataBean.RowsBean) data.getSerializableExtra("rowsbean");
             if (rowsbean != null) {
-                username_tv.setText(rowsbean.getName());
-                contactname_et.setText(rowsbean.getContacts());
-                FromtUtil.setEditTextCursorLocation(contactname_et);
-                contact_phone_et.setText(rowsbean.getMobTel());
-                FromtUtil.setEditTextCursorLocation(contact_phone_et);
-                cargo_address_et.setText(rowsbean.getRegion());
-                FromtUtil.setEditTextCursorLocation(cargo_address_et);
+                mTvName.setText(rowsbean.getName());
+                mEtContactName.setText(rowsbean.getContacts());
+                FromtUtil.setEditTextCursorLocation(mEtContactName);
+                mEtPhone.setText(rowsbean.getMobTel());
+                FromtUtil.setEditTextCursorLocation(mEtPhone);
+                mEtAddress.setText(rowsbean.getRegion());
+                FromtUtil.setEditTextCursorLocation(mEtAddress);
                 customerId = rowsbean.getId();//客户id
                 regionId = rowsbean.getRegionId();//区域id
             }
         }
     }
 
-    public boolean Judge() {
-        if (username_tv.getText().toString().equals("")) {
+    public void checkData() {
+        String name = mTvName.getText().toString().trim();
+        if ("".equals(name)) {
             ToastUtil.setToast("请选择客户");
-            return false;
+            return;
         }
-        if (contactname_et.getText().toString().equals("")) {
+        String contactName = mEtContactName.getText().toString().trim();
+        if ("".equals(contactName)) {
             ToastUtil.setToast("请输入联系人");
-            return false;
+            return;
         }
-        if (contact_phone_et.getText().toString().equals("")) {
+        String phone = mEtPhone.getText().toString().trim();
+        if ("".equals(phone)) {
             ToastUtil.setToast("请输入联系人电话号");
-            return false;
+            return;
         }
-//        } else if (!StringUtils.isPhone(contact_phone_et.toString())) {
-//            ToastUtil.setToast("请输入正确电话号");
-//            return false;
-//        }
-        if (cargo_address_et.getText().toString().equals("")) {
+        String address = mEtAddress.getText().toString().trim();
+        if ("".equals(address)) {
             ToastUtil.setToast("请输入送货地址");
-            return false;
+            return;
         }
-        return true;
+        if (CompanyId == 0) {
+            ToastUtil.setToast("请选择公司");
+            return;
+        }
+        if (Warehouseid == 0) {
+            ToastUtil.setToast("请选择仓库");
+            return;
+        }
+        if (!phoneUtils.isMobileNO(mEtPhone.getText().toString())) {
+            ToastUtil.setToast("请输入正确的手机号");
+            return;
+        }
+    }
+
+    //公司列表
+    private void getSubsidiaryCompanyList() {
+        RxHttpUtils.createApi(AllocationApi.class)
+                .getSubsidiaryCompanyList()
+                .compose(Transformer.<SubsidiaryCompanyBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<SubsidiaryCompanyBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(SubsidiaryCompanyBean bean) {
+                        subsidiaryCompanyBean = bean;
+                        if (bean.getCode() == 200) {
+                            showSubsidiaryCompanyList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //公司列表PopuWindow
+    private void showSubsidiaryCompanyList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        CompanyListAdp companyListAdp = new CompanyListAdp(subsidiaryCompanyBean.getData());
+        myRecyclerViewOne.setAdapter(companyListAdp);
+        companyListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SubsidiaryCompanyBean.DataBean bean = subsidiaryCompanyBean.getData().get(position);
+                mTvSubsidiaryCompany.setTextColor(getResources().getColor(R.color.color33));
+//                mTvSubsidiaryCompany.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                mTvSubsidiaryCompany.setText(bean.getName());
+                CompanyId = bean.getId();
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+
+    //获取仓库列表
+    private void getWarehouseList() {
+        if (CompanyId == 0) {
+            ToastUtil.setToast("请选择公司");
+            return;
+        }
+        String sign = MD5Util.encode("orgId=" + "" + "&types=" + "");
+        RxHttpUtils.createApi(AllocationApi.class)
+                .getWarehouseList("", "", sign)
+                .compose(Transformer.<WareHouseListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<WareHouseListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(WareHouseListBean bean) {
+                        wareHouseListBean = bean;
+                        if (bean.getCode() == 200) {
+                            showWarehouseList();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //仓库列表PopuWindow
+    private void showWarehouseList() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        WarehouseListAdp warehouseListAdp = new WarehouseListAdp(wareHouseListBean.getData());
+        myRecyclerViewOne.setAdapter(warehouseListAdp);
+        warehouseListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                WareHouseListBean.DataBean bean = wareHouseListBean.getData().get(position);
+                mTvWarehouse.setTextColor(getResources().getColor(R.color.color33));
+//                    mTvTransferOutWarehouse.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                mTvWarehouse.setText(bean.getName());
+                Warehouseid = bean.getId();
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
 }

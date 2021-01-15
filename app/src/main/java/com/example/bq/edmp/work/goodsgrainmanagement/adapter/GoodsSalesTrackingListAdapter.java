@@ -1,6 +1,5 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.adapter;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +13,15 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
-import com.example.bq.edmp.work.order.adapter.OrderNeiAdapter;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSalesManagmentListAdapter.ViewHolder> {
+public class GoodsSalesTrackingListAdapter extends RecyclerView.Adapter<GoodsSalesTrackingListAdapter.ViewHolder> {
     private List<OrderTJBean.DataBean.RowsBean> list;
 
-    public GoodsSalesManagmentListAdapter(ArrayList<OrderTJBean.DataBean.RowsBean> list) {
+    public GoodsSalesTrackingListAdapter(ArrayList<OrderTJBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
@@ -49,18 +47,18 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
         String status = rowsBean.getStatus();
         if (status != null) {
             if (status.equals("1")) {
-                holder.tv_status.setText("待提交");
+                holder.status_tv.setText("待提交");
             } else {
-                holder.tv_status.setText("暂无");
+                holder.status_tv.setText("暂无");
             }
         } else {
-            holder.tv_status.setText("暂无");
+            holder.status_tv.setText("暂无");
         }
 
-        holder.tv_code.setText("订单号: " + rowsBean.getCode());
-        holder.tv_compay_name.setText(rowsBean.getCustomerName());
-        holder.tv_price.setText("¥" + FromtUtil.getFromt(rowsBean.getAmount()));
-        holder.tv_time.setText(rowsBean.getAddedTime());
+        holder.code_tv.setText("订单号: " + rowsBean.getCode());
+        holder.compay_name_tv.setText(rowsBean.getCustomerName());
+        holder.price_tv.setText("¥" + FromtUtil.getFromt(rowsBean.getAmount()));
+        holder.tiem_tv.setText(rowsBean.getAddedTime());
 
 
         List<OrderTJBean.DataBean.RowsBean.OrderItemsBean> orderItem = rowsBean.getOrderItems();
@@ -99,14 +97,10 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView tv_code;//订单号
-        private final TextView tv_status;//订单状态
-        private final TextView tv_compay_name;//公司名称
-        private final TextView tv_price;//订单总价
-        private final TextView tv_subsidiary_company;//分子公司名称
-        private final TextView tv_warehouse;//仓库名称
-        private final TextView tv_name;//操作人
-        private final TextView tv_time;//添加时间
+        private final TextView code_tv;
+        private final TextView status_tv;
+        private final TextView compay_name_tv;
+        private final TextView price_tv;
         private final TextView wsj;
         private final TextView tiem_tv;
         private final RecyclerView rv;
@@ -114,14 +108,10 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_code = itemView.findViewById(R.id.tv_code);
-            tv_status = itemView.findViewById(R.id.tv_status);
-            tv_compay_name = itemView.findViewById(R.id.tv_compay_name);
-            tv_price = itemView.findViewById(R.id.tv_price);
-            tv_subsidiary_company = itemView.findViewById(R.id.tv_subsidiary_company);
-            tv_warehouse = itemView.findViewById(R.id.tv_warehouse);
-            tv_name = itemView.findViewById(R.id.tv_name);
-            tv_time = itemView.findViewById(R.id.tv_time);
+            code_tv = itemView.findViewById(R.id.code_tv);
+            status_tv = itemView.findViewById(R.id.status_tv);
+            compay_name_tv = itemView.findViewById(R.id.compay_name_tv);
+            price_tv = itemView.findViewById(R.id.price_tv);
             wsj = itemView.findViewById(R.id.wsj);
             tiem_tv = itemView.findViewById(R.id.tiem_tv);
             rv = itemView.findViewById(R.id.rv);

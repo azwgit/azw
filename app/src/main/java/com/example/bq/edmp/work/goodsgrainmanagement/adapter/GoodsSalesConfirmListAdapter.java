@@ -1,6 +1,5 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.adapter;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +13,15 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
-import com.example.bq.edmp.work.order.adapter.OrderNeiAdapter;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSalesManagmentListAdapter.ViewHolder> {
+public class GoodsSalesConfirmListAdapter extends RecyclerView.Adapter<GoodsSalesConfirmListAdapter.ViewHolder> {
     private List<OrderTJBean.DataBean.RowsBean> list;
 
-    public GoodsSalesManagmentListAdapter(ArrayList<OrderTJBean.DataBean.RowsBean> list) {
+    public GoodsSalesConfirmListAdapter(ArrayList<OrderTJBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
@@ -89,7 +87,6 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
                 return holder.ll.onTouchEvent(event);
             }
         });
-
     }
 
     @Override

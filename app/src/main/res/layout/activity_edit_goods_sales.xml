@@ -53,11 +53,12 @@
                     android:background="@color/white">
 
                     <TextView
-                        android:id="@+id/username_tv"
+                        android:layout_marginLeft="@dimen/dp_24"
+                        android:id="@+id/tv_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp_24"
+                        android:layout_toLeftOf="@id/choose_user_tv"
                         android:background="@null"
                         android:ellipsize="end"
                         android:gravity="center_vertical"
@@ -67,10 +68,23 @@
                         android:textColor="@color/color33"
                         android:textColorHint="@color/color_99"
                         android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:id="@+id/choose_user_tv"
+                        android:layout_width="@dimen/dp_64"
+                        android:layout_height="@dimen/dp_21"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/white"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp_16"
+                        android:background="@drawable/btn_red_4dp_shape"
+                        android:gravity="center"
+                        android:text="选择客户"
+                        android:textSize="@dimen/sp_12" />
+
                 </RelativeLayout>
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
@@ -88,10 +102,10 @@
 
 
                 <EditText
-                    android:id="@+id/contactname_et"
+                    android:id="@+id/et_contactname"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
+                    android:layout_height="match_parent"
                     android:background="@null"
                     android:hint="请输入联系人姓名"
                     android:textColor="@color/color33"
@@ -100,7 +114,6 @@
 
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,7 +121,6 @@
 
                 <View style="@style/line_style" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
@@ -126,7 +138,7 @@
 
 
                 <EditText
-                    android:id="@+id/contact_phone_et"
+                    android:id="@+id/et_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
@@ -138,7 +150,6 @@
 
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,7 +157,6 @@
 
                 <View style="@style/line_style" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
@@ -164,7 +174,7 @@
 
 
                 <EditText
-                    android:id="@+id/cargo_address_et"
+                    android:id="@+id/et_address"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
@@ -176,12 +186,11 @@
 
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
+                android:layout_marginTop="@dimen/dp_8"
                 android:orientation="horizontal">
 
                 <TextView
@@ -195,20 +204,19 @@
 
 
                 <TextView
-                    android:id="@+id/tv_transfer_number"
+                    android:id="@+id/tv_subsidiary_company"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
+                    android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:drawableRight="@drawable/icon_xia"
                     android:gravity="center_vertical"
+                    android:drawableRight="@drawable/icon_xia"
                     android:text="分子公司"
                     android:textColor="#999999"
                     android:textSize="@dimen/sp_16" />
 
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -216,7 +224,6 @@
 
                 <View style="@style/line_style" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
@@ -234,12 +241,13 @@
 
 
                 <TextView
+                    android:id="@+id/tv_warehouse"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
+                    android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:drawableRight="@drawable/icon_xia"
                     android:gravity="center_vertical"
+                    android:drawableRight="@drawable/icon_xia"
                     android:text="选择仓库"
                     android:textColor="#999999"
                     android:textSize="@dimen/sp_16" />

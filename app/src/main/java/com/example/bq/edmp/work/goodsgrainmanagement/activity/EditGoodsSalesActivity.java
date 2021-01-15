@@ -27,10 +27,12 @@ import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.FromtUtil;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.utils.phoneUtils;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsListAdp;
 import com.example.bq.edmp.work.inventorytransfer.activity.UpdateTransferGoodsActivity;
 import com.example.bq.edmp.work.inventorytransfer.adapter.CommodityListAdp;
@@ -50,22 +52,31 @@ import butterknife.BindView;
  * 修改订单
  * */
 public class EditGoodsSalesActivity extends BaseTitleActivity {
-    @BindView(R.id.code_tv)
-    TextView code_tv;
-    @BindView(R.id.username_tv)
-    TextView username_tv;
+    public static void newIntent(Context context, String id, int type) {
+        Intent intent = new Intent(context, EditGoodsSalesActivity.class);
+        intent.putExtra(Constant.ID, id);
+        intent.putExtra(Constant.TYPE, type);
+        context.startActivity(intent);
+    }
+
     @BindView(R.id.delete_tv)
     TextView delete_tv;
     @BindView(R.id.save_tv)
     TextView save_tv;
     @BindView(R.id.save_add_tv)
     TextView save_add_tv;
-    @BindView(R.id.contactname_et)
-    EditText contactname_et;
-    @BindView(R.id.contact_phone_et)
-    EditText contact_phone_et;
-    @BindView(R.id.cargo_address_et)
-    EditText cargo_address_et;
+    @BindView(R.id.tv_name)
+    TextView mTvName;//客户姓名
+    @BindView(R.id.et_contactname)
+    EditText mEtContactName;//联系人
+    @BindView(R.id.et_phone)
+    EditText mEtPhone;//联系电话
+    @BindView(R.id.et_address)
+    EditText mEtAddress;//送货地址
+    @BindView(R.id.tv_subsidiary_company)
+    TextView mTvSubsidiaryCompany;//分子公司
+    @BindView(R.id.tv_warehouse)
+    TextView mTvWarehouse;//仓库
     @BindView(R.id.add_goods_rl)
     RelativeLayout add_goods_rl;
     @BindView(R.id.my_recycler_view)
@@ -78,6 +89,8 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     private Dialog mCameraDialog;
     private EditText xiaolaing_et;
     private EditText shiji_xiaoliang_et;
+    private int CompanyId = 0;//公司id
+    private int Warehouseid = 0;//仓库id
     private ILoadingView loading_dialog;
 
     @Override
@@ -131,27 +144,6 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     }
 
 
-    //判断方法
-    public boolean Judge() {
-        if (username_tv.equals("")) {
-            ToastUtil.setToast("请输入客户名称");
-            return false;
-        }
-        if (contactname_et.equals("")) {
-            ToastUtil.setToast("请输入联系人");
-            return false;
-        }
-        if (contact_phone_et.equals("")) {
-            ToastUtil.setToast("请输入联系人电话号");
-            return false;
-        }
-        if (cargo_address_et.equals("")) {
-            ToastUtil.setToast("请输入送货地址");
-            return false;
-        }
-        return true;
-    }
-
     public boolean XiuJudge() {
         if (xiaolaing_et.getText().toString().equals("")) {
             ToastUtil.setToast("请输入销售量");
@@ -176,19 +168,8 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.save_add_tv://保存并提交
-                if (dataBeans.size() == 0) {
-                    ToastUtil.setToast("请选择提交商品");
-                    break;
-                } else {
-                    if (Judge()) {
-                        gainSumit();
-                    }
-                }
                 break;
             case R.id.save_tv://保存
-                if (Judge()) {
-                    gainSvet();
-                }
                 break;
             case R.id.delete_tv://删除
                 deleteGoods("1");
@@ -309,6 +290,41 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     }
 
+    public void checkData() {
+        String name = mTvName.getText().toString().trim();
+        if ("".equals(name)) {
+            ToastUtil.setToast("请选择客户");
+            return;
+        }
+        String contactName = mEtContactName.getText().toString().trim();
+        if ("".equals(contactName)) {
+            ToastUtil.setToast("请输入联系人");
+            return;
+        }
+        String phone = mEtPhone.getText().toString().trim();
+        if ("".equals(phone)) {
+            ToastUtil.setToast("请输入联系人电话号");
+            return;
+        }
+        String address = mEtAddress.getText().toString().trim();
+        if ("".equals(address)) {
+            ToastUtil.setToast("请输入送货地址");
+            return;
+        }
+        if (CompanyId == 0) {
+            ToastUtil.setToast("请选择公司");
+            return;
+        }
+        if (Warehouseid == 0) {
+            ToastUtil.setToast("请选择仓库");
+            return;
+        }
+        if (!phoneUtils.isMobileNO(mEtPhone.getText().toString())) {
+            ToastUtil.setToast("请输入正确的手机号");
+            return;
+        }
+    }
+
     //商品修改
     private void gainEdit(OrderDetailsBean.DataBean.OrderItemsBean orderItem, String xiaoliang, String shijixiao) {
 
@@ -339,10 +355,9 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     //订单提交
     private void gainSumit() {
-        String sign = MD5Util.encode("address=" + cargo_address_et.getText().toString() + "&contacts=" + contactname_et.getText().toString()
-                + "&customerId=" + customerId + "&id=" + id + "&mobTel=" + contact_phone_et.getText().toString());
+        String sign = MD5Util.encode("address=");
         RxHttpUtils.createApi(OrderApi.class)
-                .getSubmit(cargo_address_et.getText().toString(), contactname_et.getText().toString(), customerId, id, contact_phone_et.getText().toString(), sign)
+                .getSubmit("", "", customerId, id, "", sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -364,11 +379,10 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     //订单保存
     private void gainSvet() {
-        String sign = MD5Util.encode("address=" + cargo_address_et.getText().toString() + "&contacts=" + contactname_et.getText().toString()
-                + "&customerId=" + customerId + "&id=" + id + "&mobTel=" + contact_phone_et.getText().toString());
+        String sign = MD5Util.encode("address=");
 
         RxHttpUtils.createApi(OrderApi.class)
-                .getSave(cargo_address_et.getText().toString(), contactname_et.getText().toString(), customerId, id, contact_phone_et.getText().toString(), sign)
+                .getSave("", "", customerId, id, "", sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override

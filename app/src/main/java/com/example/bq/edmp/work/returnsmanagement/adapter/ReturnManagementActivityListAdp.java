@@ -57,7 +57,6 @@ public class ReturnManagementActivityListAdp extends RecyclerView.Adapter<Return
                 holder.tv_type.setText("转商销售");
                 holder.tv_money.setText("销售金额 ￥" + MoneyUtils.formatMoney(rowsBean.getSalesAmount()));
             }
-            holder.tv_money.setText("退货金额 ￥" + MoneyUtils.formatMoney(rowsBean.getAmount()));
             holder.tv_sart_time.setText("发货时间 " + rowsBean.getSendOutTimes());
             holder.tv_end_time.setText("退货时间 " + rowsBean.getAddedTime());
             holder.ly_view.setOnClickListener(new View.OnClickListener() {

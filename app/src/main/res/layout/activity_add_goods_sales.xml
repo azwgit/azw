@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/beijing_color"
-    tools:context=".work.order.activity.NewOrderActivity">
+    android:id="@+id/rl_view"
+    android:background="@color/beijing_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
 
                 <TextView
                     android:layout_marginLeft="@dimen/dp_24"
-                    android:id="@+id/username_tv"
+                    android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
@@ -85,7 +85,7 @@
 
 
             <EditText
-                android:id="@+id/contactname_et"
+                android:id="@+id/et_contactname"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="@dimen/dp_24"
                 android:layout_height="match_parent"
@@ -121,7 +121,7 @@
 
 
             <EditText
-                android:id="@+id/contact_phone_et"
+                android:id="@+id/et_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_24"
@@ -157,7 +157,7 @@
 
 
             <EditText
-                android:id="@+id/cargo_address_et"
+                android:id="@+id/et_address"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_24"
@@ -187,7 +187,7 @@
 
 
             <TextView
-                android:id="@+id/tv_transfer_number"
+                android:id="@+id/tv_subsidiary_company"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="@dimen/dp_24"
                 android:layout_height="match_parent"
@@ -224,6 +224,7 @@
 
 
             <TextView
+                android:id="@+id/tv_warehouse"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="@dimen/dp_24"
                 android:layout_height="match_parent"
