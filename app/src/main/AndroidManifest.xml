@@ -79,10 +79,7 @@
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesManagementListActivity"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.AddGoodsSalesActivity"
@@ -94,7 +91,10 @@
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingListActivity"
             android:windowSoftInputMode="stateHidden">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesConfirmListActivity"
@@ -216,7 +216,6 @@
         <activity android:name=".home.activity.UploadImageActivity" />
         <activity android:name=".home.activity.MessageNotificationListActivity" />
         <activity android:name=".activity.StartActivity">
-
         </activity>
         <activity
             android:name=".work.approvalmanagement.activity.AllocationApprovalActivity"

@@ -6,38 +6,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/beijing_color"
-    android:orientation="vertical"
-    tools:context=".work.allocation.ApprovalInActivity">
-
+    android:orientation="vertical">
     <!--数据-->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/beijing_color"
         android:orientation="vertical">
-        <include layout="@layout/base_header_layout"/>
+
+        <include layout="@layout/base_header_layout"  android:id="@+id/a"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/a"
             android:background="@color/beijing_color">
 
             <LinearLayout
-                android:id="@+id/one_ll"
+                android:id="@+id/top_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/beijing_color"
                 android:orientation="vertical">
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/layout_tab"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_44"
-                    android:background="@color/white"
-                    app:tabIndicatorColor="#F91515"
-                    app:tabIndicatorHeight="@dimen/dp_3"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/black"
-                    app:tabTextColor="@color/text_gray" />
+                    android:background="@color/white">
+
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/layout_tab"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_44"
+                        android:layout_toLeftOf="@id/screen_img"
+                        android:background="@color/white"
+                        app:tabIndicatorColor="#F91515"
+                        app:tabIndicatorHeight="@dimen/dp_3"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/black"
+                        app:tabTextColor="@color/text_gray" />
+
+                    <ImageView
+                        android:id="@+id/screen_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:background="@color/white"
+                        android:src="@drawable/icon_universal" />
+                </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager"
@@ -46,5 +70,142 @@
                     android:background="#fff" />
             </LinearLayout>
         </RelativeLayout>
-    </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:visibility="gone"
+            android:layout_below="@id/a"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/xr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/wsj"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14"
+                android:text="暂无数据"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <!--策划  筛选-->
+    <RelativeLayout
+        android:id="@+id/linter_history"
+        android:layout_width="@dimen/dp_330"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/butt_ll">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+                <!--调出分公司-->
+                <TextView
+                    android:id="@+id/a"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_25"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:alpha="0.9"
+                    android:gravity="center_vertical"
+                    android:text="分公司"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_14" />
+
+                <RelativeLayout
+                    android:id="@+id/chu_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_below="@id/a"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:background="#F2F5F6">
+
+                    <TextView
+                        android:id="@+id/chu_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/down"
+                        android:gravity="center"
+                        android:hint="所有分子公司"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/color_66000000"
+                        android:textSize="@dimen/sp_14" />
+
+                </RelativeLayout>
+                <!--调拨类型-->
+                <TextView
+                    android:id="@+id/d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/chu_rl"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_25"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:alpha="0.9"
+                    android:gravity="center_vertical"
+                    android:text="品种"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_14" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/shai_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/d"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:layout_marginBottom="@dimen/dp_20"></android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <!--底部按钮-->
+        <LinearLayout
+            android:id="@+id/butt_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/chong_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="#F2F5F6"
+                android:gravity="center"
+                android:text="重置"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/affirm_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorf9"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
