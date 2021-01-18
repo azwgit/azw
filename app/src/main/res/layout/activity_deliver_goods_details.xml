@@ -3,13 +3,13 @@
     android:id="@+id/rl_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E5E5"
+    android:background="@color/bg_color"
     android:fillViewport="true">
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_above="@+id/btn_submit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_submit">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/dp_16"
                 android:paddingRight="@dimen/dp_16">
@@ -35,7 +35,7 @@
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:text="收购单号  12222222"
-                    android:textColor="#17171A"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
@@ -58,10 +58,9 @@
                 android:layout_marginTop="@dimen/dp_22"
                 android:layout_marginEnd="@dimen/dp_15"
                 android:layout_marginBottom="@dimen/dp_12"
-                android:alpha="0.7"
                 android:text="品种信息"
-                android:textColor="#17171A"
-                android:textSize="12sp" />
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,7 +74,7 @@
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="客戶姓名"
-                    android:textColor="#17171A"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -87,8 +86,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="子公司名称"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,7 +102,7 @@
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="业务员"
-                    android:textColor="#17171A"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -115,8 +114,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="8号仓库"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,7 +130,7 @@
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="仓库"
-                    android:textColor="#17171A"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -143,8 +142,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="皖垦麦869"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -159,7 +158,7 @@
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="分子公司"
-                    android:textColor="#17171A"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -171,8 +170,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="1880.00 公斤"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -187,7 +186,7 @@
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="下单时间"
-                    android:textColor="#17171A"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -199,8 +198,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="1880.00 公斤"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -215,10 +214,9 @@
                     android:layout_marginTop="@dimen/dp_22"
                     android:layout_marginEnd="@dimen/dp_15"
                     android:layout_marginBottom="@dimen/dp_12"
-                    android:alpha="0.7"
                     android:text="销售品种"
-                    android:textColor="#17171A"
-                    android:textSize="12sp" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/my_recycler_view"
@@ -229,10 +227,10 @@
 
             <LinearLayout
                 android:id="@+id/ly_one"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -241,10 +239,9 @@
                     android:layout_marginTop="@dimen/dp_22"
                     android:layout_marginEnd="@dimen/dp_15"
                     android:layout_marginBottom="@dimen/dp_12"
-                    android:alpha="0.7"
                     android:text="发货信息"
-                    android:textColor="#17171A"
-                    android:textSize="12sp" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -258,7 +255,7 @@
                         android:background="#0D000000"
                         android:gravity="center"
                         android:text="发货时间"
-                        android:textColor="#17171A"
+                        android:textColor="@color/color33"
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
@@ -270,8 +267,8 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_20"
                         android:text="子公司名称"
-                        android:textColor="#E617171A"
-                        android:textSize="@dimen/sp_16" />
+                        android:textColor="@color/color_66"
+                        android:textSize="@dimen/sp_14" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -286,30 +283,32 @@
                         android:background="#0D000000"
                         android:gravity="center"
                         android:text="发货方式"
-                        android:textColor="#17171A"
+                        android:textColor="@color/color33"
                         android:textSize="@dimen/sp_14" />
+
                     <TextView
                         android:id="@+id/tv_delivery_method"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:lineSpacingExtra="@dimen/dp_12"
                         android:background="@color/white"
                         android:gravity="center_vertical"
+                        android:lineSpacingExtra="@dimen/dp_12"
                         android:paddingLeft="@dimen/dp_20"
                         android:text="8号仓库"
-                        android:textColor="#E617171A"
-                        android:textSize="@dimen/sp_16" />
+                        android:textColor="@color/color_66"
+                        android:textSize="@dimen/sp_14" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
     <TextView
-        android:layout_marginTop="@dimen/dp_30"
-        android:layout_marginBottom="@dimen/dp_30"
-        android:layout_alignParentBottom="true"
         android:id="@+id/btn_submit"
         style="@style/btn_small_angle_new_style"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_30"
         android:layout_weight="1"
         android:text="确认发货" />
 </RelativeLayout>

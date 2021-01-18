@@ -40,7 +40,7 @@
                     android:gravity="center_vertical"
                     android:hint="请输入客户名称"
                     android:paddingLeft="@dimen/dp_24"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textColorHint="#999999"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
@@ -76,7 +76,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="选择行政区域"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -104,7 +104,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="分子公司1"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -139,7 +139,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="选择仓库"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -174,7 +174,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="分子公司1"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -209,7 +209,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="选择仓库"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -237,7 +237,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="选择仓库"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
@@ -319,7 +319,7 @@
                     android:gravity="right|center"
                     android:paddingLeft="@dimen/dp_24"
                     android:text="200000"
-                    android:textColor="#999999"
+                    android:textColor="@color/color33"
                     android:drawableRight="@drawable/forward"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
@@ -344,7 +344,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:gravity="left|center"
-                    android:text="年度销售"
+                    android:text="销售合同"
                     android:textColor="#666666"
                     android:textSize="@dimen/sp_16" />
 
@@ -355,7 +355,7 @@
                     android:background="@color/white"
                     android:gravity="right|center"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="销售合同"
+                    android:text=""
                     android:drawableRight="@drawable/forward"
                     android:textColor="#999999"
                     android:textSize="@dimen/sp_16" />

@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginBottom="@dimen/dp_8"
             android:orientation="horizontal">
 
 
@@ -104,162 +103,161 @@
         android:layout_gravity="right"
         android:background="@color/white"
         android:orientation="vertical">
+
         <ScrollView
-            android:layout_above="@id/butt_ll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@id/butt_ll">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white">
-            <!--分公司-->
-            <TextView
-                android:id="@+id/a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_34"
-                android:layout_marginBottom="@dimen/dp_16"
-                android:alpha="0.9"
-                android:gravity="center_vertical"
-                android:text="省"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_14" />
-
-            <RelativeLayout
-                android:id="@+id/rl_sheng"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
-                android:layout_below="@id/a"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginRight="@dimen/dp_16"
-                android:background="#F2F5F6">
-
+                <!--分公司-->
                 <TextView
-                    android:id="@+id/tv_sheng"
+                    android:id="@+id/a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:drawableRight="@drawable/down"
-                    android:gravity="center"
-                    android:hint="请选择"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/color_66000000"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_34"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:gravity="center_vertical"
+                    android:text="省"
+                    android:textColor="@color/color33"
+                    android:textSize="@dimen/sp_16" />
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_sheng"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_below="@id/a"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:background="#F2F5F6">
 
-            <TextView
-                android:id="@+id/b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_sheng"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_34"
-                android:layout_marginBottom="@dimen/dp_16"
-                android:alpha="0.9"
-                android:gravity="center_vertical"
-                android:text="市"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_14" />
+                    <TextView
+                        android:id="@+id/tv_sheng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/down"
+                        android:gravity="center"
+                        android:hint="请选择"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/color_99"
+                        android:textSize="@dimen/sp_16" />
 
-            <RelativeLayout
-                android:id="@+id/rl_shi"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
-                android:layout_below="@id/b"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginRight="@dimen/dp_16"
-                android:background="#F2F5F6">
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/tv_shi"
+                    android:id="@+id/b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:drawableRight="@drawable/down"
-                    android:gravity="center"
-                    android:hint="请选择"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/color_66000000"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_below="@+id/rl_sheng"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_34"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:gravity="center_vertical"
+                    android:text="市"
+                    android:textColor="@color/color33"
+                    android:textSize="@dimen/sp_16" />
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_shi"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_below="@id/b"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:background="#F2F5F6">
 
-            <TextView
-                android:id="@+id/c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_shi"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_34"
-                android:layout_marginBottom="@dimen/dp_16"
-                android:alpha="0.9"
-                android:gravity="center_vertical"
-                android:text="区"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/sp_14" />
+                    <TextView
+                        android:id="@+id/tv_shi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/down"
+                        android:gravity="center"
+                        android:hint="请选择"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/color_99"
+                        android:textSize="@dimen/sp_16" />
 
-            <RelativeLayout
-                android:id="@+id/rl_qu"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_48"
-                android:layout_below="@id/c"
-                android:layout_marginLeft="@dimen/dp_16"
-                android:layout_marginRight="@dimen/dp_16"
-                android:background="#F2F5F6">
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/tv_qu"
+                    android:id="@+id/c"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:drawableRight="@drawable/down"
-                    android:gravity="center"
-                    android:hint="请选择"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/color_66000000"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_below="@+id/rl_shi"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_34"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:gravity="center_vertical"
+                    android:text="区"
+                    android:textColor="@color/color33"
+                    android:textSize="@dimen/sp_16" />
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_qu"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_48"
+                    android:layout_below="@id/c"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:background="#F2F5F6">
+
+                    <TextView
+                        android:id="@+id/tv_qu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:drawableRight="@drawable/down"
+                        android:gravity="center"
+                        android:hint="请选择"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/color_99"
+                        android:textSize="@dimen/sp_16" />
+
+                </RelativeLayout>
             </RelativeLayout>
         </ScrollView>
-            <!--底部按钮-->
-            <LinearLayout
-                android:id="@+id/butt_ll"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_56"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
+        <!--底部按钮-->
+        <LinearLayout
+            android:id="@+id/butt_ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
 
 
-                <TextView
-                    android:id="@+id/cz_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:alpha="0.5"
-                    android:background="#F2F5F6"
-                    android:gravity="center"
-                    android:text="重置"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_16" />
+            <TextView
+                android:id="@+id/cz_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:alpha="0.5"
+                android:background="#F2F5F6"
+                android:gravity="center"
+                android:text="重置"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:id="@+id/affirm_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/colorf9"
-                    android:gravity="center"
-                    android:text="确定"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_16" />
+            <TextView
+                android:id="@+id/affirm_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorf9"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
 
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

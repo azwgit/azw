@@ -125,7 +125,7 @@ public class CustomerInquirytListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        title_tv.setText("客户管理");
+        title_tv.setText("客户查询");
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         //数据

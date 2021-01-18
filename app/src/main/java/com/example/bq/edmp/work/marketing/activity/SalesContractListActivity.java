@@ -29,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /*
- * 加工任务    待确认
+ * 销售合同
  * */
 public class SalesContractListActivity extends BaseTitleActivity {
     @BindView(R.id.wsj)

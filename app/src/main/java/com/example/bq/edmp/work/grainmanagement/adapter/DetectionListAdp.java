@@ -32,12 +32,12 @@ public class DetectionListAdp extends BaseQuickAdapter<TestingBeanList.DataBean.
             etResult.setInputType(InputType.TYPE_CLASS_TEXT);
         }
         if(item.getUpperLimit()!=null&&item.getLowerLimit()!=null){
-            etResult.setHint(item.getLowerLimit()+"-"+item.getUpperLimit());
+            etResult.setHint("请填写检测结果("+item.getLowerLimit()+"-"+item.getUpperLimit()+")");
         }else{
             if(item.getLowerLimit()!=null){
-                etResult.setHint("≥"+item.getLowerLimit()+"("+item.getUnit()+")");
+                etResult.setHint("请填写检测结果("+"≥"+item.getLowerLimit()+"("+item.getUnit()+") )");
             }else{
-                etResult.setHint("≤"+item.getUpperLimit()+"("+item.getUnit()+")");
+                etResult.setHint("请填写检测结果("+"≤"+item.getUpperLimit()+"("+item.getUnit()+") )");
             }
         }
 

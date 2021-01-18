@@ -39,7 +39,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /*
- * 加工任务    待确认
+ * 客户账户
  * */
 public class CustomerAccountListActivity extends BaseTitleActivity {
     public static void newIntent(Context context) {
