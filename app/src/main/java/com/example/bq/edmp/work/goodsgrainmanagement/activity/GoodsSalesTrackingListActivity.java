@@ -406,7 +406,6 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ToastUtil.setToast("刷新了数据");
         gainData();
     }
 }

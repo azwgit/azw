@@ -2,7 +2,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E5E5"
+    android:background="@color/bg_color"
     android:fillViewport="true">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_56"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
             android:background="@color/white"
             android:paddingLeft="@dimen/dp_16"
             android:paddingRight="@dimen/dp_16">
@@ -28,7 +28,7 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:text="收购单号  12222222"
-                android:textColor="#17171A"
+                android:textColor="@color/color33"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -52,10 +52,9 @@
             android:layout_marginTop="@dimen/dp_22"
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_marginBottom="@dimen/dp_12"
-            android:alpha="0.7"
             android:text="品种信息"
-            android:textColor="#17171A"
-            android:textSize="12sp" />
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_14" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,24 +64,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="分子公司"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_contractor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
                 android:text="子公司名称"
-                android:textColor="#E617171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
         <LinearLayout
@@ -93,24 +92,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="出库仓库"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_warehouse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
                 android:text="8号仓库"
-                android:textColor="#E617171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -125,24 +124,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="出库日期"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
                 android:text="2020-10-28"
-                android:textColor="#E617171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ly_number"
@@ -154,24 +153,24 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="任务单号"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_task_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
                 android:text="123123123"
-                android:textColor="#E617171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ly_two"
@@ -187,10 +186,9 @@
                 android:layout_marginTop="@dimen/dp_22"
                 android:layout_marginEnd="@dimen/dp_15"
                 android:layout_marginBottom="@dimen/dp_12"
-                android:alpha="0.7"
                 android:text="调拨信息"
-                android:textColor="#17171A"
-                android:textSize="12sp" />
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_14" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -200,24 +198,24 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="调拨单号"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color33"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:id="@+id/tv_transfer_number"
                     android:text="2号仓库"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
             <LinearLayout
@@ -228,24 +226,24 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="调入仓库"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color33"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/tv_transfer_warehouse"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="8号仓库库存不足，补充备用"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -259,20 +257,20 @@
                     android:background="#0D000000"
                     android:gravity="center"
                     android:text="调拨原因"
-                    android:textColor="#17171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color33"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/tv_transfer_reason"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_20"
                     android:text="8号仓库库存不足，补充备用"
-                    android:textColor="#E617171A"
-                    android:textSize="@dimen/sp_16" />
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_14" />
             </LinearLayout>
         </LinearLayout>
 

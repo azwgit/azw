@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_56"
@@ -15,29 +16,27 @@
             android:layout_width="@dimen/dp_104"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:alpha="0.9"
             android:text="检测项1"
-            android:textColor="@color/text_black"
+            android:textColor="@color/color33"
             android:textSize="@dimen/sp_16" />
 
         <EditText
             android:id="@+id/et_result"
-            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:alpha="0.3"
+            android:background="@null"
             android:hint="请填写检测结果"
-            android:textColorHint="@color/text_black"
             android:textColor="@color/text_black"
+            android:textColorHint="@color/color_66"
             android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/white">-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@color/white">-->
 
-<!--        <View style="@style/apply_pay_account_line_style" />-->
-<!--    </LinearLayout>-->
+    <!--        <View style="@style/apply_pay_account_line_style" />-->
+    <!--    </LinearLayout>-->
 </LinearLayout>

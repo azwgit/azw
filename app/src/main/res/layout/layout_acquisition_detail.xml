@@ -2,7 +2,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E5E5E5"
+    android:background="@color/bg_color"
     android:focusable="true">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_56"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_8"
             android:background="@color/white"
             android:paddingLeft="@dimen/dp_16"
             android:paddingRight="@dimen/dp_16">
@@ -28,7 +28,7 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:text="收购单号  12222222"
-                android:textColor="#17171A"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -52,10 +52,9 @@
             android:layout_marginTop="@dimen/dp_22"
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_marginBottom="@dimen/dp_12"
-            android:alpha="0.7"
             android:text="收购品种信息"
-            android:textColor="#17171A"
-            android:textSize="12sp" />
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_14" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,18 +64,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="承包人"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_contractor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -93,18 +92,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="品种"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_varieties"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -121,18 +120,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="仓库"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_warehouse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -149,18 +148,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="毛重"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_gross_weight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -177,18 +176,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="皮重"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_pi_weight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -205,18 +204,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="净重"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_weight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -233,18 +232,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:background="#0D000000"
                 android:gravity="center"
                 android:text="收购日期"
-                android:textColor="#17171A"
-                android:textSize="@dimen/sp_16" />
+                android:textColor="@color/color33"
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_20"
@@ -261,10 +260,9 @@
             android:layout_marginTop="@dimen/dp_22"
             android:layout_marginEnd="@dimen/dp_15"
             android:layout_marginBottom="@dimen/dp_12"
-            android:alpha="0.7"
             android:text="收购品种信息"
-            android:textColor="#17171A"
-            android:textSize="12sp" />
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_14" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_recycler_view"

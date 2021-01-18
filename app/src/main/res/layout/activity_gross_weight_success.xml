@@ -2,38 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/bg_color"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
     <ImageView
         android:id="@+id/img_ma"
-        android:src="@mipmap/icon_success"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_150"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_180"
-        android:layout_width="@dimen/dp_150"
-        android:layout_height="@dimen/dp_150"/>
+        android:src="@mipmap/icon_success" />
+
     <TextView
         android:id="@+id/tv_success"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/img_ma"
-        android:text="提交成功!"
-        android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="提交成功!"
+        android:textColor="@color/color33"
+        android:textSize="@dimen/sp_18" />
+
     <TextView
         android:id="@+id/tv_time"
-        android:layout_marginTop="@dimen/dp_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tv_success"
-        android:text="3秒后自动返回首页"
-        android:alpha="0.7"
-        android:textColor="#17171A"
-        android:textSize="@dimen/sp_14"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="3秒后自动返回首页"
+        android:textColor="@color/color_66"
+        android:textSize="@dimen/sp_14" />
+
     <TextView
         android:id="@+id/tv_start"
         android:layout_width="match_parent"
