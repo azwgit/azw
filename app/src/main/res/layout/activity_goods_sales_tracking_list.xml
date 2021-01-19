@@ -50,7 +50,7 @@
                     <ImageView
                         android:id="@+id/screen_img"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/dp_10"
@@ -60,8 +60,7 @@
                         android:layout_marginRight="@dimen/dp_10"
                         android:layout_marginBottom="@dimen/dp_10"
                         android:background="@color/white"
-                        android:src="@drawable/icon_universal"
-                        android:visibility="gone" />
+                        android:src="@drawable/icon_universal" />
                 </RelativeLayout>
 
                 <android.support.v4.view.ViewPager

@@ -57,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginLeft="@dimen/dp_16"
+        android:textStyle="bold"
         android:text="新品种皖垦麦869推广活动"
         android:textColor="@color/color33"
         android:textSize="@dimen/sp_16" />

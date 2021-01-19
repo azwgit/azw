@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
+        android:layout_height="@dimen/dp_8"
         android:background="#FFF2F5F6" />
 
     <RelativeLayout
@@ -82,6 +82,7 @@
         android:layout_marginTop="@dimen/dp_16">
 
         <TextView
+            android:textStyle="bold"
             android:id="@+id/tv_packing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,6 +95,7 @@
 
         <TextView
             android:id="@+id/tv_number"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -123,6 +125,7 @@
 
         <TextView
             android:id="@+id/tv_money"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

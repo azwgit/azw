@@ -238,9 +238,9 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                     }
                 }
                 //包含. 查看. 前面是否有值
-                if(s.toString().trim().contains(".")){
-                    String  a=s.toString().trim().substring(0, s.toString().trim().indexOf("."));
-                    if(a.length()<=0){
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
                         s = "0" + s;
                         mTvMoney.setText(s);
                         mTvMoney.setSelection(2);
@@ -409,13 +409,13 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                 list.add(selectList.get(i).getPath());
             }
         }
-        initData(DetailedAddress, Money, CooperativeCustomersId + "", DepartmentId + "", EndtTime, id, name, Purpose, distributionAreaId, Person, StartTime, list,type+"");
+        initData(DetailedAddress, Money, CooperativeCustomersId + "", DepartmentId + "", EndtTime, id, name, Purpose, distributionAreaId, Person, StartTime, list, type + "");
     }
 
     //参数初始化
-    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime, List<String> list,String type) {
+    private void initData(String address, String advanceLoan, String customerId, String deptId, String endTime, String id, String name, String purpose, String region, String responsiblePeople, String startTime, List<String> list, String type) {
         Map<String, Object> paramsMap = new HashMap<>();
-        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime+ "&types=" + type);
+        String sign = MD5Util.encode("address=" + address + "&advanceLoan=" + advanceLoan + "&customerId=" + customerId + "&deptId=" + deptId + "&endTime=" + endTime + "&id=" + id + "&name=" + name + "&purpose=" + purpose + "&region=" + region + "&responsiblePeople=" + responsiblePeople + "&startTime=" + startTime + "&types=" + type);
         paramsMap = new HashMap<>();
         paramsMap.put("address", address);
         paramsMap.put("advanceLoan", advanceLoan);
@@ -859,7 +859,14 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                     @Override
                     protected void onSuccess(MarketingActivitiesDetailsBean bean) {
                         marketingActivitiesDetailsBean = bean;
-                        setData(bean.getData());
+                        if (bean.getCode() == 200) {
+                            setData(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
+
+
                     }
                 });
     }

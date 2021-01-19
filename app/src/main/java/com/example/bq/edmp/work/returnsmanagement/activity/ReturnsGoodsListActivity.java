@@ -56,8 +56,6 @@ public class ReturnsGoodsListActivity extends BaseActivity {
     TextView title_tv;
     @BindView(R.id.return_img)
     ImageView return_img;
-    @BindView(R.id.one_ll)
-    LinearLayout one_ll;
     @BindView(R.id.layout_tab)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -75,7 +73,6 @@ public class ReturnsGoodsListActivity extends BaseActivity {
     protected void initView() {
         ProApplication.getinstance().addActivity(ReturnsGoodsListActivity.this);
         title_tv.setText("退单跟踪");
-        one_ll.setVisibility(View.VISIBLE);
         initTabLayout();
     }
 

@@ -65,6 +65,7 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
         status = integer;
     }
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_recyclerview;

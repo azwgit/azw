@@ -348,7 +348,7 @@ public class AddPayInfoAct extends BaseTitleActivity {
                         //.imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
                         //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
                         .enableCrop(false)// 是否裁剪
-                        .compress(false)// 是否压缩
+                        .compress(true)// 是否压缩
                         .synOrAsy(true)//同步true或异步false 压缩 默认同步
                         //.compressSavePath(getPath())//压缩图片保存地址
                         //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效

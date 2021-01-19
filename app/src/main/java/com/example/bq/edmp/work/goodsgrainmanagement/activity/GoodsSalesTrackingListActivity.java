@@ -95,7 +95,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_return_goods;
+        return R.layout.activity_goods_sales_tracking_list;
     }
 
     @Override

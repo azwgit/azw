@@ -153,6 +153,7 @@ public class EditFinishedProductAllocationActivity extends BaseTitleActivity {
                             setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });

@@ -145,6 +145,7 @@ public class ActivitySiteActivity extends BaseTitleActivity {
                             setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });

@@ -144,12 +144,12 @@ public class ReturnGoodsListFragment extends BaseFragment {
                                 xRecyclerView.setVisibility(View.GONE);
                                 rowsBeans.clear();
                                 returnsGoodsActivityListAdp.notifyDataSetChanged();
-                                ToastUtil.setToast("暂无数据");
+//                                ToastUtil.setToast("暂无数据");
                             }
                         } else {
                             wsj.setVisibility(View.VISIBLE);
                             xRecyclerView.setVisibility(View.GONE);
-                            ToastUtil.setToast("暂无数据");
+//                            ToastUtil.setToast("暂无数据");
                         }
                     }
                 });

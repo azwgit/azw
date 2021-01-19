@@ -197,6 +197,7 @@ public class ActivityEnclosureActivity extends BaseTitleActivity {
                             setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });

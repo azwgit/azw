@@ -556,6 +556,7 @@ public class ApplyForRefundActivity extends BaseTitleActivity {
                             setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });
