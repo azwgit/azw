@@ -45,7 +45,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
-        android:background="#FFF2F5F6" />
+        android:background="#FFF2F5F6"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -91,7 +93,7 @@
             android:gravity="center_vertical"
             android:text="皖垦麦869  125公斤/袋"
             android:textColor="@color/color33"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/tv_number"
@@ -104,13 +106,13 @@
             android:gravity="center"
             android:text="数量 2500公斤"
             android:textColor="@color/color33"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_16" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8">
+        android:layout_marginTop="@dimen/dp_12">
 
         <TextView
             android:id="@+id/tv_type"
@@ -125,7 +127,6 @@
 
         <TextView
             android:id="@+id/tv_money"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -143,6 +144,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
         android:background="#FFF2F5F6" />
 
     <RelativeLayout

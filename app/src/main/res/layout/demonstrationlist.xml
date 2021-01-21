@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:background="@color/beijing_color"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_118"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/pz_nd_tv"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="皖垦麦869 品种示范 2020年"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16"/>
+
+
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="安徽省合肥市长丰县"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16"/>
+
+        <TextView
+            android:id="@+id/compay_tv"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="示范单位：皖垦种业股份有限公司"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

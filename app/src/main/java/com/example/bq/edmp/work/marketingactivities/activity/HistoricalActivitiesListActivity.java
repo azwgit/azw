@@ -58,7 +58,7 @@ public class HistoricalActivitiesListActivity extends BaseTitleActivity {
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("营销活动管理");
+        txtTabTitle.setText("历史活动");
         ProApplication.getinstance().addActivity(this);
         //数据
         rowsBeans = new ArrayList<>();

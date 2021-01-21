@@ -105,6 +105,8 @@ public class ReturnsGoodsHistoricalDetailsActivity extends BaseTitleActivity {
     LinearLayout mLyOne;//待审批 已完成展示部分
     @BindView(R.id.ly_two)
     LinearLayout mLyWwo;//退货中 审批拒绝展示部分
+    @BindView(R.id.ly_bottom)
+    LinearLayout mLyBottom;
     private ApprovalAdp mApprovalAdapter;
     private ILoadingView loading_dialog;
     private String id = "";
@@ -124,6 +126,7 @@ public class ReturnsGoodsHistoricalDetailsActivity extends BaseTitleActivity {
             finish();
             return;
         }
+        mLyBottom.setVisibility(View.GONE);
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         ReturnGoodsDetails();

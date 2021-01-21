@@ -5,14 +5,14 @@
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F5F6"
+    android:background="@color/bg_new_color"
     android:orientation="vertical">
 
     <!--数据-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F2F5F6"
+        android:background="@color/bg_new_color"
         android:orientation="vertical">
 
         <include layout="@layout/base_header_layout" />
@@ -39,7 +39,7 @@
                     android:layout_height="@dimen/dp_24"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp_16"
-                    android:src="@drawable/search" />
+                    android:src="@drawable/icon_search" />
 
                 <EditText
                     android:id="@+id/search_et"
@@ -61,8 +61,8 @@
 
             <ImageView
                 android:id="@+id/screen_img"
-                android:layout_width="@dimen/dp_24"
-                android:layout_height="@dimen/dp_24"
+                android:layout_width="@dimen/dp_28"
+                android:layout_height="@dimen/dp_28"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/dp_10"
@@ -80,7 +80,7 @@
                 android:id="@+id/xr"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#F2F5F6" />
+                android:background="@color/bg_new_color" />
 
             <TextView
                 android:id="@+id/wsj"

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+      android:background="@color/white"
+       android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/dp_40"
+          android:background="@color/white">
+
+         <TextView
+             android:id="@+id/user_name_tv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="某某"
+             android:textColor="#666666"
+             android:layout_centerVertical="true"
+             android:textSize="@dimen/sp_16"
+             android:gravity="center_vertical"
+             android:layout_marginLeft="@dimen/dp_16"/>
+
+         <TextView
+             android:layout_toRightOf="@id/user_name_tv"
+             android:id="@+id/put_time_tv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="2020-12-30"
+             android:textColor="#666666"
+             android:layout_centerVertical="true"
+             android:textSize="@dimen/sp_16"
+             android:gravity="center_vertical"
+             android:layout_marginLeft="@dimen/dp_8"/>
+
+         <TextView
+             android:layout_toRightOf="@id/put_time_tv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="上传"
+             android:textColor="#666666"
+             android:layout_centerVertical="true"
+             android:textSize="@dimen/sp_16"
+             android:gravity="center_vertical"
+             android:layout_marginLeft="@dimen/dp_8"/>
+
+         <ImageView
+             android:id="@+id/delet_img"
+             android:layout_marginRight="@dimen/dp_15"
+             android:layout_toLeftOf="@id/edit_img"
+             android:layout_centerVertical="true"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@drawable/icon_delete"/>
+
+
+         <ImageView
+             android:layout_marginRight="@dimen/dp_16"
+             android:id="@+id/edit_img"
+             android:layout_centerVertical="true"
+             android:layout_alignParentRight="true"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:src="@mipmap/icon_edit"/>
+
+      </RelativeLayout>
+
+      <TextView
+          android:id="@+id/title_tv"
+          android:lineSpacingExtra="@dimen/dp_1"
+          android:layout_marginTop="@dimen/dp_12"
+          android:layout_marginLeft="@dimen/dp_16"
+          android:layout_marginRight="@dimen/dp_16"
+          android:textSize="@dimen/sp_16"
+          android:textColor="#333333"
+          android:text="在施农家肥的基础上，亩施纯氮11-13公斤，其中70%底肥，30%拔节期追肥，五氧化二磷8公斤，氯化钾或硫酸钾8-10公斤，作底肥一次施入。"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
+      <android.support.v7.widget.RecyclerView
+          android:layout_marginRight="@dimen/dp_16"
+          android:layout_marginLeft="@dimen/dp_16"
+          android:layout_marginBottom="@dimen/dp_12"
+          android:layout_marginTop="@dimen/dp_12"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/rv"/>
+
+   </LinearLayout>
+
+</RelativeLayout>

@@ -12,6 +12,7 @@
     <color name="color_d0d0d0">#d0d0d0</color>
     <color name="transparent">#00000000</color>
     <color name="bg_color">#f6f6f6</color>
+    <color name="bg_new_color">#F2F5F6</color>
     <color name="theme_color">#6fc056</color>
     <color name="colorf9">#F91515</color>
     <color name="color_bg">#E5E5E5</color>

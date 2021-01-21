@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_view"
+    android:layout_height="match_parent"
+    android:background="@color/beijing_color"
+    android:orientation="vertical"
+    tools:context=".work.modelfield.activity.DemonstrationDetailsActivity">
+
+
+    <include layout="@layout/base_header_layout" />
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/beijing_color">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/beijing_color">
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_118"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/pz_nd_tv"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="皖垦麦869 品种示范 2020年"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16"/>
+
+
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="安徽省合肥市长丰县"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16"/>
+
+        <TextView
+            android:id="@+id/compay_tv"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="示范单位：皖垦种业股份有限公司"
+            android:textColor="#999999"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginBottom="@dimen/dp_17"
+        android:layout_marginTop="@dimen/dp_17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="示范信息"
+        android:textColor="#666666"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_16"/>
+
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:background="#EFF3F4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/xr"/>
+
+            <RelativeLayout
+                android:layout_marginBottom="@dimen/dp_88"
+                android:id="@+id/add_goods_rl"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:layout_marginRight="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:background="@drawable/btn_white_8dp_shape">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/sp_14"
+                    android:text="  添加示范信息"
+                    android:drawableLeft="@drawable/add_red"
+                    android:layout_centerInParent="true"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

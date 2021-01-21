@@ -168,6 +168,7 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
                     RequestOptions gifOptions = new RequestOptions()
                             .override(480, 800)
                             .priority(Priority.HIGH)
+                            .skipMemoryCache(true)
                             .diskCacheStrategy(DiskCacheStrategy.NONE);
                     Glide.with(PictureExternalPreviewActivity.this)
                             .asGif()
@@ -192,7 +193,8 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
                             .into(imageView);
                 } else {
                     RequestOptions options = new RequestOptions()
-                            .diskCacheStrategy(DiskCacheStrategy.ALL);
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE);
                     Glide.with(PictureExternalPreviewActivity.this)
                             .asBitmap()
                             .load(path)

@@ -289,8 +289,8 @@
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/dp_24"
-                    android:text="请输入营业执照证件号"
-                    android:textColor="#999999"
+                    android:text=""
+                    android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 

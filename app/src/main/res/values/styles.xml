@@ -33,7 +33,6 @@
     </style>
     <!-- 自定义的主题的样式 -->
     <style name="CustomTitle" parent="@android:style/Theme.Light">
-        　　
         <item name="android:windowTitleSize">@dimen/dp_64</item>   <!-- 标题的高度 -->
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>

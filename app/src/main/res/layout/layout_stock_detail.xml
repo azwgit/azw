@@ -161,7 +161,7 @@
                 android:gravity="center"
                 android:text="日期"
                 android:textColor="@color/color33"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -170,7 +170,7 @@
                 android:gravity="center"
                 android:text="类型"
                 android:textColor="@color/color33"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -179,7 +179,7 @@
                 android:gravity="center"
                 android:text="数量"
                 android:textColor="@color/color33"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_14" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -188,7 +188,7 @@
                 android:gravity="center"
                 android:text="剩余量"
                 android:textColor="@color/color33"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

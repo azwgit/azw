@@ -39,7 +39,7 @@ public class EditFinishedProductAllocationBean implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 3
          * code : 2431
@@ -79,7 +79,7 @@ public class EditFinishedProductAllocationBean implements Serializable {
         private int outWarehouse;
         private int inOrgId;
         private int inWarehouse;
-        private Object addedOperatorId;
+        private String addedOperatorId;
         private String addedOperator;
         private String addedTime;
         private int status;
@@ -87,16 +87,16 @@ public class EditFinishedProductAllocationBean implements Serializable {
         private String submitTime;
         private String approvedTime;
         private int stockAddId;
-        private Object outConfirmOperator;
-        private Object outContirmTime;
-        private Object stockSubId;
-        private Object inConfirmOperator;
+        private String outConfirmOperator;
+        private String outContirmTime;
+        private String stockSubId;
+        private String inConfirmOperator;
         private String inContirmTime;
-        private Object warehouseName;
-        private Object beginTime;
-        private Object endTime;
-        private Object orgId;
-        private Object inOrgWarehouseName;
+        private String warehouseName;
+        private String beginTime;
+        private String endTime;
+        private String orgId;
+        private String inOrgWarehouseName;
         private String outOrgWarehouseName;
         private String inOrgName;
         private String inWarehouseName;
@@ -219,11 +219,11 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.inWarehouse = inWarehouse;
         }
 
-        public Object getAddedOperatorId() {
+        public String getAddedOperatorId() {
             return addedOperatorId;
         }
 
-        public void setAddedOperatorId(Object addedOperatorId) {
+        public void setAddedOperatorId(String addedOperatorId) {
             this.addedOperatorId = addedOperatorId;
         }
 
@@ -283,35 +283,35 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.stockAddId = stockAddId;
         }
 
-        public Object getOutConfirmOperator() {
+        public String getOutConfirmOperator() {
             return outConfirmOperator;
         }
 
-        public void setOutConfirmOperator(Object outConfirmOperator) {
+        public void setOutConfirmOperator(String outConfirmOperator) {
             this.outConfirmOperator = outConfirmOperator;
         }
 
-        public Object getOutContirmTime() {
+        public String getOutContirmTime() {
             return outContirmTime;
         }
 
-        public void setOutContirmTime(Object outContirmTime) {
+        public void setOutContirmTime(String outContirmTime) {
             this.outContirmTime = outContirmTime;
         }
 
-        public Object getStockSubId() {
+        public String getStockSubId() {
             return stockSubId;
         }
 
-        public void setStockSubId(Object stockSubId) {
+        public void setStockSubId(String stockSubId) {
             this.stockSubId = stockSubId;
         }
 
-        public Object getInConfirmOperator() {
+        public String getInConfirmOperator() {
             return inConfirmOperator;
         }
 
-        public void setInConfirmOperator(Object inConfirmOperator) {
+        public void setInConfirmOperator(String inConfirmOperator) {
             this.inConfirmOperator = inConfirmOperator;
         }
 
@@ -323,43 +323,43 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.inContirmTime = inContirmTime;
         }
 
-        public Object getWarehouseName() {
+        public String getWarehouseName() {
             return warehouseName;
         }
 
-        public void setWarehouseName(Object warehouseName) {
+        public void setWarehouseName(String warehouseName) {
             this.warehouseName = warehouseName;
         }
 
-        public Object getBeginTime() {
+        public String getBeginTime() {
             return beginTime;
         }
 
-        public void setBeginTime(Object beginTime) {
+        public void setBeginTime(String beginTime) {
             this.beginTime = beginTime;
         }
 
-        public Object getEndTime() {
+        public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(Object endTime) {
+        public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 
-        public Object getOrgId() {
+        public String getOrgId() {
             return orgId;
         }
 
-        public void setOrgId(Object orgId) {
+        public void setOrgId(String orgId) {
             this.orgId = orgId;
         }
 
-        public Object getInOrgWarehouseName() {
+        public String getInOrgWarehouseName() {
             return inOrgWarehouseName;
         }
 
-        public void setInOrgWarehouseName(Object inOrgWarehouseName) {
+        public void setInOrgWarehouseName(String inOrgWarehouseName) {
             this.inOrgWarehouseName = inOrgWarehouseName;
         }
 
@@ -379,18 +379,36 @@ public class EditFinishedProductAllocationBean implements Serializable {
             this.stockAllotItems = stockAllotItems;
         }
 
-        public static class StockAllotItemsBean {
+        public static class StockAllotItemsBean implements Serializable{
             /**
              * id : null
              * qty : 322.0
              * varietyName : 一号小麦 100公斤/袋
              */
 
-            private Object id;
+            private String id;
             private double qty;
             private String varietyName;
+            private String inItemName;
+            private String outItemName;
             private int inItemId;
             private int outItemId;
+
+            public String getInItemName() {
+                return inItemName;
+            }
+
+            public String getOutItemName() {
+                return outItemName;
+            }
+
+            public void setInItemName(String inItemName) {
+                this.inItemName = inItemName;
+            }
+
+            public void setOutItemName(String outItemName) {
+                this.outItemName = outItemName;
+            }
 
             public int getInItemId() {
                 return inItemId;
@@ -408,11 +426,11 @@ public class EditFinishedProductAllocationBean implements Serializable {
                 this.outItemId = outItemId;
             }
 
-            public Object getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(Object id) {
+            public void setId(String id) {
                 this.id = id;
             }
 

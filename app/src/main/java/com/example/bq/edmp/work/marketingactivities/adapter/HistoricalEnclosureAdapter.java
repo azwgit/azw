@@ -43,13 +43,12 @@ public class HistoricalEnclosureAdapter extends
 
         ImageView mImg;
         LinearLayout ll_del;
-        TextView tv_duration;
-
+        TextView tv_title;
         public ViewHolder(View view) {
             super(view);
+            tv_title = (TextView) view.findViewById(R.id.tv_title);
             mImg = (ImageView) view.findViewById(R.id.fiv);
             ll_del = (LinearLayout) view.findViewById(R.id.ll_del);
-            tv_duration = (TextView) view.findViewById(R.id.tv_duration);
         }
     }
 
@@ -68,7 +67,7 @@ public class HistoricalEnclosureAdapter extends
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = mInflater.inflate(R.layout.round_filter_image,
+        View view = mInflater.inflate(R.layout.round_new_filter_image,
                 viewGroup, false);
         //gv_enclosure_image
         final ViewHolder viewHolder = new ViewHolder(view);
@@ -104,6 +103,7 @@ public class HistoricalEnclosureAdapter extends
                 viewHolder.mImg.setImageResource(R.drawable.word);
                 break;
         }
+//        viewHolder.tv_title.setText("活动附件"+position+1);
         //itemView 的点击事件
         if (mItemClickListener != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

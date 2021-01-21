@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
+        android:layout_height="@dimen/dp_8"
         android:background="#FFF2F5F6" />
 
     <RelativeLayout
@@ -47,6 +47,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
         android:background="#FFF2F5F6" />
 
     <TextView
@@ -75,7 +77,7 @@
             android:text="经费预算"
             android:layout_toLeftOf="@+id/tv_money"
             android:textColor="@color/color_66"
-            android:textSize="@dimen/sp_12" />
+            android:textSize="@dimen/sp_14" />
 
 
         <TextView
@@ -88,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="¥2480.00"
             android:textColor="@color/colorf9"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_14" />
 
 
     </RelativeLayout>
@@ -97,6 +99,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="#FFF2F5F6"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_12"/>
 
     <RelativeLayout
@@ -116,7 +120,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView

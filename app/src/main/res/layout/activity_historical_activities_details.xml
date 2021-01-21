@@ -20,7 +20,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_16"
@@ -112,7 +112,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_16"
@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:text="完成时间"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_end_time"
@@ -138,7 +138,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_16"
@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:text="经费预算"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_money"
@@ -182,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:text="实施负责"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_person_in_charge"
@@ -197,7 +197,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp_16"
@@ -335,7 +335,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/dp_16"
                 android:paddingRight="@dimen/dp_16">
@@ -365,7 +365,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_56"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_8"
                 android:background="@color/white"
                 android:paddingLeft="@dimen/dp_16"
                 android:paddingRight="@dimen/dp_16">

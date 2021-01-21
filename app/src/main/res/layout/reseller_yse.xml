@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/my_recycler_view_one"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:layout_below="@+id/rl_view"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/btn_white_8dp_shape"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15">
+
+
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/no_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/bar_grey"
+                android:textSize="@dimen/sp_18" />
+
+            <View
+                android:layout_above="@id/ll"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="match_parent"
+                android:background="@color/bar_grey"
+                android:alpha="0.2"/>
+
+
+            <TextView
+                android:id="@+id/yes_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="确认"
+                android:textColor="@color/colorf9"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_above="@id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bar_grey"
+            android:alpha="0.2"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:gravity="center"
+            android:text="友情提醒"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/sp_19" />
+
+
+        <TextView
+            android:id="@+id/titles"
+            android:layout_below="@id/title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:text="是否确认完成该商品转商调拨申请的出库操作？"
+            android:textColor="@color/text_black_gray"
+            android:textSize="@dimen/sp_16" />
+
+
+    </RelativeLayout>
+</LinearLayout>

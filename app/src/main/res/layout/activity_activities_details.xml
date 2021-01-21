@@ -6,7 +6,11 @@
     android:background="@color/bg_color"
     android:orientation="vertical">
 
+    <include layout="@layout/base_header_layout"
+        android:id="@+id/hed"/>
+
     <android.support.v4.widget.NestedScrollView
+        android:layout_below="@id/hed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ly_bottom"
@@ -45,25 +49,42 @@
                     android:textColor="@color/color_66"
                     android:textSize="@dimen/sp_14" />
 
-                <TextView
-                    android:id="@+id/tv_dept"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <RelativeLayout
                     android:layout_below="@+id/tv_company"
-                    android:layout_marginTop="@dimen/dp_12"
-                    android:layout_marginBottom="@dimen/dp_16"
-                    android:text="部门"
-                    android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_dept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginBottom="@dimen/dp_16"
+                        android:text="部门"
+                        android:textColor="@color/color_66"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/addtime_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:layout_marginBottom="@dimen/dp_16"
+                        android:text="2020-20-11"
+                        android:textColor="@color/color_66"
+                        android:textSize="@dimen/sp_14" />
+
+                </RelativeLayout>
 
                 <ImageView
+                    android:src="@drawable/yitongyi"
                     android:id="@+id/img_status"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ddgl"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/dtj_tv"
@@ -74,10 +95,10 @@
                     android:layout_marginRight="@dimen/dp_16"
                     android:background="@drawable/purchase_red_shape"
                     android:gravity="center"
-                    android:text="待提交"
+                    android:text="审批中"
                     android:textColor="@color/colorf9"
                     android:textSize="@dimen/sp_12"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <LinearLayout
@@ -168,6 +189,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
+                    android:id="@+id/yusuan_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -200,6 +222,7 @@
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
+                    android:id="@+id/fuze_user_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -234,6 +257,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tracking_time_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -267,6 +291,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/tracking_address_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -300,6 +325,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/hezuo_user_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -333,6 +359,7 @@
                         android:textSize="@dimen/sp_14" />
 
                     <TextView
+                        android:id="@+id/trscking_mudi_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_18"
@@ -419,6 +446,7 @@
             android:visibility="gone" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/btn_complete"
             style="@style/btn_small_angle_new_style"
             android:layout_weight="1"

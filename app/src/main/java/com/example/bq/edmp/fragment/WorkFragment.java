@@ -43,14 +43,21 @@ import com.example.bq.edmp.work.marketing.activity.CustomerInquirytListActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
 import com.example.bq.edmp.work.marketingactivities.activity.HistoricalActivitiesListActivity;
 import com.example.bq.edmp.work.marketingactivities.activity.MarketingActivityManagementListActivity;
+import com.example.bq.edmp.work.modelfield.activity.AddDemonstrationActivity;
+import com.example.bq.edmp.work.modelfield.activity.DemonstrationListActivity;
 import com.example.bq.edmp.work.order.activity.HistoryOrderActivity;
 import com.example.bq.edmp.work.order.activity.OrderTrackingActivity;
 import com.example.bq.edmp.work.order.activity.Order_GL_Activity;
+import com.example.bq.edmp.work.reseller.activity.ResellerApplyActivity;
+import com.example.bq.edmp.work.reseller.activity.ResellerHandleActivity;
+import com.example.bq.edmp.work.reseller.activity.ResellerHistoryActivity;
+import com.example.bq.edmp.work.reseller.activity.ResellerTrackActivity;
 import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsGoodsHistoricalListActivity;
 import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsGoodsListActivity;
 import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsManagementtListActivity;
 import com.example.bq.edmp.work.shipments.DshipmentsActivity;
 import com.example.bq.edmp.work.shipments.YshipmentsActivity;
+import com.example.bq.edmp.work.tracking.activity.TrackingListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -277,7 +284,25 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), ReturnsGoodsListActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/return/history")) {//历史退单
                                                 startActivity(new Intent(getActivity(), ReturnsGoodsHistoricalListActivity.class));
-                                            } else {
+                                            }  else if (subtBean.getAccessUri().equals("/demonstration/newsave")) {//添加品种示范
+                                                startActivity(new Intent(getActivity(), AddDemonstrationActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/demonstration/list")) {//品种示范列表
+                                                startActivity(new Intent(getActivity(), DemonstrationListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/activity/track")) {//活动跟踪
+                                                startActivity(new Intent(getActivity(), TrackingListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/list")) {//转商申请
+                                                startActivity(new Intent(getActivity(), ResellerApplyActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/tracklist")) {//转商跟踪
+                                                startActivity(new Intent(getActivity(), ResellerTrackActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/solvelist")) {//转商处理
+                                                startActivity(new Intent(getActivity(), ResellerHandleActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/historylist")) {//历史转商
+                                                startActivity(new Intent(getActivity(), ResellerHistoryActivity.class));
+                                            }
+
+
+
+                                            else {
                                                 ToastUtil.setToast("暂未开通");
                                             }
                                         } else {

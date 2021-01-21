@@ -158,7 +158,7 @@
                     android:hint="输入价格"
                     android:paddingLeft="@dimen/dp_24"
                     android:textColor="@color/color33"
-                    android:textColorHint="@color/color_66"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
@@ -209,7 +209,7 @@
                     android:paddingLeft="@dimen/dp_27"
                     android:paddingRight="@dimen/dp_27"
                     android:textColor="@color/color33"
-                    android:textColorHint="@color/color33"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
             <LinearLayout
@@ -248,7 +248,7 @@
                     android:paddingLeft="@dimen/dp_27"
                     android:paddingRight="@dimen/dp_27"
                     android:textColor="@color/color33"
-                    android:textColorHint="@color/color33"
+                    android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
         </LinearLayout>
@@ -264,7 +264,7 @@
                 android:id="@+id/tv_money_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp_35"
+                android:layout_marginRight="@dimen/dp_24"
                 android:text="退款金额"
                 android:textColor="@color/color33"
                 android:textSize="@dimen/sp_16" />

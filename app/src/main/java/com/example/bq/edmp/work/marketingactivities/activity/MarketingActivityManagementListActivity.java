@@ -44,7 +44,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /*
- * 加工任务    待确认
+ * 活动管理
  * */
 public class MarketingActivityManagementListActivity extends BaseTitleActivity implements EasyPermissions.PermissionCallbacks {
     public static void newIntent(Context context) {

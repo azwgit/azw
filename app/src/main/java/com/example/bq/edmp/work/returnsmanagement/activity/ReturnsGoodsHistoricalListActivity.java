@@ -36,7 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /*
- * 加工任务    待确认
+ * 历史退单
  * */
 public class ReturnsGoodsHistoricalListActivity extends BaseTitleActivity {
     public static void newIntent(Context context) {

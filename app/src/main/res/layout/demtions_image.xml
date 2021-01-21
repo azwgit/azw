@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_114"
+    android:layout_height="@dimen/dp_114"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/dp_104"
+        android:layout_height="@dimen/dp_104"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:id="@+id/fiv"
+            android:layout_width="@dimen/dp_104"
+            android:layout_height="@dimen/dp_104"
+            android:scaleType="centerCrop"
+            android:src="#eeeeee" />
+
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingTop="8dp"
+            android:text="00:00"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginRight="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:id="@+id/ll_del"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_del"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:scaleType="center"
+            android:src="@drawable/icon_cha" />
+    </LinearLayout>
+</RelativeLayout>

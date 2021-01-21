@@ -493,7 +493,7 @@ public class BaseAllocationBeam {
             /**
              * id : 9
              * code : TB20201215154255
-             * owner : null
+             * owner : nullapprovedTime
              * types : 1
              * outOrgId : null
              * outWarehouse : null
@@ -570,6 +570,44 @@ public class BaseAllocationBeam {
                 private String id;
                 private double qty;
                 private String varietyName;
+                private String inItemName;
+                private String outItemName;
+
+                private String inItemId;
+                private String outItemId;
+
+                public String getInItemId() {
+                    return inItemId;
+                }
+
+                public String getOutItemId() {
+                    return outItemId;
+                }
+
+                public void setInItemId(String inItemId) {
+                    this.inItemId = inItemId;
+                }
+
+                public void setOutItemId(String outItemId) {
+                    this.outItemId = outItemId;
+                }
+
+
+                public String getOutItemName() {
+                    return outItemName;
+                }
+
+                public String getInItemName() {
+                    return inItemName;
+                }
+
+                public void setOutItemName(String outItemName) {
+                    this.outItemName = outItemName;
+                }
+
+                public void setInItemName(String inItemName) {
+                    this.inItemName = inItemName;
+                }
 
                 public String getId() {
                     return id;

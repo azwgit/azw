@@ -48,8 +48,8 @@ public class HistoricalActivitiesListAdp extends RecyclerView.Adapter<Historical
             holder.tv_name.setText(rowsBean.getDeptName()+"-"+rowsBean.getResponsiblePeople());
             holder.tv_title.setText(rowsBean.getName());
             holder.tv_money.setText("￥" + MoneyUtils.formatMoney(rowsBean.getAdvanceLoan()));
-            holder.tv_time.setText("活动时间："+rowsBean.getStartTime());
-            holder.tv_end__time.setText("完成时间："+rowsBean.getFinishedTime());
+            holder.tv_time.setText("活动时间 "+rowsBean.getStartTime()+" 至 "+rowsBean.getEndTime());
+            holder.tv_end__time.setText("完成时间 "+rowsBean.getFinishedTime());
             holder.ly_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

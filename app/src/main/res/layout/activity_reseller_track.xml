@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/beijing_color"
+    android:layout_height="match_parent"
+    tools:context=".work.reseller.activity.ResellerTrackActivity">
+
+
+    <include layout="@layout/base_header_layout"
+        android:id="@+id/hed"/>
+
+
+                <RelativeLayout
+                    android:layout_marginRight="@dimen/dp_16"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginBottom="@dimen/dp_5"
+                     android:layout_below="@id/hed"
+                     android:background="@color/white"
+                     android:id="@+id/rl"
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dp_40"
+                     android:layout_gravity="center_vertical"
+                     android:layout_weight="7">
+
+                     <ImageView
+                         android:id="@+id/img"
+                         android:layout_width="@dimen/dp_24"
+                         android:layout_height="@dimen/dp_24"
+                         android:layout_centerVertical="true"
+                         android:layout_marginLeft="@dimen/dp_16"
+                         android:src="@drawable/search" />
+
+                     <EditText
+                         android:id="@+id/search_et"
+                         android:layout_width="match_parent"
+                         android:layout_height="@dimen/dp_36"
+                         android:layout_centerVertical="true"
+                         android:layout_marginLeft="@dimen/dp_8"
+                         android:layout_toRightOf="@id/img"
+                         android:background="@null"
+                         android:hint="请输入单号查找"
+                         android:textColorHint="@color/color_69"
+                         android:imeOptions="actionSearch"
+                         android:singleLine="true"
+                         android:textColor="@color/text_black"
+                         android:textSize="@dimen/sp_14" />
+
+                 </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@id/rl"
+        android:id="@+id/tab_ll"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/layout_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white"
+        app:tabIndicatorColor="#F91515"
+        app:tabIndicatorHeight="@dimen/dp_3"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextColor="@color/text_gray" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_below="@id/hed"
+        android:id="@+id/code_ll"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/xr"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/beijing_color" />
+
+            <TextView
+                android:id="@+id/wsju"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="暂无数据"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

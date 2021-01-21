@@ -163,6 +163,10 @@ public class ActivityEnclosureActivity extends BaseTitleActivity {
 
                     @Override
                     protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                        if (loading_dialog != null) {
+                            loading_dialog.hideLoadingView();
+                        }
                     }
 
                     @Override

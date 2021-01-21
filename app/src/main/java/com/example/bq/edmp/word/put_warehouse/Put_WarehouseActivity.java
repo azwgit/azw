@@ -502,6 +502,11 @@ public class Put_WarehouseActivity extends BaseActivity implements EasyPermissio
             chuKuListAdapter.setOnItemClickListener(new ChuKuListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int pos, ChuKuWarehouseListBean.DataBean.RowsBean rowsBean) {
+                  if(type==1){
+
+                  }else{
+
+                  }
                     //出庫詳情
                     WarehousingOutDetailAct.newIntent(getApplicationContext(), rowsBean.getId() + "");
                 }

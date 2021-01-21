@@ -48,7 +48,7 @@ public class AccountListAdp extends RecyclerView.Adapter<AccountListAdp.Holder> 
         if (mItemClickListener != null) {
             holder.tv_name.setText(rowsBean.getName());
             holder.tv_money.setText("￥" + MoneyUtils.formatMoney(rowsBean.getDeposit()));
-            holder.tv_balance.setText("￥" + MoneyUtils.formatMoney(rowsBean.getBalance()));
+            holder.tv_balance.setText("余额   ￥" + MoneyUtils.formatMoney(rowsBean.getBalance()));
             holder.ly_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

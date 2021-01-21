@@ -67,7 +67,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /*
- * 报账管理
+ * 客户账户
  * */
 public class CustomerAccountActivity extends BaseActivity {
     public static void newIntent(Context context, String id, String type) {

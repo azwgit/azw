@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_view"
+    android:background="#F4F1F1"
+    android:orientation="vertical"
+    tools:context=".work.reseller.activity.ApplyResellerAllocationActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include layout="@layout/base_header_layout" />
+
+
+        <android.support.design.widget.NavigationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:background="#F4F1F1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_9"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#F60404"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 调拨原因"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/bar_grey"
+            android:layout_gravity="center_vertical"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/bar_grey"
+        android:alpha="0.1"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_99"
+        android:background="@color/white">
+
+        <EditText
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_black"
+            android:paddingTop="@dimen/dp_5"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:background="@color/white"
+            android:hint="请输入调拨原因"
+            android:textColorHint="#717277"
+            android:id="@+id/reason_et"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:text="调出仓库"
+        android:textColor="#919295"
+        android:gravity="bottom"
+        android:textSize="@dimen/sp_16"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_6"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_89"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分子公司"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#59595A"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/allcation_chu_compy_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:background="@color/white"
+                android:drawableRight="@drawable/icon_xia"
+                android:gravity="center_vertical"
+                android:text="选择公司"
+                android:textColor="#999999"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bar_grey"
+            android:alpha="0.1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="调出仓库"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#59595A"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/allcation_chu_ku_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="选择仓库"
+                android:gravity="center_vertical"
+                android:drawableRight="@drawable/icon_xia"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#97979A"
+                android:layout_gravity="center_vertical"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:text="调入商品粮仓"
+        android:textColor="#919295"
+        android:gravity="bottom"
+        android:textSize="@dimen/sp_16"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_6"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_89"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分子公司"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#59595A"
+                android:layout_gravity="center_vertical"/>
+
+
+            <TextView
+                android:id="@+id/allcation_ru_compy_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:background="@color/white"
+                android:drawableRight="@drawable/icon_xia"
+                android:gravity="center_vertical"
+                android:text="选择公司"
+                android:textColor="#999999"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bar_grey"
+            android:alpha="0.1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="调入仓库"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#59595A"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/allcation_ru_ku_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="选择仓库"
+                android:gravity="center_vertical"
+                android:drawableRight="@drawable/icon_xia"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#97979A"
+                android:layout_gravity="center_vertical"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.design.widget.NavigationView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/next_tv"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_red_4dp_shape"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:text="下一步"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:textSize="@dimen/sp_16"/>
+
+</RelativeLayout>

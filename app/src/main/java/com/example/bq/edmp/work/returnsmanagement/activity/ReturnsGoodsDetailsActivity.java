@@ -170,6 +170,7 @@ public class ReturnsGoodsDetailsActivity extends BaseTitleActivity {
     protected void initListener() {
         mBtnDel.setOnClickListener(this);
         mBtnSubmit.setOnClickListener(this);
+
     }
 
     @Override

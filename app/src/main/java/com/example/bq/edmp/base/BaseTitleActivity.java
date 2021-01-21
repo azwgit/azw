@@ -1,5 +1,6 @@
 package com.example.bq.edmp.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -7,11 +8,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.allen.library.RxHttpUtils;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.LogUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
@@ -34,13 +37,14 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
     //查看 一下
     public TextView tvNotice;
     public RelativeLayout rlTitle;
-
+    protected ImmersionBar mImmersionBar;
     //测8试
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.CustomTitle);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+//        initImmersionBar();
         setContentView(getView());
         setCustomTitle();
         ButterKnife.bind(this);
@@ -58,9 +62,13 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
 
 
     protected abstract int getLayoutId();
+
     protected abstract void initView();
+
     protected abstract void initData();
+
     protected abstract void initListener();
+
     protected abstract void otherViewClick(View view);
 
     /**
@@ -142,7 +150,15 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
     protected void onDestroy() {
         super.onDestroy();
         RxHttpUtils.cancelAll();
-
+        // 必须调用该方法，防止内存泄漏
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();
+        }
+    }
+    public void initImmersionBar() {
+        //在BaseActivity里初始化
+        mImmersionBar = ImmersionBar.with(this).statusBarColor(R.color.white).statusBarDarkFont(true) ;     //状态栏颜色，不写默认透明色
+        mImmersionBar.init();
     }
 
     public void fund() {

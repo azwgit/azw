@@ -36,7 +36,7 @@
             android:layout_marginBottom="@dimen/dp_16"
             android:text="2020-10-28 11:31:05"
             android:textColor="@color/color_99"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_14" />
 
         <TextView
             android:id="@+id/tv_money"
