@@ -39,7 +39,7 @@
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_toRightOf="@id/img"
                 android:background="@null"
-                android:hint="请输入加工单号查找"
+                android:hint="请输入客户名称进行查找"
                 android:textColorHint="@color/color_69"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"

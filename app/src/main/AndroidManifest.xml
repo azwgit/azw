@@ -324,6 +324,9 @@
         <activity android:name=".work.modelfield.activity.DemonstrationDetailsActivity" />
         <activity android:name=".work.modelfield.activity.DemonstrationListActivity" />
         <activity android:name=".work.modelfield.activity.AddDemonstrationActivity" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
     </application>
 
 </manifest>

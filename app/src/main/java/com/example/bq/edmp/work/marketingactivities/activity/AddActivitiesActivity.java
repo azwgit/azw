@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -224,9 +225,9 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                     }
                 }
                 //包含. 查看. 前面是否有值
-                if(s.toString().trim().contains(".")){
-                    String  a=s.toString().trim().substring(0, s.toString().trim().indexOf("."));
-                    if(a.length()<=0){
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
                         s = "0" + s;
                         mTvMoney.setText(s);
                         mTvMoney.setSelection(2);
@@ -711,6 +712,11 @@ public class AddActivitiesActivity extends BaseTitleActivity {
 //        backgroundAlpha(0.4f);
         mTypePopuWindow.setOutsideTouchable(true);
         mTypePopuWindow.setClippingEnabled(false);
+        //虚拟键盘解决
+//        Rect rect = new Rect();
+//        getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+//        int winHeight =getWindow().getDecorView().getHeight();
+//        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, winHeight-rect.bottom);
         mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
 
@@ -829,6 +835,7 @@ public class AddActivitiesActivity extends BaseTitleActivity {
                 break;
         }
     }
+
     /**
      * 隐藏软键盘
      *

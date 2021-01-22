@@ -4,41 +4,49 @@
     android:layout_height="@dimen/dp_64"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/return_img"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp_16"
-        android:src="@drawable/back" />
-
-    <TextView
-        android:id="@+id/title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:alpha="0.9"
-        android:text="待办事项"
-        android:textColor="#17171A"
-        android:textStyle="bold"
-        android:textSize="@dimen/sp_18" />
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/tv_operation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_11"
-        android:text="新增"
-        android:textColor="#1A76FF"
-        android:textStyle="bold"
-        android:textSize="@dimen/sp_16" />
-
-    <View
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        android:layout_alignParentBottom="true"
-        android:alpha="0.05"
-        android:background="#000000" />
+        android:layout_height="@dimen/dp_43"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/return_img"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:alpha="0.9"
+            android:text="待办事项"
+            android:textColor="#17171A"
+            android:textSize="@dimen/sp_18"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_operation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/dp_11"
+            android:text="新增"
+            android:textColor="#1A76FF"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.05"
+            android:background="#000000" />
+    </RelativeLayout>
 </RelativeLayout>

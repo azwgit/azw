@@ -82,10 +82,16 @@ public interface CustomerManagementApi {
             @Field("provinceId") String provinceId,
             @Field("sign") String sign);
 
-    //查询所有包装
+    //查询省市区
     @Headers({"urlname:marketing"})
     @POST("customer/region")
     Observable<String> getProvinceList();
+
+    //查询客户标签列表
+    @Headers({"urlname:marketing"})
+    @POST("customer/tags")
+    Observable<String> getCustomerTagsList();
+
 
     //客户账户列表
     @FormUrlEncoded

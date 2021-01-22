@@ -38,13 +38,14 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
     public TextView tvNotice;
     public RelativeLayout rlTitle;
     protected ImmersionBar mImmersionBar;
+
     //测8试
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.CustomTitle);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-//        initImmersionBar();
+        initImmersionBar();
         setContentView(getView());
         setCustomTitle();
         ButterKnife.bind(this);
@@ -155,9 +156,10 @@ public abstract class BaseTitleActivity extends AutoLayoutActivity implements Vi
             mImmersionBar.destroy();
         }
     }
+
     public void initImmersionBar() {
         //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this).statusBarColor(R.color.white).statusBarDarkFont(true) ;     //状态栏颜色，不写默认透明色
+        mImmersionBar = ImmersionBar.with(this).statusBarColor(R.color.white).statusBarDarkFont(true);     //状态栏颜色，不写默认透明色
         mImmersionBar.init();
     }
 

@@ -3,6 +3,7 @@ package com.example.bq.edmp.work.finishedproduct.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +45,8 @@ import com.example.bq.edmp.work.grainmanagement.adapter.StockDetailAdp;
 import com.example.bq.edmp.work.grainmanagement.api.RawGrainManagementApi;
 import com.example.bq.edmp.work.grainmanagement.bean.ContractorListBean;
 import com.example.bq.edmp.work.grainmanagement.bean.StockDetailBean;
+
+import java.lang.reflect.Field;
 
 import butterknife.BindView;
 
@@ -105,6 +108,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
     private DialoggerFail dialogFail = null;
     private UsualDialogger dialog = null;
     PopupWindow mTypePopuWindow;
+    PopupWindow mHouseListPopuWindow;
     private MachiningTaskDetailAdp mAdapter;
     private ILoadingView loading_dialog;
     private ContractorListBean contractorListBean;//承包人数据源
@@ -214,12 +218,12 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                 checkreportTask();
             }
         });
-//        mLyView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTypePopuWindow.dismiss();
-//            }
-//        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
         mTypePopuWindow = new PopupWindow();
         mTypePopuWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -236,33 +240,46 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
         mTypePopuWindow.setFocusable(true);
 //        backgroundAlpha(0.4f);
         mTypePopuWindow.setOutsideTouchable(true);
-//        mTypePopuWindow.setClippingEnabled(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            try {
+                Field mLayoutInScreen = PopupWindow.class.getDeclaredField("mLayoutInScreen");
+                mLayoutInScreen.setAccessible(true);
+                mLayoutInScreen.set(mTypePopuWindow, true);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        // mTypePopuWindow.setClippingEnabled(false);
         mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
+
     //验证上报内容
-    private void  checkreportTask(){
-        if(RawWarehouse==0){
+    private void checkreportTask() {
+        if (RawWarehouse == 0) {
             ToastUtil.setToast("请选择原粮库");
             return;
         }
-        if("".equals(mEtCurrentNumber.getText().toString().trim())){
+        if ("".equals(mEtCurrentNumber.getText().toString().trim())) {
             ToastUtil.setToast("请输入加工完成重量");
             return;
         }
-        if(Warehouse==0){
+        if (Warehouse == 0) {
             ToastUtil.setToast("请选择加工完成存入仓库");
             return;
         }
-        if("".equals(mEtCurrentNumber.getText().toString().trim())){
+        if ("".equals(mEtCurrentNumber.getText().toString().trim())) {
             ToastUtil.setToast("请输入副产品重量");
             return;
         }
-        if(ProductWarehouse==0){
+        if (ProductWarehouse == 0) {
             ToastUtil.setToast("请选择副产品存入仓库");
             return;
         }
-        reportTask(code,Warehouse+"",mEtCurrentNumber.getText().toString().trim(),ProductWarehouse+"",mEtProductNumber.getText().toString().trim(),RawWarehouse+"");
+        reportTask(code, Warehouse + "", mEtCurrentNumber.getText().toString().trim(), ProductWarehouse + "", mEtProductNumber.getText().toString().trim(), RawWarehouse + "");
     }
+
     //加工上报
     private void reportTask(String code, String cpwarehouseId, String finishedQty, String fswarehouseId, String productWeight, String ylwarehouseId) {
         String sign = MD5Util.encode("code=" + code + "&cpwarehouseId=" + cpwarehouseId + "&finishedQty=" + finishedQty + "&fswarehouseId=" + fswarehouseId + "&productWeight=" + productWeight + "&ylwarehouseId=" + ylwarehouseId);
@@ -289,6 +306,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                     }
                 });
     }
+
     //确认成功
     public void showOkDialog() {
         dialogOK = DialoggerOk.Builder(this)
@@ -390,7 +408,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
             case 3:
                 mTvReceiver.setText(bean.getAcceptedOperator());
                 mTvAcceptTime.setText(bean.getAcceptedTime());
-                if(bean.getStockAdds().size()>0){
+                if (bean.getStockAdds().size() > 0) {
                     mTvOperator.setText(bean.getStockAdds().get(0).getAddedOperator());
                 }
                 mTvCompletionDate.setText(bean.getFinishedTime());
@@ -463,32 +481,32 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
                     mTvProductWarehouse.setText(bean.getName());
                     ProductWarehouse = bean.getId();
                 }
-                mTypePopuWindow.dismiss();
+                mHouseListPopuWindow.dismiss();
             }
         });
-//        mLyView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTypePopuWindow.dismiss();
-//            }
-//        });
-        mTypePopuWindow = new PopupWindow();
-        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        mTypePopuWindow.setContentView(contentView);
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHouseListPopuWindow.dismiss();
+            }
+        });
+        mHouseListPopuWindow = new PopupWindow();
+        mHouseListPopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mHouseListPopuWindow.setContentView(contentView);
         // 设置SelectPicPopupWindow弹出窗体的宽
-        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        mHouseListPopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        mHouseListPopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         // 实例化一个ColorDrawable颜色为透明
         ColorDrawable dw = new ColorDrawable(0000000000);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
-        mTypePopuWindow.setBackgroundDrawable(dw);
+        mHouseListPopuWindow.setBackgroundDrawable(dw);
         // 设置SelectPicPopupWindow弹出窗体可点击
-        mTypePopuWindow.setFocusable(true);
+        mHouseListPopuWindow.setFocusable(true);
 //        backgroundAlpha(0.4f);
-        mTypePopuWindow.setOutsideTouchable(true);
-        mTypePopuWindow.setClippingEnabled(false);
-        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+        mHouseListPopuWindow.setOutsideTouchable(true);
+        mHouseListPopuWindow.setClippingEnabled(false);
+        mHouseListPopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
 
     //终止任務

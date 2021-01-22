@@ -6,7 +6,9 @@ import android.widget.Toast;
 
 
 import com.example.bq.edmp.ProApplication;
+import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.LogUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
@@ -23,12 +25,12 @@ public abstract class BaseActivity extends AutoLayoutActivity implements  View.O
     protected Bundle mBundle;
 
     protected ProApplication application;
-
+    protected ImmersionBar mImmersionBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initImmersionBar();
         setContentView(getView());
-
         ButterKnife.bind(this);
         mBundle = savedInstanceState;
         initView();
@@ -99,6 +101,9 @@ public abstract class BaseActivity extends AutoLayoutActivity implements  View.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mImmersionBar != null) {
+            mImmersionBar.destroy();
+        }
     }
 
     public void fund() {
@@ -111,6 +116,11 @@ public abstract class BaseActivity extends AutoLayoutActivity implements  View.O
 
     protected void onPause() {
         super.onPause();
+    }
+    public void initImmersionBar() {
+        //在BaseActivity里初始化
+        mImmersionBar = ImmersionBar.with(this).statusBarColor(R.color.white).statusBarDarkFont(true);     //状态栏颜色，不写默认透明色
+        mImmersionBar.init();
     }
 
 }
