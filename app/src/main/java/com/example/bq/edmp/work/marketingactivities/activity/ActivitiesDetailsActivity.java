@@ -19,7 +19,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
+import com.allen.library.download.DownloadObserver;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
 import com.allen.library.observer.CommonObserver;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.ProApplication;
@@ -38,6 +40,7 @@ import com.example.bq.edmp.utils.FromtUtil;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.OpenFiles;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.finishedproduct.adapter.CardTypeAdp;
 import com.example.bq.edmp.work.marketing.activity.AddCustomerActivity;
@@ -102,6 +105,7 @@ public class ActivitiesDetailsActivity extends BaseActivity {
     private String mid;
     private LoadingDialog loadingDialog;
     private String huodongid = "";
+    List<LocalMedia> imglist = new ArrayList<LocalMedia>();
 
     @Override
     protected int getLayoutId() {
@@ -122,12 +126,6 @@ public class ActivitiesDetailsActivity extends BaseActivity {
             bean.setDesc("啊啊啊啊");
             list.add(bean);
         }
-        List<LocalMedia> imglist = new ArrayList<LocalMedia>();
-        for (int i = 0; i < 5; i++) {
-            LocalMedia localMedia = new LocalMedia();
-            localMedia.setFileType(1);
-            imglist.add(localMedia);
-        }
         FullyGridLayoutManager manager = new FullyGridLayoutManager(getApplicationContext(), 4, GridLayoutManager.VERTICAL, false);
         pic_recyclerview.setLayoutManager(manager);
         adapter = new EnclosureAdapter(getApplicationContext(), null);
@@ -136,7 +134,33 @@ public class ActivitiesDetailsActivity extends BaseActivity {
         adapter.setOnItemClickListener(new EnclosureAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                ToastUtil.setToast("点击了" + position);
+                if (imglist.size() > 0) {
+                    LocalMedia media = imglist.get(position);
+                    int mediaType = media.getFileType();
+                    String path = media.getPath();
+                    File file = new File(path);
+                    if (!file.exists()) {
+                        download(media.getFileName(), position, media.getDownLoadUrl());
+                        return;
+                    }
+                    switch (mediaType) {
+                        case 1:
+                            startActivity(OpenFiles.getPPTFileIntent(path));
+                            break;
+                        case 2:
+                            startActivity(OpenFiles.getPdfFileIntent(path));
+                            break;
+                        case 3:
+                            startActivity(OpenFiles.getWordFileIntent(path));
+                            break;
+                        case 4:
+                            startActivity(OpenFiles.getExcelFileIntent(path));
+                            break;
+                        case 5:
+                            startActivity(OpenFiles.getWordFileIntent(path));
+                            break;
+                    }
+                }
             }
         });
         mApprovalRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -237,7 +261,28 @@ public class ActivitiesDetailsActivity extends BaseActivity {
         tracking_time_tv.setText(data.getStartTime() + "至" + data.getEndTime());
         hezuo_user_tv.setText(data.getCustomerName());
         trscking_mudi_tv.setText(data.getPurpose());
-
+        for (int i = 0; i < data.getActivityItems().size(); i++) {
+            LocalMedia localMedia = new LocalMedia();
+            if (data.getActivityItems().get(i).getUri().endsWith(".ppt")) {
+                localMedia.setFileType(1);
+            } else if (data.getActivityItems().get(i).getUri().endsWith(".pdf")) {
+                localMedia.setFileType(2);
+            } else if (data.getActivityItems().get(i).getUri().endsWith(".docx")) {
+                localMedia.setFileType(3);
+            } else if (data.getActivityItems().get(i).getUri().endsWith(".xls")) {
+                localMedia.setFileType(4);
+            } else if (data.getActivityItems().get(i).getUri().endsWith(".doc")) {
+                localMedia.setFileType(5);
+            } else {
+                localMedia.setFileType(1);
+            }
+            String path = data.getActivityItems().get(i).getUri().substring(data.getActivityItems().get(i).getUri().lastIndexOf("/") + 1);
+            localMedia.setPath(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + path);
+            localMedia.setFileName(path);
+            localMedia.setDownLoadUrl(BaseApi.activity_img_url + data.getActivityItems().get(i).getUri());
+            imglist.add(localMedia);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -501,6 +546,42 @@ public class ActivitiesDetailsActivity extends BaseActivity {
             filePaths.add(selectList.get(i).getPath());
         }
         uploadImgAndPar(BaseApi.base_url_marketing + "activity/finished", "activityAnnex", paramsMap, filePaths);
+    }
+
+    //文件下载
+    private void download(final String fileName, final int position, String url) {
+        if (loadingDialog != null) {
+            loadingDialog.showLoadingView();
+        }
+        RxHttpUtils
+                .downloadFile(url)
+                .subscribe(new DownloadObserver(fileName, getApplicationContext().getExternalFilesDir(null).getPath()) {
+                    //可以通过配置tag用于取消下载请求
+                    @Override
+                    protected String setTag() {
+                        return "download";
+                    }
+
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                        if (loadingDialog != null) {
+                            loadingDialog.hideLoadingView();
+                        }
+                    }
+
+                    @Override
+                    protected void onSuccess(long bytesRead, long contentLength, float progress, boolean done, String filePath) {
+                        if (done) {
+                            if (loadingDialog != null) {
+                                loadingDialog.hideLoadingView();
+                            }
+                            imglist.get(position).setPath(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + fileName);
+                            adapter.notifyDataSetChanged();
+                            startActivity(OpenFiles.getPdfFileIntent(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + fileName));
+                        }
+                    }
+                });
     }
 
     //图片上传接口

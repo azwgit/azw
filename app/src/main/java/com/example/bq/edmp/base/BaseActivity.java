@@ -119,7 +119,7 @@ public abstract class BaseActivity extends AutoLayoutActivity implements  View.O
     }
     public void initImmersionBar() {
         //在BaseActivity里初始化
-        mImmersionBar = ImmersionBar.with(this).statusBarColor(R.color.white).statusBarDarkFont(true);     //状态栏颜色，不写默认透明色
+        mImmersionBar = ImmersionBar.with(this).fitsSystemWindows(true).statusBarColor(R.color.white).statusBarDarkFont(true);     //状态栏颜色，不写默认透明色
         mImmersionBar.init();
     }
 
