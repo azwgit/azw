@@ -65,7 +65,8 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".work.marketing.activity.AddCustomerActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+        </activity>
         <activity android:name=".work.marketing.activity.CustomerAccountActivity" />
         <activity
             android:name=".work.marketing.activity.CustomerAccountListActivity"
@@ -95,10 +96,13 @@
         </activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesConfirmListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingDetailsActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden">
+        </activity>
         <activity
             android:name=".work.marketing.activity.SalesContractListActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -133,7 +137,8 @@
         <activity android:name=".work.marketingactivities.activity.ActivitiesDetailsActivity" />
         <activity
             android:name=".work.marketingactivities.activity.AddActivitiesActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+        </activity>
         <activity
             android:name=".work.marketingactivities.activity.EditActivitiesActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -311,8 +316,10 @@
         <activity android:name=".work.reseller.activity.AddResellerCommodityActivity" />
         <activity android:name=".work.reseller.activity.ApplyResellerAllocationTwoActivity" />
         <activity android:name=".work.reseller.activity.ApplyResellerAllocationActivity" />
-        <activity android:name=".work.reseller.activity.ResellerHistoryActivity" />
-        <activity android:name=".work.reseller.activity.ResellerHandleActivity" />
+        <activity android:name=".work.reseller.activity.ResellerHistoryActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".work.reseller.activity.ResellerHandleActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".work.reseller.activity.ResellerTrackActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".work.reseller.activity.ResellerApplyActivity" ></activity>

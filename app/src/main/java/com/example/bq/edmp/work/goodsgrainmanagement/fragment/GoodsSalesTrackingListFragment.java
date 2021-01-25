@@ -1,6 +1,7 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -207,5 +208,11 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
         if (status == 3) {
             gainData();
         }
+    }
+
+
+
+    public void setValue(String value) {
+        ToastUtil.show(getActivity(), value);
     }
 }

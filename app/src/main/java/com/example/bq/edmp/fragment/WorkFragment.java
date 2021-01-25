@@ -33,6 +33,10 @@ import com.example.bq.edmp.work.detection.NewDetectionActivity;
 import com.example.bq.edmp.work.finished.DmachineActivity;
 import com.example.bq.edmp.work.finished.JmachineActivity;
 import com.example.bq.edmp.work.finished.YmachineActivity;
+import com.example.bq.edmp.work.goodsgrainmanagement.activity.AddGoodsSalesActivity;
+import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesConfirmListActivity;
+import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesManagementListActivity;
+import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesTrackingListActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
 import com.example.bq.edmp.work.library.activity.ClibraryActivity;
@@ -284,7 +288,7 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), ReturnsGoodsListActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/return/history")) {//历史退单
                                                 startActivity(new Intent(getActivity(), ReturnsGoodsHistoricalListActivity.class));
-                                            }  else if (subtBean.getAccessUri().equals("/demonstration/newsave")) {//添加品种示范
+                                            } else if (subtBean.getAccessUri().equals("/demonstration/newsave")) {//添加品种示范
                                                 startActivity(new Intent(getActivity(), AddDemonstrationActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/demonstration/list")) {//品种示范列表
                                                 startActivity(new Intent(getActivity(), DemonstrationListActivity.class));
@@ -298,11 +302,13 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), ResellerHandleActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/allotcommodity/historylist")) {//历史转商
                                                 startActivity(new Intent(getActivity(), ResellerHistoryActivity.class));
-                                            }
-
-
-
-                                            else {
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/saleadd")) {//销售申请
+                                                startActivity(new Intent(getActivity(), GoodsSalesManagementListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/saletrack")) {//销售跟踪
+                                                startActivity(new Intent(getActivity(), GoodsSalesTrackingListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/confirm")) {//销售确认
+                                                startActivity(new Intent(getActivity(), GoodsSalesConfirmListActivity.class));
+                                            } else {
                                                 ToastUtil.setToast("暂未开通");
                                             }
                                         } else {

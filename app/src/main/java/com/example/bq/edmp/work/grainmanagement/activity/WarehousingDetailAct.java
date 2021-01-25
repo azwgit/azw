@@ -43,6 +43,7 @@ public class WarehousingDetailAct extends BaseTitleActivity {
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
+
     @BindView(R.id.my_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.recycler_view)
@@ -59,7 +60,7 @@ public class WarehousingDetailAct extends BaseTitleActivity {
     TextView mTvContractor;//分子公司名称
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;//入库仓库
-//    @BindView(R.id.tv_varieties)
+    //    @BindView(R.id.tv_varieties)
 //    TextView mTvVarieties;//品种
 //    @BindView(R.id.tv_gross_weight)
 //    TextView mTvGrossWeight;//入库量
@@ -76,9 +77,10 @@ public class WarehousingDetailAct extends BaseTitleActivity {
     @BindView(R.id.ly_number)
     LinearLayout mLyNumber;//任务单号父布局
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
-    private String id="";
+    private String id = "";
     private ILoadingView loading_dialog;
     private WarehouseVarietiesListAdp warehouseVarietiesListAdp;
+
     @Override
     protected int getLayoutId() {
         return R.layout.layout_warehousing_detail;
@@ -87,8 +89,8 @@ public class WarehousingDetailAct extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("入库详情");
-        id=getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        id = getIntent().getStringExtra(Constant.ID);
+        if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -117,24 +119,25 @@ public class WarehousingDetailAct extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
-    private void setData(WarehouseingDetailBean.DataBean bean){
-        mTvNumber.setText("入库单号  "+bean.getCode());
-        String type="";
-        switch (bean.getType2()){
+
+    private void setData(WarehouseingDetailBean.DataBean bean) {
+        mTvNumber.setText("入库单号  " + bean.getCode());
+        String type = "";
+        switch (bean.getType2()) {
             case 1:
-                type="采购入库";
+                type = "采购入库";
                 mLyNumber.setVisibility(View.VISIBLE);
                 //询问后台 是否 落下
                 mTvTaskNumber.setText(bean.getGrainPurchaseCode());
-                if(bean.getTestingItems()!=null){
+                if (bean.getTestingItems() != null) {
                     wareHousingDetailsDetectionListAdp.addData(bean.getTestingItems());
                 }
                 break;
             case 2:
-                type="加工入库";
+                type = "加工入库";
                 break;
             case 3:
-                type="调拨入库";
+                type = "调拨入库";
                 mLyOne.setVisibility(View.GONE);
                 mLyTwo.setVisibility(View.VISIBLE);
                 mTvTransferWarehouse.setText(bean.getStockAllots().getWarehouseName());
@@ -148,12 +151,14 @@ public class WarehousingDetailAct extends BaseTitleActivity {
 //        mTvVarieties.setText(bean.getVarietyName());
 //        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getAddQty())+" 公斤");
         mTvTime.setText(bean.getAddedTime());
-        warehouseVarietiesListAdp.setNewData(bean.getStockAddItems());
-
+        if (bean.getStockAddItems() != null) {
+            warehouseVarietiesListAdp.setNewData(bean.getStockAddItems());
+        }
     }
+
     //获取入庫详情
     private void getAcquisitionDetail() {
-        String sign = MD5Util.encode("id="+id);
+        String sign = MD5Util.encode("id=" + id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getWareHousingDetail(id, sign)
                 .compose(Transformer.<WarehouseingDetailBean>switchSchedulers(loading_dialog))

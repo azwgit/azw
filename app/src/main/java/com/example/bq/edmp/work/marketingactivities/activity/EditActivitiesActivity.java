@@ -55,6 +55,7 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.OpenFiles;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.utils.UsualDialogger;
 import com.example.bq.edmp.utils.phoneUtils;
 import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
 import com.example.bq.edmp.work.marketing.bean.CityBean;
@@ -144,6 +145,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
     private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     //  区
     private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private UsualDialogger dialog = null;
 
     @Override
     protected int getLayoutId() {
@@ -1005,5 +1007,26 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                 }
                 break;
         }
+    }
+
+    public void deleteDialogInfo() {
+        dialog = UsualDialogger.Builder(this)
+                .setTitle("友情提示")
+                .setMessage("是否删除该活动？")
+                .setOnConfirmClickListener("确定", new UsualDialogger.onConfirmClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                })
+                .setOnCancelClickListener("取消", new UsualDialogger.onCancelClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .build()
+                .shown();
     }
 }

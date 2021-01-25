@@ -1,5 +1,6 @@
 package com.example.bq.edmp.work.reseller.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
@@ -7,17 +8,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
@@ -29,11 +38,19 @@ import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
+import com.example.bq.edmp.word.inventory.adapter.PzAdapter;
+import com.example.bq.edmp.word.inventory.api.InventoryListApi;
+import com.example.bq.edmp.word.inventory.bean.CompanyBean;
+import com.example.bq.edmp.word.inventory.bean.SxPzBean;
 import com.example.bq.edmp.work.allocation.bean.BaseAllocationBeam;
+import com.example.bq.edmp.work.library.activity.RlibraryActivity;
 import com.example.bq.edmp.work.order.activity.GoodsListActivity;
 import com.example.bq.edmp.work.order.fragment.OrderFragment;
 import com.example.bq.edmp.work.reseller.adapter.ResellerApplyAdapter;
+import com.example.bq.edmp.work.reseller.adapter.ResellerPzAdapter;
 import com.example.bq.edmp.work.reseller.api.ResellerApi;
+import com.example.bq.edmp.work.reseller.bean.PzBean;
 import com.example.bq.edmp.work.reseller.fragment.ResellerTrackFragment;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -66,6 +83,26 @@ public class ResellerTrackActivity extends BaseActivity {
     @BindView(R.id.wsju)
     TextView wsj;
 
+
+    @BindView(R.id.linter_history)
+    RelativeLayout linterHistoryConfirm;
+    @BindView(R.id.drawerlayout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.fen_company_rl)
+    RelativeLayout fen_company_rl;
+    @BindView(R.id.fen_company_tv)
+    TextView fen_company_tv;
+    @BindView(R.id.shai_rv)
+    RecyclerView recyclerView;
+    @BindView(R.id.shaixuan_wsj)
+    TextView shaixuan_wsj;
+    @BindView(R.id.affirm_tv)
+    TextView affirm_tv;
+    @BindView(R.id.cz_tv)
+    TextView cz_tv;
+    @BindView(R.id.screen_img)
+    ImageView screen_img;
+
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private LoadingDialog loadingDialog;
     private ResellerApplyAdapter resellerApplyAdapter;
@@ -74,6 +111,20 @@ public class ResellerTrackActivity extends BaseActivity {
     private String mStatus = "10";
     private String mCode = "";
     private boolean Fund = false;
+    private ArrayList<PzBean.DataBean> dataBeans;
+    private ResellerPzAdapter resellerPzAdapter;
+    private String varietyId = "";//品种id
+    private String virtual_orgIds = "";//公司id
+    private ArrayList<CompanyBean.DataBean> companyDataBeans;
+    private BaseCom_Ck_Adapter baseCom_ck_adapter;
+    private XRecyclerView buttom_rv;
+    private TextView wsj_dial;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ProApplication.getinstance().finishActivity(ResellerTrackActivity.this);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -130,11 +181,36 @@ public class ResellerTrackActivity extends BaseActivity {
                     hideKeyboard(search_et);
                     tab_ll.setVisibility(View.GONE);
                     code_ll.setVisibility(View.VISIBLE);
-                    Fund = true;
                     gainData();
                     return true;
                 }
                 return false;
+            }
+        });
+
+
+        //筛选  品种适配器
+        dataBeans = new ArrayList<>();
+        resellerPzAdapter = new ResellerPzAdapter(dataBeans);
+        recyclerView.setLayoutManager(new GridLayoutManager(ResellerTrackActivity.this, 3));
+        recyclerView.setAdapter(resellerPzAdapter);
+        resellerPzAdapter.setOnItemLeftClckListener(new ResellerPzAdapter.OnItemLeftClckListener() {
+            @Override
+            public void onItemLeftClck(PzBean.DataBean dataBean, int mPosition) {
+                //当点击时显示当前条目的背景和文字的颜色
+                for (int i = 0; i < dataBeans.size(); i++) {
+                    if (mPosition == i) {
+                        dataBeans.get(i).setSelected(true);
+                    } else {
+                        dataBeans.get(i).setSelected(false);
+                    }
+                }
+                resellerPzAdapter.notifyDataSetChanged();
+                if (!dataBean.getVarietyId().equals("") && dataBean.getVarietyId() != null) {
+                    varietyId = dataBean.getVarietyId();
+                } else {
+                    varietyId = "";
+                }
             }
         });
 
@@ -190,6 +266,10 @@ public class ResellerTrackActivity extends BaseActivity {
     @Override
     protected void initListener() {
         return_img.setOnClickListener(this);
+        screen_img.setOnClickListener(this);
+        fen_company_rl.setOnClickListener(this);
+        cz_tv.setOnClickListener(this);
+        affirm_tv.setOnClickListener(this);
     }
 
     @Override
@@ -200,13 +280,171 @@ public class ResellerTrackActivity extends BaseActivity {
                     tab_ll.setVisibility(View.VISIBLE);
                     code_ll.setVisibility(View.GONE);
                     search_et.setText("");
+                    fen_company_tv.setHint("所有分子公司");
+                    fen_company_tv.setText("");
+                    varietyId = "";
+                    virtual_orgIds = "";
                     Fund = false;
                 } else {
                     fund();
                 }
                 break;
+            case R.id.screen_img:
+                sxMethodData();
+                break;
+            case R.id.fen_company_rl:
+                findContentViews2(view);
+                break;
+            case R.id.cz_tv:
+                fen_company_tv.setText("");
+                fen_company_tv.setHint("所有分子公司");
+                varietyId = "";
+                virtual_orgIds = "";
+                sxMethodData();
+                break;
+            case R.id.affirm_tv:
+                if (virtual_orgIds.equals("")) {
+                    ToastUtil.setToast("请选择公司");
+                    break;
+                }
+                Fund = true;
+                tab_ll.setVisibility(View.GONE);
+                code_ll.setVisibility(View.VISIBLE);
+                gainData();
+                if (linterHistoryConfirm.getVisibility() == View.VISIBLE) {
+                    //当菜单栏是可见的，则关闭
+                    drawerLayout.closeDrawer(linterHistoryConfirm);
+                }
+                break;
 
         }
+    }
+
+    /*
+     * 分公司与仓库
+     * */
+    private void findContentViews2(View view) {
+        final Dialog mCameraDialog = new Dialog(view.getContext(), R.style.my_dialog);
+
+        View root = LayoutInflater.from(view.getContext()).inflate(R.layout.sx_buttom_item, null);
+
+        mCameraDialog.setContentView(root);
+        mCameraDialog.setCanceledOnTouchOutside(false);
+
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        dialogWindow.setWindowAnimations(R.style.BottomDialog_Animation); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = -20; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//      lp.height = WindowManager.LayoutParams.WRAP_CONTENT; // 高度
+//      lp.alpha = 9f; // 透明度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+
+        buttom_rv = root.findViewById(R.id.buttom_rv);
+        wsj_dial = root.findViewById(R.id.wsj);
+
+
+        //筛选  分公司，仓库适配器
+        companyDataBeans = new ArrayList<>();
+        baseCom_ck_adapter = new BaseCom_Ck_Adapter(companyDataBeans);
+        buttom_rv.setLayoutManager(new LinearLayoutManager(ResellerTrackActivity.this));
+        buttom_rv.setAdapter(baseCom_ck_adapter);
+        baseCom_ck_adapter.setOnItemLeftClckListener(new BaseCom_Ck_Adapter.OnItemLeftClckListener() {
+            @Override
+            public void onItemLeftClck(CompanyBean.DataBean dataBean, int mPosition) {
+                //当点击时显示当前条目的背景和文字的颜色
+                for (int i = 0; i < companyDataBeans.size(); i++) {
+                    if (mPosition == i) {
+                        companyDataBeans.get(i).setSelected(true);
+                    } else {
+                        companyDataBeans.get(i).setSelected(false);
+                    }
+                }
+                baseCom_ck_adapter.notifyDataSetChanged();
+                virtual_orgIds = dataBean.getId();
+                fen_company_tv.setText(dataBean.getName());
+                mCameraDialog.dismiss();
+            }
+        });
+
+        btuomMethod();
+    }
+
+    private void btuomMethod() {
+
+        RxHttpUtils.createApi(ResellerApi.class)
+                .getCompanyData()
+                .compose(Transformer.<CompanyBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<CompanyBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(CompanyBean companyBean) {
+                        List<CompanyBean.DataBean> data = companyBean.getData();
+                        if (data != null && data.size() != 0) {
+                            buttom_rv.setVisibility(ViewGroup.VISIBLE);
+                            wsj_dial.setVisibility(ViewGroup.GONE);
+
+                            companyDataBeans.clear();
+                            data.get(0).setSelected(true);
+                            virtual_orgIds = data.get(0).getId();
+                            fen_company_tv.setText(data.get(0).getName());
+                            companyDataBeans.addAll(data);
+                            baseCom_ck_adapter.notifyDataSetChanged();
+                        } else {
+                            buttom_rv.setVisibility(ViewGroup.GONE);
+                            wsj_dial.setVisibility(ViewGroup.VISIBLE);
+                            ToastUtil.setToast("暂无数据");
+                        }
+                    }
+                });
+
+
+    }
+
+    //品种数据
+    private void sxMethodData() {
+        RxHttpUtils.createApi(ResellerApi.class)
+                .getPzData()
+                .compose(Transformer.<PzBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<PzBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(PzBean sxPzBean) {
+                        List<PzBean.DataBean> data = sxPzBean.getData();
+                        if (data.size() != 0 && data != null) {
+                            recyclerView.setVisibility(ViewGroup.VISIBLE);
+                            shaixuan_wsj.setVisibility(ViewGroup.GONE);
+
+                            dataBeans.clear();
+                            PzBean.DataBean dataBean = new PzBean.DataBean();
+                            dataBean.setSelected(true);
+                            dataBean.setVarietyId("");
+                            dataBean.setVarietyName("全部");
+                            dataBeans.add(dataBean);
+                            dataBeans.addAll(data);
+                            resellerPzAdapter.notifyDataSetChanged();
+                        } else {
+                            recyclerView.setVisibility(ViewGroup.GONE);
+                            shaixuan_wsj.setVisibility(ViewGroup.VISIBLE);
+                        }
+                    }
+                });
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        drawerLayout.openDrawer(Gravity.RIGHT);
     }
 
     //获取列表数据
@@ -214,10 +452,10 @@ public class ResellerTrackActivity extends BaseActivity {
 
         currentPager = 1;
 
-        String sign = MD5Util.encode("code=" + mCode + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + mStatus);
+        String sign = MD5Util.encode("code=" + mCode + "&inOrgId=" + virtual_orgIds + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + mStatus + "&varietyId=" + varietyId);
 
         RxHttpUtils.createApi(ResellerApi.class)
-                .getTrackList(mCode, currentPager, 15, mStatus, sign)
+                .getTrackListShai(mCode, virtual_orgIds, currentPager, 15, mStatus, varietyId, sign)
                 .compose(Transformer.<BaseAllocationBeam>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseAllocationBeam>() {
                     @Override
@@ -254,10 +492,10 @@ public class ResellerTrackActivity extends BaseActivity {
 
     //获取列表更多数据
     private void initData2() {
-        String sign = MD5Util.encode("code=" + mCode + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + mStatus);
+        String sign = MD5Util.encode("code=" + mCode + "&inOrgId=" + virtual_orgIds + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + mStatus + "&varietyId=" + varietyId);
 
         RxHttpUtils.createApi(ResellerApi.class)
-                .getTrackList(mCode, currentPager, 15, mStatus, sign)
+                .getTrackListShai(mCode, virtual_orgIds, currentPager, 15, mStatus, varietyId, sign)
                 .compose(Transformer.<BaseAllocationBeam>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseAllocationBeam>() {
                     @Override
@@ -301,12 +539,6 @@ public class ResellerTrackActivity extends BaseActivity {
         public int getCount() {
             return list.size();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ProApplication.getinstance().finishActivity(ResellerTrackActivity.this);
     }
 
     /**

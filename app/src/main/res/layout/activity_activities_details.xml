@@ -78,7 +78,6 @@
                 </RelativeLayout>
 
                 <ImageView
-                    android:src="@drawable/yitongyi"
                     android:id="@+id/img_status"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"

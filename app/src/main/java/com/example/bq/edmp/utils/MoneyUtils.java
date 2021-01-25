@@ -4,7 +4,10 @@ import java.text.DecimalFormat;
 
 public class MoneyUtils {
 
-    public static String formatMoney(Double money){
-        return new DecimalFormat("#0.00").format(money);
+    public static String formatMoney(Double money) {
+        if (money != null) {
+            return new DecimalFormat("#0.00").format(money);
+        }
+        return "0.00";
     }
 }

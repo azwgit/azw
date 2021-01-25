@@ -1,6 +1,7 @@
 package com.example.bq.edmp.work.library.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,8 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,8 +29,11 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.word.inventory.adapter.BaseCom_Ck_Adapter;
 import com.example.bq.edmp.word.inventory.adapter.PzAdapter;
+import com.example.bq.edmp.word.inventory.api.InventoryListApi;
 import com.example.bq.edmp.word.inventory.bean.CompanyBean;
 import com.example.bq.edmp.word.inventory.bean.SxPzBean;
+import com.example.bq.edmp.work.baozhuang.BzBean;
+import com.example.bq.edmp.work.baozhuang.adapter.BzAdapter;
 import com.example.bq.edmp.work.finishedproduct.activity.FinishedStockDetailActivity;
 import com.example.bq.edmp.work.library.adapter.CxLibraryListAdapter;
 import com.example.bq.edmp.work.library.api.LibraryApi;
@@ -70,14 +78,14 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
     RecyclerView recyclerView;
     @BindView(R.id.shaixuan_wsj)
     TextView shaixuan_wsj;
-    @BindView(R.id.start_time_tv)
-    TextView start_time_tv;
-    @BindView(R.id.end_time_tv)
-    TextView end_time_tv;
     @BindView(R.id.affirm_tv)
     TextView affirm_tv;
     @BindView(R.id.cz_tv)
     TextView cz_tv;
+    @BindView(R.id.bz_rv)
+    RecyclerView bz_rv;
+    @BindView(R.id.bz_wsj)
+    TextView bz_wsj;
 
     private int currentPager = 1;
     private String orgIds = "";//公司id
@@ -104,6 +112,9 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
     private TextView wsj_dial;
     private XRecyclerView buttom_rv;
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
+    private ArrayList<BzBean.DataBean> bzdataBeans;
+    private List<BzBean.DataBean> bzdata;
+    private BzAdapter bzAdapter;
 
 
     @Override
@@ -168,6 +179,32 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
                 }
             }
         });
+
+        //筛选  包装适配器
+        bzdataBeans = new ArrayList<>();
+        bzAdapter = new BzAdapter(bzdataBeans);
+        bz_rv.setLayoutManager(new GridLayoutManager(CxlibraryActivity.this, 2));
+        bz_rv.setAdapter(bzAdapter);
+        bzAdapter.setOnItemLeftClckListener(new BzAdapter.OnItemLeftClckListener() {
+            @Override
+            public void onItemLeftClck(BzBean.DataBean dataBean, int mPosition) {
+                //当点击时显示当前条目的背景和文字的颜色
+                for (int i = 0; i < bzdataBeans.size(); i++) {
+                    if (mPosition == i) {
+                        bzdataBeans.get(i).setSelected(true);
+                    } else {
+                        bzdataBeans.get(i).setSelected(false);
+                    }
+                }
+                bzAdapter.notifyDataSetChanged();
+                if (!dataBean.getId().equals("") && dataBean.getId() != null) {
+                    packagingId = dataBean.getId();
+                } else {
+                    packagingId = "";
+                }
+            }
+        });
+
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -180,10 +217,6 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                start_time_tv.setHint("请选择开始时间");
-                start_time_tv.setText("");
-                end_time_tv.setHint("请选择结束时间");
-                end_time_tv.setText("");
                 fen_company_tv.setHint("所有分子公司");
                 fen_company_tv.setText("");
                 ck_tv.setHint("所有仓库");
@@ -216,7 +249,6 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
 
     private void gainData() {
         currentPager = 1;
-
 
         String sign = MD5Util.encode("orgId=" + orgIds + "&packagingId=" + packagingId + "&page=" + currentPager +
                 "&pagerow=" + 15 + "&varietyId=" + varietyId + "&warehouseId=" + warehouseId);
@@ -282,8 +314,6 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
     protected void initListener() {
         return_img.setOnClickListener(this);
         screen_img.setOnClickListener(this);
-        start_time_tv.setOnClickListener(this);
-        end_time_tv.setOnClickListener(this);
         fen_company_rl.setOnClickListener(this);
         ck_rl.setOnClickListener(this);
         cz_tv.setOnClickListener(this);
@@ -294,23 +324,288 @@ public class CxlibraryActivity extends BaseActivity implements EasyPermissions.P
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.return_img://返回  按钮
-                fund();
+                if (Fund) {
+                    orgIds = "";//公司id
+                    varietyId = "";//品种id
+                    packagingId = "";//包装id
+                    warehouseId = "";//仓库id
+                    code = "";//单号
+                    type2 = "";//入库类型
+                    Fund = false;
+                    gainData();
+                } else {
+                    fund();
+                }
                 break;
             case R.id.screen_img://筛选  按钮
-                break;
-            case R.id.start_time_tv://开始时间
-                break;
-            case R.id.end_time_tv://结束时间
+                sxMethodData();
                 break;
             case R.id.fen_company_rl://所有分公司
+                type = 1;
+                findContentViews2(view);
                 break;
             case R.id.ck_rl://所有仓库
+                if (fen_company_tv.getText().toString().equals("") || fen_company_tv.getText().toString().equals("所有分子公司")) {
+                    ToastUtil.setToast("请先选择所公司");
+                    break;
+                }
+                type = 2;
+                findContentViews2(view);
                 break;
             case R.id.cz_tv://重置
+                fen_company_tv.setHint("所有分子公司");
+                fen_company_tv.setText("");
+                ck_tv.setHint("所有仓库");
+                ck_tv.setText("");
+                virtual_orgIds = "";
+                orgIds = "";
+                org_name = "";
+                varietyId = "";
+                virtual_orgIds = "";
+                virtual_warehouseId = "";
+                warehouse_name = "";
+                warehouseId = "";
+                beginTime = "";
+                endTime = "";
+                code = "";
+                sxMethodData();
                 break;
             case R.id.affirm_tv://筛选   确定
+                Fund = true;
+                gainData();
+                if (linterHistoryConfirm.getVisibility() == View.VISIBLE) {
+                    //当菜单栏是可见的，则关闭
+                    drawerLayout.closeDrawer(linterHistoryConfirm);
+                }
                 break;
         }
+    }
+
+
+    /*
+     * 分公司与仓库
+     * */
+    private void findContentViews2(View view) {
+        final Dialog mCameraDialog = new Dialog(view.getContext(), R.style.my_dialog);
+
+        View root = LayoutInflater.from(view.getContext()).inflate(R.layout.inventory_sx_buttom_item, null);
+
+        mCameraDialog.setContentView(root);
+        mCameraDialog.setCanceledOnTouchOutside(false);
+
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        dialogWindow.setWindowAnimations(R.style.BottomDialog_Animation); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = -20; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//      lp.height = WindowManager.LayoutParams.WRAP_CONTENT; // 高度
+//      lp.alpha = 9f; // 透明度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+
+        buttom_rv = root.findViewById(R.id.buttom_rv);
+        TextView no_tv = root.findViewById(R.id.no_tv);
+        TextView yes_tv = root.findViewById(R.id.yes_tv);
+        wsj_dial = root.findViewById(R.id.wsj);
+
+        no_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (type == 1) {//分公司
+                    virtual_orgIds = "";
+                    org_name = "";
+                } else if (type == 2) {//仓库
+                    virtual_warehouseId = "";
+                    warehouse_name = "";
+                }
+                mCameraDialog.dismiss();
+            }
+        });
+
+        yes_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (type == 1) {//分公司
+                    orgIds = virtual_orgIds;
+                    fen_company_tv.setText(org_name);
+                } else if (type == 2) {//仓库
+                    warehouseId = virtual_warehouseId;
+                    ck_tv.setText(warehouse_name);
+                }
+                mCameraDialog.dismiss();
+            }
+        });
+
+        //筛选  分公司，仓库适配器
+        companyDataBeans = new ArrayList<>();
+        baseCom_ck_adapter = new BaseCom_Ck_Adapter(companyDataBeans);
+        buttom_rv.setLayoutManager(new LinearLayoutManager(CxlibraryActivity.this));
+        buttom_rv.setAdapter(baseCom_ck_adapter);
+        baseCom_ck_adapter.setOnItemLeftClckListener(new BaseCom_Ck_Adapter.OnItemLeftClckListener() {
+            @Override
+            public void onItemLeftClck(CompanyBean.DataBean dataBean, int mPosition) {
+                //当点击时显示当前条目的背景和文字的颜色
+                for (int i = 0; i < companyDataBeans.size(); i++) {
+                    if (mPosition == i) {
+                        companyDataBeans.get(i).setSelected(true);
+                    } else {
+                        companyDataBeans.get(i).setSelected(false);
+                    }
+                }
+                baseCom_ck_adapter.notifyDataSetChanged();
+
+                if (type == 1) {//分公司
+                    virtual_orgIds = dataBean.getId();
+                    org_name = dataBean.getName();
+                } else if (type == 2) {//仓库
+                    virtual_warehouseId = dataBean.getId();
+                    warehouse_name = dataBean.getName();
+                }
+
+            }
+        });
+
+        btuomMethod();
+    }
+
+    private void btuomMethod() {
+        if (type == 1) {
+            RxHttpUtils.createApi(InventoryListApi.class)
+                    .getCompanyData()
+                    .compose(Transformer.<CompanyBean>switchSchedulers())
+                    .subscribe(new NewCommonObserver<CompanyBean>() {
+                        @Override
+                        protected void onError(String errorMsg) {
+                            ToastUtil.setToast(errorMsg);
+                        }
+
+                        @Override
+                        protected void onSuccess(CompanyBean companyBean) {
+                            List<CompanyBean.DataBean> data = companyBean.getData();
+                            if (data != null && data.size() != 0) {
+                                buttom_rv.setVisibility(ViewGroup.VISIBLE);
+                                wsj_dial.setVisibility(ViewGroup.GONE);
+
+                                companyDataBeans.clear();
+                                data.get(0).setSelected(true);
+                                virtual_orgIds = data.get(0).getId();
+                                org_name = data.get(0).getName();
+                                companyDataBeans.addAll(data);
+                                baseCom_ck_adapter.notifyDataSetChanged();
+                            } else {
+                                buttom_rv.setVisibility(ViewGroup.GONE);
+                                wsj_dial.setVisibility(ViewGroup.VISIBLE);
+                                ToastUtil.setToast("暂无数据");
+                            }
+                        }
+                    });
+        } else {
+            RxHttpUtils.createApi(InventoryListApi.class)
+                    .getCkData()
+                    .compose(Transformer.<CompanyBean>switchSchedulers())
+                    .subscribe(new NewCommonObserver<CompanyBean>() {
+                        @Override
+                        protected void onError(String errorMsg) {
+                            ToastUtil.setToast(errorMsg);
+                        }
+
+                        @Override
+                        protected void onSuccess(CompanyBean companyBean) {
+                            List<CompanyBean.DataBean> data = companyBean.getData();
+                            if (data != null && data.size() != 0) {
+                                buttom_rv.setVisibility(ViewGroup.VISIBLE);
+                                wsj_dial.setVisibility(ViewGroup.GONE);
+
+                                companyDataBeans.clear();
+                                data.get(0).setSelected(true);
+                                virtual_warehouseId = data.get(0).getId();
+                                warehouse_name = data.get(0).getName();
+                                companyDataBeans.addAll(data);
+                                baseCom_ck_adapter.notifyDataSetChanged();
+                            } else {
+                                buttom_rv.setVisibility(ViewGroup.GONE);
+                                wsj_dial.setVisibility(ViewGroup.VISIBLE);
+                                ToastUtil.setToast("暂无数据");
+                            }
+                        }
+                    });
+        }
+    }
+
+    //品种数据
+    private void sxMethodData() {
+        RxHttpUtils.createApi(InventoryListApi.class)
+                .getPzData()
+                .compose(Transformer.<SxPzBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<SxPzBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(SxPzBean sxPzBean) {
+                        data = sxPzBean.getData();
+                        if (data.size() != 0 && data != null) {
+                            recyclerView.setVisibility(ViewGroup.VISIBLE);
+                            shaixuan_wsj.setVisibility(ViewGroup.GONE);
+
+                            dataBeans.clear();
+                            SxPzBean.DataBean dataBean = new SxPzBean.DataBean();
+                            dataBean.setSelected(true);
+                            dataBean.setId("");
+                            dataBean.setName("全部");
+                            dataBeans.add(dataBean);
+                            dataBeans.addAll(data);
+                            pzAdapter.notifyDataSetChanged();
+                        } else {
+                            recyclerView.setVisibility(ViewGroup.GONE);
+                            shaixuan_wsj.setVisibility(ViewGroup.VISIBLE);
+                        }
+                    }
+                });
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        drawerLayout.openDrawer(Gravity.RIGHT);
+        BzMethodData();
+    }
+
+    //包装数据
+    private void BzMethodData() {
+        RxHttpUtils.createApi(InventoryListApi.class)
+                .getBzIdData()
+                .compose(Transformer.<BzBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<BzBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BzBean bzBean) {
+                        bzdata = bzBean.getData();
+                        if (bzdata.size() != 0 && bzdata != null) {
+                            bz_rv.setVisibility(ViewGroup.VISIBLE);
+                            bz_wsj.setVisibility(ViewGroup.GONE);
+
+                            bzdataBeans.clear();
+                            BzBean.DataBean dataBean = new BzBean.DataBean();
+                            dataBean.setSelected(true);
+                            dataBean.setId("");
+                            dataBean.setVarietyPackagingName("全部");
+                            bzdataBeans.add(dataBean);
+                            bzdataBeans.addAll(bzdata);
+                            bzAdapter.notifyDataSetChanged();
+                        } else {
+                            bz_rv.setVisibility(ViewGroup.GONE);
+                            bz_wsj.setVisibility(ViewGroup.VISIBLE);
+                        }
+                    }
+                });
     }
 
 

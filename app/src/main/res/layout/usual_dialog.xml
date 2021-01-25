@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#11ffffff">
 
-    <LinearLayout
-        android:layout_width="@dimen/dp_280"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/dialog_shape_bg"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_195"
+        android:layout_centerInParent="true">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:gravity="center"
-            tools:text="删除时提示"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_18" />
+        <LinearLayout
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="@dimen/dp_195"
+            android:layout_centerInParent="true"
+            android:background="@drawable/dialog_shape_bg"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="@dimen/sp_16"
-            android:textColor="#17171A"
-            android:alpha="0.7"
-            tools:text="提示消息" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18"
+                tools:text="删除时提示" />
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="@dimen/dp_9"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_16"
+                tools:text="提示消息" />
+
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_above="@+id/ll_view"
             android:layout_marginTop="15dp"
             android:background="#E4E4E4" />
 
         <LinearLayout
+            android:id="@+id/ll_view"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/dp_44"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
             <Button
@@ -73,10 +85,10 @@
                 android:background="@null"
                 android:gravity="center"
                 android:singleLine="true"
-                tools:text="删除"
                 android:textColor="#F91515"
                 android:textSize="@dimen/sp_16"
-                tools:ignore="RtlHardcoded" />
+                tools:ignore="RtlHardcoded"
+                tools:text="删除" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

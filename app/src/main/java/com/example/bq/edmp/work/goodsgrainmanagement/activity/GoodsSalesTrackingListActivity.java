@@ -1,5 +1,6 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,8 +14,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +28,7 @@ import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.allen.library.interfaces.ILoadingView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
@@ -39,6 +45,10 @@ import com.example.bq.edmp.work.allocation.bean.AuditChBean2;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsSalesConfirmListAdapter;
 import com.example.bq.edmp.work.goodsgrainmanagement.fragment.GoodsSalesTrackingListFragment;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
+import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
+import com.example.bq.edmp.work.marketing.adapter.SelectProvinceAdapter;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.bean.ProvinceAndCityListBean;
 import com.example.bq.edmp.work.order.api.OrderApi;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 import com.example.bq.edmp.work.returnsmanagement.fragment.ReturnGoodsListFragment;
@@ -82,6 +92,10 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
     TextView affirm_tv;
     @BindView(R.id.chong_tv)
     TextView chong_tv;
+    @BindView(R.id.chu_tv)
+    TextView chu_tv;
+    @BindView(R.id.chu_rl)
+    RelativeLayout chu_rl;
     ArrayList<String> tablist = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
@@ -89,9 +103,17 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
     private ArrayList<SxPzBean.DataBean> dataBeans;
     private List<SxPzBean.DataBean> data;
     private String varietyId = "";//品种id
+    private String companyId = "";//分公司id
     private int currentPager = 1;
+    private XRecyclerView buttom_rv;
     private GoodsSalesConfirmListAdapter goodsSalesConfirmListAdapter;
     private ArrayList<OrderTJBean.DataBean.RowsBean> rowsBeans;
+    private GoodsSalesTrackingListFragment goodsSalesTrackingListFragment;
+    private ILoadingView loading_dialog;
+    private int position = 0;
+    private ArrayList<ProvinceAndCityListBean.DataBean> companyDataBeans;
+    private SelectProvinceAdapter selectProvinceAdapter;//选择省适配器
+    private TextView wsj_dial;
 
     @Override
     protected int getLayoutId() {
@@ -102,6 +124,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
     protected void initView() {
         ProApplication.getinstance().addActivity(GoodsSalesTrackingListActivity.this);
         title_tv.setText("商品粮销售跟踪");
+        loading_dialog = new LoadingDialog(this);
         initTabLayout();
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -115,6 +138,8 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
+                varietyId="";
+                companyId="";
             }
 
             @Override
@@ -193,16 +218,24 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        addFragment();
+    }
+
+    private void addFragment() {
         tabLayout.removeAllTabs();
+        fragmentList.clear();
         for (int i = 0; i < integers.size(); i++) {
-            fragmentList.add(new GoodsSalesTrackingListFragment(integers.get(i)));
             tabLayout.addTab(tabLayout.newTab().setText(tablist.get(i)));
+            fragmentList.add(new GoodsSalesTrackingListFragment(integers.get(i)));
         }
-        VPAdapter adapter = new VPAdapter(getSupportFragmentManager(), fragmentList);
+        final VPAdapter adapter = new VPAdapter(getSupportFragmentManager(), fragmentList);
         view_pager.setAdapter(adapter);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (adapter.getCount() > 0) {
+                    goodsSalesTrackingListFragment = (GoodsSalesTrackingListFragment) adapter.getItem(tab.getPosition());
+                }
                 view_pager.setCurrentItem(tab.getPosition());
             }
 
@@ -216,6 +249,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
             }
         });
+
         view_pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
@@ -226,6 +260,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
         screen_img.setOnClickListener(this);
         chong_tv.setOnClickListener(this);
         affirm_tv.setOnClickListener(this);
+        chu_rl.setOnClickListener(this);
     }
 
     @Override
@@ -236,6 +271,8 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                 if (visibility != 0) {
                     top_ll.setVisibility(ViewGroup.VISIBLE);
                     rl.setVisibility(ViewGroup.GONE);
+//                    goodsSalesTrackingListFragment.setValue("aaaa");
+                    addFragment();
                 } else {
                     fund();
                 }
@@ -258,6 +295,9 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                     //当菜单栏是可见的，则关闭
                     drawerLayout.closeDrawer(linterHistoryConfirm);
                 }
+                break;
+            case R.id.chu_rl:
+                getProvinceAndCityList(view);
                 break;
         }
     }
@@ -401,6 +441,122 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
         public int getCount() {
             return list.size();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            int visibility = top_ll.getVisibility();
+            if (visibility != 0) {
+                top_ll.setVisibility(ViewGroup.VISIBLE);
+                rl.setVisibility(ViewGroup.GONE);
+                addFragment();
+                return true;
+            } else {
+                fund();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    /*
+     * 底部跳框
+     * */
+    private void showProvinceAndCityDialog(View view) {
+        final Dialog mCameraDialog = new Dialog(view.getContext(), R.style.my_dialog);
+
+        View root = LayoutInflater.from(view.getContext()).inflate(R.layout.inventory_sx_buttom_item, null);
+
+        mCameraDialog.setContentView(root);
+        mCameraDialog.setCanceledOnTouchOutside(false);
+
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        dialogWindow.setWindowAnimations(R.style.BottomDialog_Animation); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = -20; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//      lp.height = WindowManager.LayoutParams.WRAP_CONTENT; // 高度
+//      lp.alpha = 9f; // 透明度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+        buttom_rv = root.findViewById(R.id.buttom_rv);
+        TextView no_tv = root.findViewById(R.id.no_tv);
+        TextView yes_tv = root.findViewById(R.id.yes_tv);
+        wsj_dial = root.findViewById(R.id.wsj);
+        no_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraDialog.dismiss();
+            }
+        });
+        yes_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                companyId = data.get(position).getId();
+                mCameraDialog.dismiss();
+            }
+        });
+        //筛选  分公司
+        companyDataBeans = new ArrayList<>();
+        selectProvinceAdapter = new SelectProvinceAdapter(companyDataBeans);
+        buttom_rv.setLayoutManager(new LinearLayoutManager(GoodsSalesTrackingListActivity.this));
+        buttom_rv.setAdapter(selectProvinceAdapter);
+        selectProvinceAdapter.setOnItemLeftClckListener(new SelectProvinceAdapter.OnItemLeftClckListener() {
+            @Override
+            public void onItemLeftClck(ProvinceAndCityListBean.DataBean dataBean, int mPosition) {
+                //当点击时显示当前条目的背景和文字的颜色
+                for (int i = 0; i < companyDataBeans.size(); i++) {
+                    if (mPosition == i) {
+                        companyDataBeans.get(i).setSelected(true);
+                    } else {
+                        companyDataBeans.get(i).setSelected(false);
+                    }
+                }
+                position = mPosition;
+                chu_tv.setText(companyDataBeans.get(position).getName());
+                selectProvinceAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+
+    //获取省市区id
+    private void getProvinceAndCityList(final View view) {
+        String sign = MD5Util.encode("parentId=" + 0);
+        RxHttpUtils.createApi(CustomerManagementApi.class)
+                .getProvinceAndCityList("0", sign)
+                .compose(Transformer.<ProvinceAndCityListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<ProvinceAndCityListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(ProvinceAndCityListBean companyBean) {
+                        if (data.size() != 0 && data != null) {
+                            showProvinceAndCityDialog(view);
+                            //选中位置为0
+                            position = 0;
+                            buttom_rv.setVisibility(View.VISIBLE);
+                            companyDataBeans.clear();
+                            data.get(0).setSelected(true);
+                            wsj_dial.setVisibility(View.GONE);
+                            companyDataBeans.addAll(companyBean.getData());
+                            selectProvinceAdapter.notifyDataSetChanged();
+                        } else {
+                            buttom_rv.setVisibility(View.GONE);
+                            wsj_dial.setVisibility(View.VISIBLE);
+                            ToastUtil.setToast("暂无数据");
+                        }
+                    }
+                });
     }
 
     @Override

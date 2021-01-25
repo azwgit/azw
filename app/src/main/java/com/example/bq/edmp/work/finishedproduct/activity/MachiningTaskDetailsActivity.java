@@ -408,7 +408,7 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
             case 3:
                 mTvReceiver.setText(bean.getAcceptedOperator());
                 mTvAcceptTime.setText(bean.getAcceptedTime());
-                if (bean.getStockAdds().size() > 0) {
+                if (bean.getStockAdds() != null && bean.getStockAdds().size() > 0) {
                     mTvOperator.setText(bean.getStockAdds().get(0).getAddedOperator());
                 }
                 mTvCompletionDate.setText(bean.getFinishedTime());
@@ -428,7 +428,9 @@ public class MachiningTaskDetailsActivity extends BaseTitleActivity {
         mTvPacking.setText(bean.getVarietyPackagingName());
         mTvPlannedQuantity.setText(MoneyUtils.formatMoney(bean.getPlanQty()) + " 公斤");
         mTvTime.setText(bean.getPlanFinishTime());
-        mAdapter.addData(bean.getStockAdds());
+        if (bean.getStockAdds() != null) {
+            mAdapter.addData(bean.getStockAdds());
+        }
     }
 
     //获取仓库列表

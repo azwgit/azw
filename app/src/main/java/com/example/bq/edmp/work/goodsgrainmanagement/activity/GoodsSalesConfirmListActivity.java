@@ -29,8 +29,6 @@ public class GoodsSalesConfirmListActivity extends BaseActivity {
     TextView title_tv;
     @BindView(R.id.return_img)
     ImageView return_img;
-    @BindView(R.id.one_ll)
-    LinearLayout one_ll;
     @BindView(R.id.layout_tab)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -48,7 +46,6 @@ public class GoodsSalesConfirmListActivity extends BaseActivity {
     protected void initView() {
         ProApplication.getinstance().addActivity(GoodsSalesConfirmListActivity.this);
         title_tv.setText("商品粮销售确认");
-        one_ll.setVisibility(View.VISIBLE);
         initTabLayout();
     }
 

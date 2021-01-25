@@ -44,6 +44,7 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
+
     @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
     @BindView(R.id.ly_two)
@@ -56,7 +57,7 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     TextView mTvContractor;//分子公司名称
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;//入库仓库
-//    @BindView(R.id.tv_varieties)
+    //    @BindView(R.id.tv_varieties)
 //    TextView mTvVarieties;//品种
 //    @BindView(R.id.tv_gross_weight)
 //    TextView mTvGrossWeight;//入库量
@@ -73,9 +74,10 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     @BindView(R.id.ly_number)
     LinearLayout mLyNumber;//任务单号父布局
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
-    private String id="";
+    private String id = "";
     private ILoadingView loading_dialog;
     private WarehouseVarietiesOutListAdp warehouseVarietiesOutListAdp;
+
     @Override
     protected int getLayoutId() {
         return R.layout.layout_warehousing_out_detail;
@@ -84,8 +86,8 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("出库详情");
-        id=getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        id = getIntent().getStringExtra(Constant.ID);
+        if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -111,20 +113,21 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
-    private void setData(WarehouseingOutDetailBean.DataBean bean){
-        mTvNumber.setText("出库单号  "+bean.getCode());
-        String type="";
-        switch (bean.getType2()){
+
+    private void setData(WarehouseingOutDetailBean.DataBean bean) {
+        mTvNumber.setText("出库单号  " + bean.getCode());
+        String type = "";
+        switch (bean.getType2()) {
             case 1:
-                type="加工出库";
+                type = "加工出库";
                 mLyNumber.setVisibility(View.VISIBLE);
                 mTvTaskNumber.setText(bean.getProcessCode());
                 break;
             case 2:
-                type="销售出库";
+                type = "销售出库";
                 break;
             case 3:
-                type="调拨出库";
+                type = "调拨出库";
                 mLyTwo.setVisibility(View.VISIBLE);
                 mTvTransferWarehouse.setText(bean.getStockAllots().getWarehouseName());
                 mTvTransferReason.setText(bean.getStockAllots().getReason());
@@ -137,12 +140,14 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
 //        mTvVarieties.setText(bean.getVarietyName());
 //        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getSubQty())+" 公斤");
         mTvTime.setText(bean.getAddedTime());
-        warehouseVarietiesOutListAdp.setNewData(bean.getStockSubItems());
-
+        if (bean.getStockSubItems() != null) {
+            warehouseVarietiesOutListAdp.setNewData(bean.getStockSubItems());
+        }
     }
+
     //获取出庫详情
     private void getAcquisitionDetail() {
-        String sign = MD5Util.encode("id="+id);
+        String sign = MD5Util.encode("id=" + id);
         RxHttpUtils.createApi(RawGrainManagementApi.class)
                 .getWareHousingOutDetail(id, sign)
                 .compose(Transformer.<WarehouseingOutDetailBean>switchSchedulers(loading_dialog))
@@ -154,7 +159,7 @@ public class WarehousingOutDetailAct extends BaseTitleActivity {
 
                     @Override
                     protected void onSuccess(WarehouseingOutDetailBean bean) {
-                       // 出库详情
+                        // 出库详情
                         if (bean.getCode() == 200) {
                             setData(bean.getData());
                         } else {

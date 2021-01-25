@@ -52,10 +52,9 @@ import butterknife.BindView;
  * 修改订单
  * */
 public class EditGoodsSalesActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String id, int type) {
+    public static void newIntent(Context context, String id ) {
         Intent intent = new Intent(context, EditGoodsSalesActivity.class);
         intent.putExtra(Constant.ID, id);
-        intent.putExtra(Constant.TYPE, type);
         context.startActivity(intent);
     }
 
@@ -168,6 +167,7 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.save_add_tv://保存并提交
+                checkData(1);
                 break;
             case R.id.save_tv://保存
                 break;
@@ -290,7 +290,7 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     }
 
-    public void checkData() {
+    public void checkData(int type) {
         String name = mTvName.getText().toString().trim();
         if ("".equals(name)) {
             ToastUtil.setToast("请选择客户");
@@ -380,7 +380,6 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     //订单保存
     private void gainSvet() {
         String sign = MD5Util.encode("address=");
-
         RxHttpUtils.createApi(OrderApi.class)
                 .getSave("", "", customerId, id, "", sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))

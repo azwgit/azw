@@ -54,7 +54,7 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
     protected void initView() {
         ProApplication.getinstance().addActivity(GoodsSalesManagementListActivity.this);
         loading_dialog = new LoadingDialog(this);
-        txtTabTitle.setText("商品粮销售申请");
+        txtTabTitle.setText("商品粮销售申申请");
         rowsBeans = new ArrayList<>();
         goodsSalesManagmentListAdapter = new GoodsSalesManagmentListAdapter(rowsBeans);
         xRecyclerView.setAdapter(goodsSalesManagmentListAdapter);
@@ -79,7 +79,7 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
         goodsSalesManagmentListAdapter.setOnItemClickListener(new GoodsSalesManagmentListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, OrderTJBean.DataBean.RowsBean rowsBean) {
-                startActivity(new Intent(getApplicationContext(), EditGoodsSalesActivity.class));
+                EditGoodsSalesActivity.newIntent(getApplicationContext(),rowsBean.getId());
             }
         });
 

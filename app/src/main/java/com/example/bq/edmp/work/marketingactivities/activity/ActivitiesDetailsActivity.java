@@ -239,7 +239,7 @@ public class ActivitiesDetailsActivity extends BaseActivity {
                 img_status.setVisibility(View.VISIBLE);
                 addtime_tv.setVisibility(View.GONE);
                 mBtnComplete.setVisibility(View.VISIBLE);
-                img_status.setBackground(getResources().getDrawable(R.drawable.yitongyi));
+                img_status.setBackground(getResources().getDrawable(R.drawable.property_1yishenpi));
                 tv_stauts.setText("已同意");
             } else if (status.equals("4")) {
                 dtj_tv.setVisibility(View.GONE);
@@ -304,12 +304,38 @@ public class ActivitiesDetailsActivity extends BaseActivity {
                 break;
             case R.id.btn_submit:
                 ToastUtil.setToast("重新提交");
+                Reapply();
                 break;
             case R.id.btn_del:
-                ToastUtil.setToast("删除");
                 DeletilsTracking();
                 break;
         }
+    }
+
+    //重新提交
+    private void Reapply() {
+        String sign = MD5Util.encode("id=" + huodongid);
+        RxHttpUtils.createApi(TrackingApi.class)
+                .getReapply(huodongid, sign)
+                .compose(Transformer.<TrackingDereBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<TrackingDereBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(TrackingDereBean trackingDereBean) {
+                        String code = trackingDereBean.getCode();
+                        if (code.equals("200")) {
+                            ToastUtil.setToast("提交成功");
+                            EditActivitiesActivity.newIntent(getApplicationContext(), trackingDereBean.getData().getId() + "");
+                            finish();
+                        } else {
+                            ToastUtil.setToast("提交失败");
+                        }
+                    }
+                });
     }
 
     //活动删除

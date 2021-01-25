@@ -131,9 +131,9 @@ public class FinishedWarehousingDetailActivity extends BaseTitleActivity {
 //        mTvVarieties.setText(bean.getVarietyName());
 //        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getAddQty())+" 公斤");
         mTvTime.setText(bean.getAddedTime());
-        finishedWarehouseVarietiesListAdp.setNewData(bean.getStockAddItems());
-
-
+        if(bean.getStockAddItems()!=null){
+            finishedWarehouseVarietiesListAdp.setNewData(bean.getStockAddItems());
+        }
     }
     //获取入庫详情
     private void getAcquisitionDetail() {

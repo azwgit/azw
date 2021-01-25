@@ -40,11 +40,12 @@ import butterknife.BindView;
  * 入库详情
  */
 public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String id ) {
+    public static void newIntent(Context context, String id) {
         Intent intent = new Intent(context, FinishedWarehousingOutDetailActivity.class);
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
+
     @BindView(R.id.recycler_view)
     RecyclerView recycler_view;
     @BindView(R.id.ly_two)
@@ -57,7 +58,7 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     TextView mTvContractor;//分子公司名称
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;//入库仓库
-//    @BindView(R.id.tv_varieties)
+    //    @BindView(R.id.tv_varieties)
 //    TextView mTvVarieties;//品种
 //    @BindView(R.id.tv_gross_weight)
 //    TextView mTvGrossWeight;//入库量
@@ -75,9 +76,10 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     LinearLayout mLyNumber;//任务单号父布局
 
     private WareHousingDetailsDetectionListAdp wareHousingDetailsDetectionListAdp;
-    private String id="";
+    private String id = "";
     private ILoadingView loading_dialog;
     private FinishedWarehouseVarietiesOutListAdp finishedWarehouseVarietiesOutListAdp;
+
     @Override
     protected int getLayoutId() {
         return R.layout.layout_finished_warehousing_out_detail;
@@ -86,8 +88,8 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("出库详情");
-        id=getIntent().getStringExtra(Constant.ID);
-        if("".equals(id)){
+        id = getIntent().getStringExtra(Constant.ID);
+        if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
@@ -113,21 +115,22 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
 
     }
-    private void setData(FinishedWareHousingOutDetailBean.DataBean bean){
-        mTvNumber.setText("出库单号  "+bean.getCode());
-        String type="";
-        switch (bean.getType2()){
+
+    private void setData(FinishedWareHousingOutDetailBean.DataBean bean) {
+        mTvNumber.setText("出库单号  " + bean.getCode());
+        String type = "";
+        switch (bean.getType2()) {
             case 1:
-                type="加工出库";
+                type = "加工出库";
                 break;
             case 2:
                 //销售出库和后台确认 暂定是 订单出库
-                type="订单出库";
+                type = "订单出库";
                 mLyNumber.setVisibility(View.VISIBLE);
                 mTvTaskNumber.setText(bean.getOrdersCode());
                 break;
             case 3:
-                type="调拨出库";
+                type = "调拨出库";
                 mLyTwo.setVisibility(View.VISIBLE);
                 mTvTransferWarehouse.setText(bean.getStockAllots().getWarehouseName());
                 mTvTransferReason.setText(bean.getStockAllots().getReason());
@@ -140,14 +143,16 @@ public class FinishedWarehousingOutDetailActivity extends BaseTitleActivity {
 //        mTvVarieties.setText(bean.getVarietyName());
 //        mTvGrossWeight.setText(MoneyUtils.formatMoney(bean.getSubQty())+" 公斤");
         mTvTime.setText(bean.getAddedTime());
-        finishedWarehouseVarietiesOutListAdp.setNewData(bean.getStockSubItems());
-
+        if (bean.getStockSubItems() != null) {
+            finishedWarehouseVarietiesOutListAdp.setNewData(bean.getStockSubItems());
+        }
     }
+
     //获取入庫详情
     private void getAcquisitionDetail() {
-        String sign = MD5Util.encode("id="+id);
+        String sign = MD5Util.encode("id=" + id);
         RxHttpUtils.createApi(FinishedProductApi.class)
-                .getWareHousingOutDetail(id,sign)
+                .getWareHousingOutDetail(id, sign)
                 .compose(Transformer.<FinishedWareHousingOutDetailBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<FinishedWareHousingOutDetailBean>() {
                     @Override

@@ -76,12 +76,13 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!--策划  筛选-->
+    <!--策划  筛选android:layout_gravity="right"-->
     <RelativeLayout
         android:id="@+id/linter_history"
+        android:layout_gravity="right"
         android:layout_width="@dimen/dp_330"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+
         android:background="@color/white"
         android:orientation="vertical">
         <ScrollView
@@ -93,55 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white">
-                <!--时间区间-->
-                <TextView
-                    android:id="@+id/tiem_qj_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:layout_marginLeft="@dimen/dp_16"
-                    android:layout_marginTop="@dimen/dp_34"
-                    android:alpha="0.9"
-                    android:gravity="center_vertical"
-                    android:text="时间区间"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_14" />
-                <!--开始时间-->
-                <TextView
-                    android:id="@+id/start_time_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_48"
-                    android:layout_below="@id/tiem_qj_tv"
-                    android:layout_marginLeft="@dimen/dp_16"
-                    android:layout_marginRight="@dimen/dp_16"
-                    android:background="#F2F5F6"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:hint="请选择开始时间"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/color_66000000"
-                    android:textSize="@dimen/sp_14" />
-                <!--结束时间-->
-                <TextView
-                    android:id="@+id/end_time_tv"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_48"
-                    android:layout_below="@id/start_time_tv"
-                    android:layout_marginLeft="@dimen/dp_16"
-                    android:layout_marginRight="@dimen/dp_16"
-                    android:background="#F2F5F6"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:hint="请选择结束时间"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/color_66000000"
-                    android:textSize="@dimen/sp_14" />
                 <!--分公司-->
                 <TextView
-                    android:layout_below="@id/end_time_tv"
                     android:id="@+id/a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -225,6 +179,7 @@
                     android:textColor="#000000"
                     android:textSize="@dimen/sp_14" />
                 <RelativeLayout
+                    android:id="@+id/pz_rl"
                     android:layout_below="@id/pz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -240,6 +195,45 @@
 
                     <TextView
                         android:id="@+id/shaixuan_wsj"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/sp_14"
+                        android:text="暂无数据"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <!--包装-->
+                <TextView
+                    android:id="@+id/bz"
+                    android:layout_marginTop="@dimen/dp_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pz_rl"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_16"
+                    android:gravity="center_vertical"
+                    android:text="包装"
+                    android:textColor="#000000"
+                    android:textSize="@dimen/sp_14" />
+                <RelativeLayout
+                    android:layout_below="@id/bz"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/bz_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="@dimen/dp_16"
+                        android:layout_marginRight="@dimen/dp_16">
+                    </android.support.v7.widget.RecyclerView>
+
+                    <TextView
+                        android:id="@+id/bz_wsj"
                         android:layout_marginTop="@dimen/dp_20"
                         android:layout_centerHorizontal="true"
                         android:textColor="@color/text_black"

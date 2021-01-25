@@ -1,11 +1,14 @@
 package com.example.bq.edmp.work.reseller.api;
 
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
+import com.example.bq.edmp.word.inventory.bean.CompanyBean;
+import com.example.bq.edmp.word.inventory.bean.SxPzBean;
 import com.example.bq.edmp.work.allocation.bean.BaseAllocationBeam;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.SubsidiaryCompanyBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
+import com.example.bq.edmp.work.reseller.bean.PzBean;
 import com.example.bq.edmp.work.tracking.bean.TrackingDereBean;
 import com.example.bq.edmp.work.tracking.bean.TrackingListBean;
 
@@ -136,6 +139,20 @@ public interface ResellerApi {
             @Field("sign") String sign
     );
 
+    //转商跟踪  筛选
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/commodity/tracklist")
+    Observable<BaseAllocationBeam> getTrackListShai(
+            @Field("code") String code,
+            @Field("inOrgId") String inOrgId,
+            @Field("page") int page,
+            @Field("pagerow") int pagerow,
+            @Field("status") String status,
+            @Field("varietyId") String varietyId,
+            @Field("sign") String sign
+    );
+
     //转商处理
     @FormUrlEncoded
     @Headers({"urlname:production"})
@@ -148,15 +165,31 @@ public interface ResellerApi {
             @Field("sign") String sign
     );
 
+    //转商跟踪  筛选
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("allot/commodity/handlelist")
+    Observable<BaseAllocationBeam> getHandleListShai(
+            @Field("code") String code,
+            @Field("inOrgId") String inOrgId,
+            @Field("page") int page,
+            @Field("pagerow") int pagerow,
+            @Field("status") String status,
+            @Field("varietyId") String varietyId,
+            @Field("sign") String sign
+    );
+
     //转商历史
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("allot/accomplish")
     Observable<BaseAllocationBeam> getAllocationCompleteData(
             @Field("code") String code,//调拨单号
+            @Field("inOrgId") String inOrgId,//
             @Field("page") int page,
             @Field("pagerow") int pagerow,
             @Field("types") String types,//调拨类型：1原粮调拨 2成品调拨 3转商调拨	number
+            @Field("varietyId") String varietyId,//
             @Field("sign") String sign
     );
 
@@ -185,5 +218,16 @@ public interface ResellerApi {
     Observable<BaseABean> getConfirmIntData(
             @Path("id") String id,
             @Field("sign") String sign);
+
+
+    //筛选品种
+    @Headers({"urlname:production"})
+    @POST("allot/commodity/allvariety")
+    Observable<PzBean> getPzData();
+
+    //筛选   分公司
+    @Headers({"urlname:production"})
+    @POST("system/query/allorg")
+    Observable<CompanyBean> getCompanyData();
 
 }

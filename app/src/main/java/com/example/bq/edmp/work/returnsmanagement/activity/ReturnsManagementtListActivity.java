@@ -135,9 +135,7 @@ public class ReturnsManagementtListActivity extends BaseTitleActivity {
 
     private void gainData() {
         currentPager = 1;
-
         String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
-
         RxHttpUtils.createApi(ReturnGoodsApi.class)
                 .getReturnGoodsManagentList(currentPager, 15, sign)
                 .compose(Transformer.<ReturnsManagementListBean>switchSchedulers())

@@ -1,5 +1,6 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,10 +21,12 @@ import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
+import com.example.bq.edmp.utils.DialoggerOk;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.utils.UsualDialogger;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsDetailsListAdp;
 import com.example.bq.edmp.work.returnsmanagement.activity.EditApplyForRefundActivity;
 import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
@@ -48,7 +51,7 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
     @BindView(R.id.btn_del)
     TextView mBtnDel;//删除
     @BindView(R.id.btn_submit)
-    TextView mBtnSubmit;//重新申请
+    TextView mBtnSubmit;//确认入库
     @BindView(R.id.approval_recyclerview)
     RecyclerView mApprovalRecyclerView;//审批状态适配器
     @BindView(R.id.recyclerview)
@@ -89,6 +92,7 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
     private ILoadingView loading_dialog;
     private String id = "";
     private ReturnsGoodsDetailsBean returnsGoodsDetailsBean;
+    private UsualDialogger dialog = null;
 
     @Override
     protected int getLayoutId() {
@@ -97,7 +101,7 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("退货详情");
+        txtTabTitle.setText("销售详情");
         id = getIntent().getStringExtra(Constant.ID);
         if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
@@ -140,7 +144,11 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
                 deleteReturnGoods();
                 break;
             case R.id.btn_submit:
-                reapplyReturnGoods();
+                if ("确认出库".equals(mBtnSubmit.getText().toString().trim())) {
+                    showInAndOutOfWarehouse();
+                } else {
+                    showInAndOutOfWarehouse();
+                }
                 break;
         }
     }
@@ -197,6 +205,11 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
         mTvContacts.setText(bean.getContacts());
         mTvPhone.setText(bean.getMobTel());
         mTvAddress.setText(bean.getRegion());
+        if (bean.getStatus() == 1) {
+            mBtnSubmit.setText("确认出库");
+        } else {
+            mBtnSubmit.setText("确认完成");
+        }
     }
 
     //删除退货
@@ -245,5 +258,27 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
                         }
                     }
                 });
+    }
+
+    //提示dialog
+    public void showInAndOutOfWarehouse() {
+        dialog = UsualDialogger.Builder(this)
+                .setTitle("友情提示")
+                .setMessage("是否确认该商品粮销售订单已完成")
+                .setOnConfirmClickListener("确定", new UsualDialogger.onConfirmClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                })
+                .setOnCancelClickListener("取消", new UsualDialogger.onCancelClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                })
+                .build()
+                .shown();
     }
 }

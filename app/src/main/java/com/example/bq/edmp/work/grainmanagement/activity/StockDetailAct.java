@@ -101,7 +101,9 @@ public class StockDetailAct extends BaseTitleActivity {
         mTvContractor.setText(MoneyUtils.formatMoney(bean.getQty()) + " 吨");
         mTvWarehouse.setText(bean.getWarehouseName());
         mTvSubsidiaryCompany.setText(bean.getOrgName());
-        mAdapter.addData(bean.getStockRecords());
+        if (bean.getStockRecords() != null) {
+            mAdapter.addData(bean.getStockRecords());
+        }
     }
 
     //获取库存详情

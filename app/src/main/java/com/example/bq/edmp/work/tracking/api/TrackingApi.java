@@ -46,4 +46,12 @@ public interface TrackingApi {
             @Path("id") String id,
             @Field("sign") String sign);
 
+    //活动重新提交
+    @FormUrlEncoded
+    @Headers({"urlname:marketing"})
+    @POST("activity/reapply/{id}")
+    Observable<TrackingDereBean> getReapply(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
 }
