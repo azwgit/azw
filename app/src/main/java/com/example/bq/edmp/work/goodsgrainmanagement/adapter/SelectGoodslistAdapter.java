@@ -11,18 +11,19 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.SelecGoodsListBean;
 import com.example.bq.edmp.work.order.bean.GoodsBean;
 
 import java.util.List;
 
 public class SelectGoodslistAdapter extends RecyclerView.Adapter<SelectGoodslistAdapter.ViewHolder> {
-    private List<GoodsBean.DataBean> list;
+    private List<SelecGoodsListBean.DataBean> list;
 
-    public SelectGoodslistAdapter(List<GoodsBean.DataBean> list) {
+    public SelectGoodslistAdapter(List<SelecGoodsListBean.DataBean> list) {
         this.list = list;
     }
 
-    public void addMoreData(List<GoodsBean.DataBean> data) {
+    public void addMoreData(List<SelecGoodsListBean.DataBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -38,7 +39,7 @@ public class SelectGoodslistAdapter extends RecyclerView.Adapter<SelectGoodslist
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        final GoodsBean.DataBean dataBean = list.get(position);
+        final SelecGoodsListBean.DataBean dataBean = list.get(position);
 
         if (dataBean.isSelect()) {
             holder.select.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.icon_select));
@@ -51,7 +52,7 @@ public class SelectGoodslistAdapter extends RecyclerView.Adapter<SelectGoodslist
 //        }else {
 //            holder.price_tv.setText("¥"+FromtUtil.getFromt(dataBean.getCustomerPrice())+"/公斤");
 //        }
-        holder.pinz_tv.setText(dataBean.getVarietyPackagingName());
+        holder.pinz_tv.setText(dataBean.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +94,7 @@ public class SelectGoodslistAdapter extends RecyclerView.Adapter<SelectGoodslist
     protected OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, GoodsBean.DataBean dataBean);
+        void onItemClick(int pos, SelecGoodsListBean.DataBean dataBean);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

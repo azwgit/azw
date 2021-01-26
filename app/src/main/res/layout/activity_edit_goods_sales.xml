@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/code_tv"
+                android:id="@+id/tv_code"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_8"
@@ -102,7 +102,8 @@
                     android:textSize="@dimen/sp_16" />
 
 
-                <EditText
+                <TextView
+                    android:gravity="center_vertical"
                     android:id="@+id/et_contactname"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="@dimen/dp_24"
@@ -138,8 +139,9 @@
                     android:textSize="@dimen/sp_16" />
 
 
-                <EditText
+                <TextView
                     android:id="@+id/et_phone"
+                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
@@ -174,13 +176,51 @@
                     android:textSize="@dimen/sp_16" />
 
 
-                <EditText
+                <TextView
                     android:id="@+id/et_address"
+                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_24"
                     android:background="@null"
                     android:hint="请输入客户送货地址"
+                    android:textColor="@color/color33"
+                    android:textColorHint="@color/color_99"
+                    android:textSize="@dimen/sp_16" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View style="@style/line_style" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_56"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/dp_96"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dp_16"
+                    android:text="销售区域"
+                    android:textColor="@color/color_66"
+                    android:textSize="@dimen/sp_16" />
+
+
+                <TextView
+                    android:id="@+id/tv_distribution_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_24"
+                    android:background="@null"
+                    android:hint="请选择销售区域"
                     android:textColor="@color/color33"
                     android:textColorHint="@color/color_99"
                     android:textSize="@dimen/sp_16" />
@@ -319,7 +359,7 @@
             android:id="@+id/save_add_tv"
             style="@style/btn_small_angle_new_style"
             android:layout_weight="1"
-            android:text="提交" />
+            android:text="保存并提交" />
 
     </LinearLayout>
 

@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_56"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_16"
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="退货价格"
+            android:text="销售价格"
             android:textColor="@color/color_66"
             android:textSize="@dimen/sp_16" />
 
@@ -99,7 +99,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="退货金额"
+            android:text="销售金额"
             android:textColor="@color/color_66"
             android:textSize="@dimen/sp_16" />
 

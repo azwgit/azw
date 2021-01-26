@@ -1,13 +1,16 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +20,10 @@ import android.widget.TextView;
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.blankj.utilcode.util.GsonUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
@@ -29,15 +36,22 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.phoneUtils;
+import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
 import com.example.bq.edmp.work.inventorytransfer.adapter.CompanyListAdp;
 import com.example.bq.edmp.work.inventorytransfer.adapter.WarehouseListAdp;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.SubsidiaryCompanyBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
+import com.example.bq.edmp.work.marketing.api.CustomerManagementApi;
+import com.example.bq.edmp.work.marketing.bean.CityBean;
+import com.example.bq.edmp.work.marketing.bean.CityModel;
 import com.example.bq.edmp.work.order.activity.ChooseCustomerActivity;
 import com.example.bq.edmp.work.order.activity.ModifyOrderActivity;
 import com.example.bq.edmp.work.order.api.OrderApi;
 import com.example.bq.edmp.work.order.bean.CustomerBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -61,9 +75,10 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
     TextView mTvSubsidiaryCompany;//分子公司
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;//仓库
-    private LoadingDialog loadingDialog;
+    @BindView(R.id.tv_distribution_area)
+    TextView mTvDistributionArea;//销售区域
+    private String regionId = "";//销售区域id
     private String customerId = "";//客户id
-    private String regionId = "";//区域id
     private int CompanyId = 0;//公司id
     private int Warehouseid = 0;//仓库id
     PopupWindow mTypePopuWindow;
@@ -102,11 +117,7 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.next_tv:
-//                checkData();
-                Intent intent = new Intent(AddGoodsSalesActivity.this, EditGoodsSalesActivity.class);
-                intent.putExtra("orderid", "");
-                startActivity(intent);
-                finish();
+                checkData();
                 break;
             case R.id.choose_user_tv://选择客户
                 Intent intent1 = new Intent(AddGoodsSalesActivity.this, ChooseCustomerActivity.class);
@@ -122,14 +133,12 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
     }
 
     //下一步
-    private void NextData() {
-
-        String sign = MD5Util.encode("address=" + mEtAddress.getText().toString() + "&contacts=" + mEtContactName.getText().toString()
-                + "&customerId=" + customerId + "&mobTel=" + mEtPhone.getText().toString() + "&region=" + regionId);
-
-        RxHttpUtils.createApi(OrderApi.class)
-                .getNewsave(mEtAddress.getText().toString(), mEtContactName.getText().toString(), customerId, mEtPhone.getText().toString(), regionId, sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
+    private void NextData(String address, String contacts, String mobTel) {
+        String sign = MD5Util.encode("address=" + address + "&contacts=" + contacts
+                + "&customerId=" + customerId + "&mobTel=" + mobTel + "&orgId=" + CompanyId + "&region=" + regionId + "&warehouseId=" + Warehouseid);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .addGoodsSales(mEtAddress.getText().toString(), mEtContactName.getText().toString(), customerId, mEtPhone.getText().toString(), CompanyId + "", regionId + "", Warehouseid + "", sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
                     protected void onError(String errorMsg) {
@@ -139,9 +148,7 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
                     @Override
                     protected void onSuccess(BaseABean baseABean) {
                         if (baseABean.getCode() == 200) {
-                            Intent intent = new Intent(AddGoodsSalesActivity.this, ModifyOrderActivity.class);
-                            intent.putExtra("orderid", baseABean.getData());
-                            startActivity(intent);
+                            EditGoodsSalesActivity.newIntent(getApplicationContext(), baseABean.getData(), "1");
                             finish();
                         } else {
                             ToastUtil.setToast("提交失败，请重新提交");
@@ -170,6 +177,7 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
                 mEtAddress.setText(rowsbean.getRegion());
                 FromtUtil.setEditTextCursorLocation(mEtAddress);
                 customerId = rowsbean.getId();//客户id
+                mTvDistributionArea.setText(rowsbean.getRegion());
                 regionId = rowsbean.getRegionId();//区域id
             }
         }
@@ -208,11 +216,12 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
             ToastUtil.setToast("请输入正确的手机号");
             return;
         }
+        NextData(address, contactName, phone);
     }
 
     //公司列表
     private void getSubsidiaryCompanyList() {
-        RxHttpUtils.createApi(AllocationApi.class)
+        RxHttpUtils.createApi(GoodsSalesApi.class)
                 .getSubsidiaryCompanyList()
                 .compose(Transformer.<SubsidiaryCompanyBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<SubsidiaryCompanyBean>() {
@@ -284,9 +293,9 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
             ToastUtil.setToast("请选择公司");
             return;
         }
-        String sign = MD5Util.encode("orgId=" + "" + "&types=" + "");
-        RxHttpUtils.createApi(AllocationApi.class)
-                .getWarehouseList("", "", sign)
+        String sign = MD5Util.encode("orgId=" + CompanyId + "&types=3");
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getWarehouseList(CompanyId + "", "3", sign)
                 .compose(Transformer.<WareHouseListBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<WareHouseListBean>() {
                     @Override
@@ -350,4 +359,5 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
         mTypePopuWindow.setClippingEnabled(false);
         mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
     }
+
 }

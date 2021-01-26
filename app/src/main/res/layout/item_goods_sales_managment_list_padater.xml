@@ -3,7 +3,7 @@
     android:id="@+id/ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFF3F4">
+    android:background="@color/bg_new_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/tv_code"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_16"
@@ -48,11 +48,18 @@
 
         </RelativeLayout>
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="#FFF2F5F6" />
+            android:layout_height="wrap_content"
+            android:background="@color/white">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="#FFF2F5F6" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -63,7 +70,6 @@
                 android:id="@+id/tv_compay_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_16"
                 android:gravity="center_vertical"
                 android:paddingTop="@dimen/dp_16"
@@ -144,10 +150,18 @@
 
         </RelativeLayout>
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="#FFF2F5F6" />
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
+                android:background="#FFF2F5F6" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

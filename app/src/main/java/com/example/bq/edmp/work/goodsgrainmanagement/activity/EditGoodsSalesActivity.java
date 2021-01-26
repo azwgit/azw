@@ -34,6 +34,8 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.phoneUtils;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsListAdp;
+import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.EditGoodSalesBean;
 import com.example.bq.edmp.work.inventorytransfer.activity.UpdateTransferGoodsActivity;
 import com.example.bq.edmp.work.inventorytransfer.adapter.CommodityListAdp;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
@@ -52,9 +54,10 @@ import butterknife.BindView;
  * 修改订单
  * */
 public class EditGoodsSalesActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String id ) {
+    public static void newIntent(Context context, String id, String type) {
         Intent intent = new Intent(context, EditGoodsSalesActivity.class);
         intent.putExtra(Constant.ID, id);
+        intent.putExtra(Constant.TYPE, type);
         context.startActivity(intent);
     }
 
@@ -64,26 +67,31 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     TextView save_tv;
     @BindView(R.id.save_add_tv)
     TextView save_add_tv;
+    @BindView(R.id.tv_code)
+    TextView mTvCode;//订单号
     @BindView(R.id.tv_name)
     TextView mTvName;//客户姓名
     @BindView(R.id.et_contactname)
-    EditText mEtContactName;//联系人
+    TextView mEtContactName;//联系人
     @BindView(R.id.et_phone)
-    EditText mEtPhone;//联系电话
+    TextView mEtPhone;//联系电话
     @BindView(R.id.et_address)
-    EditText mEtAddress;//送货地址
+    TextView mEtAddress;//送货地址
     @BindView(R.id.tv_subsidiary_company)
     TextView mTvSubsidiaryCompany;//分子公司
     @BindView(R.id.tv_warehouse)
     TextView mTvWarehouse;//仓库
     @BindView(R.id.add_goods_rl)
     RelativeLayout add_goods_rl;
+    @BindView(R.id.tv_distribution_area)
+    TextView mTvDistributionArea;//经销区域
     @BindView(R.id.my_recycler_view)
     RecyclerView mRecyclerView;
     private LoadingDialog loadingDialog;
     private ArrayList<OrderDetailsBean.DataBean.OrderItemsBean> dataBeans;
     private GoodsListAdp mAdapter;
-    private String id = "208";//订单id
+    private String id = "";//订单id
+    private String type = "1";//进入页面类型
     private String customerId;//客户id
     private Dialog mCameraDialog;
     private EditText xiaolaing_et;
@@ -99,11 +107,20 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("修改订单");
         loadingDialog = new LoadingDialog(this);
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
-        id = getIntent().getStringExtra("orderid");
+        id = getIntent().getStringExtra(Constant.ID);
+        type = getIntent().getStringExtra(Constant.TYPE);
+        if ("".equals(id) || "".equals(type)) {
+            ToastUtil.setToast("数据错误");
+            finish();
+        }
+        if ("1".equals(type)) {
+            txtTabTitle.setText("新增商品粮销售");
+        } else {
+            txtTabTitle.setText("修改订单");
+        }
         mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mAdapter = new GoodsListAdp(null);
@@ -111,16 +128,16 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
         //删除
         mAdapter.setOnItemDelListener(new GoodsListAdp.OnItemDelListener() {
             @Override
-            public void onItemDelClick(int position, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean) {
-                deleteGoods(bean.getInItemId() + "");
+            public void onItemDelClick(int position, EditGoodSalesBean.DataBean.CgOrderItemsBean bean) {
+                deleteGoods(bean.getItemId() + "");
             }
         });
 
         //编辑
         mAdapter.setOnItemEditLisenter(new GoodsListAdp.OnItemEditLisenter() {
             @Override
-            public void onItemEditClick(int pos, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean) {
-                findContentViews(null, 1);
+            public void onItemEditClick(int pos, EditGoodSalesBean.DataBean.CgOrderItemsBean bean) {
+                findContentViews(bean, 1);
             }
         });
 
@@ -133,7 +150,7 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getProudctAllocationDetails();
+        getEditGoodsDetails();
     }
 
     @Override
@@ -167,26 +184,25 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.save_add_tv://保存并提交
-                checkData(1);
+                submitGoodsSales();
                 break;
             case R.id.save_tv://保存
+                finish();
                 break;
             case R.id.delete_tv://删除
-                deleteGoods("1");
+                deleteGoodsSales();
                 break;
             case R.id.add_goods_rl://添加商品
-                startActivity(new Intent(getApplicationContext(), SelectGoodsListActivity.class));
+                SelectGoodsListActivity.newIntent(getApplicationContext(), id);
                 break;
         }
     }
 
 
     //商品修改
-    private void findContentViews(final OrderDetailsBean.DataBean.OrderItemsBean orderItem, final int pos) {
+    private void findContentViews(final EditGoodSalesBean.DataBean.CgOrderItemsBean orderItem, final int pos) {
         mCameraDialog = new Dialog(EditGoodsSalesActivity.this, R.style.my_dialog);
-
-        View root = LayoutInflater.from(EditGoodsSalesActivity.this).inflate(R.layout.goodslist_bu_buttom_item, null);
-
+        View root = LayoutInflater.from(EditGoodsSalesActivity.this).inflate(R.layout.select_goods_dialog, null);
         mCameraDialog.setContentView(root);
         mCameraDialog.setCanceledOnTouchOutside(false);
 
@@ -204,7 +220,6 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
-
         final TextView pinzhong_tv = root.findViewById(R.id.pinzhong_tv);
         TextView danwei_tv = root.findViewById(R.id.danwei_tv);
         xiaolaing_et = root.findViewById(R.id.xiaolaing_et);
@@ -212,10 +227,9 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
         final TextView zonge_price_tv = root.findViewById(R.id.zonge_price_tv);
         final TextView cancel_tv = root.findViewById(R.id.cancel_tv);
         final TextView determine_tv = root.findViewById(R.id.determine_tv);
-
-        zonge_price_tv.setText(FromtUtil.getFromt(orderItem.getSettlement()));
-        pinzhong_tv.setText(orderItem.getPackagingName());
-        danwei_tv.setText("¥" + FromtUtil.getFromt(orderItem.getPrice()) + "/公斤");
+        zonge_price_tv.setText(FromtUtil.getFromt(orderItem.getQty() * orderItem.getPrice()));
+        pinzhong_tv.setText(orderItem.getItemName());
+//        danwei_tv.setText("¥" + FromtUtil.getFromt(orderItem.getPrice()) + "/公斤");
         xiaolaing_et.setText(FromtUtil.getFromt(orderItem.getQty()));
         FromtUtil.setEditTextCursorLocation(xiaolaing_et);
         shiji_xiaoliang_et.setText(FromtUtil.getFromt(orderItem.getPrice()));
@@ -290,49 +304,12 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     }
 
-    public void checkData(int type) {
-        String name = mTvName.getText().toString().trim();
-        if ("".equals(name)) {
-            ToastUtil.setToast("请选择客户");
-            return;
-        }
-        String contactName = mEtContactName.getText().toString().trim();
-        if ("".equals(contactName)) {
-            ToastUtil.setToast("请输入联系人");
-            return;
-        }
-        String phone = mEtPhone.getText().toString().trim();
-        if ("".equals(phone)) {
-            ToastUtil.setToast("请输入联系人电话号");
-            return;
-        }
-        String address = mEtAddress.getText().toString().trim();
-        if ("".equals(address)) {
-            ToastUtil.setToast("请输入送货地址");
-            return;
-        }
-        if (CompanyId == 0) {
-            ToastUtil.setToast("请选择公司");
-            return;
-        }
-        if (Warehouseid == 0) {
-            ToastUtil.setToast("请选择仓库");
-            return;
-        }
-        if (!phoneUtils.isMobileNO(mEtPhone.getText().toString())) {
-            ToastUtil.setToast("请输入正确的手机号");
-            return;
-        }
-    }
-
-    //商品修改
-    private void gainEdit(OrderDetailsBean.DataBean.OrderItemsBean orderItem, String xiaoliang, String shijixiao) {
-
-        String sign = MD5Util.encode("ordersId=" + id
-                + "&packagingId=" + orderItem.getId().getPackagingId() + "&price=" + shijixiao + "&qty=" + xiaoliang);
-
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSaveShang(id, orderItem.getId().getPackagingId(), shijixiao, xiaoliang, sign)
+    //商品修改接口调用
+    private void gainEdit(EditGoodSalesBean.DataBean.CgOrderItemsBean orderItem, String xiaoliang, String shijixiao) {
+        String sign = MD5Util.encode("cgOrderId=" + id
+                + "&itemId=" + orderItem.getItemId() + "&price=" + shijixiao + "&qty=" + xiaoliang);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .updataGoods(id, orderItem.getItemId() + "", shijixiao, xiaoliang, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -345,7 +322,7 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
                         if (baseABean.getCode() == 200) {
                             ToastUtil.setToast("商品修改成功");
                             mCameraDialog.dismiss();
-                            getProudctAllocationDetails();
+                            getEditGoodsDetails();
                         } else {
                             ToastUtil.setToast("商品修改失败");
                         }
@@ -354,10 +331,10 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
     }
 
     //订单提交
-    private void gainSumit() {
-        String sign = MD5Util.encode("address=");
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSubmit("", "", customerId, id, "", sign)
+    private void submitGoodsSales() {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .submitGoodsSales(id, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -371,41 +348,18 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
                             ToastUtil.setToast("订单提交成功");
                             finish();
                         } else {
-                            ToastUtil.setToast("订单提交失败");
+                            ToastUtil.setToast(baseABean.getMsg());
                         }
                     }
                 });
     }
 
-    //订单保存
-    private void gainSvet() {
-        String sign = MD5Util.encode("address=");
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSave("", "", customerId, id, "", sign)
-                .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
-                .subscribe(new NewCommonObserver<BaseABean>() {
-                    @Override
-                    protected void onError(String errorMsg) {
-                        ToastUtil.setToast(errorMsg);
-                    }
 
-                    @Override
-                    protected void onSuccess(BaseABean baseABean) {
-                        if (baseABean.getCode() == 200) {
-                            ToastUtil.setToast("订单保存成功");
-                            finish();
-                        } else {
-                            ToastUtil.setToast("订单保存失败");
-                        }
-                    }
-                });
-    }
-
-    //删除调拨
-    private void deleteAllot() {
+    //商品粮销售删除
+    private void deleteGoodsSales() {
         String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .deleteAllot(id, sign)
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .deleteGoodsSales(id, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -427,9 +381,9 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
 
     //刪除调拨商品
     private void deleteGoods(String inItemId) {
-        String sign = MD5Util.encode("inItemId=" + inItemId + "&stockAllotId=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .deleteGoods(inItemId, id, sign)
+        String sign = MD5Util.encode("cgOrderId=" + id + "&itemId=" + inItemId);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .deleteGoods(id, inItemId, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -441,7 +395,7 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
                     protected void onSuccess(BaseABean bean) {
                         if (bean.getCode() == 200) {
                             ToastUtil.setToast("商品删除成功");
-                            getProudctAllocationDetails();
+                            getEditGoodsDetails();
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }
@@ -449,27 +403,43 @@ public class EditGoodsSalesActivity extends BaseTitleActivity {
                 });
     }
 
-    //获取调拨详情
-    private void getProudctAllocationDetails() {
-        String sign = MD5Util.encode("id=" + 208);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .getProudctAllocationDetails("208", sign)
-                .compose(Transformer.<EditFinishedProductAllocationBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<EditFinishedProductAllocationBean>() {
+    //新增商品粮详情
+    private void getEditGoodsDetails() {
+        String sign = MD5Util.encode("id=" + id);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getGoodsDetails(id, sign)
+                .compose(Transformer.<EditGoodSalesBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<EditGoodSalesBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(EditFinishedProductAllocationBean bean) {
+                    protected void onSuccess(EditGoodSalesBean bean) {
                         if (bean.getCode() == 200) {
-                            mAdapter.setNewData(bean.getData().getStockAllotItems());
+                            setData(bean.getData());
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                            finish();
                         }
                     }
                 });
+    }
+
+    //详情赋值
+    private void setData(EditGoodSalesBean.DataBean bean) {
+        mTvCode.setText("订单号：" + bean.getCode());
+        mTvName.setText(bean.getCustomerName());
+        mEtContactName.setText(bean.getContacts());
+        mEtPhone.setText(bean.getMobTel());
+        mEtAddress.setText(bean.getAddress());
+        mTvSubsidiaryCompany.setText(bean.getOrgName());
+        mTvWarehouse.setText(bean.getWarehouseName());
+        mTvDistributionArea.setText(bean.getRegion());
+        if (bean.getCgOrderItems() != null) {
+            mAdapter.setNewData(bean.getCgOrderItems());
+        }
     }
 
     /**

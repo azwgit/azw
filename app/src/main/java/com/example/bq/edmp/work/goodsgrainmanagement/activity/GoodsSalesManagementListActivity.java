@@ -17,6 +17,8 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsSalesManagmentListAdapter;
+import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
 import com.example.bq.edmp.work.order.activity.ModifyOrderActivity;
 import com.example.bq.edmp.work.order.activity.NewOrderActivity;
 import com.example.bq.edmp.work.order.adapter.OrderAdapter;
@@ -42,7 +44,7 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
     private int currentPager = 1;
     private LoadingDialog loading_dialog;
     private GoodsSalesManagmentListAdapter goodsSalesManagmentListAdapter;
-    private ArrayList<OrderTJBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<GoodsSalesManagementListBean.DataBean.RowsBean> rowsBeans;
 
 
     @Override
@@ -54,7 +56,7 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
     protected void initView() {
         ProApplication.getinstance().addActivity(GoodsSalesManagementListActivity.this);
         loading_dialog = new LoadingDialog(this);
-        txtTabTitle.setText("商品粮销售申申请");
+        txtTabTitle.setText("商品粮销售申请");
         rowsBeans = new ArrayList<>();
         goodsSalesManagmentListAdapter = new GoodsSalesManagmentListAdapter(rowsBeans);
         xRecyclerView.setAdapter(goodsSalesManagmentListAdapter);
@@ -78,8 +80,8 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
         });
         goodsSalesManagmentListAdapter.setOnItemClickListener(new GoodsSalesManagmentListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, OrderTJBean.DataBean.RowsBean rowsBean) {
-                EditGoodsSalesActivity.newIntent(getApplicationContext(),rowsBean.getId());
+            public void onItemClick(int pos, GoodsSalesManagementListBean.DataBean.RowsBean rowsBean) {
+                EditGoodsSalesActivity.newIntent(getApplicationContext(), rowsBean.getId() + "","2");
             }
         });
 
@@ -99,22 +101,21 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
     protected void getData() {
         currentPager = 1;
 
-        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15 + "&status=1");
 
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSubmitlist(currentPager, 15, sign)
-                .compose(Transformer.<OrderTJBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<OrderTJBean>() {
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getGoodsSalesManagementList(currentPager, 15, 1, sign)
+                .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(OrderTJBean orderTJBean) {
-                        String code = orderTJBean.getCode();
-                        if (code.equals("200")) {
-                            List<OrderTJBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
+                    protected void onSuccess(GoodsSalesManagementListBean orderTJBean) {
+                        if (orderTJBean.getCode() == 200) {
+                            List<GoodsSalesManagementListBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
 
                                 xRecyclerView.setVisibility(View.VISIBLE);
@@ -140,21 +141,19 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
     }
 
     private void initData2() {
-
-        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSubmitlist(currentPager, 15, sign)
-                .compose(Transformer.<OrderTJBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<OrderTJBean>() {
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15 + "&status=1");
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getGoodsSalesManagementList(currentPager, 15, 1, sign)
+                .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(OrderTJBean orderTJBean) {
-                        String code = orderTJBean.getCode();
-                        if (code.equals("200")) {
+                    protected void onSuccess(GoodsSalesManagementListBean orderTJBean) {
+                        if (orderTJBean.getCode() == 200) {
                             rowsBeans.addAll(orderTJBean.getData().getRows());
                             goodsSalesManagmentListAdapter.addMoreData(orderTJBean.getData().getRows());
                         } else {
@@ -175,8 +174,7 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add://新增订单
-                Intent intent = new Intent(GoodsSalesManagementListActivity.this, AddGoodsSalesActivity.class);
-                startActivityForResult(intent, 250);
+                startActivity(new Intent(getApplicationContext(), AddGoodsSalesActivity.class));
                 break;
         }
     }

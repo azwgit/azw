@@ -10,14 +10,15 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 
 import java.util.List;
 
 public class ItemPackingListAdapter extends RecyclerView.Adapter<ItemPackingListAdapter.ViewHolder> {
-    private List<OrderTJBean.DataBean.RowsBean.OrderItemsBean> list;
+    private List<GoodsSalesManagementListBean.DataBean.RowsBean.CgOrderItemsBean> list;
 
-    public ItemPackingListAdapter(List<OrderTJBean.DataBean.RowsBean.OrderItemsBean> list) {
+    public ItemPackingListAdapter(List<GoodsSalesManagementListBean.DataBean.RowsBean.CgOrderItemsBean> list) {
         this.list = list;
     }
 
@@ -29,11 +30,11 @@ public class ItemPackingListAdapter extends RecyclerView.Adapter<ItemPackingList
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        OrderTJBean.DataBean.RowsBean.OrderItemsBean orderItem = list.get(position);
+        GoodsSalesManagementListBean.DataBean.RowsBean.CgOrderItemsBean orderItem = list.get(position);
 
-        holder.pz_tv.setText(orderItem.getPackagingName());
+        holder.pz_tv.setText(orderItem.getItemName());
 //        holder.danwei_tv.setText(orderItem.getQty()+"");
-        holder.danwei_tv.setText(FromtUtil.getFromt(orderItem.getQty())+"公斤");
+        holder.danwei_tv.setText("￥" + orderItem.getPrice() + "/公斤 * " + orderItem.getQty() + "公斤");
 
     }
 

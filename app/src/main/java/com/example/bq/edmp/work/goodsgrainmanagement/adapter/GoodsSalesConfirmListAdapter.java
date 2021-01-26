@@ -13,20 +13,22 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
+import com.example.bq.edmp.utils.MoneyUtils;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsSalesConfirmListAdapter extends RecyclerView.Adapter<GoodsSalesConfirmListAdapter.ViewHolder> {
-    private List<OrderTJBean.DataBean.RowsBean> list;
+    private List<GoodsSalesManagementListBean.DataBean.RowsBean> list;
 
-    public GoodsSalesConfirmListAdapter(ArrayList<OrderTJBean.DataBean.RowsBean> list) {
+    public GoodsSalesConfirmListAdapter(ArrayList<GoodsSalesManagementListBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
 
-    public void addMoreData(List<OrderTJBean.DataBean.RowsBean> data) {
+    public void addMoreData(List<GoodsSalesManagementListBean.DataBean.RowsBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -42,26 +44,33 @@ public class GoodsSalesConfirmListAdapter extends RecyclerView.Adapter<GoodsSale
     @NonNull
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        final OrderTJBean.DataBean.RowsBean rowsBean = list.get(position);
+        final GoodsSalesManagementListBean.DataBean.RowsBean rowsBean = list.get(position);
 
-        String status = rowsBean.getStatus();
-        if (status != null) {
-            if (status.equals("1")) {
-                holder.tv_status.setText("待提交");
-            } else {
-                holder.tv_status.setText("暂无");
-            }
-        } else {
-            holder.tv_status.setText("暂无");
+        String  status = "";
+        switch (rowsBean.getStatus()){
+            case 2:
+                status="待审批";
+                break;
+            case 3:
+                status="审批拒绝";
+                break;
+            case 4:
+                status="待出库";
+                break;
+            case 5:
+                status="待完成";
+                break;
         }
-
+        holder.tv_status.setText(status);
         holder.tv_code.setText("订单号: " + rowsBean.getCode());
         holder.tv_compay_name.setText(rowsBean.getCustomerName());
-        holder.tv_price.setText("¥" + FromtUtil.getFromt(rowsBean.getAmount()));
+        holder.tv_price.setText("¥ " + MoneyUtils.formatMoney(rowsBean.getAmount()));
         holder.tv_time.setText(rowsBean.getAddedTime());
-
-
-        List<OrderTJBean.DataBean.RowsBean.OrderItemsBean> orderItem = rowsBean.getOrderItems();
+        holder.tv_subsidiary_company.setText(rowsBean.getOrgName());
+        holder.tv_warehouse.setText(rowsBean.getWarehouseName());
+        holder.tv_name.setText(rowsBean.getAddedOperator());
+        holder.tv_time.setText("添加时间 "+rowsBean.getAddedTime());
+        List<GoodsSalesManagementListBean.DataBean.RowsBean.CgOrderItemsBean> orderItem = rowsBean.getCgOrderItems();
         if (orderItem != null && orderItem.size() != 0) {
             holder.rv.setVisibility(View.VISIBLE);
             holder.wsj.setVisibility(View.GONE);
@@ -129,7 +138,7 @@ public class GoodsSalesConfirmListAdapter extends RecyclerView.Adapter<GoodsSale
     protected OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, OrderTJBean.DataBean.RowsBean rowsBean);
+        void onItemClick(int pos, GoodsSalesManagementListBean.DataBean.RowsBean rowsBean);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

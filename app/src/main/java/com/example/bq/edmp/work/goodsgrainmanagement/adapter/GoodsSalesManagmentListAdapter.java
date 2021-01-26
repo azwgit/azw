@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
+import com.example.bq.edmp.utils.MoneyUtils;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
 import com.example.bq.edmp.work.order.adapter.OrderNeiAdapter;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 
@@ -21,14 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSalesManagmentListAdapter.ViewHolder> {
-    private List<OrderTJBean.DataBean.RowsBean> list;
+    private List<GoodsSalesManagementListBean.DataBean.RowsBean> list;
 
-    public GoodsSalesManagmentListAdapter(ArrayList<OrderTJBean.DataBean.RowsBean> list) {
+    public GoodsSalesManagmentListAdapter(ArrayList<GoodsSalesManagementListBean.DataBean.RowsBean> list) {
         this.list = list;
     }
 
 
-    public void addMoreData(List<OrderTJBean.DataBean.RowsBean> data) {
+    public void addMoreData(List<GoodsSalesManagementListBean.DataBean.RowsBean> data) {
         if (data != null) {
             list.addAll(list.size(), data);
             notifyDataSetChanged();
@@ -44,26 +46,16 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
     @NonNull
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        final OrderTJBean.DataBean.RowsBean rowsBean = list.get(position);
-
-        String status = rowsBean.getStatus();
-        if (status != null) {
-            if (status.equals("1")) {
-                holder.tv_status.setText("待提交");
-            } else {
-                holder.tv_status.setText("暂无");
-            }
-        } else {
-            holder.tv_status.setText("暂无");
-        }
-
+        final GoodsSalesManagementListBean.DataBean.RowsBean rowsBean = list.get(position);
         holder.tv_code.setText("订单号: " + rowsBean.getCode());
         holder.tv_compay_name.setText(rowsBean.getCustomerName());
-        holder.tv_price.setText("¥" + FromtUtil.getFromt(rowsBean.getAmount()));
+        holder.tv_price.setText("¥ " + MoneyUtils.formatMoney(rowsBean.getAmount()));
         holder.tv_time.setText(rowsBean.getAddedTime());
-
-
-        List<OrderTJBean.DataBean.RowsBean.OrderItemsBean> orderItem = rowsBean.getOrderItems();
+        holder.tv_subsidiary_company.setText(rowsBean.getOrgName());
+        holder.tv_warehouse.setText(rowsBean.getWarehouseName());
+        holder.tv_name.setText(rowsBean.getAddedOperator());
+        holder.tv_time.setText("添加时间 "+rowsBean.getAddedTime());
+        List<GoodsSalesManagementListBean.DataBean.RowsBean.CgOrderItemsBean> orderItem = rowsBean.getCgOrderItems();
         if (orderItem != null && orderItem.size() != 0) {
             holder.rv.setVisibility(View.VISIBLE);
             holder.wsj.setVisibility(View.GONE);
@@ -108,7 +100,6 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
         private final TextView tv_name;//操作人
         private final TextView tv_time;//添加时间
         private final TextView wsj;
-        private final TextView tiem_tv;
         private final RecyclerView rv;
         private final LinearLayout ll;
 
@@ -123,7 +114,6 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
             tv_name = itemView.findViewById(R.id.tv_name);
             tv_time = itemView.findViewById(R.id.tv_time);
             wsj = itemView.findViewById(R.id.wsj);
-            tiem_tv = itemView.findViewById(R.id.tiem_tv);
             rv = itemView.findViewById(R.id.rv);
             ll = itemView.findViewById(R.id.ll);
         }
@@ -132,7 +122,7 @@ public class GoodsSalesManagmentListAdapter extends RecyclerView.Adapter<GoodsSa
     protected OnItemClickListener mItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(int pos, OrderTJBean.DataBean.RowsBean rowsBean);
+        void onItemClick(int pos, GoodsSalesManagementListBean.DataBean.RowsBean rowsBean);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

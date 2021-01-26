@@ -101,6 +101,9 @@
         </activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingDetailsActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".work.goodsgrainmanagement.activity.GoodsSalesConfirmDetailsActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity

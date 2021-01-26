@@ -43,7 +43,13 @@ import com.example.bq.edmp.work.allocation.AllocationCompleteActivity;
 import com.example.bq.edmp.work.allocation.adapter.AuditChAdapter2;
 import com.example.bq.edmp.work.allocation.bean.AuditChBean2;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsSalesConfirmListAdapter;
+import com.example.bq.edmp.work.goodsgrainmanagement.adapter.SelectSubsidiaryCompanyAdapter;
+import com.example.bq.edmp.work.goodsgrainmanagement.adapter.VarietiesAdapter;
+import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.VarietiesBean;
 import com.example.bq.edmp.work.goodsgrainmanagement.fragment.GoodsSalesTrackingListFragment;
+import com.example.bq.edmp.work.inventorytransfer.bean.SubsidiaryCompanyBean;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
 import com.example.bq.edmp.work.marketing.adapter.SelectProvinceAdapter;
@@ -99,20 +105,20 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
     ArrayList<String> tablist = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
-    private PzAdapter pzAdapter;
-    private ArrayList<SxPzBean.DataBean> dataBeans;
-    private List<SxPzBean.DataBean> data;
+    private VarietiesAdapter pzAdapter;
+    private ArrayList<VarietiesBean.DataBean> dataBeans;
+    private List<VarietiesBean.DataBean> data;
     private String varietyId = "";//品种id
     private String companyId = "";//分公司id
     private int currentPager = 1;
     private XRecyclerView buttom_rv;
     private GoodsSalesConfirmListAdapter goodsSalesConfirmListAdapter;
-    private ArrayList<OrderTJBean.DataBean.RowsBean> rowsBeans;
+    private ArrayList<GoodsSalesManagementListBean.DataBean.RowsBean> rowsBeans;
     private GoodsSalesTrackingListFragment goodsSalesTrackingListFragment;
     private ILoadingView loading_dialog;
     private int position = 0;
-    private ArrayList<ProvinceAndCityListBean.DataBean> companyDataBeans;
-    private SelectProvinceAdapter selectProvinceAdapter;//选择省适配器
+    private ArrayList<SubsidiaryCompanyBean.DataBean> companyDataBeans;
+    private SelectSubsidiaryCompanyAdapter selectProvinceAdapter;//选择省适配器
     private TextView wsj_dial;
 
     @Override
@@ -138,8 +144,9 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                varietyId="";
-                companyId="";
+                varietyId = "";
+                companyId = "";
+                chu_tv.setText("所有分子公司");
             }
 
             @Override
@@ -149,12 +156,12 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
         });
         //筛选  品种适配器
         dataBeans = new ArrayList<>();
-        pzAdapter = new PzAdapter(dataBeans);
+        pzAdapter = new VarietiesAdapter(dataBeans);
         recyclerView.setLayoutManager(new GridLayoutManager(GoodsSalesTrackingListActivity.this, 3));
         recyclerView.setAdapter(pzAdapter);
-        pzAdapter.setOnItemLeftClckListener(new PzAdapter.OnItemLeftClckListener() {
+        pzAdapter.setOnItemLeftClckListener(new VarietiesAdapter.OnItemLeftClckListener() {
             @Override
-            public void onItemLeftClck(SxPzBean.DataBean dataBean, int mPosition) {
+            public void onItemLeftClck(VarietiesBean.DataBean dataBean, int mPosition) {
                 //当点击时显示当前条目的背景和文字的颜色
                 for (int i = 0; i < dataBeans.size(); i++) {
                     if (mPosition == i) {
@@ -165,7 +172,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                 }
                 pzAdapter.notifyDataSetChanged();
                 if (!dataBean.getId().equals("") && dataBean.getId() != null) {
-                    varietyId = dataBean.getId();
+                    varietyId = dataBean.getVarietyId();
                 } else {
                     varietyId = "";
                 }
@@ -194,7 +201,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
         });
         goodsSalesConfirmListAdapter.setOnItemClickListener(new GoodsSalesConfirmListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, OrderTJBean.DataBean.RowsBean rowsBean) {
+            public void onItemClick(int pos, GoodsSalesManagementListBean.DataBean.RowsBean rowsBean) {
                 GoodsSalesTrackingDetailsActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
             }
         });
@@ -209,11 +216,11 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
         tablist.add("待完成");
         tablist.add("审批拒绝");
         integers.clear();
-        integers.add(0);
+        integers.add(11);
         integers.add(2);
         integers.add(4);
-        integers.add(3);
         integers.add(5);
+        integers.add(3);
     }
 
     @Override
@@ -285,7 +292,9 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                 break;
             case R.id.chong_tv://筛选 重置
                 sxMethodData();
-                ToastUtil.setToast("已重置");
+                companyId = "";
+                varietyId = "";
+                chu_tv.setText("所有分子公司");
                 break;
             case R.id.affirm_tv://筛选   确定
                 rl.setVisibility(ViewGroup.VISIBLE);
@@ -297,33 +306,33 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                 }
                 break;
             case R.id.chu_rl:
-                getProvinceAndCityList(view);
+                getSubsidiaryCompanyList(view);
                 break;
         }
     }
 
     //品种数据
     private void sxMethodData() {
-        RxHttpUtils.createApi(InventoryListApi.class)
-                .getPzData()
-                .compose(Transformer.<SxPzBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<SxPzBean>() {
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getVarietiesList()
+                .compose(Transformer.<VarietiesBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<VarietiesBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(SxPzBean sxPzBean) {
+                    protected void onSuccess(VarietiesBean sxPzBean) {
                         data = sxPzBean.getData();
                         if (data.size() != 0 && data != null) {
                             recyclerView.setVisibility(ViewGroup.VISIBLE);
 //                            shaixuan_wsj.setVisibility(ViewGroup.GONE);
                             dataBeans.clear();
-                            SxPzBean.DataBean dataBean = new SxPzBean.DataBean();
+                            VarietiesBean.DataBean dataBean = new VarietiesBean.DataBean();
                             dataBean.setSelected(true);
-                            dataBean.setId("");
-                            dataBean.setName("全部");
+                            dataBean.setVarietyId("");
+                            dataBean.setVarietyName("全部");
                             dataBeans.add(dataBean);
                             dataBeans.addAll(data);
                             pzAdapter.notifyDataSetChanged();
@@ -358,21 +367,20 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
     //获取列表数据
     private void gainData() {
         currentPager = 1;
-        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSubmitlist(currentPager, 15, sign)
-                .compose(Transformer.<OrderTJBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<OrderTJBean>() {
+        String sign = MD5Util.encode("orgId=" + companyId + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + 11 + "&varietyId=" + varietyId);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getGoodsSalesTracktList(companyId, currentPager, 15, 11, varietyId, sign)
+                .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(OrderTJBean orderTJBean) {
-                        String code = orderTJBean.getCode();
-                        if (code.equals("200")) {
-                            List<OrderTJBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
+                    protected void onSuccess(GoodsSalesManagementListBean orderTJBean) {
+                        if (orderTJBean.getCode() == 200) {
+                            List<GoodsSalesManagementListBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
                                 xRecyclerView.setVisibility(View.VISIBLE);
                                 wsj.setVisibility(View.GONE);
@@ -388,7 +396,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                         } else {
                             xRecyclerView.setVisibility(View.GONE);
                             wsj.setVisibility(View.VISIBLE);
-                            ToastUtil.setToast("暂无数据");
+//                            ToastUtil.setToast("暂无数据");
                         }
                     }
                 });
@@ -396,20 +404,19 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
     //获取列表更多数据
     private void initData2() {
-        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
-        RxHttpUtils.createApi(OrderApi.class)
-                .getSubmitlist(currentPager, 15, sign)
-                .compose(Transformer.<OrderTJBean>switchSchedulers())
-                .subscribe(new NewCommonObserver<OrderTJBean>() {
+        String sign = MD5Util.encode("orgId=" + companyId + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + 11 + "&varietyId=" + varietyId);
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getGoodsSalesTracktList("", currentPager, 15, 11, "", sign)
+                .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers())
+                .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(OrderTJBean orderTJBean) {
-                        String code = orderTJBean.getCode();
-                        if (code.equals("200")) {
+                    protected void onSuccess(GoodsSalesManagementListBean orderTJBean) {
+                        if (orderTJBean.getCode() == 200) {
                             rowsBeans.addAll(orderTJBean.getData().getRows());
                             goodsSalesConfirmListAdapter.addMoreData(orderTJBean.getData().getRows());
                         } else {
@@ -459,9 +466,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    /*
-     * 底部跳框
-     * */
+    //分子公司 弹框
     private void showProvinceAndCityDialog(View view) {
         final Dialog mCameraDialog = new Dialog(view.getContext(), R.style.my_dialog);
 
@@ -498,17 +503,18 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 companyId = data.get(position).getId();
+                chu_tv.setText(companyDataBeans.get(position).getName());
                 mCameraDialog.dismiss();
             }
         });
         //筛选  分公司
         companyDataBeans = new ArrayList<>();
-        selectProvinceAdapter = new SelectProvinceAdapter(companyDataBeans);
+        selectProvinceAdapter = new SelectSubsidiaryCompanyAdapter(companyDataBeans);
         buttom_rv.setLayoutManager(new LinearLayoutManager(GoodsSalesTrackingListActivity.this));
         buttom_rv.setAdapter(selectProvinceAdapter);
-        selectProvinceAdapter.setOnItemLeftClckListener(new SelectProvinceAdapter.OnItemLeftClckListener() {
+        selectProvinceAdapter.setOnItemLeftClckListener(new SelectSubsidiaryCompanyAdapter.OnItemLeftClckListener() {
             @Override
-            public void onItemLeftClck(ProvinceAndCityListBean.DataBean dataBean, int mPosition) {
+            public void onItemLeftClck(SubsidiaryCompanyBean.DataBean dataBean, int mPosition) {
                 //当点击时显示当前条目的背景和文字的颜色
                 for (int i = 0; i < companyDataBeans.size(); i++) {
                     if (mPosition == i) {
@@ -518,7 +524,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                     }
                 }
                 position = mPosition;
-                chu_tv.setText(companyDataBeans.get(position).getName());
+//                chu_tv.setText(companyDataBeans.get(position).getName());
                 selectProvinceAdapter.notifyDataSetChanged();
             }
         });
@@ -526,27 +532,26 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
 
     }
 
-    //获取省市区id
-    private void getProvinceAndCityList(final View view) {
-        String sign = MD5Util.encode("parentId=" + 0);
-        RxHttpUtils.createApi(CustomerManagementApi.class)
-                .getProvinceAndCityList("0", sign)
-                .compose(Transformer.<ProvinceAndCityListBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<ProvinceAndCityListBean>() {
+    //获取分子公司
+    private void getSubsidiaryCompanyList(final View view) {
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getSubsidiaryCompanyList()
+                .compose(Transformer.<SubsidiaryCompanyBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<SubsidiaryCompanyBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(ProvinceAndCityListBean companyBean) {
-                        if (data.size() != 0 && data != null) {
+                    protected void onSuccess(SubsidiaryCompanyBean companyBean) {
+                        if (companyBean.getData().size() != 0 && companyBean != null) {
                             showProvinceAndCityDialog(view);
                             //选中位置为0
                             position = 0;
                             buttom_rv.setVisibility(View.VISIBLE);
                             companyDataBeans.clear();
-                            data.get(0).setSelected(true);
+                            companyBean.getData().get(0).setSelected(true);
                             wsj_dial.setVisibility(View.GONE);
                             companyDataBeans.addAll(companyBean.getData());
                             selectProvinceAdapter.notifyDataSetChanged();

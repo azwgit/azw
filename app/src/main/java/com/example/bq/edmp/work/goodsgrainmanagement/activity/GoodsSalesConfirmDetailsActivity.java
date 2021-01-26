@@ -1,6 +1,5 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,19 +20,13 @@ import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.bean.PayInfoBean;
 import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.Constant;
-import com.example.bq.edmp.utils.DialoggerOk;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
-import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.UsualDialogger;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsDetailsListAdp;
 import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
 import com.example.bq.edmp.work.goodsgrainmanagement.bean.EditGoodSalesBean;
-import com.example.bq.edmp.work.returnsmanagement.activity.EditApplyForRefundActivity;
-import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
-import com.example.bq.edmp.work.returnsmanagement.bean.ReapplyReturnGoods;
-import com.example.bq.edmp.work.returnsmanagement.bean.ReturnsGoodsDetailsBean;
 import com.example.bq.edmp.work.returnsmanagement.eventbus.CloseActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,11 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import retrofit2.http.PATCH;
 
-public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
+public class GoodsSalesConfirmDetailsActivity extends BaseTitleActivity {
     public static void newIntent(Context context, String id) {
-        Intent intent = new Intent(context, GoodsSalesTrackingDetailsActivity.class);
+        Intent intent = new Intent(context, GoodsSalesConfirmDetailsActivity.class);
         intent.putExtra(Constant.ID, id);
         context.startActivity(intent);
     }
@@ -125,8 +117,8 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
         loading_dialog = new LoadingDialog(this);
         ReturnGoodsDetails();
         List<PayInfoBean> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            PayInfoBean payInfoBean = new PayInfoBean();
+        for(int i=0;i<3;i++){
+            PayInfoBean payInfoBean=new PayInfoBean();
             list.add(payInfoBean);
         }
         mApprovalRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -200,14 +192,14 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
             case 3:
                 status = "审批拒绝";
                 mRlChuKu.setVisibility(View.VISIBLE);
-                mTvDeliveryTime.setText("出库时间" + bean.getSubstockTime());
+                mTvDeliveryTime.setText("出库时间"+bean.getSubstockTime());
             case 4:
                 status = "待出库";
                 break;
             case 5:
                 status = "待完成";
                 mRlChuKu.setVisibility(View.VISIBLE);
-                mTvDeliveryTime.setText("出库时间" + bean.getSubstockTime());
+                mTvDeliveryTime.setText("出库时间"+bean.getSubstockTime());
                 break;
             case 10:
                 status = "已完成";
@@ -226,17 +218,17 @@ public class GoodsSalesTrackingDetailsActivity extends BaseTitleActivity {
         mTvPhone.setText(bean.getMobTel());
         mTvAddress.setText(bean.getRegion());
         mTvSubsidiaryCompany.setText(bean.getOrgName());
-        mLyBottom.setVisibility(View.GONE);
-//        //4  5 显示底部按钮
-//        if (bean.getStatus() == 4 || bean.getStatus() == 5) {
-//            mLyBottom.setVisibility(View.VISIBLE);
-//            if (bean.getStatus() == 4) {
-//                mBtnSubmit.setText("确认出库");
-//            } else {
-//                mBtnSubmit.setText("确认完成");
-//            }
-//        } else {
-//        }
+        //4  5 显示底部按钮
+        if (bean.getStatus() == 4 || bean.getStatus() == 5) {
+            mLyBottom.setVisibility(View.VISIBLE);
+            if (bean.getStatus() == 4) {
+                mBtnSubmit.setText("确认出库");
+            } else {
+                mBtnSubmit.setText("确认完成");
+            }
+        } else {
+            mLyBottom.setVisibility(View.GONE);
+        }
         if (bean.getCgOrderItems() != null) {
             cgOrderItemsBeanList.addAll(bean.getCgOrderItems());
             goodsDetailsListAdp.notifyDataSetChanged();

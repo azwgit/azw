@@ -8,22 +8,24 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.MoneyUtils;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.EditGoodSalesBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
 
 import java.util.List;
 
-public class GoodsListAdp extends BaseQuickAdapter<EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean, BaseViewHolder> {
+public class GoodsListAdp extends BaseQuickAdapter<EditGoodSalesBean.DataBean.CgOrderItemsBean, BaseViewHolder> {
 
-    public GoodsListAdp(@Nullable List<EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean> data) {
+    public GoodsListAdp(@Nullable List<EditGoodSalesBean.DataBean.CgOrderItemsBean> data) {
         super(R.layout.item_goods_list, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean item) {
+    protected void convert(BaseViewHolder helper, final EditGoodSalesBean.DataBean.CgOrderItemsBean item) {
 
         final int pos = helper.getLayoutPosition();
-//        helper.setText(R.id.tv_title, item.getVarietyName());
-//        helper.setText(R.id.tv_number, MoneyUtils.formatMoney(item.getQty()) + " 公斤");
+        helper.setText(R.id.pinzhong_tv, item.getItemName());
+        helper.setText(R.id.price_tv, "￥" + MoneyUtils.formatMoney(item.getQty() * item.getPrice()));
+        helper.setText(R.id.xiaoshoulaing_tv, "¥" + item.getPrice() + "/公斤 * " + item.getQty() + "公斤");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);
 //        View mView = helper.getView(R.id.view_line);
@@ -60,7 +62,7 @@ public class GoodsListAdp extends BaseQuickAdapter<EditFinishedProductAllocation
     private OnItemDelListener onItemDelListener;
 
     public abstract static class OnItemDelListener {
-        public abstract void onItemDelClick(int position, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean);
+        public abstract void onItemDelClick(int position, EditGoodSalesBean.DataBean.CgOrderItemsBean bean);
     }
 
     //编辑
@@ -71,6 +73,6 @@ public class GoodsListAdp extends BaseQuickAdapter<EditFinishedProductAllocation
     private OnItemEditLisenter onItemEditLisenter;
 
     public abstract static class OnItemEditLisenter {
-        public abstract void onItemEditClick(int pos, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean);
+        public abstract void onItemEditClick(int pos, EditGoodSalesBean.DataBean.CgOrderItemsBean bean);
     }
 }

@@ -65,10 +65,10 @@ public class GoodsSalesTrackingListAdapter extends RecyclerView.Adapter<GoodsSal
         if (orderItem != null && orderItem.size() != 0) {
             holder.rv.setVisibility(View.VISIBLE);
             holder.wsj.setVisibility(View.GONE);
-            ItemPackingListAdapter orderNeiAdapter = new ItemPackingListAdapter(orderItem);
-            holder.rv.setLayoutManager(new LinearLayoutManager(ProApplication.getmContext()));
-            holder.rv.setAdapter(orderNeiAdapter);
-            orderNeiAdapter.notifyDataSetChanged();
+//            ItemPackingListAdapter orderNeiAdapter = new ItemPackingListAdapter(orderItem);
+//            holder.rv.setLayoutManager(new LinearLayoutManager(ProApplication.getmContext()));
+//            holder.rv.setAdapter(orderNeiAdapter);
+//            orderNeiAdapter.notifyDataSetChanged();
         } else {
             holder.rv.setVisibility(View.GONE);
             holder.wsj.setVisibility(View.VISIBLE);

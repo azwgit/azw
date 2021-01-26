@@ -463,16 +463,15 @@ public class DeliverGoodsDetailsActivity extends BaseTitleActivity {
     private void setData(SendGoodsDetailsBean.DataBean bean) {
         mTvNumber.setText("订单号  " + bean.getCode());
         switch (bean.getStatus()) {
-            case "5":
+            case "2":
                 mTvStatus.setText("待发货");
                 break;
-            case "6":
-            case "7":
+            case "3":
                 mTvStatus.setText("已发货");
                 mLyOne.setVisibility(View.VISIBLE);
                 //隐藏发货按钮
                 mBtnSubmit.setVisibility(View.GONE);
-                mTvDeliverGoodsTime.setText(bean.getOrderSendOut().getTimes());
+                mTvDeliverGoodsTime.setText(bean.getOrderSendOut().getSendOutTimes());
                 //1选择车辆发货 2 物流发货 3 其他
                 if (bean.getOrderSendOut().getTypes() == 1) {
                     mTvDeliveryMethod.setText(bean.getOrderSendOut().getContacts() + "\n" + bean.getOrderSendOut().getLicense());

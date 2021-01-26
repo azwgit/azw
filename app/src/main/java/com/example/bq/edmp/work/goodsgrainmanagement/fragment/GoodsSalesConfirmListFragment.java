@@ -1,7 +1,6 @@
 package com.example.bq.edmp.work.goodsgrainmanagement.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,17 +16,11 @@ import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesConfirmDetailsActivity;
 import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesTrackingDetailsActivity;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsSalesConfirmListAdapter;
-import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsSalesTrackingListAdapter;
 import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
 import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
-import com.example.bq.edmp.work.order.api.OrderApi;
-import com.example.bq.edmp.work.order.bean.OrderTJBean;
-import com.example.bq.edmp.work.returnsmanagement.activity.ReturnsGoodsDetailsActivity;
-import com.example.bq.edmp.work.returnsmanagement.adapter.ReturnsGoodsActivityListAdp;
-import com.example.bq.edmp.work.returnsmanagement.api.ReturnGoodsApi;
-import com.example.bq.edmp.work.returnsmanagement.bean.ReturnTrackingListBean;
 import com.example.bq.edmp.work.returnsmanagement.eventbus.CloseActivity;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -44,7 +37,7 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 @SuppressLint("ValidFragment")
-public class GoodsSalesTrackingListFragment extends BaseFragment {
+public class GoodsSalesConfirmListFragment extends BaseFragment {
 
 
     @BindView(R.id.xr)
@@ -60,7 +53,7 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
     private int status = 0;  //2待审批 3审批拒绝 4待出库 5待完成
 
     @SuppressLint("ValidFragment")
-    public GoodsSalesTrackingListFragment(Integer integer) {
+    public GoodsSalesConfirmListFragment(Integer integer) {
         // Required empty public constructor
         status = integer;
     }
@@ -98,7 +91,7 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
         goodsSalesConfirmListAdapter.setOnItemClickListener(new GoodsSalesConfirmListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, GoodsSalesManagementListBean.DataBean.RowsBean rowsBean) {
-                GoodsSalesTrackingDetailsActivity.newIntent(getActivity(), rowsBean.getId() + "");
+                GoodsSalesConfirmDetailsActivity.newIntent(getActivity(), rowsBean.getId() + "");
             }
         });
     }
@@ -119,7 +112,7 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
         currentPager = 1;
         String sign = MD5Util.encode("orgId=" + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + status + "&varietyId=");
         RxHttpUtils.createApi(GoodsSalesApi.class)
-                .getGoodsSalesTracktList("", currentPager, 15, status, "", sign)
+                .getGoodsSalesConfirmtList("", currentPager, 15, status, "", sign)
                 .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
@@ -132,23 +125,27 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
                         if (orderTJBean.getCode() == 200) {
                             List<GoodsSalesManagementListBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
-
-                                xRecyclerView.setVisibility(View.VISIBLE);
-                                wsj.setVisibility(View.GONE);
-
-                                rowsBeans.clear();
-                                rowsBeans.addAll(rows);
-                                goodsSalesConfirmListAdapter.notifyDataSetChanged();
-
+                                if (xRecyclerView != null) {
+                                    xRecyclerView.setVisibility(View.VISIBLE);
+                                    wsj.setVisibility(View.GONE);
+                                    rowsBeans.clear();
+                                    rowsBeans.addAll(rows);
+                                    goodsSalesConfirmListAdapter.notifyDataSetChanged();
+                                }
                             } else {
-                                xRecyclerView.setVisibility(View.GONE);
-                                wsj.setVisibility(View.VISIBLE);
-                                rowsBeans.clear();
-                                goodsSalesConfirmListAdapter.notifyDataSetChanged();
+                                if (xRecyclerView != null) {
+                                    xRecyclerView.setVisibility(View.GONE);
+                                    wsj.setVisibility(View.VISIBLE);
+                                    rowsBeans.clear();
+                                    goodsSalesConfirmListAdapter.notifyDataSetChanged();
+                                }
+
                             }
                         } else {
-                            xRecyclerView.setVisibility(View.GONE);
-                            wsj.setVisibility(View.VISIBLE);
+                            if (xRecyclerView != null) {
+                                xRecyclerView.setVisibility(View.GONE);
+                                wsj.setVisibility(View.VISIBLE);
+                            }
 //                            ToastUtil.setToast("暂无数据");
                         }
                     }
@@ -159,7 +156,7 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
     private void initData2() {
         String sign = MD5Util.encode("orgId=" + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + status + "&varietyId=");
         RxHttpUtils.createApi(GoodsSalesApi.class)
-                .getGoodsSalesTracktList("", currentPager, 15, status, "", sign)
+                .getGoodsSalesConfirmtList("", currentPager, 15, status, "", sign)
                 .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
@@ -199,10 +196,7 @@ public class GoodsSalesTrackingListFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getColoseActivity(CloseActivity event) {
-        //删除后重新刷新页面
-        if (status == 3) {
-//            gainData();
-        }
+        gainData();
     }
 
 

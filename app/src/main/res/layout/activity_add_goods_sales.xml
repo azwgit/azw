@@ -45,7 +45,7 @@
                     android:background="@null"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:hint="请输入客户名称"
+                    android:hint="请选择客户"
                     android:maxEms="1"
                     android:singleLine="true"
                     android:textColor="@color/color33"
@@ -163,6 +163,43 @@
                 android:layout_marginLeft="@dimen/dp_24"
                 android:background="@null"
                 android:hint="请输入客户送货地址"
+                android:textColor="@color/color33"
+                android:textColorHint="@color/color_99"
+                android:textSize="@dimen/sp_16" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <View style="@style/line_style" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_56"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/dp_96"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_16"
+                android:text="销售区域"
+                android:textColor="@color/color_66"
+                android:textSize="@dimen/sp_16" />
+
+
+            <TextView
+                android:id="@+id/tv_distribution_area"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_24"
+                android:background="@null"
+                android:hint="请选择销售区域"
                 android:textColor="@color/color33"
                 android:textColorHint="@color/color_99"
                 android:textSize="@dimen/sp_16" />

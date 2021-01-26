@@ -2,6 +2,7 @@ package com.example.bq.edmp.work.goodsgrainmanagement.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,11 +21,14 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.FromtUtil;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.goodsgrainmanagement.adapter.SelectGoodslistAdapter;
+import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
+import com.example.bq.edmp.work.goodsgrainmanagement.bean.SelecGoodsListBean;
 import com.example.bq.edmp.work.order.adapter.GoodslistAdapter;
 import com.example.bq.edmp.work.order.api.OrderApi;
 import com.example.bq.edmp.work.order.bean.GoodsBean;
@@ -36,13 +40,16 @@ import java.util.List;
 import butterknife.BindView;
 
 public class SelectGoodsListActivity extends BaseTitleActivity {
+    public static void newIntent(Context context, String id) {
+        Intent intent = new Intent(context, SelectGoodsListActivity.class);
+        intent.putExtra(Constant.ID, id);
+        context.startActivity(intent);
+    }
+
     @BindView(R.id.xr)
     XRecyclerView xRecyclerView;
     @BindView(R.id.wsj)
     TextView wsj;
-
-    private String mID = "0";
-    private String orid = "";
     private TextView pinzhong_tv;
     private TextView danwei_tv;
     private EditText xiaolaing_et;
@@ -51,11 +58,10 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
     private TextView cancel_tv;
     private TextView determine_tv;
     private Dialog mCameraDialog;
-    private GoodsBean.DataBean mdataBean;
-
+    private SelecGoodsListBean.DataBean mdataBean;
+    private String id = "";//订单id
     private int currentPager = 1;
-    private String mcustomerId = "";
-    private ArrayList<GoodsBean.DataBean> rowsBeans;
+    private ArrayList<SelecGoodsListBean.DataBean> rowsBeans;
     private SelectGoodslistAdapter goodslistAdapter;
     private LoadingDialog loadingDialog;
 
@@ -67,6 +73,11 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("选择商品");
+        id = getIntent().getStringExtra(Constant.ID);
+        if (id == null || "".equals(id)) {
+            ToastUtil.setToast("数据错误");
+            finish();
+        }
         loadingDialog = new LoadingDialog(this);
         showGoodsInfo();
         rowsBeans = new ArrayList<>();
@@ -92,17 +103,9 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
         });
         goodslistAdapter.setOnItemClickListener(new SelectGoodslistAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, GoodsBean.DataBean dataBean) {
-                String customerPrice = String.valueOf(dataBean.getCustomerPrice());
-                if (customerPrice.equals("0.0")) {
-                    danwei_tv.setText("¥" + FromtUtil.getFromt(dataBean.getPrice()) + "/公斤");
-                    shiji_xiaoliang_et.setText(FromtUtil.getFromt(dataBean.getPrice()));
-                } else {
-                    danwei_tv.setText("¥" + FromtUtil.getFromt(dataBean.getCustomerPrice()) + "/公斤");
-                    shiji_xiaoliang_et.setText(FromtUtil.getFromt(dataBean.getCustomerPrice()));
-                }
+            public void onItemClick(int pos, SelecGoodsListBean.DataBean dataBean) {
                 mdataBean = dataBean;
-                pinzhong_tv.setText(dataBean.getVarietyPackagingName());
+                pinzhong_tv.setText(dataBean.getName());
                 mCameraDialog.show();
             }
         });
@@ -146,21 +149,19 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
 
     //加载更多数据
     private void initData2() {
-        String sign = MD5Util.encode("customerId=" + mcustomerId + "&id=" + mID);
-        RxHttpUtils.createApi(OrderApi.class)
-                .getGoodslist(mcustomerId, mID, sign)
-                .compose(Transformer.<GoodsBean>switchSchedulers(loadingDialog))
-                .subscribe(new NewCommonObserver<GoodsBean>() {
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getSalesList()
+                .compose(Transformer.<SelecGoodsListBean>switchSchedulers(loadingDialog))
+                .subscribe(new NewCommonObserver<SelecGoodsListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(GoodsBean goodsBean) {
-                        String code = goodsBean.getCode();
-                        if (code.equals("200")) {
-                            List<GoodsBean.DataBean> data = goodsBean.getData();
+                    protected void onSuccess(SelecGoodsListBean goodsBean) {
+                        if (goodsBean.getCode() == 200) {
+                            List<SelecGoodsListBean.DataBean> data = goodsBean.getData();
                             rowsBeans.addAll(data);
                             goodslistAdapter.addMoreData(data);
                         } else {
@@ -174,21 +175,19 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
     //加载第一页
     private void getData() {
         currentPager = 1;
-        String sign = MD5Util.encode("customerId=" + 1 + "&id=" + 1);
-        RxHttpUtils.createApi(OrderApi.class)
-                .getGoodslist("1", "1", sign)
-                .compose(Transformer.<GoodsBean>switchSchedulers(loadingDialog))
-                .subscribe(new NewCommonObserver<GoodsBean>() {
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .getSalesList()
+                .compose(Transformer.<SelecGoodsListBean>switchSchedulers(loadingDialog))
+                .subscribe(new NewCommonObserver<SelecGoodsListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(GoodsBean goodsBean) {
-                        String code = goodsBean.getCode();
-                        if (code.equals("200")) {
-                            List<GoodsBean.DataBean> data = goodsBean.getData();
+                    protected void onSuccess(SelecGoodsListBean goodsBean) {
+                        if (goodsBean.getCode() == 200) {
+                            List<SelecGoodsListBean.DataBean> data = goodsBean.getData();
                             if (data != null && data.size() != 0) {
                                 xRecyclerView.setVisibility(View.VISIBLE);
                                 wsj.setVisibility(View.GONE);
@@ -291,10 +290,10 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
     //添加商品
     private void addGoods(View view) {
         hideKeyboard(view);
-        String sign = MD5Util.encode("ordersId=" + orid + "&packagingId=" + mdataBean.getId()
+        String sign = MD5Util.encode("cgOrderId=" + id + "&itemId=" + mdataBean.getId()
                 + "&price=" + shiji_xiaoliang_et.getText().toString() + "&qty=" + xiaolaing_et.getText().toString());
-        RxHttpUtils.createApi(OrderApi.class)
-                .getNewsaveGoods(orid, mdataBean.getId(), shiji_xiaoliang_et.getText().toString(), xiaolaing_et.getText().toString(), sign)
+        RxHttpUtils.createApi(GoodsSalesApi.class)
+                .addGoods(id, mdataBean.getId() + "", shiji_xiaoliang_et.getText().toString(), xiaolaing_et.getText().toString(), sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override

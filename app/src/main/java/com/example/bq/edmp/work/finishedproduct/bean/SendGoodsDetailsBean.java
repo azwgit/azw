@@ -303,6 +303,7 @@ public class SendGoodsDetailsBean implements Serializable {
             private int ordersId;
             private String times;
             private int types;
+            private String sendOutTimes;
             private Object truckId;
             private Object tplName;
             private String tplNo;
@@ -312,6 +313,14 @@ public class SendGoodsDetailsBean implements Serializable {
             private String logisticsName;
             private String contacts;
             private String license;
+
+            public String getSendOutTimes() {
+                return sendOutTimes;
+            }
+
+            public void setSendOutTimes(String sendOutTimes) {
+                this.sendOutTimes = sendOutTimes;
+            }
 
             public int getOrdersId() {
                 return ordersId;
