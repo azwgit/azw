@@ -403,8 +403,10 @@ public class NewAcquisitionsActivity extends BaseTitleActivity implements Detect
                     @Override
                     protected void onSuccess(TestingBeanList bean) {
                         if (bean.getCode() == 200) {
-                            detectionListAdp.setNewData(bean.getData().get(0).getTestPlanItems());
-                            testPlanItemsBeans = bean.getData().get(0).getTestPlanItems();
+                            if (bean.getData().size() > 0) {
+                                detectionListAdp.setNewData(bean.getData().get(0).getTestPlanItems());
+                                testPlanItemsBeans = bean.getData().get(0).getTestPlanItems();
+                            }
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }

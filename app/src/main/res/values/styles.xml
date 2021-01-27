@@ -117,6 +117,7 @@
         <item name="android:layout_marginRight">@dimen/dp_16</item>
         <item name="android:background">#0D000000</item>
     </style>
+
     <style name="line_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_1</item>
@@ -124,6 +125,7 @@
         <item name="android:layout_marginRight">@dimen/dp_16</item>
         <item name="android:background">#F2F5F6</item>
     </style>
+
     <style name="line_style_one">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_1</item>
@@ -141,6 +143,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
+
     <style name="btn_small_angle_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_44</item>
@@ -152,6 +155,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
+
     <style name="btn_small_angle_new_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_44</item>
@@ -162,6 +166,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
+
     <style name="btn_small_angle_grey_new_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_44</item>
@@ -172,6 +177,7 @@
         <item name="android:textColor">@color/color_99</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
+
     <style name="btn_small_circle_style">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">match_parent</item>
@@ -227,24 +233,26 @@
 
     <style name="MyUsualDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
-         <item name="android:windowIsFloating">true</item>
-         <item name="android:windowIsTranslucent">true</item>
-         <item name="android:windowNoTitle">true</item>
-         <item name="android:background">@android:color/transparent</item>
-         <item name="android:windowBackground">@android:color/transparent</item>
-         <item name="android:backgroundDimEnabled">true</item>
-         <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
     </style>
 
 
     <style name="Transparent_Dialog">
-        <item name="android:windowFrame">@null</item> ：Dialog的windowFrame框为无
+        <item name="android:windowFrame">@null</item>
+        ：Dialog的windowFrame框为无
         <item name="android:windowIsFloating">true</item>：是否浮现在activity之上
         <item name="android:windowIsTranslucent">false</item>:是否半透明
         <item name="android:windowNoTitle">true</item>:是否显示title
         <item name="android:windowBackground">@color/black</item>:设置dialog的背景
         <item name="android:backgroundDimEnabled">false</item>: 背景是否模糊显示
     </style>
+
     <style name="WrapWrapTv">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@android:color/white</item>
@@ -267,5 +275,10 @@
 
     <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/check_img</item>
+    </style>
+
+    <style name="anim_menu_bottombar">
+        <item name="android:windowEnterAnimation">@anim/menu_bottombar_in</item>
+        <item name="android:windowExitAnimation">@anim/menu_bottombar_out</item>
     </style>
 </resources>
