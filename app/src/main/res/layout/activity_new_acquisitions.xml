@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tv_submit">
     <LinearLayout
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">

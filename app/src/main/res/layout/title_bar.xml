@@ -58,13 +58,10 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
     <View
         android:id="@+id/title_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:layout_alignParentBottom="true"
         android:background="@color/bg_color" />
-
-
 </RelativeLayout>

@@ -130,7 +130,7 @@ public class GoodsSalesConfirmListActivity extends BaseActivity {
     @Override
     protected void initView() {
         ProApplication.getinstance().addActivity(GoodsSalesConfirmListActivity.this);
-        title_tv.setText("商品粮销售跟踪");
+        title_tv.setText("商品粮销售确认");
         loading_dialog = new LoadingDialog(this);
         initTabLayout();
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
@@ -365,9 +365,9 @@ public class GoodsSalesConfirmListActivity extends BaseActivity {
     //获取列表数据
     private void gainData() {
         currentPager = 1;
-        String sign = MD5Util.encode("orgId=" + companyId + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + 11 + "&varietyId=" + varietyId);
+        String sign = MD5Util.encode("orgId=" + companyId + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + 12 + "&varietyId=" + varietyId);
         RxHttpUtils.createApi(GoodsSalesApi.class)
-                .getGoodsSalesConfirmtList(companyId, currentPager, 15, 11, varietyId, sign)
+                .getGoodsSalesConfirmtList(companyId, currentPager, 15, 12, varietyId, sign)
                 .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
@@ -402,9 +402,9 @@ public class GoodsSalesConfirmListActivity extends BaseActivity {
 
     //获取列表更多数据
     private void initData2() {
-        String sign = MD5Util.encode("orgId=" + companyId + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + 11 + "&varietyId=" + varietyId);
+        String sign = MD5Util.encode("orgId=" + companyId + "&page=" + currentPager + "&pagerow=" + 15 + "&status=" + 12 + "&varietyId=" + varietyId);
         RxHttpUtils.createApi(GoodsSalesApi.class)
-                .getGoodsSalesConfirmtList("", currentPager, 15, 11, "", sign)
+                .getGoodsSalesConfirmtList("", currentPager, 15, 12, "", sign)
                 .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers())
                 .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
                     @Override
