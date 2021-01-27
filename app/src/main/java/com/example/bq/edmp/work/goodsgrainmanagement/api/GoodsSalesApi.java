@@ -141,7 +141,7 @@ public interface GoodsSalesApi {
             @Field("varietyId") String varietyId,
             @Field("sign") String sign);
 
-    //商品销售跟踪列表
+    //商品粮销售确认列表
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("cgorder/confirmlist")

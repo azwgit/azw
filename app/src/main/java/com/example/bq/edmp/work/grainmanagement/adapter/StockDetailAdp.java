@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.bean.PayInfoBean;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.work.grainmanagement.bean.StockDetailBean;
 
 public class StockDetailAdp extends BaseQuickAdapter<StockDetailBean.DataBean.StockRecordsBean, BaseViewHolder> {
@@ -28,7 +29,7 @@ public class StockDetailAdp extends BaseQuickAdapter<StockDetailBean.DataBean.St
                 break;
         }
         helper.setText(R.id.tv_type, type);
-        helper.setText(R.id.tv_number, item.getQtys() + "");
-        helper.setText(R.id.tv_last_number, item.getResidueQtys() + "");
+        helper.setText(R.id.tv_number, MoneyUtils.formatWeight(item.getQtys()));
+        helper.setText(R.id.tv_last_number, MoneyUtils.formatWeight(item.getResidueQtys()));
     }
 }

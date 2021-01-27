@@ -227,6 +227,7 @@
                 android:id="@+id/tv_license_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp_24"

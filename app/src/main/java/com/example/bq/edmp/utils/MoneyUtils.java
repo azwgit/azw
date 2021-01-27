@@ -10,4 +10,11 @@ public class MoneyUtils {
         }
         return "0.00";
     }
+
+    public static String formatWeight(Double money) {
+        if (money != null) {
+            return new DecimalFormat("#0.000").format(money);
+        }
+        return "0.000";
+    }
 }

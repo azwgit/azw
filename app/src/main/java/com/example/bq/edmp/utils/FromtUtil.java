@@ -14,12 +14,12 @@ import java.text.DecimalFormat;
 public class FromtUtil {
     public final static String getFromt(double d) {
         try {
-            DecimalFormat df = new DecimalFormat("#.00");
+            DecimalFormat df = new DecimalFormat("#0.00");
             String format = df.format(d);
             return format;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "0.00";
         }
     }
 

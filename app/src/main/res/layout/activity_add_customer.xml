@@ -33,10 +33,10 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="请输入客户名称"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -69,10 +69,10 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="选择行政区域"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -98,10 +98,10 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="请输入联系人姓名"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -129,16 +129,16 @@
                 android:textSize="@dimen/sp_16" />
 
             <EditText
-                android:inputType="number"
                 android:id="@+id/tv_contact_information"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="请输入联系人电话号码"
+                android:inputType="number"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -171,10 +171,10 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="请输入客户联系地址"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -207,10 +207,10 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="请填写客户备注信息（非必填）"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -235,11 +235,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/dp_24"
                 android:hint="请输入营业执照证件号"
+                android:paddingLeft="@dimen/dp_24"
+                android:textColor="@color/color33"
                 android:textColorHint="#999999"
-                android:textColor="#999999"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 
@@ -257,6 +258,7 @@
                 android:text="营业执照"
                 android:textColor="#666666"
                 android:textSize="@dimen/sp_16" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pic_recyclerview"
                 android:layout_width="match_parent"

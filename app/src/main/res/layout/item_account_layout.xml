@@ -3,21 +3,26 @@
     android:id="@+id/ly_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_90"
-    android:layout_marginTop="@dimen/dp_1"
     android:background="@color/white"
     android:orientation="vertical">
+
     <View
-        android:id="@+id/view_line"
-        android:background="@color/bg_color"
-        android:paddingRight="@dimen/dp_16"
-        android:paddingLeft="@dimen/dp_16"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"/>
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_8"
+        android:background="@color/bg_new_color" />
+    <!--    <View-->
+    <!--        android:id="@+id/view_line"-->
+    <!--        android:background="@color/bg_color"-->
+    <!--        android:paddingRight="@dimen/dp_16"-->
+    <!--        android:paddingLeft="@dimen/dp_16"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/dp_1"/>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingRight="@dimen/dp_16"
-        android:paddingLeft="@dimen/dp_16">
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
+
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
@@ -26,24 +31,26 @@
             android:text="谷稻希望有限公司"
             android:textColor="@color/color33"
             android:textSize="@dimen/sp_16" />
+
         <TextView
             android:id="@+id/tv_info"
-            android:layout_below="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginBottom="@dimen/dp_16"
             android:text="定金  "
             android:textColor="@color/color_66"
             android:textSize="@dimen/sp_16" />
+
         <TextView
             android:id="@+id/tv_money"
-            android:layout_below="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
             android:layout_marginTop="@dimen/dp_16"
-            android:layout_toRightOf="@+id/tv_info"
             android:layout_marginBottom="@dimen/dp_16"
+            android:layout_toRightOf="@+id/tv_info"
             android:text="￥20000"
             android:textColor="@color/colorf9"
             android:textSize="@dimen/sp_16" />

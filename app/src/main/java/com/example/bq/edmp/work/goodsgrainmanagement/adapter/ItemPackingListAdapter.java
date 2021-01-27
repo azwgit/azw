@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.utils.FromtUtil;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
 import com.example.bq.edmp.work.order.bean.OrderTJBean;
 
@@ -34,7 +35,7 @@ public class ItemPackingListAdapter extends RecyclerView.Adapter<ItemPackingList
 
         holder.pz_tv.setText(orderItem.getItemName());
 //        holder.danwei_tv.setText(orderItem.getQty()+"");
-        holder.danwei_tv.setText("￥" + orderItem.getPrice() + "/公斤 * " + orderItem.getQty() + "公斤");
+        holder.danwei_tv.setText("￥" + MoneyUtils.formatMoney(orderItem.getPrice())+ "/公斤 * " + MoneyUtils.formatMoney(orderItem.getQty()) + "公斤");
 
     }
 

@@ -94,7 +94,6 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("新增商品粮销售");
-        ProApplication.getinstance().addActivity(AddGoodsSalesActivity.this);
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
 
@@ -174,8 +173,8 @@ public class AddGoodsSalesActivity extends BaseTitleActivity {
                 FromtUtil.setEditTextCursorLocation(mEtContactName);
                 mEtPhone.setText(rowsbean.getMobTel());
                 FromtUtil.setEditTextCursorLocation(mEtPhone);
-                mEtAddress.setText(rowsbean.getRegion());
-                FromtUtil.setEditTextCursorLocation(mEtAddress);
+//                mEtAddress.setText(rowsbean.getRegion());
+//                FromtUtil.setEditTextCursorLocation(mEtAddress);
                 customerId = rowsbean.getId();//客户id
                 mTvDistributionArea.setText(rowsbean.getRegion());
                 regionId = rowsbean.getRegionId();//区域id

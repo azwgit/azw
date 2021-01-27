@@ -24,6 +24,7 @@ public class GoodsDetailsListAdp extends BaseQuickAdapter<EditGoodSalesBean.Data
     protected void convert(BaseViewHolder helper, final EditGoodSalesBean.DataBean.CgOrderItemsBean item) {
 
         final int pos = helper.getLayoutPosition();
+        helper.setText(R.id.tv_info, "销售商品("+helper.getPosition()+")");
         helper.setText(R.id.tv_packing, item.getItemName());
         helper.setText(R.id.tv_return_order_number, "数量 " + MoneyUtils.formatMoney(item.getQty()) + "公斤");
         helper.setText(R.id.tv_return_price, "￥" + MoneyUtils.formatMoney(item.getPrice()) + "/公斤");

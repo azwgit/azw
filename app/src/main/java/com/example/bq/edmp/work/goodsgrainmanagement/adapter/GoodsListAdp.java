@@ -25,7 +25,7 @@ public class GoodsListAdp extends BaseQuickAdapter<EditGoodSalesBean.DataBean.Cg
         final int pos = helper.getLayoutPosition();
         helper.setText(R.id.pinzhong_tv, item.getItemName());
         helper.setText(R.id.price_tv, "￥" + MoneyUtils.formatMoney(item.getQty() * item.getPrice()));
-        helper.setText(R.id.xiaoshoulaing_tv, "¥" + item.getPrice() + "/公斤 * " + item.getQty() + "公斤");
+        helper.setText(R.id.xiaoshoulaing_tv, "¥" +MoneyUtils.formatMoney( item.getPrice()) + "/公斤 * " + MoneyUtils.formatMoney(item.getQty()) + "公斤");
         ImageView mBtnDel = helper.getView(R.id.img_del);
         ImageView mBtnEdit = helper.getView(R.id.img_edit);
 //        View mView = helper.getView(R.id.view_line);

@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_56"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
         android:background="@color/white"
         android:gravity="center_vertical"
@@ -14,6 +14,8 @@
         android:paddingRight="@dimen/dp_16">
 
         <TextView
+            android:id="@+id/tv_info"
+            android:layout_marginTop="@dimen/dp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="销售商品"

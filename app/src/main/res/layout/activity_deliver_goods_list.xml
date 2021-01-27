@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F5F6"
+    android:background="@color/bg_new_color"
     android:orientation="vertical">
     <LinearLayout
         android:layout_marginRight="@dimen/dp_16"
@@ -43,7 +43,8 @@
                 android:textColorHint="@color/color_69"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
-                android:textColor="@color/text_black"
+                android:alpha="1"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_14" />
 
         </RelativeLayout>
@@ -54,7 +55,7 @@
         android:layout_height="match_parent">
 
         <com.jcodecraeer.xrecyclerview.XRecyclerView
-            android:background="#F2F5F6"
+            android:background="@color/bg_new_color"
             android:id="@+id/xr"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

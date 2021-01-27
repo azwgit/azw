@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -240,7 +241,7 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
         cancel_tv = root.findViewById(R.id.cancel_tv);
         determine_tv = root.findViewById(R.id.determine_tv);
 
-
+        xiaolaing_et.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         xiaolaing_et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -249,10 +250,40 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+                //删除“.”后面超过2位后的数据
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        xiaolaing_et.setText(s);
+                        xiaolaing_et.setSelection(s.length()); //光标移到最后
+                    }
+                }
+                //如果"."在起始位置,则起始位置自动补0
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    xiaolaing_et.setText(s);
+                    xiaolaing_et.setSelection(2);
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                //如果起始位置为0,且第二位跟的不是".",则无法后续输入
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        xiaolaing_et.setText(s.subSequence(0, 1));
+                        xiaolaing_et.setSelection(1);
+                        return;
+                    }
+                }
+                //包含. 查看. 前面是否有值
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
+                        s = "0" + s;
+                        xiaolaing_et.setText(s);
+                        xiaolaing_et.setSelection(2);
+                    }
+                }
                 if (!xiaolaing_et.getText().toString().equals("") && !shiji_xiaoliang_et.getText().toString().equals("")) {
                     double xiaolaing = Double.parseDouble(xiaolaing_et.getText().toString());
                     double shijiaxiaolaing = Double.parseDouble(shiji_xiaoliang_et.getText().toString());
@@ -261,7 +292,13 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
                     zonge_price_tv.setText("0.00");
                 }
             }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
+        shiji_xiaoliang_et.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         shiji_xiaoliang_et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -270,11 +307,40 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //删除“.”后面超过2位后的数据
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        shiji_xiaoliang_et.setText(s);
+                        shiji_xiaoliang_et.setSelection(s.length()); //光标移到最后
+                    }
+                }
+                //如果"."在起始位置,则起始位置自动补0
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    shiji_xiaoliang_et.setText(s);
+                    shiji_xiaoliang_et.setSelection(2);
+                }
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+                //如果起始位置为0,且第二位跟的不是".",则无法后续输入
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        shiji_xiaoliang_et.setText(s.subSequence(0, 1));
+                        shiji_xiaoliang_et.setSelection(1);
+                        return;
+                    }
+                }
+                //包含. 查看. 前面是否有值
+                if (s.toString().trim().contains(".")) {
+                    String a = s.toString().trim().substring(0, s.toString().trim().indexOf("."));
+                    if (a.length() <= 0) {
+                        s = "0" + s;
+                        shiji_xiaoliang_et.setText(s);
+                        shiji_xiaoliang_et.setSelection(2);
+                    }
+                }
                 if (!xiaolaing_et.getText().toString().equals("") && !shiji_xiaoliang_et.getText().toString().equals("")) {
                     double xiaolaing = Double.parseDouble(xiaolaing_et.getText().toString());
                     double shijiaxiaolaing = Double.parseDouble(shiji_xiaoliang_et.getText().toString());
@@ -282,6 +348,10 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
                 } else {
                     zonge_price_tv.setText("0.00");
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 
