@@ -36,18 +36,16 @@ public class VarietiesAdapter extends RecyclerView.Adapter<VarietiesAdapter.Hold
     public void onBindViewHolder(@NonNull Holder holder, final int position) {
         final VarietiesBean.DataBean dataBean = list.get(position);
 
-            holder.tv.setText(dataBean.getVarietyName());
+        holder.tv.setText(dataBean.getVarietyName());
 
 
         //判断点击与不点击的背景
         if (list.get(position).isSelected()) {
-            holder.tv.setBackgroundColor(Color.parseColor("#FFFEE8E8"));
-//            holder.tv.setBackgroundResource(R.drawable.audit_ch_shape_yes);
-            holder.tv.setTextColor(Color.parseColor("#F91515"));//FFFEE8E8    FFF2F5F6
+            holder.tv.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.tv_text_red_shape));
+            holder.tv.setTextColor(ProApplication.getmContext().getResources().getColor(R.color.colorf9));
         } else {
-            holder.tv.setBackgroundColor(Color.parseColor("#FFF2F5F6"));
-//            holder.tv.setBackgroundResource(R.drawable.audit_ch_shape_no);
-            holder.tv.setTextColor(Color.parseColor("#66000000"));
+            holder.tv.setBackground(ProApplication.getmContext().getResources().getDrawable(R.drawable.tv_text_grey_shape));
+            holder.tv.setTextColor(ProApplication.getmContext().getResources().getColor(R.color.color_66));
         }
 
         //点击条目
@@ -61,7 +59,7 @@ public class VarietiesAdapter extends RecyclerView.Adapter<VarietiesAdapter.Hold
 
     @Override
     public int getItemCount() {
-        return list.size() ;
+        return list.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {

@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:gravity="center"
         android:text="22"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_14" />
 
     <!--    android:background="@drawable/audit_ch_shape_yes"-->
 

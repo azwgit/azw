@@ -28,6 +28,7 @@ import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.inventorytransfer.adapter.AllListPackageAdp;
+import com.example.bq.edmp.work.inventorytransfer.adapter.AllNewListPackageAdp;
 import com.example.bq.edmp.work.inventorytransfer.adapter.VarietiesAdp;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
@@ -103,9 +104,9 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
             case R.id.tv_transfer_number:
                 //1原粮进入 2成品进入
                 if ("1".equals(type)) {
-                    getVarietiesList();
+                    getAllpackageList(1);
                 } else {
-                    getAllpackageList();
+                    getAllpackageList(2);
                 }
                 break;
         }
@@ -113,9 +114,10 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
     }
 
     //获取所有包装列表
-    private void getAllpackageList() {
+    private void getAllpackageList(int categoryFullId) {
+        String sign = MD5Util.encode("categoryFullId=" +categoryFullId);
         RxHttpUtils.createApi(AllocationApi.class)
-                .getAllpackageList()
+                .getAllpackageList(categoryFullId,sign)
                 .compose(Transformer.<AllpackageListBean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<AllpackageListBean>() {
                     @Override
@@ -141,7 +143,7 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
         RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        AllListPackageAdp allListPackageAdp = new AllListPackageAdp(allpackageListBean.getData());
+        AllNewListPackageAdp allListPackageAdp = new AllNewListPackageAdp(allpackageListBean.getData());
         myRecyclerViewOne.setAdapter(allListPackageAdp);
         allListPackageAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -149,7 +151,7 @@ public class AddTransferGoodsActivity extends BaseTitleActivity {
                 AllpackageListBean.DataBean bean = allpackageListBean.getData().get(position);
                 mTvTransferNumber.setTextColor(getResources().getColor(R.color.color33));
                 mTvTransferNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                mTvTransferNumber.setText(bean.getVarietyPackagingName());
+                mTvTransferNumber.setText(bean.getName());
                 allpackageId = allpackageListBean.getData().get(position).getId();
                 mTypePopuWindow.dismiss();
             }

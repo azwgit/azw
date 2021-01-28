@@ -230,6 +230,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
                     mTvMoney.setSelection(2);
                 }
 
+
                 //如果起始位置为0,且第二位跟的不是".",则无法后续输入
                 if (s.toString().startsWith("0")
                         && s.toString().trim().length() > 1) {
@@ -339,6 +340,7 @@ public class EditActivitiesActivity extends BaseTitleActivity {
 
     //验证活动数据
     private void checkAddData(int type) {
+        double a = Double.parseDouble(mTvMoney.getText().toString().trim());
         //活动名称
         String name = mTvName.getText().toString().trim();
         if (name.isEmpty()) {

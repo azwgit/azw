@@ -49,7 +49,7 @@ public class ReturnManagementActivityListAdp extends RecyclerView.Adapter<Return
             holder.tv_company.setText(rowsBean.getCustomerName());
             holder.tv_order_number.setText("订单号 " + rowsBean.getOrderCode());
             holder.tv_packing.setText(rowsBean.getVarietyName());
-            holder.tv_number.setText("数量 " + rowsBean.getReturnQty() + "公斤");
+            holder.tv_number.setText("数量 " + MoneyUtils.formatMoney(rowsBean.getReturnQty()) + "公斤");
             if (rowsBean.getTypes() == 1) {
                 holder.tv_type.setText("退回仓库");
                 holder.tv_money.setText("退货金额 ￥" + MoneyUtils.formatMoney(rowsBean.getAmount()));

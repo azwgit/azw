@@ -332,6 +332,7 @@ public class GoodsSalesTrackingListActivity extends BaseActivity {
                             VarietiesBean.DataBean dataBean = new VarietiesBean.DataBean();
                             dataBean.setSelected(true);
                             dataBean.setVarietyId("");
+                            dataBean.setId("");
                             dataBean.setVarietyName("全部");
                             dataBeans.add(dataBean);
                             dataBeans.addAll(data);

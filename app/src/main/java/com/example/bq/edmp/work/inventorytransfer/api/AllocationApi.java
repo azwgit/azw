@@ -47,11 +47,16 @@ public interface AllocationApi {
             @Field("sign") String sign);
 
     //查询所有包装
+    //system/query/allpackage
+    @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("system/query/allpackage")
-    Observable<AllpackageListBean> getAllpackageList();
+    @POST("system/query/allitem")
+    Observable<AllpackageListBean> getAllpackageList(
+            @Field("categoryFullId") int categoryFullId,
+            @Field("sign") String sign);
 
-    //查询所有包装
+
+    //查询品种
     @Headers({"urlname:production"})
     @POST("system/query/allvariety")
     Observable<VarittiesListBean> getVarietiesList();

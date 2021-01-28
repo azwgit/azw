@@ -131,7 +131,7 @@
                     android:layout_below="@id/a"
                     android:layout_marginLeft="@dimen/dp_16"
                     android:layout_marginRight="@dimen/dp_16"
-                    android:background="#F2F5F6">
+                    android:background="@drawable/btn_new_gray_shape">
 
                     <TextView
                         android:id="@+id/chu_tv"
