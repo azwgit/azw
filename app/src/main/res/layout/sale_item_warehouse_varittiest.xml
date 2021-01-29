@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bg_color">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_56"
+        android:layout_marginTop="@dimen/dp_1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#0D000000"
+            android:gravity="center"
+            android:text="调出品种"
+            android:textColor="@color/color33"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_transfer_pz"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_20"
+            android:text="8号"
+            android:textColor="@color/color_66"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+</LinearLayout>
