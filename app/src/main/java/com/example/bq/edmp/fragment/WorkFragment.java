@@ -39,6 +39,10 @@ import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesManageme
 import com.example.bq.edmp.work.goodsgrainmanagement.activity.GoodsSalesTrackingListActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.NewAcquisitionsActivity;
 import com.example.bq.edmp.work.grainmanagement.activity.StartWeighingActivity;
+import com.example.bq.edmp.work.grainsale.activity.SaleDeliveryActivity;
+import com.example.bq.edmp.work.grainsale.activity.SaleHistoryActivity;
+import com.example.bq.edmp.work.grainsale.activity.SaleStockActivity;
+import com.example.bq.edmp.work.grainsale.activity.SaleWarehousingActivity;
 import com.example.bq.edmp.work.library.activity.ClibraryActivity;
 import com.example.bq.edmp.work.library.activity.CxlibraryActivity;
 import com.example.bq.edmp.work.library.activity.RlibraryActivity;
@@ -308,7 +312,18 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), GoodsSalesTrackingListActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/allotcommodity/confirm")) {//销售确认
                                                 startActivity(new Intent(getActivity(), GoodsSalesConfirmListActivity.class));
-                                            } else {
+                                            }else if (subtBean.getAccessUri().equals("/allotcommodity/salehistory")) {//销售历史
+                                                startActivity(new Intent(getActivity(), SaleHistoryActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/saleinwarehouse")) {//销售入库
+                                                startActivity(new Intent(getActivity(), SaleWarehousingActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/saleoutwarehouse")) {//销售出库
+                                                startActivity(new Intent(getActivity(), SaleDeliveryActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/allotcommodity/salestock")) {//销售库存
+                                                startActivity(new Intent(getActivity(), SaleStockActivity.class));
+                                            }
+
+
+                                            else {
                                                 ToastUtil.setToast("暂未开通");
                                             }
                                         } else {

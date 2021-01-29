@@ -128,7 +128,7 @@ public interface OrderApi {
     //根据作物选择包装
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("system/query/packaging/crop")
+    @POST("system/query/packaging/item")
     Observable<GoodsBean> getGoodslist(
             @Field("customerId") String customerId,//客户id
             @Field("id") String id,//作物id

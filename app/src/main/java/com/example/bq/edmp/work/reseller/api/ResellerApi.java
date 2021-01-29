@@ -58,9 +58,13 @@ public interface ResellerApi {
             @Field("sign") String sign);
 
     //查询所有包装
+    @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("system/query/allpackage")
-    Observable<AllpackageListBean> getAllpackageList();
+    @POST("system/query/allitem")
+    Observable<AllpackageListBean> getAllpackageList(
+            @Field("categoryFullId") String categoryFullId,
+            @Field("sign") String sign
+    );
 
     //查询所有商品粮
     @Headers({"urlname:production"})

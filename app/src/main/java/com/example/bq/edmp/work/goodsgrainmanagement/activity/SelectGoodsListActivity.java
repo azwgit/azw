@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -79,6 +80,7 @@ public class SelectGoodsListActivity extends BaseTitleActivity {
             ToastUtil.setToast("数据错误");
             finish();
         }
+        ProApplication.getinstance().addActivity(this);
         loadingDialog = new LoadingDialog(this);
         showGoodsInfo();
         rowsBeans = new ArrayList<>();

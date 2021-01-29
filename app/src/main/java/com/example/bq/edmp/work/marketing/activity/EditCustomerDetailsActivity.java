@@ -24,6 +24,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.GridImageAdapter;
 import com.example.bq.edmp.activity.apply.adapter.DeleteGridImageAdapter;
@@ -121,6 +122,7 @@ public class EditCustomerDetailsActivity extends BaseTitleActivity {
             ToastUtil.setToast("数据出错请重试");
             return;
         }
+        ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
         themeId = R.style.picture_QQ_style;
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);

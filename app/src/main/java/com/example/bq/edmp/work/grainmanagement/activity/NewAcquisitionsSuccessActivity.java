@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.utils.Constant;
@@ -29,6 +30,7 @@ public class NewAcquisitionsSuccessActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         id = getIntent().getStringExtra(Constant.ID);
+        ProApplication.getinstance().addActivity(this);
         if ("".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;

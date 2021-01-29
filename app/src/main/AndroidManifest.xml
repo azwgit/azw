@@ -313,6 +313,24 @@
         <activity android:name=".work.order.activity.Order_Tracking_DetailsActivity" />
 
 
+        <activity android:name=".work.grainsale.activity.SaleWarehousingDetailsActivity" />
+        <activity android:name=".work.grainsale.activity.SaleDeliveryDetailsActivity" />
+        <activity android:name=".work.grainsale.activity.SaleStockDetailActivity" />
+        <activity
+            android:name=".work.grainsale.activity.SaleStockActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.grainsale.activity.SaleDeliveryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.grainsale.activity.SaleWarehousingActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".work.grainsale.activity.SaleHistoryDetailsActivity" />
+        <activity
+            android:name=".work.grainsale.activity.SaleHistoryActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+
         <activity android:name=".work.reseller.activity.ResellerHistoryDetailsActivity"></activity>
         <activity android:name=".work.reseller.activity.ResellerHandleDetailsActivity" />
         <activity android:name=".work.reseller.activity.ResellerTrackDetailsActivity" />
@@ -328,6 +346,7 @@
         <activity android:name=".work.reseller.activity.ResellerApplyActivity" ></activity>
         <activity android:name=".work.tracking.activity.TrackingListActivity" />
         <activity android:name=".work.marketingactivities.activity.ActivitiesListActivity" />
+        <activity android:name=".word.purchase.PurchaseListScanActivity"/>
         <activity
             android:name=".work.modelfield.activity.DemonstrationEetActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />

@@ -51,11 +51,11 @@ public class GoodslistAdapter extends RecyclerView.Adapter<GoodslistAdapter.View
         }
         String customerPrice = String.valueOf(dataBean.getCustomerPrice());
         if (customerPrice.equals("0.0")) {
-            holder.price_tv.setText("¥"+ FromtUtil.getFromt(dataBean.getPrice()) +"/公斤");
-        }else {
-            holder.price_tv.setText("¥"+FromtUtil.getFromt(dataBean.getCustomerPrice())+"/公斤");
+            holder.price_tv.setText("¥" + FromtUtil.getFromt(dataBean.getPrice()) + "/公斤");
+        } else {
+            holder.price_tv.setText("¥" + FromtUtil.getFromt(dataBean.getCustomerPrice()) + "/公斤");
         }
-        holder.pinz_tv.setText(dataBean.getVarietyPackagingName());
+        holder.pinz_tv.setText(dataBean.getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

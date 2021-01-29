@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
@@ -51,6 +52,7 @@ public class SalesContractListActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("销售合同");
+        ProApplication.getinstance().addActivity(this);
         //数据
         rowsBeans = new ArrayList<>();
         salesContractListAdp = new SalesContractListAdp(rowsBeans);

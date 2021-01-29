@@ -31,6 +31,7 @@ import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.VarittiesListBean;
+import com.example.bq.edmp.work.reseller.adapter.AllListPackageAdp2;
 import com.example.bq.edmp.work.reseller.adapter.PinLiangListPackageAdp;
 import com.example.bq.edmp.work.reseller.api.ResellerApi;
 
@@ -225,8 +226,10 @@ public class AddResellerCommodityActivity extends BaseActivity {
 
     //获取所有包装列表
     private void getAllpackageList(final int type) {
+
+        String sign = MD5Util.encode("categoryFullId=" + 2);
         RxHttpUtils.createApi(ResellerApi.class)
-                .getAllpackageList()
+                .getAllpackageList(2+"",sign)
                 .compose(Transformer.<AllpackageListBean>switchSchedulers(loadingDialog))
                 .subscribe(new NewCommonObserver<AllpackageListBean>() {
                     @Override
@@ -254,7 +257,7 @@ public class AddResellerCommodityActivity extends BaseActivity {
         LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
         myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         if (type == 1) {
-            AllListPackageAdp allListPackageAdp = new AllListPackageAdp(allpackageListBean.getData());
+            AllListPackageAdp2 allListPackageAdp = new AllListPackageAdp2(allpackageListBean.getData());
             myRecyclerViewOne.setAdapter(allListPackageAdp);
             allListPackageAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
@@ -262,7 +265,7 @@ public class AddResellerCommodityActivity extends BaseActivity {
                     AllpackageListBean.DataBean bean = allpackageListBean.getData().get(position);
                     tv_transfer_number.setTextColor(getResources().getColor(R.color.color33));
                     tv_transfer_number.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    tv_transfer_number.setText(bean.getVarietyPackagingName());
+                    tv_transfer_number.setText(bean.getName());
                     allpackageId = allpackageListBean.getData().get(position).getId();
                     mTypePopuWindow.dismiss();
                 }

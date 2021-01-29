@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.base.BaseActivity;
 import com.example.bq.edmp.base.BaseTitleActivity;
@@ -65,6 +66,7 @@ public class CustomerAccountListActivity extends BaseTitleActivity {
     @Override
     protected void initView() {
         txtTabTitle.setText("客户账户");
+        ProApplication.getinstance().addActivity(this);
         //数据
         rowsBeans = new ArrayList<>();
         accountListAdp = new AccountListAdp(rowsBeans);
