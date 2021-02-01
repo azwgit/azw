@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_115"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
     <View
@@ -29,21 +29,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="调拨商品"
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_66"
                 android:textSize="@dimen/sp_16" />
 
             <ImageView
                 android:id="@+id/img_del"
-                android:layout_width="@dimen/dp_17"
-                android:layout_height="@dimen/dp_17"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:layout_marginRight="@dimen/dp_30"
                 android:layout_toLeftOf="@+id/img_edit"
                 android:src="@drawable/icon_delete" />
 
             <ImageView
                 android:id="@+id/img_edit"
-                android:layout_width="@dimen/dp_17"
-                android:layout_height="@dimen/dp_17"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/icon_edit" />
         </RelativeLayout>
@@ -51,7 +51,7 @@
         <RelativeLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_55"
+            android:layout_height="@dimen/dp_38"
             android:orientation="horizontal">
 
             <TextView
@@ -59,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="皖垦麦869 125公斤/袋"
+                android:textSize="@dimen/dp_16"
                 android:textColor="#333333" />
 
             <TextView
@@ -68,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp_40"
                 android:text="7500.00公斤"
+                android:textSize="@dimen/dp_16"
                 android:textColor="#333333" />
         </RelativeLayout>
 

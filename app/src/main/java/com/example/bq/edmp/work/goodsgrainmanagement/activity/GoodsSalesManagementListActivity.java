@@ -124,7 +124,6 @@ public class GoodsSalesManagementListActivity extends BaseTitleActivity {
                                 rowsBeans.clear();
                                 rowsBeans.addAll(rows);
                                 goodsSalesManagmentListAdapter.notifyDataSetChanged();
-
                             } else {
                                 xRecyclerView.setVisibility(View.GONE);
                                 wsj.setVisibility(View.VISIBLE);

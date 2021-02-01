@@ -310,7 +310,7 @@
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginRight="@dimen/dp_50"
                 android:layout_marginBottom="@dimen/dp_88"
-                android:background="@drawable/btn_white_8dp_shape">
+                android:background="@drawable/btn_white_shape">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -319,7 +319,7 @@
                     android:drawableLeft="@drawable/add_red"
                     android:text="  添加商品"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
 
             </RelativeLayout>

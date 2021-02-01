@@ -75,7 +75,7 @@
                 android:paddingTop="@dimen/dp_16"
                 android:text="公司名称"
                 android:textColor="@color/color33"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/sp_16"
                 android:textStyle="bold" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:paddingTop="@dimen/dp_16"
                 android:text="¥10000.00"
                 android:textColor="@color/colorf9"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_16" />
 
         </RelativeLayout>
 
@@ -98,13 +98,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingBottom="@dimen/dp_8">
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_12">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white" />
+                android:background="@color/white"
+                android:descendantFocusability="blocksDescendants" />
 
             <TextView
                 android:id="@+id/wsj"

@@ -153,8 +153,8 @@
                         android:id="@+id/tv_audit_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_18"
-                        android:layout_marginBottom="@dimen/dp_9"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_12"
                         android:text="234789237498234"
                         android:textColor="@color/color33"
                         android:textSize="@dimen/sp_16" />
@@ -192,7 +192,7 @@
                         android:layout_marginTop="@dimen/dp_16"
                         android:text="销售部"
                         android:textColor="@color/color33"
-                        android:textSize="@dimen/sp_18" />
+                        android:textSize="@dimen/sp_16" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -263,14 +263,14 @@
                     android:layout_height="wrap_content"
                     android:text="客户"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_customer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="谷稻希望有限公司"
+                    android:text="张晓伍"
                     android:textColor="@color/color33"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
@@ -296,7 +296,7 @@
                     android:layout_height="wrap_content"
                     android:text="联系人"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_contacts"
@@ -329,7 +329,7 @@
                     android:layout_height="wrap_content"
                     android:text="联系方式"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_phone"
@@ -362,7 +362,7 @@
                     android:layout_height="wrap_content"
                     android:text="联系地址"
                     android:textColor="@color/color_66"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/tv_address"

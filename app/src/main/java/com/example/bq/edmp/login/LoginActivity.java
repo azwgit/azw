@@ -296,6 +296,8 @@ public class LoginActivity extends BaseActivity {
                             SpUtils.put("UserInfo", loginBean.getData());
                             ToastUtil.setToast("登录成功");
                             MainActivity.start(getApplicationContext());
+                        }else{
+                            ToastUtil.setToast(loginBean.getMsg());
                         }
                     }
                 });
@@ -319,6 +321,8 @@ public class LoginActivity extends BaseActivity {
                             SpUtils.put("UserInfo", loginBean.getData());
                             ToastUtil.setToast("登录成功");
                             MainActivity.start(getApplicationContext());
+                        } else {
+                            ToastUtil.setToast(loginBean.getMsg());
                         }
                     }
                 });
