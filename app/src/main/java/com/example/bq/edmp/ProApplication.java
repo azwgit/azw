@@ -3,10 +3,13 @@ package com.example.bq.edmp;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.config.OkHttpConfig;
@@ -22,6 +25,11 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
 import com.weavey.loading.lib.LoadingLayout;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 
@@ -40,19 +48,60 @@ import okhttp3.OkHttpClient;
 
 public class ProApplication extends MultiDexApplication {
     private static Context mContext;
+    private static final String TAG = ProApplication.class.getName();
     private String a = "git 测试";
     // 保存所有的Activity
     private List<Activity> activityList;
     private static ProApplication instance;
+    public static String deviceToken = "";
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
         setOkHttpconfig();
         initLodingLayout();
-
         AutoLayoutConifg.getInstance().useDeviceSize();
+        initUmengSDK();
     }
+
+    private void initUmengSDK() {
+        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(mContext, "6017dd1209ce474277b2bf2c", "umeng", UMConfigure.DEVICE_TYPE_PHONE,
+                "84f0c761c3ced69959e0a4c2c854c14d");
+
+        PushAgent.getInstance(this).register(new IUmengRegisterCallback() {
+
+            @Override
+            public void onSuccess(String s) {
+                Log.i("walle", "--->>> onSuccess, s is " + s);
+                deviceToken = s;
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.i("walle", "--->>> onFailure, s is " + s + ", s1 is " + s1);
+            }
+        });
+//后期自定义 推送弹框
+//        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+//            @Override
+//            public Notification getNotification(Context context, UMessage msg) {
+//                switch (msg.builder_id) {
+//                    case 1:
+//                        String a = msg.title;
+//                        return super.getNotification(context, msg);
+//                    default:
+//                        //默认为0，若填写的builder_id并不存在，也使用默认。
+//                        return super.getNotification(context, msg);
+//                }
+//
+//            }
+//        };
+//
+//        PushAgent.getInstance(this).setMessageHandler(messageHandler);
+    }
+
     // 单列模式获取唯一MyApplication的实例
     public static ProApplication getinstance() {
         if (instance == null) {
@@ -60,6 +109,7 @@ public class ProApplication extends MultiDexApplication {
         }
         return instance;
     }
+
     //static 代码段可以防止内存泄露
     static {
         //设置全局的Header构建器
@@ -84,6 +134,7 @@ public class ProApplication extends MultiDexApplication {
             }
         });
     }
+
     private void initLodingLayout() {
         LoadingLayout.getConfig()
                 .setErrorText("出错啦~请稍后重试！")
@@ -185,6 +236,7 @@ public class ProApplication extends MultiDexApplication {
         }
 
     }
+
     // 在Activity 的Oncreate（）的方法中执行：
     // ProApplication.getinstance().addActivity(this);
     // 遍历所有的Activity并finish
@@ -194,6 +246,7 @@ public class ProApplication extends MultiDexApplication {
             activity.finish();
         }
     }
+
     private void setOkHttpconfig() {
         OkHttpClient okHttpClient = new OkHttpConfig
                 .Builder(this).setAddInterceptor(new MoreBaseUrlInterceptor())
@@ -203,7 +256,7 @@ public class ProApplication extends MultiDexApplication {
                     public Map<String, String> buildHeaders() {
                         String token = (String) SpUtils.get("UserInfo", "");
                         HashMap<String, String> hashMap = new HashMap<>();
-                        hashMap.put("Access-Token",token);
+                        hashMap.put("Access-Token", token);
                         return hashMap;
                     }
                 })
@@ -235,6 +288,7 @@ public class ProApplication extends MultiDexApplication {
                 .setOkClient(okHttpClient);
 
     }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

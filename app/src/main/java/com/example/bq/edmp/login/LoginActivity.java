@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.allen.library.RxHttpUtils;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.observer.CommonObserver;
+import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.MainActivity;
 import com.example.bq.edmp.base.BaseActivity;
@@ -244,7 +245,7 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     protected void onSuccess(LoginBean loginBean) {
-
+                        ToastUtil.setToast(loginBean.getMsg());
                     }
                 });
     }
@@ -296,7 +297,7 @@ public class LoginActivity extends BaseActivity {
                             SpUtils.put("UserInfo", loginBean.getData());
                             ToastUtil.setToast("登录成功");
                             MainActivity.start(getApplicationContext());
-                        }else{
+                        } else {
                             ToastUtil.setToast(loginBean.getMsg());
                         }
                     }
@@ -305,6 +306,7 @@ public class LoginActivity extends BaseActivity {
 
     //密码登录
     private void passwordLogin(String phone, String code) {
+        //ToastUtil.setToast(ProApplication.deviceToken);
         String sign = MD5Util.encode("password=" + code + "&username=" + phone);
         RxHttpUtils.createApi(LoginApi.class)
                 .login(code, phone, sign)
