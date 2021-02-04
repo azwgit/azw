@@ -16,6 +16,7 @@ public interface LoginApi {
     @Headers({"urlname:manage"})
     @POST("login")
     Observable<LoginBean> login(
+            @Field("deviceToken") String deviceToken,
             @Field("password") String password,
             @Field("username") String username,
             @Field("sign") String sign);
@@ -31,6 +32,7 @@ public interface LoginApi {
     @Headers({"urlname:manage"})
     @POST("login/bysms")
     Observable<LoginBean> smsLogin(
+            @Field("deviceToken") String deviceToken,
             @Field("username") String phone,
             @Field("smscode") String code,
             @Field("sign") String sign);

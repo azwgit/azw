@@ -41,7 +41,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".work.returnsmanagement.activity.ApplyForRefundActivity"></activity>
+        <activity android:name=".work.messagenotification.activity.MessageNotificationDetailsActivity"></activity>
+        <activity android:name=".work.returnsmanagement.activity.ApplyForRefundActivity" />
         <activity android:name=".work.returnsmanagement.activity.AddReturnsGoodsActivity" />
         <activity android:name=".work.marketingactivities.activity.ActivitySiteActivity" />
 
@@ -70,8 +71,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".work.marketing.activity.AddCustomerActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".work.marketing.activity.CustomerAccountActivity" />
         <activity
             android:name=".work.marketing.activity.CustomerAccountListActivity"
@@ -84,9 +84,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesManagementListActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.AddGoodsSalesActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -96,21 +94,16 @@
         <activity android:name=".work.goodsgrainmanagement.activity.SelectGoodsListActivity" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingListActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesConfirmListActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingDetailsActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesConfirmDetailsActivity"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.marketing.activity.SalesContractListActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -119,34 +112,29 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.ReturnsManagementtListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
-
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.ReturnsGoodsHistoricalDetailsActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.EditApplyForRefundActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.ReturnsGoodsListActivity"
-            android:windowSoftInputMode="stateHidden">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".work.returnsmanagement.activity.DeliverGoodsListActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.ReturnsGoodsHistoricalListActivity"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".work.returnsmanagement.activity.ReturnsGoodsDetailsActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.marketingactivities.activity.ActivitiesDetailsActivity" />
         <activity
             android:name=".work.marketingactivities.activity.AddActivitiesActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.EditActivitiesActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -228,6 +216,7 @@
         <activity android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -316,8 +305,6 @@
         <activity android:name=".work.order.activity.Order_GL_Activity" />
         <activity android:name=".work.order.activity.OrderTrackingActivity" />
         <activity android:name=".work.order.activity.Order_Tracking_DetailsActivity" />
-
-
         <activity android:name=".work.grainsale.activity.SaleWarehousingDetailsActivity" />
         <activity android:name=".work.grainsale.activity.SaleDeliveryDetailsActivity" />
         <activity android:name=".work.grainsale.activity.SaleStockDetailActivity" />
@@ -334,30 +321,35 @@
         <activity
             android:name=".work.grainsale.activity.SaleHistoryActivity"
             android:windowSoftInputMode="stateHidden" />
-
-
-        <activity android:name=".work.reseller.activity.ResellerHistoryDetailsActivity"></activity>
+        <activity
+            android:name=".work.messagenotification.activity.MessageManagementListActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".work.reseller.activity.ResellerHistoryDetailsActivity" />
         <activity android:name=".work.reseller.activity.ResellerHandleDetailsActivity" />
         <activity android:name=".work.reseller.activity.ResellerTrackDetailsActivity" />
         <activity android:name=".work.reseller.activity.AddResellerCommodityActivity" />
         <activity android:name=".work.reseller.activity.ApplyResellerAllocationTwoActivity" />
         <activity android:name=".work.reseller.activity.ApplyResellerAllocationActivity" />
-        <activity android:name=".work.reseller.activity.ResellerHistoryActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.reseller.activity.ResellerHandleActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.reseller.activity.ResellerTrackActivity"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".work.reseller.activity.ResellerApplyActivity" ></activity>
+        <activity
+            android:name=".work.reseller.activity.ResellerHistoryActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.reseller.activity.ResellerHandleActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".work.reseller.activity.ResellerTrackActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".work.reseller.activity.ResellerApplyActivity" />
         <activity android:name=".work.tracking.activity.TrackingListActivity" />
         <activity android:name=".work.marketingactivities.activity.ActivitiesListActivity" />
-        <activity android:name=".word.purchase.PurchaseListScanActivity"/>
+        <activity android:name=".word.purchase.PurchaseListScanActivity" />
         <activity
             android:name=".work.modelfield.activity.DemonstrationEetActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".work.modelfield.activity.DemonstrationDetailsActivity" />
         <activity android:name=".work.modelfield.activity.DemonstrationListActivity" />
         <activity android:name=".work.modelfield.activity.AddDemonstrationActivity" />
+
         <meta-data
             android:name="android.max_aspect"
             android:value="2.4" />

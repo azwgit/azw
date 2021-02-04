@@ -14,11 +14,12 @@ import com.example.bq.edmp.http.NewCommonObserver;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.word.activity.AuditActivity;
 import com.example.bq.edmp.work.goodsgrainmanagement.activity.AddGoodsSalesActivity;
 import com.example.bq.edmp.work.goodsgrainmanagement.activity.EditGoodsSalesActivity;
-import com.example.bq.edmp.work.goodsgrainmanagement.adapter.GoodsSalesManagmentListAdapter;
-import com.example.bq.edmp.work.goodsgrainmanagement.api.GoodsSalesApi;
-import com.example.bq.edmp.work.goodsgrainmanagement.bean.GoodsSalesManagementListBean;
+import com.example.bq.edmp.work.messagenotification.adapter.MessageManagmentListAdapter;
+import com.example.bq.edmp.work.messagenotification.api.MessageNotificationApi;
+import com.example.bq.edmp.work.messagenotification.bean.MessageManagementListBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -34,26 +35,24 @@ public class MessageManagementListActivity extends BaseTitleActivity {
     XRecyclerView xRecyclerView;
     @BindView(R.id.wsj)
     TextView wsj;
-    @BindView(R.id.tv_add)
-    TextView mTvAdd;
     private int currentPager = 1;
     private LoadingDialog loading_dialog;
-    private GoodsSalesManagmentListAdapter goodsSalesManagmentListAdapter;
-    private ArrayList<GoodsSalesManagementListBean.DataBean.RowsBean> rowsBeans;
+    private MessageManagmentListAdapter goodsSalesManagmentListAdapter;
+    private ArrayList<MessageManagementListBean.DataBean.RowsBean> rowsBeans;
 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_goods_sales_management_list;
+        return R.layout.activity_message_management_list;
     }
 
     @Override
     protected void initView() {
         ProApplication.getinstance().addActivity(MessageManagementListActivity.this);
         loading_dialog = new LoadingDialog(this);
-        txtTabTitle.setText("商品粮销售申请");
+        txtTabTitle.setText("消息通知");
         rowsBeans = new ArrayList<>();
-        goodsSalesManagmentListAdapter = new GoodsSalesManagmentListAdapter(rowsBeans);
+        goodsSalesManagmentListAdapter = new MessageManagmentListAdapter(rowsBeans);
         xRecyclerView.setAdapter(goodsSalesManagmentListAdapter);
         xRecyclerView.setPullRefreshEnabled(true);
         xRecyclerView.setLoadingMoreEnabled(true);
@@ -73,10 +72,16 @@ public class MessageManagementListActivity extends BaseTitleActivity {
                 xRecyclerView.loadMoreComplete();
             }
         });
-        goodsSalesManagmentListAdapter.setOnItemClickListener(new GoodsSalesManagmentListAdapter.OnItemClickListener() {
+        goodsSalesManagmentListAdapter.setOnItemClickListener(new MessageManagmentListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int pos, GoodsSalesManagementListBean.DataBean.RowsBean rowsBean) {
-                EditGoodsSalesActivity.newIntent(getApplicationContext(), rowsBean.getId() + "", "2");
+            public void onItemClick(int pos, MessageManagementListBean.DataBean.RowsBean rowsBean) {
+                //1系统  2 审批 其他待定
+                if (rowsBean.getTypes() == 1) {
+                    MessageNotificationDetailsActivity.newIntent(getApplicationContext(), rowsBean.getId() + "");
+                } else if (rowsBean.getTypes() == 2) {
+                    startActivity(new Intent(getApplicationContext(), AuditActivity.class));
+                    finish();
+                }
             }
         });
 
@@ -95,22 +100,20 @@ public class MessageManagementListActivity extends BaseTitleActivity {
 
     protected void getData() {
         currentPager = 1;
-
-        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15 + "&status=1");
-
-        RxHttpUtils.createApi(GoodsSalesApi.class)
-                .getGoodsSalesManagementList(currentPager, 15, 1, sign)
-                .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
+        RxHttpUtils.createApi(MessageNotificationApi.class)
+                .getMessagetList(currentPager, 15, sign)
+                .compose(Transformer.<MessageManagementListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<MessageManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(GoodsSalesManagementListBean orderTJBean) {
+                    protected void onSuccess(MessageManagementListBean orderTJBean) {
                         if (orderTJBean.getCode() == 200) {
-                            List<GoodsSalesManagementListBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
+                            List<MessageManagementListBean.DataBean.RowsBean> rows = orderTJBean.getData().getRows();
                             if (rows != null && rows.size() != 0) {
 
                                 xRecyclerView.setVisibility(View.VISIBLE);
@@ -135,18 +138,18 @@ public class MessageManagementListActivity extends BaseTitleActivity {
     }
 
     private void initData2() {
-        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15 + "&status=1");
-        RxHttpUtils.createApi(GoodsSalesApi.class)
-                .getGoodsSalesManagementList(currentPager, 15, 1, sign)
-                .compose(Transformer.<GoodsSalesManagementListBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<GoodsSalesManagementListBean>() {
+        String sign = MD5Util.encode("page=" + currentPager + "&pagerow=" + 15);
+        RxHttpUtils.createApi(MessageNotificationApi.class)
+                .getMessagetList(currentPager, 15, sign)
+                .compose(Transformer.<MessageManagementListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<MessageManagementListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(GoodsSalesManagementListBean orderTJBean) {
+                    protected void onSuccess(MessageManagementListBean orderTJBean) {
                         if (orderTJBean.getCode() == 200) {
                             rowsBeans.addAll(orderTJBean.getData().getRows());
                             goodsSalesManagmentListAdapter.addMoreData(orderTJBean.getData().getRows());
@@ -161,15 +164,11 @@ public class MessageManagementListActivity extends BaseTitleActivity {
 
     @Override
     protected void initListener() {
-        mTvAdd.setOnClickListener(this);
     }
 
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_add://新增订单
-                startActivity(new Intent(getApplicationContext(), AddGoodsSalesActivity.class));
-                break;
         }
     }
 

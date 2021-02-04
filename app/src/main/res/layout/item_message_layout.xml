@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly_view"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/dp_80"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/ly_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <View style="@style/line_style" />
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_10">
-        <ImageView
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingBottom="@dimen/dp_14">
+
+        <com.example.bq.edmp.utils.RoundImageView
             android:id="@+id/img_icon"
-            android:layout_width="@dimen/dp_48"
-            android:layout_height="@dimen/dp_48"
-            android:background="#FC2828"/>
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="@dimen/dp_56"
+            android:background="@drawable/icon_message" />
+
         <TextView
             android:id="@+id/tv_title"
-            android:layout_toLeftOf="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_toLeftOf="@+id/tv_time"
             android:layout_toRightOf="@+id/img_icon"
             android:text="系统消息"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:textColor="#333"/>
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/color33" />
+
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="10月19日"
-            android:textColor="#333"/>
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/dp_2"
+            android:textColor="@color/color_99" />
+
         <TextView
-            android:layout_toLeftOf="@+id/tv_count"
+            android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_icon"
             android:layout_alignBottom="@+id/img_icon"
-            android:text="公司通知：关于xxx的变更"
             android:layout_marginLeft="@dimen/dp_10"
-            android:textColor="#333" />
+            android:layout_toLeftOf="@+id/tv_number"
+            android:layout_toRightOf="@+id/img_icon"
+            android:text="公司通知：关于xxx的变更"
+            android:textColor="@color/color_99"
+            android:textSize="@dimen/sp_14"/>
+
         <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:id="@+id/tv_number"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_8"
+            android:layout_alignBottom="@+id/img_icon"
             android:layout_alignParentRight="true"
-            android:text="2"
+            android:background="@drawable/btn_red_shape_bg"
             android:gravity="center"
-            android:textSize="10sp"
             android:textColor="#fff"
-            android:background="#FC2828"
-            android:layout_alignBottom="@+id/img_icon" />
+            android:textSize="10sp" />
     </RelativeLayout>
 </RelativeLayout>

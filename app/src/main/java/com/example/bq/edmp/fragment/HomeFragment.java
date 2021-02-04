@@ -32,6 +32,7 @@ import com.example.bq.edmp.utils.MD5Util;
 import com.example.bq.edmp.utils.MyLoader;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.utils.TurnImgStringUtils;
+import com.example.bq.edmp.work.messagenotification.activity.MessageManagementListActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -78,6 +79,8 @@ public class HomeFragment extends BaseFragment {
     TextView four_tv;
     @BindView(R.id.five_tv)
     TextView five_tv;
+    @BindView(R.id.ly_message)
+    LinearLayout ly_message;
 
 
     private LoadingDialog loading_dialog;
@@ -121,6 +124,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initListener() {
         gd_tv.setOnClickListener(this);
+        ly_message.setOnClickListener(this);
     }
 
     @Override
@@ -211,7 +215,7 @@ public class HomeFragment extends BaseFragment {
 
         //常用功能
         List<HomeBean.DataBean.FunctionsBean> functions = data.getFunctions();
-        if (functions!=null&&functions.size() > 0) {
+        if (functions != null && functions.size() > 0) {
             if (functions.get(0).getName() != null && !functions.get(0).getName().equals("")) {
                 one_tv.setText(functions.get(0).getName());
             }
@@ -238,6 +242,11 @@ public class HomeFragment extends BaseFragment {
                 Intent intent = ServiceAndDemonstrateFieldWebViewActivity.newIntent(getActivity(), "http://192.168.0.188:8010/dist/index.html#/Party", "");
                 getActivity().startActivity(intent);
                 break;
+            case R.id.ly_message:
+                startActivity(new Intent(getContext(), MessageManagementListActivity.class));
+                break;
+
+
         }
     }
 

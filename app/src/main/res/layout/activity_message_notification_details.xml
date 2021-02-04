@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_new_color"
+    android:orientation="vertical"
+    tools:context=".work.messagenotification.activity.MessageNotificationDetailsActivity">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingBottom="@dimen/dp_6"
+        android:text="02月01日 13:25"
+        android:textColor="@color/color_99"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="02月01日 13:25"
+        android:textColor="@color/color33"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_16"
+        android:text="公司各部门： 春节将至，公司预祝全体员工新春愉快，万事如意！现将2021年春节公司放假安排通知如下： 放假时间: 2021年2月11日（农历腊月三十）至2021年2月17日（农历正月初六），共七天，2021年2月18日（农历正月初七）正式报到上班。 安徽皖垦-人事部"
+        android:textColor="@color/color_66"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="right"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16"
+        android:text="安徽皖垦-人事部"
+        android:textColor="@color/color_66"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        android:visibility="gone" />
+</LinearLayout>
