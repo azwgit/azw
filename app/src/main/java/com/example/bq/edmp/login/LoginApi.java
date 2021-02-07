@@ -33,8 +33,8 @@ public interface LoginApi {
     @POST("login/bysms")
     Observable<LoginBean> smsLogin(
             @Field("deviceToken") String deviceToken,
-            @Field("username") String phone,
-            @Field("smscode") String code,
+            @Field("smscode") String phone,
+            @Field("username") String code,
             @Field("sign") String sign);
 
     //短信登錄

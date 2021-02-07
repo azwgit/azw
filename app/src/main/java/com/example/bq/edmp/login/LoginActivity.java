@@ -281,9 +281,9 @@ public class LoginActivity extends BaseActivity {
 
     //短信验证码登录
     private void smsLogin(String phone, String code) {
-        String sign = MD5Util.encode("deviceToken=" + ProApplication.deviceToken +"&username=" + phone + "&smscode=" + code);
+        String sign = MD5Util.encode("deviceToken=" + ProApplication.deviceToken + "&smscode=" + code + "&username=" + phone);
         RxHttpUtils.createApi(LoginApi.class)
-                .smsLogin(ProApplication.deviceToken,phone, code, sign)
+                .smsLogin(ProApplication.deviceToken, code, phone, sign)
                 .compose(Transformer.<LoginBean>switchSchedulers())
                 .subscribe(new CommonObserver<LoginBean>() {
                     @Override
@@ -309,7 +309,7 @@ public class LoginActivity extends BaseActivity {
         //ToastUtil.setToast(ProApplication.deviceToken);
         String sign = MD5Util.encode("deviceToken=" + ProApplication.deviceToken + "&password=" + code + "&username=" + phone);
         RxHttpUtils.createApi(LoginApi.class)
-                .login(ProApplication.deviceToken,code, phone, sign)
+                .login(ProApplication.deviceToken, code, phone, sign)
                 .compose(Transformer.<LoginBean>switchSchedulers())
                 .subscribe(new CommonObserver<LoginBean>() {
                     @Override
