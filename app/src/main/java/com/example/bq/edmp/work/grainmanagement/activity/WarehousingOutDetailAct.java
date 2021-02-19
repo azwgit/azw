@@ -36,7 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 入库详情
+ * 出库详情
  */
 public class WarehousingOutDetailAct extends BaseTitleActivity {
     public static void newIntent(Context context, String id) {

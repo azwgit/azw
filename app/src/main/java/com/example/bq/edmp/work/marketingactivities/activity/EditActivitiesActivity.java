@@ -203,7 +203,12 @@ public class EditActivitiesActivity extends BaseTitleActivity {
         mAdapter.setOnDelterImg(new FileUploadGridImageAdapter.DeleteImg() {
             @Override
             public void deleteImgList(int postion) {
-                deleteAttachment(marketingActivitiesDetailsBean.getData().getActivityItems().get(postion).getId() + "", postion);
+                if (null == selectList.get(postion).getDownLoadUrl()) {
+                    selectList.remove(postion);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    deleteAttachment(marketingActivitiesDetailsBean.getData().getActivityItems().get(postion).getId() + "", postion);
+                }
             }
         });
         getMarketingActivitiesDetails("");

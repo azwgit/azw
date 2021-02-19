@@ -41,7 +41,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".work.messagenotification.activity.MessageNotificationDetailsActivity"></activity>
+        <activity android:name=".work.materialmanagement.activity.MaterialNextActivity"></activity>
+        <activity android:name=".work.messagenotification.activity.MessageNotificationDetailsActivity" />
         <activity android:name=".work.returnsmanagement.activity.ApplyForRefundActivity" />
         <activity android:name=".work.returnsmanagement.activity.AddReturnsGoodsActivity" />
         <activity android:name=".work.marketingactivities.activity.ActivitySiteActivity" />
@@ -84,7 +85,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesManagementListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.AddGoodsSalesActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -94,10 +95,10 @@
         <activity android:name=".work.goodsgrainmanagement.activity.SelectGoodsListActivity" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesConfirmListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.goodsgrainmanagement.activity.GoodsSalesTrackingDetailsActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -121,7 +122,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.ReturnsGoodsListActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".work.returnsmanagement.activity.DeliverGoodsListActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -143,6 +144,15 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.HistoricalActivitiesListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.MaterialManagementListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.EditMaterialActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.AddPurchaseGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".work.marketingactivities.activity.ActivityEnclosureActivity"
