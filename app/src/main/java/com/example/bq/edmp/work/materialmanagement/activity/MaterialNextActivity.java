@@ -117,7 +117,8 @@ public class MaterialNextActivity extends BaseTitleActivity {
                     protected void onSuccess(BaseABean baseABean) {
                         if (baseABean.getCode() == 200) {
                             ToastUtil.setToast("添加成功");
-//                            finish();
+                            EditMaterialActivity.newIntent(getApplicationContext(), "1", baseABean.getData());
+                            finish();
                         } else {
                             ToastUtil.setToast("添加失败");
                         }

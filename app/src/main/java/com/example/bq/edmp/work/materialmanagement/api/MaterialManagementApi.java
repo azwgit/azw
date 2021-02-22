@@ -7,7 +7,10 @@ import com.example.bq.edmp.work.goodsgrainmanagement.bean.SelecGoodsListBean;
 import com.example.bq.edmp.work.goodsgrainmanagement.bean.VarietiesBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.SubsidiaryCompanyBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
+import com.example.bq.edmp.work.materialmanagement.bean.AddPurchaseGoodsBean;
+import com.example.bq.edmp.work.materialmanagement.bean.EditMaterialBean;
 import com.example.bq.edmp.work.materialmanagement.bean.MaterialListBean;
+import com.example.bq.edmp.work.materialmanagement.bean.QueryAllitemListBean;
 import com.example.bq.edmp.work.materialmanagement.bean.UserInfoBean;
 
 import io.reactivex.Observable;
@@ -42,6 +45,105 @@ public interface MaterialManagementApi {
     Observable<UserInfoBean> getUserInfo();
 
 
+    //采购详情
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/show/{id}")
+    Observable<EditMaterialBean> getMaterialDetails(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
+
+    //删除采购
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/delete/{id}")
+    Observable<BaseABean> deleteMaterial(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
+
+    //查询所有物料
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("system/query/allitem")
+    Observable<QueryAllitemListBean> getQueryAllitem(
+            @Field("categoryFullId") String categoryFullId,
+            @Field("sign") String sign);
+
+    //添加采购商品
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/itemnewsave")
+    Observable<BaseABean> addPurchaseGoods(
+            @Field("itemId") String itemId,
+            @Field("materialPurchaseId") String materialPurchaseId,
+            @Field("price") String price,
+            @Field("qty") String qty,
+            @Field("sign") String sign);
+
+    //修改采购商品
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/itemsave")
+    Observable<BaseABean> updataPurchaseGoods(
+            @Field("itemId") String itemId,
+            @Field("materialPurchaseId") String materialPurchaseId,
+            @Field("price") String price,
+            @Field("qty") String qty,
+            @Field("sign") String sign);
+
+    //删除附件
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/annexdelete/{id}")
+    Observable<BaseABean> deleteEnclosure(
+            @Path("id") String id,
+            @Field("sign") String sign);
+
+
+    //删除采购商品
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/itemdelete")
+    Observable<BaseABean> deleteMaterialGoods(
+            @Field("itemId") String itemId,
+            @Field("materialPurchaseId") String materialPurchaseId,
+            @Field("sign") String sign);
+
+
+    //采购保存
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/save")
+    Observable<BaseABean> updataMaterial(
+            @Field("id") String id,
+            @Field("remark") String remark,
+            @Field("sign") String sign);
+
+
+    //保存并提交
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/submit")
+    Observable<BaseABean> saveAndSubmitMaterial(
+            @Field("id") String id,
+            @Field("remark") String remark,
+            @Field("sign") String sign);
+
+
+    //保存并提交
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/itemshow")
+    Observable<AddPurchaseGoodsBean> getPurchaseGoodsDetails(
+            @Field("itemId") String itemId,
+            @Field("materialPurchaseId") String materialPurchaseId,
+            @Field("sign") String sign);
+
+
+
+
 
     //查询仓库
     @FormUrlEncoded
@@ -68,14 +170,6 @@ public interface MaterialManagementApi {
             @Field("qty") String qty,
             @Field("sign") String sign);
 
-
-    //新增商品详情
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/show/{id}")
-    Observable<EditGoodSalesBean> getGoodsDetails(
-            @Path("id") String id,
-            @Field("sign") String sign);
 
     //删除商品
     @FormUrlEncoded

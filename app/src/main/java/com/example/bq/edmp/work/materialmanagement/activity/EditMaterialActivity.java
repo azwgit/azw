@@ -9,7 +9,9 @@ import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,37 +19,44 @@ import com.allen.library.RxHttpUtils;
 import com.allen.library.download.DownloadObserver;
 import com.allen.library.interceptor.Transformer;
 import com.allen.library.interfaces.ILoadingView;
+import com.allen.library.observer.CommonObserver;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
+import com.example.bq.edmp.activity.apply.bean.AddApplyPayBean;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.url.MimeType;
+import com.example.bq.edmp.utils.ActivityUtils;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.OpenFiles;
 import com.example.bq.edmp.utils.ToastUtil;
-import com.example.bq.edmp.work.inventorytransfer.activity.AddTransferGoodsActivity;
 import com.example.bq.edmp.work.inventorytransfer.activity.UpdateTransferGoodsActivity;
-import com.example.bq.edmp.work.inventorytransfer.adapter.CommodityListAdp;
 import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.EditFinishedProductAllocationBean;
-import com.example.bq.edmp.work.marketingactivities.activity.ActivitySiteActivity;
-import com.example.bq.edmp.work.marketingactivities.adapter.FileUploadGridImageAdapter;
 import com.example.bq.edmp.work.marketingactivities.api.MarketingActivitiesApi;
-import com.example.bq.edmp.work.materialmanagement.adapter.GoodsListAdp;
+import com.example.bq.edmp.work.materialmanagement.adapter.GoodsNewListAdp;
 import com.example.bq.edmp.work.materialmanagement.adapter.MaterialFileUploadGridImageAdapter;
+import com.example.bq.edmp.work.materialmanagement.api.MaterialManagementApi;
+import com.example.bq.edmp.work.materialmanagement.bean.EditMaterialBean;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import okhttp3.ResponseBody;
 
 public class EditMaterialActivity extends BaseTitleActivity {
     public static void newIntent(Context context, String type, String id) {
@@ -69,13 +78,23 @@ public class EditMaterialActivity extends BaseTitleActivity {
     TextView mTvSubmit;
     @BindView(R.id.btn_del)
     TextView mBtnDel;
+    @BindView(R.id.tv_save_and_submit)
+    TextView mTvSaveAndSubmit;
+    @BindView(R.id.tv_all_money)
+    TextView mTvAllMoney;
+
     @BindView(R.id.tv_content)
-    TextView mTvContent;//调拨原因
-    private String type = "";//1原粮进入 2成品进入
+    EditText mTvContent;//原因
+    @BindView(R.id.tv_department)
+    TextView mTvDepartment;//部门
+    @BindView(R.id.tv_applicant)
+    TextView mTvApplicant;//申请人
+
+    private String type = "";//1添加进入 2修改进入
     private String id = "";
-    private GoodsListAdp mAdapter;
+    private GoodsNewListAdp mAdapter;
     private ILoadingView loading_dialog;
-    private EditFinishedProductAllocationBean editFinishedProductAllocationBean;
+    private EditMaterialBean editFinishedProductAllocationBean;
     private MaterialFileUploadGridImageAdapter mImageAdapter;
     private List<LocalMedia> selectList = new ArrayList<>();
     private int maxSelectNum = 9;
@@ -105,21 +124,21 @@ public class EditMaterialActivity extends BaseTitleActivity {
         loading_dialog = new LoadingDialog(this);
         mRecyclerView.setVisibility(View.VISIBLE);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mAdapter = new GoodsListAdp(null);
+        mAdapter = new GoodsNewListAdp(null);
         mRecyclerView.setAdapter(mAdapter);
         //删除
-        mAdapter.setOnItemDelListener(new GoodsListAdp.OnItemDelListener() {
+        mAdapter.setOnItemDelListener(new GoodsNewListAdp.OnItemDelListener() {
             @Override
-            public void onItemDelClick(int position, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean) {
-                deleteGoods(bean.getInItemId() + "");
+            public void onItemDelClick(int position, EditMaterialBean.DataBean.MaterialPurchaseItemsBean bean) {
+                deleteMaterialGoods(bean.getId().getItemId() + "");
             }
         });
 
         //编辑
-        mAdapter.setOnItemEditLisenter(new GoodsListAdp.OnItemEditLisenter() {
+        mAdapter.setOnItemEditLisenter(new GoodsNewListAdp.OnItemEditLisenter() {
             @Override
-            public void onItemEditClick(int pos, EditFinishedProductAllocationBean.DataBean.StockAllotItemsBean bean) {
-                UpdateTransferGoodsActivity.newIntent(getApplicationContext(), bean.getInItemId() + "", id);
+            public void onItemEditClick(int pos, EditMaterialBean.DataBean.MaterialPurchaseItemsBean bean) {
+                AddPurchaseGoodsActivity.newIntent(getApplicationContext(), "2", id, bean.getId().getItemId() + "");
             }
         });
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
@@ -135,6 +154,15 @@ public class EditMaterialActivity extends BaseTitleActivity {
                     LocalMedia media = selectList.get(position);
                     int mediaType = media.getFileType();
                     String path = media.getPath();
+                    //图片预览
+                    if (mediaType == 6) {
+                        List list = new ArrayList<LocalMedia>();
+                        LocalMedia localMedia = new LocalMedia();
+                        localMedia.setPath(media.getDownLoadUrl());
+                        list.add(localMedia);
+                        PictureSelector.create(EditMaterialActivity.this).themeStyle(themeId).openExternalPreview(position, list);
+                        return;
+                    }
                     File file = new File(path);
                     if (!file.exists()) {
                         download(mediaType, media.getFileName(), position, media.getDownLoadUrl());
@@ -156,13 +184,6 @@ public class EditMaterialActivity extends BaseTitleActivity {
                         case 5:
                             startActivity(OpenFiles.getWordFileIntent(path));
                             break;
-                        case 6:
-                            List list = new ArrayList<LocalMedia>();
-                            LocalMedia localMedia = new LocalMedia();
-                            localMedia.setPath(path);
-                            list.add(localMedia);
-                            PictureSelector.create(EditMaterialActivity.this).themeStyle(themeId).openExternalPreview(position, list);
-                            break;
                     }
                 }
             }
@@ -170,12 +191,7 @@ public class EditMaterialActivity extends BaseTitleActivity {
         mImageAdapter.setOnDelterImg(new MaterialFileUploadGridImageAdapter.DeleteImg() {
             @Override
             public void deleteImgList(int postion) {
-                if (null == selectList.get(postion).getDownLoadUrl()) {
-                    selectList.remove(postion);
-                    mImageAdapter.notifyDataSetChanged();
-                } else {
-                    deleteAttachment("ID", postion);
-                }
+                deleteAttachment(editFinishedProductAllocationBean.getData().getMaterialPurchaseAnnexs().get(postion).getId() + "");
             }
         });
     }
@@ -207,10 +223,10 @@ public class EditMaterialActivity extends BaseTitleActivity {
     };
 
     //删除附件
-    private void deleteAttachment(String id, final int position) {
+    private void deleteAttachment(String id) {
         String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(MarketingActivitiesApi.class)
-                .deleteAttachment(id, sign)
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .deleteEnclosure(id, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -221,8 +237,7 @@ public class EditMaterialActivity extends BaseTitleActivity {
                     @Override
                     protected void onSuccess(BaseABean bean) {
                         if (bean.getCode() == 200) {
-                            selectList.remove(position);
-                            mAdapter.notifyDataSetChanged();
+                            getMaterialDetails();
                         } else {
                             ToastUtil.setToast(bean.getMsg());
                         }
@@ -270,7 +285,7 @@ public class EditMaterialActivity extends BaseTitleActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getProudctAllocationDetails();
+        getMaterialDetails();
     }
 
     @Override
@@ -283,39 +298,52 @@ public class EditMaterialActivity extends BaseTitleActivity {
         mBtnAddInfo.setOnClickListener(this);
         mTvSubmit.setOnClickListener(this);
         mBtnDel.setOnClickListener(this);
+        mTvSaveAndSubmit.setOnClickListener(this);
     }
 
     @Override
     protected void otherViewClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_info:
-                AddPurchaseGoodsActivity.newIntent(getApplicationContext(), type, editFinishedProductAllocationBean.getData().getId() + "");
+                AddPurchaseGoodsActivity.newIntent(getApplicationContext(), "1", id, "");
                 break;
             case R.id.tv_submit:
-                submitAllot();
+                if ("".equals(mTvContent.getText().toString().trim())) {
+                    ToastUtil.setToast("请填写原因");
+                    return;
+                }
+                //保存
+                submitMaterial(mTvContent.getText().toString().trim());
                 break;
             case R.id.btn_del:
                 deleteAllot();
+                break;
+            case R.id.tv_save_and_submit:
+                if ("".equals(mTvContent.getText().toString().trim())) {
+                    ToastUtil.setToast("请填写原因");
+                }
+                //保存并提交
+                saveAndSubmitMaterial(mTvContent.getText().toString().trim());
                 break;
 
 
         }
     }
 
-    //获取调拨详情
-    private void getProudctAllocationDetails() {
+    //获取采购详情
+    private void getMaterialDetails() {
         String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .getProudctAllocationDetails(id, sign)
-                .compose(Transformer.<EditFinishedProductAllocationBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<EditFinishedProductAllocationBean>() {
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .getMaterialDetails(id, sign)
+                .compose(Transformer.<EditMaterialBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<EditMaterialBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(EditFinishedProductAllocationBean bean) {
+                    protected void onSuccess(EditMaterialBean bean) {
                         editFinishedProductAllocationBean = bean;
                         if (bean.getCode() == 200) {
                             setData(bean.getData());
@@ -328,21 +356,47 @@ public class EditMaterialActivity extends BaseTitleActivity {
     }
 
     //详情赋值
-    private void setData(EditFinishedProductAllocationBean.DataBean bean) {
-        mTvContent.setText(bean.getReason());
-        if (bean.getStockAllotItems().size() > 0) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            mRecyclerView.setVisibility(View.GONE);
+    private void setData(EditMaterialBean.DataBean bean) {
+        mTvContent.setText(bean.getRemark());
+        mTvDepartment.setText(bean.getDeptName());
+        mTvApplicant.setText(bean.getAddedOperator());
+        mTvAllMoney.setText("￥" + MoneyUtils.formatMoney(bean.getAmount()));
+        if (bean.getMaterialPurchaseItems().size() > 0) {
+            mAdapter.setNewData(bean.getMaterialPurchaseItems());
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.setNewData(bean.getStockAllotItems());
+        selectList.clear();
+        for (int i = 0; i < bean.getMaterialPurchaseAnnexs().size(); i++) {
+            LocalMedia localMedia = new LocalMedia();
+            if (bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".ppt")) {
+                localMedia.setFileType(1);
+            } else if (bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".pdf")) {
+                localMedia.setFileType(2);
+            } else if (bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".docx")) {
+                localMedia.setFileType(3);
+            } else if (bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".xls")) {
+                localMedia.setFileType(4);
+            } else if (bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".doc")) {
+                localMedia.setFileType(5);
+            } else if (bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".jpg") || bean.getMaterialPurchaseAnnexs().get(i).getUri().endsWith(".png")) {
+                localMedia.setFileType(6);
+            } else {
+                localMedia.setFileType(1);
+            }
+            String path = bean.getMaterialPurchaseAnnexs().get(i).getUri().substring(bean.getMaterialPurchaseAnnexs().get(i).getUri().lastIndexOf("/") + 1);
+            localMedia.setPath(getApplicationContext().getExternalFilesDir(null).getPath() + "/" + path);
+            localMedia.setFileName(path);
+            localMedia.setDownLoadUrl(BaseApi.material_img_url + bean.getMaterialPurchaseAnnexs().get(i).getUri());
+            selectList.add(localMedia);
+        }
+        mImageAdapter.notifyDataSetChanged();
     }
 
-    //删除调拨
+    //删除采购
     private void deleteAllot() {
         String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .deleteAllot(id, sign)
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .deleteMaterial(id, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -362,11 +416,11 @@ public class EditMaterialActivity extends BaseTitleActivity {
                 });
     }
 
-    //调拨提交
-    private void submitAllot() {
-        String sign = MD5Util.encode("id=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .submitAllot(id, sign)
+    //采购保存
+    private void submitMaterial(String remark) {
+        String sign = MD5Util.encode("id=" + id + "&remark=" + remark);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .updataMaterial(id, remark, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -377,7 +431,7 @@ public class EditMaterialActivity extends BaseTitleActivity {
                     @Override
                     protected void onSuccess(BaseABean bean) {
                         if (bean.getCode() == 200) {
-                            ToastUtil.setToast("提交成功");
+                            ToastUtil.setToast("保存成功");
                             finish();
                         } else {
                             ToastUtil.setToast(bean.getMsg());
@@ -386,11 +440,35 @@ public class EditMaterialActivity extends BaseTitleActivity {
                 });
     }
 
-    //刪除调拨商品
-    private void deleteGoods(String inItemId) {
-        String sign = MD5Util.encode("inItemId=" + inItemId + "&stockAllotId=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .deleteGoods(inItemId, id, sign)
+    //采购保存并提交
+    private void saveAndSubmitMaterial(String remark) {
+        String sign = MD5Util.encode("id=" + id + "&remark=" + remark);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .saveAndSubmitMaterial(id, remark, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("保存成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //刪除采购商品
+    private void deleteMaterialGoods(String itemId) {
+        String sign = MD5Util.encode("itemId=" + itemId + "&materialPurchaseId=" + id);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .deleteMaterialGoods(itemId, id, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -402,9 +480,58 @@ public class EditMaterialActivity extends BaseTitleActivity {
                     protected void onSuccess(BaseABean bean) {
                         if (bean.getCode() == 200) {
                             ToastUtil.setToast("商品删除成功");
-                            getProudctAllocationDetails();
+                            getMaterialDetails();
                         } else {
                             ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //上传参数处理
+    private void uploadImg(LocalMedia localMedia) {
+        Map<String, Object> paramsMap = new HashMap<>();
+        List<File> list = new ArrayList<>();
+        String sign = MD5Util.encode("materialPurchaseId=" + id);
+        paramsMap = new HashMap<>();
+        paramsMap.put("materialPurchaseId", id);
+        paramsMap.put("sign", sign);
+        List<String> filePaths = new ArrayList<>();
+        filePaths.add(localMedia.getPath());
+        uploadImgAndPar(BaseApi.base_url_production + "materialpurchase/annexnewsave", "annexFile", paramsMap, filePaths, localMedia);
+    }
+
+    //上傳圖片到服务器
+    private void uploadImgAndPar(String uploadUrl, String fileName, Map<String, Object> paramsMap, List<String> uploadPaths, LocalMedia localMedia) {
+
+        RxHttpUtils.uploadImagesAndParams(uploadUrl, fileName, paramsMap, uploadPaths)
+                .compose(Transformer.<ResponseBody>switchSchedulers(loading_dialog))
+                .subscribe(new CommonObserver<ResponseBody>() {
+
+                    @Override
+                    protected String setTag() {
+                        return "uploadImg";
+                    }
+
+                    @Override
+                    protected void onError(String errorMsg) {
+                        Log.e("allen", "上传失败: " + errorMsg);
+                        ActivityUtils.getMsg(errorMsg, getApplicationContext());
+                    }
+
+                    @Override
+                    protected void onSuccess(ResponseBody responseBody) {
+                        AddApplyPayBean obj = null;
+                        try {
+                            String json = new String(responseBody.bytes());
+                            Gson gson = new Gson();
+                            obj = gson.fromJson(json, AddApplyPayBean.class);
+                        } catch (Exception ex) {
+
+                        }
+                        if (obj.getCode() == 200) {
+                            ToastUtil.setToast("附件上传成功");
+                            getMaterialDetails();
                         }
                     }
                 });
@@ -437,28 +564,23 @@ public class EditMaterialActivity extends BaseTitleActivity {
                         localMedia.setOperationType(1);
                         if (img_path.endsWith(".ppt")) {
                             localMedia.setFileType(1);
-                            selectList.add(localMedia);
-                            mImageAdapter.notifyDataSetChanged();
+                            uploadImg(localMedia);
                         } else if (img_path.endsWith(".pdf")) {
                             localMedia.setFileType(2);
-                            selectList.add(localMedia);
-                            mImageAdapter.notifyDataSetChanged();
+                            uploadImg(localMedia);
                         } else if (img_path.endsWith(".docx")) {
                             localMedia.setFileType(3);
-                            selectList.add(localMedia);
+                            uploadImg(localMedia);
                             mImageAdapter.notifyDataSetChanged();
                         } else if (img_path.endsWith(".xls")) {
                             localMedia.setFileType(4);
-                            selectList.add(localMedia);
-                            mImageAdapter.notifyDataSetChanged();
+                            uploadImg(localMedia);
                         } else if (img_path.endsWith(".doc")) {
                             localMedia.setFileType(5);
-                            selectList.add(localMedia);
-                            mImageAdapter.notifyDataSetChanged();
+                            uploadImg(localMedia);
                         } else if (img_path.endsWith(".jpg") || img_path.endsWith(".png")) {
                             localMedia.setFileType(6);
-                            selectList.add(localMedia);
-                            mImageAdapter.notifyDataSetChanged();
+                            uploadImg(localMedia);
                         } else {
                             ToastUtil.setToast("格式错误");
                         }
@@ -466,4 +588,5 @@ public class EditMaterialActivity extends BaseTitleActivity {
                 break;
         }
     }
+
 }

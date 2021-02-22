@@ -158,7 +158,7 @@ public class MaterialFileUploadGridImageAdapter extends
                             .placeholder(R.color.colorf6)
                             .diskCacheStrategy(DiskCacheStrategy.ALL);
                     Glide.with(viewHolder.itemView.getContext())
-                            .load(list.get(position).getPath())
+                            .load(list.get(position).getDownLoadUrl())
                             .apply(options)
                             .into(viewHolder.mImg);
                     break;

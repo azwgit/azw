@@ -23,9 +23,11 @@ import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.bean.BaseABean;
 import com.example.bq.edmp.base.BaseTitleActivity;
 import com.example.bq.edmp.http.NewCommonObserver;
+import com.example.bq.edmp.url.BaseApi;
 import com.example.bq.edmp.utils.Constant;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.ToastUtil;
 import com.example.bq.edmp.work.inventorytransfer.adapter.AllNewListPackageAdp;
 import com.example.bq.edmp.work.inventorytransfer.adapter.VarietiesAdp;
@@ -33,14 +35,20 @@ import com.example.bq.edmp.work.inventorytransfer.api.AllocationApi;
 import com.example.bq.edmp.work.inventorytransfer.bean.AllpackageListBean;
 import com.example.bq.edmp.work.inventorytransfer.bean.VarittiesListBean;
 import com.example.bq.edmp.work.materialmanagement.adapter.AllPurchaseGoodsAdp;
+import com.example.bq.edmp.work.materialmanagement.api.MaterialManagementApi;
+import com.example.bq.edmp.work.materialmanagement.bean.AddPurchaseGoodsBean;
+import com.example.bq.edmp.work.materialmanagement.bean.EditMaterialBean;
+import com.example.bq.edmp.work.materialmanagement.bean.QueryAllitemListBean;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import butterknife.BindView;
 
 public class AddPurchaseGoodsActivity extends BaseTitleActivity {
-    public static void newIntent(Context context, String type, String id) {
+    public static void newIntent(Context context, String type, String id, String code) {
         Intent intent = new Intent(context, AddPurchaseGoodsActivity.class);
         intent.putExtra(Constant.TYPE, type);
         intent.putExtra(Constant.ID, id);
+        intent.putExtra(Constant.CODE, code);
         context.startActivity(intent);
     }
 
@@ -56,12 +64,14 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
     EditText mEdPrice;
 
     private ILoadingView loading_dialog;
-    private AllpackageListBean allpackageListBean;
+    private QueryAllitemListBean allpackageListBean;
     private VarittiesListBean varittiesListBean;
     PopupWindow mTypePopuWindow;
     private String type = "";
     private String id = "";
-    private int allpackageId = 0;
+    private String itemId = "";
+    private int purchaseGoodsId = -99;
+    private AddPurchaseGoodsBean addPurchaseGoodsBean = null;
 
     @Override
     protected void initData() {
@@ -77,12 +87,20 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
 
     @Override
     protected void initView() {
-        txtTabTitle.setText("添加采购商品");
         type = getIntent().getStringExtra(Constant.TYPE);
         id = getIntent().getStringExtra(Constant.ID);
         if ("".equals(type) || "".equals(id)) {
             ToastUtil.setToast("数据出错请重试");
             return;
+        }
+        if ("1".equals(type)) {
+            txtTabTitle.setText("添加采购商品");
+        } else {
+            txtTabTitle.setText("修改采购商品");
+            itemId = getIntent().getStringExtra(Constant.CODE);
+            mTvName.setTextColor(getResources().getColor(R.color.color33));
+            mTvName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            getPurchaseGoodsDetails();
         }
         ProApplication.getinstance().addActivity(this);
         loading_dialog = new LoadingDialog(this);
@@ -104,31 +122,29 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
                 finish();
                 break;
             case R.id.tv_name:
-                //1原粮进入 2成品进入
-                if ("1".equals(type)) {
-                    getAllpackageList(1);
-                } else {
-                    getAllpackageList(2);
+                if ("2".equals(type)) {
+                    return;
                 }
+                getQueryAllitem(4);
                 break;
         }
 
     }
 
-    //获取所有包装列表
-    private void getAllpackageList(int categoryFullId) {
+    //获取所有物料列表
+    private void getQueryAllitem(int categoryFullId) {
         String sign = MD5Util.encode("categoryFullId=" + categoryFullId);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .getAllpackageList(categoryFullId, sign)
-                .compose(Transformer.<AllpackageListBean>switchSchedulers(loading_dialog))
-                .subscribe(new NewCommonObserver<AllpackageListBean>() {
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .getQueryAllitem(categoryFullId + "", sign)
+                .compose(Transformer.<QueryAllitemListBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<QueryAllitemListBean>() {
                     @Override
                     protected void onError(String errorMsg) {
                         ToastUtil.setToast(errorMsg);
                     }
 
                     @Override
-                    protected void onSuccess(AllpackageListBean bean) {
+                    protected void onSuccess(QueryAllitemListBean bean) {
                         if (bean.getCode() == 200) {
                             allpackageListBean = bean;
                             showAllpackageList();
@@ -139,7 +155,7 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
                 });
     }
 
-    //包裝列表PopuWindow
+    //物料列表PopuWindow
     private void showAllpackageList() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
         final View contentView = inflater.inflate(R.layout.select_option_layout, null);
@@ -151,11 +167,11 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
         allListPackageAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                AllpackageListBean.DataBean bean = allpackageListBean.getData().get(position);
+                QueryAllitemListBean.DataBean bean = allpackageListBean.getData().get(position);
                 mTvName.setTextColor(getResources().getColor(R.color.color33));
                 mTvName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 mTvName.setText(bean.getName());
-                allpackageId = allpackageListBean.getData().get(position).getId();
+                purchaseGoodsId = allpackageListBean.getData().get(position).getId();
                 mTypePopuWindow.dismiss();
             }
         });
@@ -186,13 +202,13 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
 
     //验证是否选择商品和添加重量
     private void checkData() {
-        if (allpackageId == 0) {
-            ToastUtil.setToast("请选择商品");
+        if (purchaseGoodsId == -99) {
+            ToastUtil.setToast("请选择采购物料");
             return;
         }
         String number = mEdNumber.getText().toString().trim();
         if ("".equals(number)) {
-            ToastUtil.setToast("请输入调拨数量");
+            ToastUtil.setToast("请输入采购数量");
             return;
         }
         String price = mEdPrice.getText().toString().trim();
@@ -200,14 +216,20 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
             ToastUtil.setToast("请输入采购价格");
             return;
         }
-        addTransferGoods(number);
+        //1添加 2修改
+        if ("1".equals(type)) {
+            addTransferGoods(price, number);
+        } else {
+            updataPurchaseGoods(price, number);
+        }
+
     }
 
-    //添加调拨商品
-    private void addTransferGoods(String number) {
-        String sign = MD5Util.encode("inItemId=" + allpackageId + "&qty=" + number + "&stockAllotId=" + id);
-        RxHttpUtils.createApi(AllocationApi.class)
-                .addTransferGoods(allpackageId + "", number, id, sign)
+    //添加采购商品
+    private void addTransferGoods(String price, String number) {
+        String sign = MD5Util.encode("itemId=" + purchaseGoodsId + "&materialPurchaseId=" + id + "&price=" + price + "&qty=" + number);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .addPurchaseGoods(purchaseGoodsId + "", id, price, number, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -225,5 +247,62 @@ public class AddPurchaseGoodsActivity extends BaseTitleActivity {
                         }
                     }
                 });
+    }
+
+    //修改采购商品
+    private void updataPurchaseGoods(String price, String number) {
+        String sign = MD5Util.encode("itemId=" + purchaseGoodsId + "&materialPurchaseId=" + id + "&price=" + price + "&qty=" + number);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .updataPurchaseGoods(purchaseGoodsId + "", id, price, number, sign)
+                .compose(Transformer.<BaseABean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        if (bean.getCode() == 200) {
+                            ToastUtil.setToast("修改成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    //获取采购详情
+    private void getPurchaseGoodsDetails() {
+        String sign = MD5Util.encode("itemId=" + itemId + "&materialPurchaseId=" + id);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .getPurchaseGoodsDetails(itemId, id, sign)
+                .compose(Transformer.<AddPurchaseGoodsBean>switchSchedulers(loading_dialog))
+                .subscribe(new NewCommonObserver<AddPurchaseGoodsBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(AddPurchaseGoodsBean bean) {
+                        addPurchaseGoodsBean = bean;
+                        if (bean.getCode() == 200) {
+                            setData(bean.getData());
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                            finish();
+                        }
+                    }
+                });
+    }
+
+    //详情赋值
+    private void setData(AddPurchaseGoodsBean.DataBean bean) {
+        purchaseGoodsId = bean.getId().getItemId();
+        mTvName.setText(bean.getItemName());
+        mEdNumber.setText(bean.getQty() + "");
+        mEdPrice.setText(bean.getPrice() + "");
     }
 }

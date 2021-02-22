@@ -19,6 +19,8 @@ public class BaseApi {
     public static final String banner_img_url = "http://192.168.0.188:8010/edmpImgs";
     //文章图片地址
     public static final String article_img_url = "http://192.168.0.188:8010/img";
+    //物料附件地址
+    public static final String material_img_url = "http://192.168.0.188:8010/img/materialpurchaseannex";
     //附件地址
     public static final String activity_img_url = "http://192.168.0.188:8010/activity_annex";
     //活动现场图片

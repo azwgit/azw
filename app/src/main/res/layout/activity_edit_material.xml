@@ -97,12 +97,11 @@
                     android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_95"
                 android:background="@color/white"
-                android:focusable="false"
                 android:gravity="top"
                 android:maxLength="200"
                 android:paddingLeft="@dimen/dp_16"

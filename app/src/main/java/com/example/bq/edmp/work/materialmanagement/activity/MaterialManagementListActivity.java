@@ -79,7 +79,7 @@ public class MaterialManagementListActivity extends BaseTitleActivity {
         goodsSalesManagmentListAdapter.setOnItemClickListener(new MaterialManagmentListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int pos, MaterialListBean.DataBean.RowsBean rowsBean) {
-                EditGoodsSalesActivity.newIntent(getApplicationContext(), rowsBean.getId() + "", "2");
+                EditMaterialActivity.newIntent(getApplicationContext(), "2", rowsBean.getId() + "");
             }
         });
 
