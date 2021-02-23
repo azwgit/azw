@@ -160,7 +160,7 @@ public class EditMaterialActivity extends BaseTitleActivity {
                         LocalMedia localMedia = new LocalMedia();
                         localMedia.setPath(media.getDownLoadUrl());
                         list.add(localMedia);
-                        PictureSelector.create(EditMaterialActivity.this).themeStyle(themeId).openExternalPreview(position, list);
+                        PictureSelector.create(EditMaterialActivity.this).themeStyle(themeId).openExternalPreview(0, list);
                         return;
                     }
                     File file = new File(path);

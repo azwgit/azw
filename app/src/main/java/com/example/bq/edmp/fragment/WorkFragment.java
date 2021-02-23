@@ -51,7 +51,10 @@ import com.example.bq.edmp.work.marketing.activity.CustomerInquirytListActivity;
 import com.example.bq.edmp.work.marketing.activity.CustomerManagementListActivity;
 import com.example.bq.edmp.work.marketingactivities.activity.HistoricalActivitiesListActivity;
 import com.example.bq.edmp.work.marketingactivities.activity.MarketingActivityManagementListActivity;
+import com.example.bq.edmp.work.materialmanagement.activity.MaterialConfirmListActivity;
+import com.example.bq.edmp.work.materialmanagement.activity.MaterialHistoryListActivity;
 import com.example.bq.edmp.work.materialmanagement.activity.MaterialManagementListActivity;
+import com.example.bq.edmp.work.materialmanagement.activity.ProcurementTrackingListActivity;
 import com.example.bq.edmp.work.modelfield.activity.AddDemonstrationActivity;
 import com.example.bq.edmp.work.modelfield.activity.DemonstrationListActivity;
 import com.example.bq.edmp.work.order.activity.HistoryOrderActivity;
@@ -321,8 +324,14 @@ public class WorkFragment extends BaseFragment {
                                                 startActivity(new Intent(getActivity(), SaleDeliveryActivity.class));
                                             } else if (subtBean.getAccessUri().equals("/allotcommodity/salestock")) {//销售库存
                                                 startActivity(new Intent(getActivity(), SaleStockActivity.class));
-                                            } else if (subtBean.getAccessUri().equals("/materialpurchase/list")) {//物料管理
+                                            } else if (subtBean.getAccessUri().equals("/materialpurchase/list")) {//采购申请
                                                 startActivity(new Intent(getActivity(), MaterialManagementListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/materialpurchase/tracklist")) {//采购跟踪
+                                                startActivity(new Intent(getActivity(), ProcurementTrackingListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/materialpurchase/historylist")) {//采购记录
+                                                startActivity(new Intent(getActivity(), MaterialHistoryListActivity.class));
+                                            } else if (subtBean.getAccessUri().equals("/materialpurchase/confirmlist")) {//采购确认
+                                                startActivity(new Intent(getActivity(), MaterialConfirmListActivity.class));
                                             } else {
                                                 ToastUtil.setToast("暂未开通");
                                             }

@@ -10,6 +10,8 @@ import com.example.bq.edmp.work.inventorytransfer.bean.WareHouseListBean;
 import com.example.bq.edmp.work.materialmanagement.bean.AddPurchaseGoodsBean;
 import com.example.bq.edmp.work.materialmanagement.bean.EditMaterialBean;
 import com.example.bq.edmp.work.materialmanagement.bean.MaterialListBean;
+import com.example.bq.edmp.work.materialmanagement.bean.ProcurementDetailsBean;
+import com.example.bq.edmp.work.materialmanagement.bean.ProcurementTrackingListFragmentBean;
 import com.example.bq.edmp.work.materialmanagement.bean.QueryAllitemListBean;
 import com.example.bq.edmp.work.materialmanagement.bean.UserInfoBean;
 
@@ -132,7 +134,7 @@ public interface MaterialManagementApi {
             @Field("sign") String sign);
 
 
-    //保存并提交
+    //查询采购商品详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("materialpurchase/itemshow")
@@ -142,117 +144,64 @@ public interface MaterialManagementApi {
             @Field("sign") String sign);
 
 
-
-
-
-    //查询仓库
+    //物料跟踪列表
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("system/query/allwarehouse")
-    Observable<WareHouseListBean> getWarehouseList(
+    @POST("materialpurchase/tracklist")
+    Observable<ProcurementTrackingListFragmentBean> getMaterialManagementList(
+            @Field("itemId") String itemId,
             @Field("orgId") String orgId,
-            @Field("types") String types,
+            @Field("page") int page,
+            @Field("pagerow") int pagerow,
+            @Field("status") int status,
             @Field("sign") String sign);
 
-    //商品列表
+    //采购记录
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/historylist")
+    Observable<ProcurementTrackingListFragmentBean> getMaterialHistoryList(
+            @Field("itemId") String itemId,
+            @Field("orgId") String orgId,
+            @Field("page") int page,
+            @Field("pagerow") int pagerow,
+            @Field("sign") String sign);
+
+    //采购确认
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/confirmlist")
+    Observable<ProcurementTrackingListFragmentBean> getMaterialConfirmList(
+            @Field("itemId") String itemId,
+            @Field("orgId") String orgId,
+            @Field("page") int page,
+            @Field("pagerow") int pagerow,
+            @Field("sign") String sign);
+
+
+    //筛选查询所有物料
+    @FormUrlEncoded
     @Headers({"urlname:production"})
     @POST("system/query/allitem")
-    Observable<SelecGoodsListBean> getSalesList();
-
-    //添加商品
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/newsaveitem")
-    Observable<BaseABean> addGoods(
-            @Field("cgOrderId") String cgOrderId,
-            @Field("itemId") String itemId,
-            @Field("price") String price,
-            @Field("qty") String qty,
+    Observable<VarietiesBean> getSelectQueryAllitem(
+            @Field("categoryFullId") String categoryFullId,
             @Field("sign") String sign);
 
 
-    //删除商品
+    //采购跟踪 采购确认 采购记录 详情
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("cgorder/delitem")
-    Observable<BaseABean> deleteGoods(
-            @Field("cgOrderId") String cgOrderId,
-            @Field("itemId") String itemId,
-            @Field("sign") String sign);
-
-    //修改商品
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/saveitem")
-    Observable<BaseABean> updataGoods(
-            @Field("cgOrderId") String cgOrderId,
-            @Field("itemId") String itemId,
-            @Field("price") String price,
-            @Field("qty") String qty,
-            @Field("sign") String sign);
-
-
-    //商品粮销售删除
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/delete/{id}")
-    Observable<BaseABean> deleteGoodsSales(
+    @POST("materialpurchase/show/{id}")
+    Observable<ProcurementDetailsBean> getMaterialDetail(
             @Path("id") String id,
             @Field("sign") String sign);
 
-
-    //商品粮销售删除
+    //重新申请
     @FormUrlEncoded
     @Headers({"urlname:production"})
-    @POST("cgorder/submit/{id}")
-    Observable<BaseABean> submitGoodsSales(
+    @POST("materialpurchase/reapply/{id}")
+    Observable<BaseABean> reapplyMaterial(
             @Path("id") String id,
             @Field("sign") String sign);
 
-
-    //商品销售跟踪列表
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/tracklist")
-    Observable<GoodsSalesManagementListBean> getGoodsSalesTracktList(
-            @Field("orgId") String orgId,
-            @Field("page") int page,
-            @Field("pagerow") int pagerow,
-            @Field("status") int status,
-            @Field("varietyId") String varietyId,
-            @Field("sign") String sign);
-
-    //商品粮销售确认列表
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/confirmlist")
-    Observable<GoodsSalesManagementListBean> getGoodsSalesConfirmtList(
-            @Field("orgId") String orgId,
-            @Field("page") int page,
-            @Field("pagerow") int pagerow,
-            @Field("status") int status,
-            @Field("varietyId") String varietyId,
-            @Field("sign") String sign);
-
-    //品种列表
-    @Headers({"urlname:production"})
-    @POST("allot/commodity/allvariety")
-    Observable<VarietiesBean> getVarietiesList();
-
-
-    //确认出库
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/subconfirm")
-    Observable<BaseABean> confirmDelivery(
-            @Field("code") String id,
-            @Field("sign") String sign);
-
-    //销售确认
-    @FormUrlEncoded
-    @Headers({"urlname:production"})
-    @POST("cgorder/confirm")
-    Observable<BaseABean> salesConfirmation(
-            @Field("code") String id,
-            @Field("sign") String sign);
 }

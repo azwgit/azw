@@ -105,6 +105,16 @@ public class EnclosureAdapter extends
             case 5:
                 viewHolder.mImg.setImageResource(R.drawable.word);
                 break;
+            case 6:
+                RequestOptions options = new RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.color.colorf6)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL);
+                Glide.with(viewHolder.itemView.getContext())
+                        .load(list.get(position).getDownLoadUrl())
+                        .apply(options)
+                        .into(viewHolder.mImg);
+                break;
         }
         //itemView 的点击事件
         if (mItemClickListener != null) {

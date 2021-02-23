@@ -155,6 +155,21 @@
             android:name=".work.materialmanagement.activity.AddPurchaseGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:name=".work.materialmanagement.activity.ProcurementTrackingListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.ProcurementDetailsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.MaterialHistoryListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.MaterialConfirmListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".work.materialmanagement.activity.MaterialConfirmDetailsActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".work.marketingactivities.activity.ActivityEnclosureActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".work.inventorytransfer.activity.FinishedProductAllocationDetailsActivity" />
