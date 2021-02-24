@@ -204,4 +204,12 @@ public interface MaterialManagementApi {
             @Path("id") String id,
             @Field("sign") String sign);
 
+    //完成采购
+    @FormUrlEncoded
+    @Headers({"urlname:production"})
+    @POST("materialpurchase/finish")
+    Observable<BaseABean> completeMaterila(
+            @Field("id") String id,
+            @Field("warehouseId") String warehouseId,
+            @Field("sign") String sign);
 }

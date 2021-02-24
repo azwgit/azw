@@ -2,18 +2,25 @@ package com.example.bq.edmp.work.materialmanagement.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.allen.library.RxHttpUtils;
 import com.allen.library.download.DownloadObserver;
 import com.allen.library.interceptor.Transformer;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.bq.edmp.ProApplication;
 import com.example.bq.edmp.R;
 import com.example.bq.edmp.activity.apply.ApprovalAdp;
@@ -27,9 +34,14 @@ import com.example.bq.edmp.utils.FromtUtil;
 import com.example.bq.edmp.utils.FullyGridLayoutManager;
 import com.example.bq.edmp.utils.LoadingDialog;
 import com.example.bq.edmp.utils.MD5Util;
+import com.example.bq.edmp.utils.MoneyUtils;
 import com.example.bq.edmp.utils.OpenFiles;
 import com.example.bq.edmp.utils.ToastUtil;
+import com.example.bq.edmp.work.finishedproduct.adapter.WarehouseListAdp;
+import com.example.bq.edmp.work.finishedproduct.api.FinishedProductApi;
+import com.example.bq.edmp.work.finishedproduct.bean.WarehouseListBean;
 import com.example.bq.edmp.work.marketingactivities.adapter.EnclosureAdapter;
+import com.example.bq.edmp.work.materialmanagement.adapter.CompleteMaterielListAdp;
 import com.example.bq.edmp.work.materialmanagement.adapter.MaterielDetailsListAdp;
 import com.example.bq.edmp.work.materialmanagement.api.MaterialManagementApi;
 import com.example.bq.edmp.work.materialmanagement.bean.ProcurementDetailsBean;
@@ -41,6 +53,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,18 +120,23 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
     LinearLayout mLyBottom;//底部操作按钮
     @BindView(R.id.tv_enclosure_number)
     TextView mTvEnclosureNumber;//附件数量
+    private TextView mTvRawWarehouse;//仓库
     private ApprovalAdp mApprovalAdapter;
     private MaterielDetailsListAdp materielDetailsListAdp;
     private EnclosureAdapter adapter;
     private PopupWindow mTypePopuWindow;
+    PopupWindow mHouseListPopuWindow;
     private int chooseMode = PictureMimeType.ofAll();
     private int maxSelectNum = 9;
     private int themeId;
     private List<LocalMedia> selectList = new ArrayList<>();
     private String mid;
     private LoadingDialog loadingDialog;
-    private String huodongid = "";
+    private String materialId = "";
     List<LocalMedia> imglist = new ArrayList<LocalMedia>();
+    private WarehouseListBean warehouseListBean = null;
+    private int WarehouseId = 0;//仓库id
+    private ProcurementDetailsBean.DataBean data = null;
 
     @Override
     protected int getLayoutId() {
@@ -210,7 +228,7 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
                     @Override
                     protected void onSuccess(ProcurementDetailsBean trackingDereBean) {
                         if (trackingDereBean.getCode() == 200) {
-                            ProcurementDetailsBean.DataBean data = trackingDereBean.getData();
+                            data = trackingDereBean.getData();
                             initDataMethod(data);
 
                         } else {
@@ -225,7 +243,7 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
     private void initDataMethod(ProcurementDetailsBean.DataBean data) {
         String id = data.getId() + "";
         if (id != null && !id.equals("")) {
-            huodongid = id;
+            materialId = id;
         }
         //2审批中3审批拒绝4待完成 5 已完成
         String status = data.getStatus() + "";
@@ -327,6 +345,7 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
                 fund();
                 break;
             case R.id.btn_complete:
+                showMachiningTaskReport();
                 break;
             case R.id.btn_submit:
                 Reapply();
@@ -339,9 +358,9 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
 
     //重新提交
     private void Reapply() {
-        String sign = MD5Util.encode("id=" + huodongid);
+        String sign = MD5Util.encode("id=" + materialId);
         RxHttpUtils.createApi(MaterialManagementApi.class)
-                .reapplyMaterial(huodongid, sign)
+                .reapplyMaterial(materialId, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers())
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -364,9 +383,9 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
 
     //删除采购
     private void deleteMaterial() {
-        String sign = MD5Util.encode("id=" + huodongid);
+        String sign = MD5Util.encode("id=" + materialId);
         RxHttpUtils.createApi(MaterialManagementApi.class)
-                .deleteMaterial(huodongid, sign)
+                .deleteMaterial(materialId, sign)
                 .compose(Transformer.<BaseABean>switchSchedulers())
                 .subscribe(new NewCommonObserver<BaseABean>() {
                     @Override
@@ -378,16 +397,40 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
                     protected void onSuccess(BaseABean bean) {
                         int code = bean.getCode();
                         if (code == 200) {
-                            ToastUtil.setToast("活动删除成功");
+                            ToastUtil.setToast("删除成功");
                             EventBus.getDefault().post(new CloseActivity());
                             finish();
                         } else {
-                            ToastUtil.setToast("活动删除失败");
+                            ToastUtil.setToast("删除失败");
                         }
                     }
                 });
     }
 
+    //完成采购
+    private void completeMaterila() {
+        String sign = MD5Util.encode("id=" + materialId + "&warehouseId=" + WarehouseId);
+        RxHttpUtils.createApi(MaterialManagementApi.class)
+                .completeMaterila(materialId, WarehouseId + "", sign)
+                .compose(Transformer.<BaseABean>switchSchedulers())
+                .subscribe(new NewCommonObserver<BaseABean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(BaseABean bean) {
+                        int code = bean.getCode();
+                        if (code == 200) {
+                            ToastUtil.setToast("操作成功");
+                            finish();
+                        } else {
+                            ToastUtil.setToast("操作失败");
+                        }
+                    }
+                });
+    }
 
     @Override
     protected void onDestroy() {
@@ -431,4 +474,139 @@ public class MaterialConfirmDetailsActivity extends BaseActivity {
                 });
     }
 
+    //加工上报PopuWindow
+    private void showMachiningTaskReport() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.submit_material, null);
+        RelativeLayout mLyView = contentView.findViewById(R.id.ly_view);
+        RecyclerView material_recyclerview = contentView.findViewById(R.id.material_recyclerview);
+        material_recyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        CompleteMaterielListAdp completeMaterielListAdp = new CompleteMaterielListAdp(data.getMaterialPurchaseItems());
+        material_recyclerview.setAdapter(completeMaterielListAdp);
+        //原粮仓库
+        mTvRawWarehouse = contentView.findViewById(R.id.tv_raw_warehouse);
+        mTvRawWarehouse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getWarehouseList("5");
+            }
+        });
+        TextView btn_ok = contentView.findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (WarehouseId == 0) {
+                    ToastUtil.setToast("请选择入库仓库");
+                    return;
+                }
+                completeMaterila();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTypePopuWindow.dismiss();
+            }
+        });
+        mTypePopuWindow = new PopupWindow();
+        mTypePopuWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mTypePopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mTypePopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mTypePopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mTypePopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mTypePopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mTypePopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mTypePopuWindow.setOutsideTouchable(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            try {
+                Field mLayoutInScreen = PopupWindow.class.getDeclaredField("mLayoutInScreen");
+                mLayoutInScreen.setAccessible(true);
+                mLayoutInScreen.set(mTypePopuWindow, true);
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        // mTypePopuWindow.setClippingEnabled(false);
+        mTypePopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
+
+    //获取仓库列表
+    private void getWarehouseList(final String type) {
+        String sign = MD5Util.encode("types=" + type);
+        RxHttpUtils.createApi(FinishedProductApi.class)
+                .getWarehouseList(type, sign)
+                .compose(Transformer.<WarehouseListBean>switchSchedulers(loadingDialog))
+                .subscribe(new NewCommonObserver<WarehouseListBean>() {
+                    @Override
+                    protected void onError(String errorMsg) {
+                        ToastUtil.setToast(errorMsg);
+                    }
+
+                    @Override
+                    protected void onSuccess(WarehouseListBean bean) {
+                        warehouseListBean = bean;
+                        if (bean.getCode() == 200) {
+                            shoWarehouseList(type);
+                        } else {
+                            ToastUtil.setToast(bean.getMsg());
+                        }
+                    }
+                });
+
+    }
+
+    //仓库PopuWindow
+    private void shoWarehouseList(final String type) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        final View contentView = inflater.inflate(R.layout.select_option_layout, null);
+        RecyclerView myRecyclerViewOne = contentView.findViewById(R.id.my_recycler_view_one);
+        LinearLayout mLyView = contentView.findViewById(R.id.ly_view);
+        myRecyclerViewOne.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+//        GridItemDecoration gridItemDecoration = new GridItemDecoration(this, DividerItemDecoration.VERTICAL);
+//        gridItemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line));
+//        myRecyclerViewOne.addItemDecoration(gridItemDecoration);
+        WarehouseListAdp warehouseListAdp = new WarehouseListAdp(warehouseListBean.getData());
+        myRecyclerViewOne.setAdapter(warehouseListAdp);
+        warehouseListAdp.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                WarehouseListBean.DataBean bean = warehouseListBean.getData().get(position);
+                mTvRawWarehouse.setText(bean.getName());
+                WarehouseId = bean.getId();
+                mHouseListPopuWindow.dismiss();
+            }
+        });
+        mLyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHouseListPopuWindow.dismiss();
+            }
+        });
+        mHouseListPopuWindow = new PopupWindow();
+        mHouseListPopuWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mHouseListPopuWindow.setContentView(contentView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mHouseListPopuWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mHouseListPopuWindow.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        // 实例化一个ColorDrawable颜色为透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mHouseListPopuWindow.setBackgroundDrawable(dw);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mHouseListPopuWindow.setFocusable(true);
+//        backgroundAlpha(0.4f);
+        mHouseListPopuWindow.setOutsideTouchable(true);
+        mHouseListPopuWindow.setClippingEnabled(false);
+        mHouseListPopuWindow.showAtLocation(findViewById(R.id.rl_view), Gravity.BOTTOM, 0, 0);
+    }
 }
